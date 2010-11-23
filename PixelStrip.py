@@ -1,27 +1,25 @@
-from Light import Light
+from Pixel import Pixel
 from StepEvent import StepEvent
 import pygame
 import math
 import Util
 import pdb
-#Python class representing a single light strip (usually 50 lights)
+#Python class representing a single Pixel strip (usually 50 Pixels)
 class PixelStrip:
     def __init__(self, layoutEngine):
         self.initStrip(layoutEngine)
         self.argDict = layoutEngine.getStripArgs()
     def initStrip(self, layoutEngine):
-        lightLocations = layoutEngine.getLightLocations()
-        self.lights = [Light(l, (0,0,0)) for l in lightLocations]
+        pixelLocations = layoutEngine.getPixelLocations()
+        self.pixels = [Pixel(l, (0,0,0)) for l in pixelLocations]
     def __iter__(self):
-        return self.lights.__iter__()
+        return self.pixels.__iter__()
     def render(self, surface):
-        [l.render(surface) for l in self.lights]
+        [l.render(surface) for l in self.pixels]
         #step
     def allOn(self, time):
-        [l.turnOnFor(time) for l in self.lights]
-    def turnOnLight(self,light, dist):
-        if(dist < 12):
-            light.turnOnFor(300)
+        [l.turnOnFor(time) for l in self.pixels] #TODO: add test-on method to
+        #pixels
     def respond(self, responseInfo):
         print 'PixelEvent', responseInfo 
         location = responseInfo[Util.location]
@@ -31,11 +29,11 @@ class PixelStrip:
             else:
                 raise Exception('Need Color.  Probably')
         responseInfo['PixelEvent'] = StepEvent.generate(300, color)
-        (dist, light) = self.getLightNearest(location)
-        light.processInput(responseInfo['PixelEvent'], 0) #TODO: z-index
+        (dist, pixel) = self.getPixelNearest(location)
+        pixel.processInput(responseInfo['PixelEvent'], 0) #TODO: z-index
         
-    def getLightNearest(self, location):
-        dists = [(Util.dist(location, light.location), light) for light in self.lights]
+    def getPixelNearest(self, location):
+        dists = [(Util.dist(location, pixel.location), pixel) for pixel in self.pixels]
         dists.sort()
         return dists[0]
         #just for now.

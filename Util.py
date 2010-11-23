@@ -61,7 +61,7 @@ def getConnectedSocket(ip,port):
 def composePixelStripData(pixelStrip):
     packet = bytearray()
     for light in pixelStrip:
-        color = light.lightState()
+        color = light.state()
         for channel in color: #skip the last value, its an
             #alpha value
             packet.append(struct.pack('B', channel))

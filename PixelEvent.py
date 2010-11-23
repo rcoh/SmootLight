@@ -8,6 +8,6 @@ class PixelEvent(SmootCoreObject):
         self.initEvent()
     def initEvent(self):
         pass
-    def lightState(self,timeDelay):
+    def state(self,timeDelay):
         pass
         

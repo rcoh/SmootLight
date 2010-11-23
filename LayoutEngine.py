@@ -8,20 +8,20 @@ class LayoutEngine(SmootCoreObject):
     def layoutFunc(self, lastLocation): #Must be defined by inheriting class.
         #Returns tuple pair (x,y)
         pass
-    def getLightLocations(self): #returns a complete list of locations of lights
+    def getPixelLocations(self): #returns a complete list of locations of Pixels
         #for a strip
         locations = [self.argDict['originLocation']]
-        for lightIndex in range(self['numLights']-1): #-1 because origin
+        for pixelIndex in range(self['numPixels']-1): #-1 because origin
             #already exists
             newLocation = self.layoutFunc(locations[-1]) 
             if newLocation == None:
                 raise Exception('Location cannot be null.  layoutFunc not \
                 defined or improperly defined.')
             if Util.dist(newLocation, locations[-1]) > \
-                    self['lightToLightSpacing']:
-                        raise Exception('Illegal light location.  Distance \
-                        between adjacent lights must be less than \
-                        lightToLightSpacing.')
+                    self['pixelToPixelSpacing']:
+                        raise Exception('Illegal pixel location.  Distance \
+                        between adjacent pixels must be less than \
+                        pixelToPixelSpacing.')
             locations.append(newLocation)
         return locations
     def initLayout(self):

@@ -1,4 +1,4 @@
-from Light import Light
+from Pixel import Pixel
 from PixelStrip import PixelStrip
 import itertools
 class Screen:
@@ -11,7 +11,7 @@ class Screen:
         [lS.render(surface) for lS in self.pixelStrips]
     def allOn(self):
         [lS.allOn(-1) for lS in self.pixelStrips]
-    def __iter__(self): #the iterator of all our light strips chained togther
+    def __iter__(self): #the iterator of all our pixel strips chained togther
         return itertools.chain(*[strip.__iter__() for strip in self.pixelStrips]) 
     #increment time -- This processes all queued responses.  Responses generated
     #during this period are added to the queue that will be processed on the next

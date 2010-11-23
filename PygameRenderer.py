@@ -13,7 +13,7 @@ class PygameRenderer(Renderer):
         self.background.fill(Color('Black'))
         #print 'drawing color:',light.color
         for light in lightSystem:
-            pygame.draw.circle(self.background, light.lightState(), light.location, \
+            pygame.draw.circle(self.background, light.state(), light.location, \
                 light.radius)
 
         self.screen.blit(self.background, (0,0))
