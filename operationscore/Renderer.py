@@ -2,7 +2,7 @@
 #Inheriting classes MUST define render which takes a light system and renders it.
 #Inheriting classes may define initRenderer which is called after the dictionary
 #is pulled from config.  
-from SmootCoreObject import SmootCoreObject
+from operationscore.SmootCoreObject import *
 class Renderer(SmootCoreObject):
     def init(self):
         self.initRenderer()

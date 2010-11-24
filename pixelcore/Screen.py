@@ -1,5 +1,5 @@
-from Pixel import Pixel
-from PixelStrip import PixelStrip
+from pixelcore.Pixel import * 
+from pixelcore.PixelStrip import *
 import itertools
 class Screen:
     def __init__(self):

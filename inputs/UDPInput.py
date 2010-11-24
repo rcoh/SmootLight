@@ -1,6 +1,7 @@
-import Util, Input
+import Util
+from operationscore.Input import *
 import socket
-class UDPInput(Input.Input):
+class UDPInput(Input):
     def inputInit(self):
         HOST = ''                 # Symbolic name meaning all available interfaces
         PORT = self.argDict['Port']              # Arbitrary non-privileged port

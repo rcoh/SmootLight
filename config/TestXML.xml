@@ -1,0 +1,23 @@
+<RootElement>
+    <ChildElement>
+        <setOfElements>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+        </setOfElements>
+        <normalElement>normal</normalElement>
+    </ChildElement>
+    <Renderer>
+        <Class>IndoorRenderer</Class>
+        <Args>
+            <PowerSupply>
+                <IP>192.168.1.0</IP>
+                <PortMapping>{'strip1':1,'strip2':2}</PortMapping>
+            </PowerSupply>
+            <PowerSupply>
+                <IP>192.168.1.1</IP>
+                <PortMapping>{'strip3':1, 'strip4':2}</PortMapping>
+            </PowerSupply>
+        </Args>
+    </Renderer>
+</RootElement>

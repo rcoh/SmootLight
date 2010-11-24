@@ -1,4 +1,4 @@
-from LayoutEngine import LayoutEngine
+from operationscore.LayoutEngine import *
 #Simple layout class that simply makes a line of LEDs
 class LineLayout(LayoutEngine):
     def layoutFunc(self, lastLocation):

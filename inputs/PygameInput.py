@@ -1,5 +1,5 @@
 import time, Util
-from Input import Input
+from operationscore.Input import *
 import pygame
 from pygame.locals import *
 #This class processes input from an already running pygame instance and passes

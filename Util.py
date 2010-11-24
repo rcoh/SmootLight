@@ -12,11 +12,22 @@ KINET_DEEPMAGIC = 0xc001d00d
 KINET_MAGICHASH = 0x69000420
 KINET_PORTOUT = 0x0108
 KINET_UNI = 0
+CONFIG_PATH = 'config/'
 kinetDict = {'flags': 0, 'startcode': 0, 'pad':0}
 def dist(l1, l2):
     return math.sqrt(sum([(l1[i]-l2[i])**2 for i in range(len(l1))]))
 def time():
     return clock.time()*1000
+def loadParamRequirementDict(className):
+    return fileToDict(CONFIG_PATH + className)
+def loadConfigFile(fileName):
+    fileName = CONFIG_PATH + fileName
+    if '.params' in fileName:
+        return fileToDict(fileName)
+    if '.xml' in fileName:
+        config = ElementTree()
+        config.parse(fileName)
+        return config
 def fileToDict(fileName):
     fileText = ''
     with open(fileName) as f:
@@ -25,7 +36,6 @@ def fileToDict(fileName):
     if fileText == '':
         return {}
     return eval(fileText)
-print fileToDict('LayoutEngine.params')
 def combineColors(c1,c2):
     return [c1[i]+c2[i] for i in range(min(len(c1),len(c2)))]
 def multiplyColor(color, percent):
@@ -110,7 +120,6 @@ def testXMLParse(fileName):
     config.parse(fileName)
     print generateArgDict(config.find('ChildElement'))
     print generateArgDict(config.find('Renderer'))
-testXMLParse('TestXML.xml')
 
 ##CONSTANTS##
 location = 'Location'

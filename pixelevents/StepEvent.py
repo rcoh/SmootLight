@@ -1,4 +1,4 @@
-from PixelEvent import PixelEvent
+from operationscore.PixelEvent import *
 class StepEvent(PixelEvent):
     def initEvent(self):
         self.validateArgs('StepEvent.params')

@@ -1,0 +1,14 @@
+<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
+<LightSystem>
+    <RendererConfiguration>
+        <Renderer>
+            <Class>IndoorRenderer</Class>
+            <Args>
+                <PowerSupply>
+                    <IP>10.1.218.72</IP>
+                    <PortMapping>{'strip1':1}</PortMapping>
+                </PowerSupply>
+            </Args>
+        </Renderer>
+    </RendererConfiguration>
+</LightSystem>

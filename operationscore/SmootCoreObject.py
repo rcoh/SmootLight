@@ -16,7 +16,7 @@ class SmootCoreObject:
     def __getiter__(self):
         return self.argDict.__getiter__()
     def validateArgs(self, argFileName):
-        self.validateArgDict(Util.fileToDict(argFileName))
+        self.validateArgDict(Util.loadParamRequirementDict(argFileName))
     def validateArgDict(self, validationDict):
         for item in validationDict:
             if not item in self.argDict:

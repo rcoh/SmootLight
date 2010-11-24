@@ -1,4 +1,4 @@
-from LayoutEngine import LayoutEngine
+from operationscore.LayoutEngine import *
 import pdb
 #Slightly more complex layout class that makes a zig-Zag Led Pattern
 #Inheriting classes must specify zigLength, the length in lights of a of a zig

@@ -1,0 +1,3 @@
+{'DecayType': 'Decay type missing.  Specify Exponential or Proportional.',
+    'Coefficient':'Coeffienct missing.  Coefficient for decay type.  E^(-ct) if
+        exponential, c/t if proportional.'}

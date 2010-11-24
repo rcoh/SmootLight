@@ -1,6 +1,6 @@
 import Util
 import pdb
-from StepEvent import StepEvent
+from pixelevents.StepEvent import *
 #Pixel keeps a queue of events (PixelEvent objects) (actually a dictionary
 #keyed by event time).  Every time is state is
 #requested, it processes all the members of its cue.  If a member returns none,

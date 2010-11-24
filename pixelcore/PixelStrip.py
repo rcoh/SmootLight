@@ -1,5 +1,5 @@
-from Pixel import Pixel
-from StepEvent import StepEvent
+from pixelcore.Pixel import *
+from pixelevents.StepEvent import *
 import pygame
 import math
 import Util

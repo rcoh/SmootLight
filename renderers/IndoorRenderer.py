@@ -1,4 +1,4 @@
-from Renderer import Renderer
+from operationscore.Renderer import *
 import socket, Util
 import pdb
 kinetPort = 6038

@@ -1,4 +1,4 @@
-from Behavior import Behavior
+from operationscore.Behavior import *
 import Util
 import pdb
 class EchoBehavior(Behavior):

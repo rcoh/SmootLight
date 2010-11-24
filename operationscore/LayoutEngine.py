@@ -1,4 +1,4 @@
-from SmootCoreObject import SmootCoreObject
+from operationscore.SmootCoreObject import *
 import Util
 import pdb
 class LayoutEngine(SmootCoreObject):

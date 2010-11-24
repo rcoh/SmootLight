@@ -1,4 +1,4 @@
-from PixelEvent import PixelEvent
+from pixelcore import PixelEvent
 import Util, math
 class DecayEvent(PixelEvent):
     def initEvent(self):

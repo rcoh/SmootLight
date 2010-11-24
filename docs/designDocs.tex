@@ -1,0 +1,178 @@
+\documentclass{article}
+\usepackage{fullpage}
+\begin{document}
+    \title{150 Smoots Lighting Installation Design Document}
+    \author{Russell Cohen}
+    \date{\today}
+    \maketitle
+    \newcommand{\classDoc}[5]{
+        \subsection{#1}
+            \begin{itemize}
+            \item \textbf{Inherits from: } #2 
+            \item \textbf{Inherited by: } #3 
+            \item \textbf{Brief Description: } #4 
+            \item \textbf{Argument Requirements: } #5
+            \end{itemize}
+        }
+    \section{Intro}
+        \textbf{NB: These docs give an overview of the classes and methods but
+            may lag behind the code for certain in-flux functionality.  For
+                up-to-the minute docs, please use pydoc.} \\
+        The system, which we will describe henceforth as SmootLight is a
+        modular system designed with the following goals in mind:
+        \begin{itemize} 
+            \item The system must abstract away from all components while
+            remaining useful (\verb=Renderer=, \verb=Input=, \verb=Behavior=) 
+            \item The system must be modular and be easy to write new code for.
+            \item More goals as I think of them
+        \end{itemize}
+        We accomplish this in the following manner:
+        \begin{itemize}
+            \item The system is configured by an XML file which specifies its
+            components.
+            \item All classes are initialized with a dictionary as an argument
+                containing anything a class may need.  All objects are passed
+                between members as python dictionaries because their easy
+                serialization.
+        \end{itemize}
+    \section{Operations Class Patterns}
+    \classDoc{SmootCoreObject}{None}{All 2nd level classes (PixelAssembler, Renderer,
+                Input, Behavior)}
+    {SmootCoreObject is essentially a super-object
+            that makes things easy for us.  It does the following actions:
+                \begin{itemize}
+                    \item Defines a constructor that sets argDict
+                    \item Defines a \texttt{\_\_getitem\_\_} , which lets us acces items in
+                    argDict as if the class was a dictionary.
+                    (\texttt{self['itemName']})
+                    \item Defines validateArgs and validateArgDict which
+                    validate the incoming arguments against a dictionary
+                    containing argument names as keys and an error message to
+                    display if they are missing as a values.  This file should
+                    be named classname.params and look like a python dict
+                    (\texttt{\{'key':value, 'key2':value2\}} )
+                \end{itemize}
+            Note that at this point, the only class using this functionality
+                is the PixelEvent class.}
+            {No required parameters in argDict}
+    \classDoc{PixelAssembler}{SmootCoreObject}{LineLayout, ZigzagLayout}{
+        PixelAssembler is a class that defines the positions of lights.  It
+            provides a method \texttt{getLightLocations} which give a list of
+            all light locations for a given strip.  Inheriting classes must
+            define \texttt{layoutFunc} which returns the next location given the
+            previous location.  (They may simply override
+                    \texttt{getLightLocations}
+                    instead, if they wish, but be careful when doing so).  In
+            heriting classes may defint \texttt{initLayout} which is called at
+            initialization.}{\begin{itemize}
+                \item \texttt{lightToLightSpacing}: this is the length of wire
+                    between 2 adjacent LEDs.  Common values are 4 or 12.
+                \item \texttt{numLights}: Number of lights in a strip.
+                \item \texttt{originLocation}: Location of the first light.
+                \end{itemize}}
+    \classDoc{Renderer}{SmootCoreObject}{PygameRenderer, IndoorRenderer}{
+        Renderer is a class that serves as an abstract class for renderers
+            interacting with the system.  Inheriting classes must define
+            render, which is passed a \texttt{lightSystem} object.  Inheriting
+            classes may define initRenderer which is called on initiation.
+    }{No required arguments}
+    \classDoc{Input}{SmootCoreObject, threading.Thread}{PygameInput,
+        TCPInput,UDPInput}{Input is a abstract class which facilitates Inputs.
+            It does this by providing a method that is polled at a periodic
+                interval within which the inheriting class can raise an event.
+                Inheriting classes must define \texttt{sensingLoop} which is
+                called at the interval specified in the config.  Inheriting
+                classes should call respond with an dictionary as an argument
+                to raise an event.  Classes using (not
+                        inheriting) input must pass a scope into
+        the argDict which offers a \texttt{processInput}
+            method.  Inputs are marked as Daemon threads, and
+                are therefore killed when their parent is
+                killed.}{\begin{itemize}
+                    \item \texttt{InputId}: The string id of a given input.  Must be
+                        unique.
+                    \item Optional:\texttt{RefreshInterval}: The interval in
+                    seconds (will soon be changed to milliseconds) between
+                    sucessive calls to the sensingLoop method.  TODO: make
+                    timeout.
+                \end{itemize}}
+    \classDoc{Behavior}{SmootCoreObject}{EchoBehavior, DebugBehavior}{
+Abstract class for a behavior.  On every time step, the behavior is passed the
+inputs from all sensors it is bound to as well as any recursive inputs that it
+spawned during the last time step.  Inheriting classes MUST define
+\texttt{processBehavior}.  \texttt{processBehavior} should return a list of dictionaries which
+define the properties of the light response.  The must return a location
+\texttt{PixelEvent} class.  Soon be be deprecated:\textit{They must give a location and
+color.  They may define a function pointer which defines a custom mapping.
+[More on this later.  Bug Russell if you want to do it].}
+Call \texttt{recursiveResponse} to queue a input on the next iteration with a dictionary
+argument.  This will be passed in via recursive inputs.}
+{\begin{itemize}
+    \item \texttt{Inputs}: A list of input Ids specifying input to the
+        behavior.  In the future, this may also contain behavior ids.
+\end{itemize}}
+\classDoc{PixelEvent}{SmootCoreObject}{StepResponse}{
+    Abstract class defining the behavior of a light after it has been turned on.
+        Inheriting classes should defint \texttt{lightState} which is passed a
+        timeDelay in ms as an argument.  \texttt{lightState} should return a
+        color or None if the response is complete.}{\begin{itemize}
+            \item \texttt{Color}: The color of response.  \textit{This is may be
+                removed in the future}
+            \end{itemize}
+        }
+\section{The Screen Class and Its Relatives}
+\classDoc{Screen}{None}{None}
+{The \texttt{Screen} class is a representation of an entire system of pixels,
+    distributed over space.  The Screen class and its relatives process
+        responses (mapped to pixels via a LayoutEngine), and add PixelEvents
+        to the individual pixels.  The Screen provides an instance that
+        renderers can call to determine the color of all the individual pixels. It contains a list of PixelStrips, which each
+        address the individual pixels.  \texttt{Screen} offers a
+        \texttt{respond} method which takes a dictionary containing information
+        about a response.  TODO: detail the contents of this dictionary (maybe
+                somewhere else).  Note: \texttt{Screen} will not process its
+        responses until \texttt{timeStep} is called which processes all responses that
+        have been queued since the last time that \texttt{timeStep} was
+        called.  Screen also offers an iterator over \textit{all} lights,
+    accesible by using an expression like: \texttt{for light in screen:}.  For
+        addressing of specific \texttt{PixelStrips} , \texttt{self.pixelStrips}
+    is exposed.}{No required parameters}
+\classDoc{PixelStrip}{None}{None}
+{The \texttt{PixelStrip} class is a representation of a string of Pixels that are
+    connected in physical space (eg. a strip of lights).  A \texttt{PixelStrip} takes a
+        \texttt{LayoutBuilder} (\textit{Name up for debate, currently known as layout
+            engine}) as an argument.  The \texttt{argDict} of the
+        \texttt{LayoutBuilder} is
+        passed becomes the \texttt{argDict} of the \texttt{PixelStrip}.
+        \texttt{PixelStrip} generally shouldn't be
+        adressed directly unless you need Strip-Identification for rendering
+        purposes.  You should never, for example, call \texttt{respond} on a
+        \texttt{PixelStrip}
+        directly, unless you really know what you're doing.  Well, actually you
+            should never need to do that.
+        never.  Don't do it.}{Takes a \texttt{LayoutBuilder} as an argument.}
+    \section{Best Practices}
+        \subsection{Variable and function naming}
+            I'm pretty bad about being consistent.  However, in all future
+            code, please adhere to the following:
+            \begin{itemize}
+                \item Classes: \texttt{FirstLetterCaps}
+                \item Functions: \texttt{camelCase}
+                \item Property Names: \texttt{FirstLetterCaps}
+                \item Constants: \texttt{ALL\_CAPS\_WITH\_UNDERSCORES}
+            \end{itemize}
+        \subsection{Time}
+            For time, use the \texttt{Util.time()} method to return the current
+            time in ms.
+        \subsection{Acessing Pixels}
+            The ideal method for acessing Pixels in a screen is to use its
+            iterator.  Iterating over the individual PixelStrips is also an
+            acceptable method.  
+        \subsection{Determining the state of a \texttt{Pixel}}
+            The best practice for determining the color of a \texttt{Pixel} is to call
+            \texttt{lightState} (may be renamed to State TODO).  This ensures
+            all current active responses running on the Pixel contribute correctly. 
+        \subsection{Color}
+            For color, use a tuple of (R,G,B) 0-255 for each.  Colors can be
+            easily manipulated with members of the Util class.
+    \end{document}

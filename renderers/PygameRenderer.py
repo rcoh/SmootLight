@@ -1,4 +1,4 @@
-from Renderer import Renderer
+from operationscore.Renderer import *
 import pygame
 from pygame.locals import *
 import pdb

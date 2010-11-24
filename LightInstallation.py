@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import ElementTree
-from Screen import Screen
-from PixelStrip import PixelStrip
+from pixelcore.Screen import * 
+from pixelcore.PixelStrip import *
 import pdb, sys, time, Util
 from pygame.locals import *
 #Python class to instantiate and drive a Screen through different patterns,
@@ -9,9 +9,8 @@ class LightInstallation:
     def __init__(self, configFileName):
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
         self.behaviors = {}
-        config = ElementTree()
-        config.parse(configFileName)
         self.screen = Screen()
+        config = Util.loadConfigFile(configFileName)
         rendererConfig = config.find('RendererConfiguration')
         layoutConfig = config.find('LayoutConfiguration')
         inputConfig = config.find('InputConfiguration')
@@ -40,8 +39,8 @@ class LightInstallation:
         components = []
         if config != None:
             for configItem in config.getchildren():
-                className = configItem.find('Class').text  
-                exec('from ' + className + ' import ' + className)
+                [module,className] = configItem.find('Class').text.split('.')
+                exec('from ' + module+'.'+className + ' import *')
                 args = Util.generateArgDict(configItem.find('Args'))
                 args['parentScope'] = self
                 components.append(eval(className+'(args)')) #TODO: doesn't error

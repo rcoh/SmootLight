@@ -1,5 +1,6 @@
 import SocketServer
-import Util, Input
+import Util
+from operationscore.Input import *
 
 """
 A rough sketch about how a TCP socket server receives data from the phone (or other stuff).

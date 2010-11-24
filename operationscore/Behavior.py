@@ -8,7 +8,7 @@
 #recursiveResponse to queue a input on the next iteration with a dictionary
 #argument.  This will be passed in via recursive inputs.
 import pdb
-from SmootCoreObject import SmootCoreObject
+from operationscore.SmootCoreObject import *
 #timeStep is called on every iteration of the LightInstallation
 #addInput is called on each individual input received, and the inputs queue
 class Behavior(SmootCoreObject):

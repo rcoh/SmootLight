@@ -1,0 +1,94 @@
+<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
+<LightInstallation>
+    <LayoutConfiguration>
+
+        <PixelStrip>
+            <Class>layouts.ZigzagLayout</Class><!--Name of Layout Class,
+            imported dynamically via a eval('import ' + name)-->
+            <Args><!--Any args the layout class needs.  This go as
+            elements of a dictionary that gets passed to the Layout machinery-->
+                <Id>strip1</Id>
+                <zigLength>25</zigLength>
+                <zigAxis>X</zigAxis>
+                <yDirection>-1</yDirection>
+                <pixelToPixelSpacing>12</pixelToPixelSpacing>
+                <spacing>12</spacing> <!--we can space at any value less the
+                l2lspacing--> 
+                <numPixels>50</numPixels>
+                <originLocation>(10,10)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <Class>layouts.ZigzagLayout</Class><!--Name of Layout Class,
+            imported dynamically via a eval('import ' + name)-->
+            <Args><!--Any args the layout class needs.  This go as
+            elements of a dictionary that gets passed to the Layout machinery-->
+                <Id>strip2</Id>
+                <zigLength>25</zigLength>
+                <zigAxis>X</zigAxis>
+                <yDirection>1</yDirection>
+                <pixelToPixelSpacing>12</pixelToPixelSpacing>
+                <spacing>12</spacing> <!--we can space at any value less the
+                l2lspacing--> 
+                <numPixels>50</numPixels>
+                <originLocation>(10,30)</originLocation>
+            </Args>
+        </PixelStrip>
+    </LayoutConfiguration>
+    <RendererConfiguration>
+        <Renderer>
+            <Class>renderers.PygameRenderer</Class>
+            <Args>
+                <displaySize>(1300,50)</displaySize>
+            </Args>
+        </Renderer>
+        <Renderer>
+            <Class>renderers.IndoorRenderer</Class>
+            <Args>
+                <PowerSupply>
+                    <IP>10.1.218.72</IP>
+                    <PortMapping>{'strip1':1, 'strip2':2}</PortMapping>
+                </PowerSupply>
+            </Args>
+        </Renderer>
+    </RendererConfiguration>
+    <InputConfiguration>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args><!--Passed as a dictionary-->
+                <InputId>pygame</InputId>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <InputId>UDP</InputId>
+                <Port>6038</Port>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+    </InputConfiguration>
+    <BehaviorConfiguration>
+        <Behavior>
+            <Class>behaviors.EchoBehavior</Class>
+            <Args>
+                <behaviorId>echo</behaviorId>
+                <z-index>0</z-index>
+                <Inputs>
+                    <InputId>pygame</InputId>
+                </Inputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Args>
+                <behaviorId>debug</behaviorId>
+                <z-index>0</z-index>
+                <Inputs>
+                    <InputId>UDP</InputId>
+                </Inputs>
+            </Args>
+        </Behavior>
+    </BehaviorConfiguration>
+</LightInstallation>
