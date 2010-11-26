@@ -56,14 +56,22 @@
         <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args><!--Passed as a dictionary-->
-                <InputId>pygame</InputId>
+                <Id>pygame</Id>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args><!--Passed as a dictionary-->
+                <Id>followmouse</Id>
+                <FollowMouse>True</FollowMouse>
                 <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
             <Class>inputs.UDPInput</Class>
             <Args>
-                <InputId>UDP</InputId>
+                <Id>UDP</Id>
                 <Port>6038</Port>
                 <RefreshInterval>100</RefreshInterval>
             </Args>
@@ -73,21 +81,55 @@
         <Behavior>
             <Class>behaviors.EchoBehavior</Class>
             <Args>
-                <behaviorId>echo</behaviorId>
+                <Id>echo</Id>
                 <z-index>0</z-index>
+                <RenderToScreen>False</RenderToScreen>
                 <Inputs>
-                    <InputId>pygame</InputId>
+                </Inputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ColorChangerBehavior</Class>
+            <Args>
+                <Id>color</Id>
+                <z-index>0</z-index>
+                <RenderToScreen>False</RenderToScreen>
+                <Inputs>
+                </Inputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.DecayBehavior</Class>
+            <Args>
+                <Id>decay</Id>
+                <z-index>0</z-index>
+                <RenderToScreen>False</RenderToScreen>
+                <Inputs>
                 </Inputs>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Args>
-                <behaviorId>debug</behaviorId>
+                <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
-                    <InputId>UDP</InputId>
+                    <Id>UDP</Id>
                 </Inputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Inputs>
+                    <Id>followmouse</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>echo</Id>
+                    <Id>color</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
     </BehaviorConfiguration>

@@ -32,12 +32,9 @@ class Pixel:
             eventResult = event.state(currentTime-eventTime)
             if eventResult != None:
                 resultingColor = Util.combineColors(eventResult, resultingColor)
-                print resultingColor
             else:
                 deadEvents.append(eventTime)
         [self.events.pop(event) for event in deadEvents]
-        if sum(resultingColor) > 0:
-            print resultingColor
         return tuple(resultingColor)
     def __str__(self):
         return 'Loc: ' + str(self.location)

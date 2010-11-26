@@ -7,6 +7,8 @@ from pygame.locals import *
 class PygameInput(Input):
     def sensingLoop(self):
         #try:
+            if self['FollowMouse']:
+                self.respond({Util.location: pygame.mouse.get_pos()})
             for event in pygame.event.get():
                 if event.type is KEYDOWN:
                     self.respond({Util.location: (5,5),'Key': event.key})

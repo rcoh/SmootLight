@@ -13,14 +13,22 @@ class Input(threading.Thread):
         self.eventQueue = []
         self.parentScope = argDict['parentScope']
         self.argDict = argDict
-        if not 'InputId' in argDict:
-            raise Exception('InputId must be defined in config xml')
         if not 'RefreshInterval' in argDict:
             print 'RefreshInterval not defined.  Defaulting to .5s.'
             self.argDict['RefreshInterval'] = 500 
         self.inputInit()
         threading.Thread.__init__(self)
         self.daemon = True #This kills this thread when the main thread stops
+    #CHEATING until I can get multiple inheritence working
+    def __setitem__(self,k, item):
+        self.argDict[k] = item
+    def __getitem__(self, item):
+        if item in self.argDict:
+            return self.argDict[item]
+        else:
+            return None
+    def __getiter__(self):
+        return self.argDict.__getiter__()
     def respond(self, eventDict):
         #if eventDict != []:
             #pdb.set_trace()

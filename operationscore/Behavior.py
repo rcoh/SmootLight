@@ -21,8 +21,16 @@ class Behavior(SmootCoreObject):
         self.outGoingQueue = []
     def processResponse(self, sensorInputs, recursiveInputs):
         pass
-    def addInput(self, sensorInputs):
-        self.sensorResponseQueue.append(sensorInputs)
+    def addInput(self, sensorInput):
+        self.sensorResponseQueue.append(sensorInput)
+    #used for behavior chaining
+    def immediateProcessInput(self, sensorInputs): 
+        return self.processResponse(sensorInputs, [])
+    def addInputs(self, sensorInputs):
+        if type(sensorInputs) == type([]):
+            [self.addInput(sensorInput) for sensorInput in sensorInputs]
+        else:
+            self.addInput(sensorInputs)
     def recursiveReponse(self, args):
         self.responseQueue.append(args)
     def timeStep(self):

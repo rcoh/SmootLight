@@ -9,19 +9,33 @@ class LightInstallation:
     def __init__(self, configFileName):
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
         self.behaviors = {}
+        self.behaviorOutputs = {} #key: [list of output destinations]
+        self.behaviorInputs = {}
+        self.componentDict = {}
+        self.inputBehaviorRegistry = {} #inputid -> behaviors listening to that
+        #input
+        #give Util a pointer to our componentRegistry so that everyone can use
+        #it
+        Util.setComponentDict(self.componentDict)
         self.screen = Screen()
         config = Util.loadConfigFile(configFileName)
+        #read configs from xml
         rendererConfig = config.find('RendererConfiguration')
         layoutConfig = config.find('LayoutConfiguration')
         inputConfig = config.find('InputConfiguration')
         behaviorConfig = config.find('BehaviorConfiguration')
-        self.initializeLights(layoutConfig)
+        #inits
+        self.initializeScreen(layoutConfig)
         self.initializeRenderers(rendererConfig)
         self.initializeInputs(inputConfig)
         self.initializeBehaviors(behaviorConfig)
-        
+        #registration in dict
+        self.registerComponents(self.renderers)
+        self.registerComponents(self.inputs)
+        self.registerComponents(self.behaviors)
+        #Done initializing.  Lets start this thing!
         self.mainLoop()
-    def initializeLights(self, layoutConfig):
+    def initializeScreen(self, layoutConfig):
         layoutEngines = self.initializeComponent(layoutConfig)
         [self.addPixelStrip(l) for l in layoutEngines]
     def addPixelStrip(self, layoutEngine):
@@ -29,12 +43,20 @@ class LightInstallation:
         self.screen.addStrip(pixelStrip)
     def initializeInputs(self, inputConfig):
         inputs = self.initializeComponent(inputConfig)
+        self.inputs = inputs
         for inputClass in inputs:
             inputClass.start()
-            self.inputs[inputClass.argDict['InputId']] = (inputClass, [])
+            self.inputBehaviorRegistry[inputClass['Id']] = []
+            #empty list is list of bound behaviors
     def initializeRenderers(self, rendererConfig):
         self.renderers = self.initializeComponent(rendererConfig) 
-        print self.renderers
+    def registerComponents(self, components):
+        for component in components:
+            try:
+                cid = component['Id']
+            except:
+                raise Exception('Components must have Ids!')
+            self.componentDict[cid] = component
     def initializeComponent(self, config):
         components = []
         if config != None:
@@ -42,7 +64,8 @@ class LightInstallation:
                 [module,className] = configItem.find('Class').text.split('.')
                 exec('from ' + module+'.'+className + ' import *')
                 args = Util.generateArgDict(configItem.find('Args'))
-                args['parentScope'] = self
+                args['parentScope'] = self #TODO: we shouldn't give away scope
+                #like this, find another way.
                 components.append(eval(className+'(args)')) #TODO: doesn't error
                 #right
         return components
@@ -52,32 +75,42 @@ class LightInstallation:
         #self.screen.allOn()
         while 1:
             time.sleep(.1)
-            responses = []
-            for behaviorId in self.behaviors:
-                [responses.append(b) for b in \
-                    self.behaviors[behaviorId].timeStep()] #processes all queued inputs
+            responses = self.evaluateBehaviors() #inputs are all queued when they
+            #happen, so we only need to run the behaviors
             [self.screen.respond(response) for response in responses if
                     response != []]
             self.screen.timeStep()
-            if responses != []:
-                print responses
             [r.render(self.screen) for r in self.renderers]
+    #evaluates all the behaviors (including inter-dependencies) and returns a
+    #list of responses to go to the screen.
+    def evaluateBehaviors(self):
+        responses = {}
+        responses['Screen'] = [] #responses to the screen
+        for behavior in self.behaviors:
+            responses[behavior['Id']] = behavior.timeStep()
+            if behavior['RenderToScreen'] == True: #TODO: this uses extra space,
+            #we can use less in the future if needbe.
+                responses['Screen'] += responses[behavior['Id']]
+        return responses['Screen']
+
     def initializeBehaviors(self, behaviorConfig):
-        behaviors = self.initializeComponent(behaviorConfig)
-        for behavior in behaviors:
-            print behavior.argDict
+        self.behaviors = self.initializeComponent(behaviorConfig)
+        for behavior in self.behaviors:
             self.addBehavior(behavior)
-        print self.inputs
-        print self.behaviors
+    #TODO: we probably don't need this anymore :(
+    def topologicalBehaviorSort(self):
+        return Util.topologicalSort(self.behaviorDependencies)
+    #Does work needed to add a behavior: currently -- maps behavior inputs into
+    #the input behavior registry.
     def addBehavior(self, behavior):
-        self.behaviors[behavior.argDict['behaviorId']] = behavior
         for inputId in behavior.argDict['Inputs']:
-            self.inputs[inputId][1].append(behavior.argDict['behaviorId'])
+            if inputId in self.inputBehaviorRegistry: #it could be a behavior
+                self.inputBehaviorRegistry[inputId].append(behavior['Id'])
     def processResponse(self,inputDict, responseDict):
         #pdb.set_trace()
-        inputId = inputDict['InputId']
-        boundBehaviors = self.inputs[inputId][1]
-        [self.behaviors[b].addInput(responseDict) for b in boundBehaviors]
+        inputId = inputDict['Id']
+        boundBehaviorIds = self.inputBehaviorRegistry[inputId]
+        [self.componentDict[b].addInput(responseDict) for b in boundBehaviorIds]
 
 def main(argv):
     print argv

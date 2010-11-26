@@ -1,4 +1,4 @@
-from pixelcore import PixelEvent
+from operationscore.PixelEvent import *
 import Util, math
 class DecayEvent(PixelEvent):
     def initEvent(self):
@@ -9,4 +9,9 @@ class DecayEvent(PixelEvent):
             decay = math.exp(timeDelay*-1*self['Coefficient'])
         if self['DecayType'] == 'Proportional':
             decay = float(self['Coefficient']) / timeDelay
-        return Util.multiplyColor(self['Color'], decay)
+        color = Util.multiplyColor(self['Color'], decay)
+        return color if sum(color) > 5 else None
+    @staticmethod
+    def generate(decayType, coefficient, color):
+        args = {'DecayType': decayType, 'Coefficient':coefficient, 'Color':color}
+        return DecayEvent(args)

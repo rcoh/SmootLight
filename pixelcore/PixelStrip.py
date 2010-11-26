@@ -21,14 +21,13 @@ class PixelStrip:
         [l.turnOnFor(time) for l in self.pixels] #TODO: add test-on method to
         #pixels
     def respond(self, responseInfo):
-        print 'PixelEvent', responseInfo 
         location = responseInfo[Util.location]
         if not 'PixelEvent' in responseInfo:
             if 'Color' in responseInfo:
                 color = responseInfo['Color']
             else:
                 raise Exception('Need Color.  Probably')
-        responseInfo['PixelEvent'] = StepEvent.generate(300, color)
+            responseInfo['PixelEvent'] = StepEvent.generate(300, color)
         (dist, pixel) = self.getPixelNearest(location)
         pixel.processInput(responseInfo['PixelEvent'], 0) #TODO: z-index
         

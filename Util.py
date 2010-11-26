@@ -3,21 +3,32 @@ from xml.etree.ElementTree import ElementTree
 import math,struct
 #import json # json.loads() to decode string; json.dumps() to encode data
 import socket
+import random
 from pygame.locals import *
 import time as clock
-KINET_VERSION = 0x0001
-KINET_MAGIC = 0x4adc0104
-KINET_MOREMAGIC = 0xdeadbeef
-KINET_DEEPMAGIC = 0xc001d00d
-KINET_MAGICHASH = 0x69000420
-KINET_PORTOUT = 0x0108
-KINET_UNI = 0
+VERSION = 0x0001
+MAGIC = 0x4adc0104
+MOREMAGIC = 0xdeadbeef
+DEEPMAGIC = 0xc001d00d
+MAGICHASH = 0x69000420
+PORTOUT = 0x0108
+UNI = 0
 CONFIG_PATH = 'config/'
 kinetDict = {'flags': 0, 'startcode': 0, 'pad':0}
+componentDict = {}
+def setComponentDict(componentDictRef):
+    globals()["componentDict"] = componentDictRef
+def getComponentById(cid):
+    if cid in componentDict:
+        return componentDict[cid]
+    else:
+        return None
 def dist(l1, l2):
     return math.sqrt(sum([(l1[i]-l2[i])**2 for i in range(len(l1))]))
 def time():
     return clock.time()*1000
+def randomColor():
+    return [random.randint(0,255) for i in range(3)]
 def loadParamRequirementDict(className):
     return fileToDict(CONFIG_PATH + className)
 def loadConfigFile(fileName):
@@ -36,10 +47,12 @@ def fileToDict(fileName):
     if fileText == '':
         return {}
     return eval(fileText)
+def safeColor(c):
+    return [min(channel,255) for channel in c]
 def combineColors(c1,c2):
-    return [c1[i]+c2[i] for i in range(min(len(c1),len(c2)))]
+    return safeColor([c1[i]+c2[i] for i in range(min(len(c1),len(c2)))])
 def multiplyColor(color, percent):
-    return tuple([channel*(percent) for channel in color])
+    return safeColor(tuple([channel*(percent) for channel in color]))
 #parses arguments into python objects if possible, otherwise leaves as strings
 def generateArgDict(parentNode, recurse=False):
     args = {}
@@ -63,6 +76,34 @@ def generateArgDict(parentNode, recurse=False):
     if len(args.keys()) == 1 and recurse:
         return args[args.keys()[0]]
     return args
+#Given a dictionary of connections, returns their topological ordering -- (the
+#order in which they can be visited such that all parents have been visited
+#before their children.  Returns the order or None if no such ordering exists
+#(the graph contains a cycle).
+def topologicalSort(adjacencyDict):
+    def dfsVisit(vertex):
+        gray[vertex] = 1
+        for child in adjacencyDict[vertex]:
+            if not child in visited:
+                if child in gray: #We have a cycle.  No topological ordering
+                    #exists!
+                    raise Exception('Cycle!') 
+                dfsVisit(child)
+        orderedList.insert(0, vertex)
+        visited[vertex] = 1
+    orderedList = []
+    visited = {}
+    gray = {}
+    for vertex in adjacencyDict:
+        try:
+            if not vertex in visited:
+                dfsVisit(vertex)
+        except:
+            return None #cycle
+    return orderedList
+def topoTest():
+    adj = {'a':['d','c'], 'b':['c'], 'c':['e'], 'd':['e'], 'e':[]}
+    print topologicalOrdering(adj)
 def getConnectedSocket(ip,port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     print (ip, port)
@@ -90,14 +131,14 @@ def composePixelStripPacket(pixelStrip,port):
     return packet
 def kinetHeader():
     header = bytearray()
-    header.extend(struct.pack('L', KINET_MAGIC))
-    header.extend(struct.pack('H', KINET_VERSION))
-    header.extend(struct.pack('H', KINET_PORTOUT))
+    header.extend(struct.pack('L', MAGIC))
+    header.extend(struct.pack('H', VERSION))
+    header.extend(struct.pack('H', PORTOUT))
     header.extend(struct.pack('L', 0))
     return header
 def kinetPortOut():
     header = kinetHeader()
-    header.extend(struct.pack('L', KINET_UNI))
+    header.extend(struct.pack('L', UNI))
     return header
 def kinetPortOutPayload(argDict):
     payload = bytearray()
