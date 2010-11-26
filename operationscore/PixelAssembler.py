@@ -1,9 +1,9 @@
 from operationscore.SmootCoreObject import *
 import Util
 import pdb
-class LayoutEngine(SmootCoreObject):
+class PixelAssembler(SmootCoreObject):
     def init(self):
-        self.validateArgs('LayoutEngine.params')
+        self.validateArgs('PixelAssembler.params')
         self.initLayout()
     def layoutFunc(self, lastLocation): #Must be defined by inheriting class.
         #Returns tuple pair (x,y)

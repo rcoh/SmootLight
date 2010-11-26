@@ -21,11 +21,11 @@ class LightInstallation:
         config = Util.loadConfigFile(configFileName)
         #read configs from xml
         rendererConfig = config.find('RendererConfiguration')
-        layoutConfig = config.find('LayoutConfiguration')
+        pixelConfig = config.find('PixelConfiguration')
         inputConfig = config.find('InputConfiguration')
         behaviorConfig = config.find('BehaviorConfiguration')
         #inits
-        self.initializeScreen(layoutConfig)
+        self.initializeScreen(pixelConfig)
         self.initializeRenderers(rendererConfig)
         self.initializeInputs(inputConfig)
         self.initializeBehaviors(behaviorConfig)
@@ -36,8 +36,8 @@ class LightInstallation:
         #Done initializing.  Lets start this thing!
         self.mainLoop()
     def initializeScreen(self, layoutConfig):
-        layoutEngines = self.initializeComponent(layoutConfig)
-        [self.addPixelStrip(l) for l in layoutEngines]
+        pixelAssemblers = self.initializeComponent(layoutConfig)
+        [self.addPixelStrip(l) for l in pixelAssemblers]
     def addPixelStrip(self, layoutEngine):
         pixelStrip = PixelStrip(layoutEngine)
         self.screen.addStrip(pixelStrip)

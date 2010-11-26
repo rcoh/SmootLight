@@ -1,6 +1,6 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
-    <LayoutConfiguration>
+    <PixelConfiguration>
 
         <PixelStrip>
             <Class>layouts.ZigzagLayout</Class><!--Name of Layout Class,
@@ -34,7 +34,7 @@
                 <originLocation>(10,30)</originLocation>
             </Args>
         </PixelStrip>
-    </LayoutConfiguration>
+    </PixelConfiguration>
     <RendererConfiguration>
         <Renderer>
             <Class>renderers.PygameRenderer</Class>
@@ -102,6 +102,8 @@
             <Class>behaviors.DecayBehavior</Class>
             <Args>
                 <Id>decay</Id>
+                <DecayType>Exponential</DecayType>
+                <Coefficient>.01</Coefficient>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
                 <Inputs>

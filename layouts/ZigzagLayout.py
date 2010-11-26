@@ -1,4 +1,4 @@
-from operationscore.LayoutEngine import *
+from operationscore.PixelAssembler import *
 import pdb
 #Slightly more complex layout class that makes a zig-Zag Led Pattern
 #Inheriting classes must specify zigLength, the length in lights of a of a zig
@@ -9,7 +9,7 @@ import pdb
 # X-X-X-X
 # |
 # X-X-X-X etc.
-class ZigzagLayout(LayoutEngine):
+class ZigzagLayout(PixelAssembler):
     def initLayout(self):
         if not 'zigLength' in self.argDict:
             raise Exception('zigLength must be defined in argDict') 
