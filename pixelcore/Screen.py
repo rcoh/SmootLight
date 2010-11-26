@@ -9,6 +9,8 @@ class Screen:
         self.pixelStrips.append(lS)
     def render(self, surface):
         [lS.render(surface) for lS in self.pixelStrips]
+    def setMapper(self, mapper):
+        self.mapper = mapper
     def allOn(self):
         [lS.allOn(-1) for lS in self.pixelStrips]
     def __iter__(self): #the iterator of all our pixel strips chained togther
@@ -27,5 +29,9 @@ class Screen:
     #private
     def processResponse(self, responseInfo): #we need to make a new dict for
         #each to prevent interference
-        [strip.respond(dict(responseInfo)) for strip in self.pixelStrips]
+        #[strip.respond(dict(responseInfo)) for strip in self.pixelStrips]
+        pixelWeightList = self.mapper.mapEvent(responseInfo['Location'], self)
+        Util.addPixelEventIfMissing(responseInfo)
+        for (pixel, weight) in pixelWeightList: #TODO: weighting
+            pixel.processInput(responseInfo['PixelEvent'], 0) #TODO: z-index
 

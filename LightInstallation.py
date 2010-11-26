@@ -24,17 +24,24 @@ class LightInstallation:
         pixelConfig = config.find('PixelConfiguration')
         inputConfig = config.find('InputConfiguration')
         behaviorConfig = config.find('BehaviorConfiguration')
+        mapperConfig = config.find('PixelMapperConfiguration')
         #inits
         self.initializeScreen(pixelConfig)
         self.initializeRenderers(rendererConfig)
         self.initializeInputs(inputConfig)
         self.initializeBehaviors(behaviorConfig)
+        self.initializeMapper(mapperConfig)
+
+        self.screen.setMapper(self.mapper)
         #registration in dict
         self.registerComponents(self.renderers)
         self.registerComponents(self.inputs)
         self.registerComponents(self.behaviors)
         #Done initializing.  Lets start this thing!
         self.mainLoop()
+    def initializeMapper(self, mapperConfig):
+        self.mapper = self.initializeComponent(mapperConfig)[0] #TODO: support
+        #multiple mappers
     def initializeScreen(self, layoutConfig):
         pixelAssemblers = self.initializeComponent(layoutConfig)
         [self.addPixelStrip(l) for l in pixelAssemblers]

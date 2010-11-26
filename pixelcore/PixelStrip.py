@@ -11,7 +11,7 @@ class PixelStrip:
         self.argDict = layoutEngine.getStripArgs()
     def initStrip(self, layoutEngine):
         pixelLocations = layoutEngine.getPixelLocations()
-        self.pixels = [Pixel(l, (0,0,0)) for l in pixelLocations]
+        self.pixels = [Pixel(l) for l in pixelLocations]
     def __iter__(self):
         return self.pixels.__iter__()
     def render(self, surface):

@@ -1,6 +1,7 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
-    <PixelConfiguration>
+    <LayoutConfiguration>
+
         <PixelStrip>
             <Class>layouts.ZigzagLayout</Class><!--Name of Layout Class,
             imported dynamically via a eval('import ' + name)-->
@@ -33,15 +34,7 @@
                 <originLocation>(10,30)</originLocation>
             </Args>
         </PixelStrip>
-    </PixelConfiguration>
-    <PixelMapperConfiguration>
-        <PixelMapper>
-            <Class>pixelmappers.SimpleMapper</Class>
-            <Args>
-                <Id>simplemap</Id>
-            </Args>
-        </PixelMapper>
-    </PixelMapperConfiguration>
+    </LayoutConfiguration>
     <RendererConfiguration>
         <Renderer>
             <Class>renderers.PygameRenderer</Class>

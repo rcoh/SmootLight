@@ -23,6 +23,13 @@ def getComponentById(cid):
         return componentDict[cid]
     else:
         return None
+def addPixelEventIfMissing(responseDict):
+    if not 'PixelEvent' in responseDict:
+        if 'Color' in responseDict:
+            color = responseDict['Color']
+        else:
+            raise Exception('Need Color.  Probably')
+        responseDict['PixelEvent'] = StepEvent.generate(300, color)
 def dist(l1, l2):
     return math.sqrt(sum([(l1[i]-l2[i])**2 for i in range(len(l1))]))
 def time():

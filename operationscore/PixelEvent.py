@@ -8,6 +8,8 @@ class PixelEvent(SmootCoreObject):
         self.initEvent()
     def initEvent(self):
         pass
+    def scale(c):
+        self['Color'] *= c
     def state(self,timeDelay):
         pass
         
