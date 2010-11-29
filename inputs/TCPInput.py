@@ -15,8 +15,6 @@ class TCPInput(Input.Input):
 		def handle(self):
 			# get data from the TCP socket connected to the client
 			self.data = self.request.recv(1024).strip()
-			print "%s wrote:" % self.client_address[0]
-			print self.data
 			
 			pydict = json.loads(self.data) # decode and add to queue 
                         self.responseQueue.append(pydict) 

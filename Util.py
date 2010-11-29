@@ -6,6 +6,7 @@ import socket
 import random
 from pygame.locals import *
 import time as clock
+from pixelevents.StepEvent import *
 VERSION = 0x0001
 MAGIC = 0x4adc0104
 MOREMAGIC = 0xdeadbeef
@@ -16,6 +17,16 @@ UNI = 0
 CONFIG_PATH = 'config/'
 kinetDict = {'flags': 0, 'startcode': 0, 'pad':0}
 componentDict = {}
+#Only for rough estimates.  Kindof lazy on specifics.
+def pointWithinBoundingBox(point, bb): #this could be in 4 lines, but I'm lazy.
+    return sum([(point[i % 2] <= bb[i]) == (i>1) for i in range(4)]) == 4 
+print pointWithinBoundingBox((118,21), (10,8,298,42))
+def addLocations(l1,l2):
+    return tuple([l1[i]+l2[i] for i in range(len(l1))])
+def setScreen(screen):
+    globals()["screen"] = screen
+def getScreen():
+    return screen
 def setComponentDict(componentDictRef):
     globals()["componentDict"] = componentDictRef
 def getComponentById(cid):

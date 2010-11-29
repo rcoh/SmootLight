@@ -14,10 +14,11 @@ class LightInstallation:
         self.componentDict = {}
         self.inputBehaviorRegistry = {} #inputid -> behaviors listening to that
         #input
-        #give Util a pointer to our componentRegistry so that everyone can use
+        #give Util a pointer to our componentRegistry and screen so that everyone can use
         #it
         Util.setComponentDict(self.componentDict)
         self.screen = Screen()
+        Util.setScreen(self.screen)
         config = Util.loadConfigFile(configFileName)
         #read configs from xml
         rendererConfig = config.find('RendererConfiguration')
@@ -59,9 +60,8 @@ class LightInstallation:
         self.renderers = self.initializeComponent(rendererConfig) 
     def registerComponents(self, components):
         for component in components:
-            try:
-                cid = component['Id']
-            except:
+            cid = component['Id']
+            if cid == None: 
                 raise Exception('Components must have Ids!')
             self.componentDict[cid] = component
     def initializeComponent(self, config):
@@ -114,7 +114,7 @@ class LightInstallation:
             if inputId in self.inputBehaviorRegistry: #it could be a behavior
                 self.inputBehaviorRegistry[inputId].append(behavior['Id'])
     def processResponse(self,inputDict, responseDict):
-        #pdb.set_trace()
+        print inputDict, responseDict
         inputId = inputDict['Id']
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
         [self.componentDict[b].addInput(responseDict) for b in boundBehaviorIds]

@@ -2,11 +2,11 @@
 #inputs from all sensors it is bound to as well as any recursive inputs that it
 #spawned during the last time step.  Inheriting classes MUST define
 #processResponse.  processResponse should return a list of dictionaries which
-#define the properties of the light response.  They must give a location and
-#color.  They may define a function pointer which defines a custom mapping.
-#[More on this later.  Bug Russell if you want to do it].
-#recursiveResponse to queue a input on the next iteration with a dictionary
-#argument.  This will be passed in via recursive inputs.
+#define the properties of the light response, (outputs, recursions).  They must give a location and
+#color.  They may define a PixelEvent to more closely control the outgoing
+#data, however, this is normally handled by routing the event to a behavior
+#specifically designed to do this (like DecayBehavior). 
+
 import pdb
 from operationscore.SmootCoreObject import *
 #timeStep is called on every iteration of the LightInstallation
@@ -19,23 +19,43 @@ class Behavior(SmootCoreObject):
         self.recursiveResponseQueue = []
         self.sensorResponseQueue = []
         self.outGoingQueue = []
+        self.behaviorInit()
+    def behaviorInit(self):
+        pass
     def processResponse(self, sensorInputs, recursiveInputs):
         pass
     def addInput(self, sensorInput):
         self.sensorResponseQueue.append(sensorInput)
     #used for behavior chaining
-    def immediateProcessInput(self, sensorInputs): 
-        return self.processResponse(sensorInputs, [])
+    def immediateProcessInput(self, sensorInputs, recursiveInputs=[]): 
+        try:
+            (output,recursions) = self.processResponse(sensorInputs, \
+                    recursiveInputs)
+            if type(output) != type([]):
+                output = [output]
+            return (output, recursions)
+        except:
+            return (self.processResponse(sensorInputs, recursiveInputs),[])
     def addInputs(self, sensorInputs):
+        print sensorInputs
         if type(sensorInputs) == type([]):
             [self.addInput(sensorInput) for sensorInput in sensorInputs]
         else:
             self.addInput(sensorInputs)
-    def recursiveReponse(self, args):
-        self.responseQueue.append(args)
     def timeStep(self):
         responses = self.processResponse(self.sensorResponseQueue, \
                 self.recursiveResponseQueue)
+        if type(responses) == type(tuple()) and len(responses) == 2:
+            (outputs, recursions) = responses
+        else:
+            outputs = responses
+            recursions = []
         self.sensorResponseQueue = []
-        self.recursiveResponseQueue = []
-        return responses
+        self.recursiveResponseQueue = recursions 
+        if type(outputs) != type([]):
+            outputs = [outputs]
+        try:
+            return outputs
+        except:
+            pdb.set_trace()
+        return outputs 

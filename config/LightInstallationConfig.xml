@@ -14,21 +14,18 @@
                 <spacing>12</spacing> <!--we can space at any value less the
                 l2lspacing--> 
                 <numPixels>50</numPixels>
-                <originLocation>(10,10)</originLocation>
+                <originLocation>(10,20)</originLocation>
             </Args>
         </PixelStrip>
         <PixelStrip>
-            <Class>layouts.ZigzagLayout</Class><!--Name of Layout Class,
-            imported dynamically via a eval('import ' + name)-->
-            <Args><!--Any args the layout class needs.  This go as
-            elements of a dictionary that gets passed to the Layout machinery-->
+            <Class>layouts.ZigzagLayout</Class>
+            <Args>
                 <Id>strip2</Id>
                 <zigLength>25</zigLength>
                 <zigAxis>X</zigAxis>
                 <yDirection>1</yDirection>
                 <pixelToPixelSpacing>12</pixelToPixelSpacing>
-                <spacing>12</spacing> <!--we can space at any value less the
-                l2lspacing--> 
+                <spacing>12</spacing> 
                 <numPixels>50</numPixels>
                 <originLocation>(10,30)</originLocation>
             </Args>
@@ -46,32 +43,26 @@
         <Renderer>
             <Class>renderers.PygameRenderer</Class>
             <Args>
+                <Id>pygamerender</Id>
                 <displaySize>(1300,50)</displaySize>
             </Args>
         </Renderer>
-        <Renderer>
+        <!--   <Renderer>
             <Class>renderers.IndoorRenderer</Class>
             <Args>
+                <Id>indoorRenderer</Id>
                 <PowerSupply>
                     <IP>10.1.218.72</IP>
                     <PortMapping>{'strip1':1, 'strip2':2}</PortMapping>
                 </PowerSupply>
             </Args>
-        </Renderer>
+        </Renderer>-->
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args><!--Passed as a dictionary-->
                 <Id>pygame</Id>
-                <RefreshInterval>100</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args><!--Passed as a dictionary-->
-                <Id>followmouse</Id>
-                <FollowMouse>True</FollowMouse>
                 <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
@@ -98,10 +89,11 @@
         <Behavior>
             <Class>behaviors.ColorChangerBehavior</Class>
             <Args>
-                <Id>color</Id>
+                <Id>colorchange</Id>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
                 <Inputs>
+                    <Id>pygame</Id>
                 </Inputs>
             </Args>
         </Behavior>
@@ -110,7 +102,7 @@
             <Args>
                 <Id>decay</Id>
                 <DecayType>Exponential</DecayType>
-                <Coefficient>.01</Coefficient>
+                <Coefficient>.005</Coefficient>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
                 <Inputs>
@@ -130,15 +122,27 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
+                <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>followmouse</Id>
+                    <Id>pygame</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>echo</Id>
-                    <Id>color</Id>
+                    <Id>colorchange</Id>
+                    <Id>running</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RunningBehavior</Class>
+            <Args>
+                <Id>running</Id>
+                <Inputs>
+                    <Id>pygame</Id>
+                </Inputs>
+                <StepSize>10</StepSize>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
     </BehaviorConfiguration>
