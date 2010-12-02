@@ -11,4 +11,4 @@ class DecayBehavior(Behavior):
             outDict['PixelEvent'] = \
             DecayEvent.generate(self['DecayType'],self['Coefficient'], sensory['Color'])
             ret.append(outDict)
-        return ret
+        return (ret, recursiveInputs)

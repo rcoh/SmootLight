@@ -80,14 +80,20 @@ class LightInstallation:
         return True
     def mainLoop(self):
         #self.screen.allOn()
+        lastLoopTime = Util.time()
+        refreshInterval = 30
         while 1:
-            time.sleep(.1)
+            loopStart = Util.time()
             responses = self.evaluateBehaviors() #inputs are all queued when they
             #happen, so we only need to run the behaviors
             [self.screen.respond(response) for response in responses if
                     response != []]
             self.screen.timeStep()
             [r.render(self.screen) for r in self.renderers]
+            loopElapsed = Util.time()-loopStart
+            sleepTime = max(0,refreshInterval-loopElapsed)
+            if sleepTime > 0:
+                time.sleep(sleepTime/1000)
     #evaluates all the behaviors (including inter-dependencies) and returns a
     #list of responses to go to the screen.
     def evaluateBehaviors(self):
@@ -114,7 +120,6 @@ class LightInstallation:
             if inputId in self.inputBehaviorRegistry: #it could be a behavior
                 self.inputBehaviorRegistry[inputId].append(behavior['Id'])
     def processResponse(self,inputDict, responseDict):
-        print inputDict, responseDict
         inputId = inputDict['Id']
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
         [self.componentDict[b].addInput(responseDict) for b in boundBehaviorIds]

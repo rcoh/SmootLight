@@ -41,12 +41,19 @@ def addPixelEventIfMissing(responseDict):
         else:
             raise Exception('Need Color.  Probably')
         responseDict['PixelEvent'] = StepEvent.generate(300, color)
+def gaussian(x,height,center,width):
+    a=height
+    b=center
+    c=width
+    return a*math.exp(-((x-b)**2)/(2*c**2))
 def dist(l1, l2):
     return math.sqrt(sum([(l1[i]-l2[i])**2 for i in range(len(l1))]))
 def time():
     return clock.time()*1000
 def randomColor():
     return [random.randint(0,255) for i in range(3)]
+def chooseRandomColor(colorList):
+    return random.choice(colorList)
 def loadParamRequirementDict(className):
     return fileToDict(CONFIG_PATH + className)
 def loadConfigFile(fileName):

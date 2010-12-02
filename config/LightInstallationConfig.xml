@@ -31,11 +31,22 @@
             </Args>
         </PixelStrip>
     </PixelConfiguration>
-    <PixelMapperConfiguration>
+    <!--<PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
             <Args>
                 <Id>simplemap</Id>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>-->
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>gaussmap</Id>
+                <CutoffDist>30</CutoffDist>
+                <Width>5</Width>
+                <Height>.5</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
@@ -47,7 +58,7 @@
                 <displaySize>(1300,50)</displaySize>
             </Args>
         </Renderer>
-        <!--   <Renderer>
+        <Renderer>
             <Class>renderers.IndoorRenderer</Class>
             <Args>
                 <Id>indoorRenderer</Id>
@@ -56,7 +67,7 @@
                     <PortMapping>{'strip1':1, 'strip2':2}</PortMapping>
                 </PowerSupply>
             </Args>
-        </Renderer>-->
+        </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
@@ -64,6 +75,14 @@
             <Args><!--Passed as a dictionary-->
                 <Id>pygame</Id>
                 <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args><!--Passed as a dictionary-->
+                <Id>followmouse</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <FollowMouse>True</FollowMouse>
             </Args>
         </InputElement>
         <InputElement>
@@ -102,7 +121,7 @@
             <Args>
                 <Id>decay</Id>
                 <DecayType>Exponential</DecayType>
-                <Coefficient>.005</Coefficient>
+                <Coefficient>.001</Coefficient>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
                 <Inputs>
@@ -120,6 +139,13 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.RecursiveDecay</Class>
+            <Args>
+                <Id>recursivedecay</Id>
+                <InitialResponseCount>20000</InitialResponseCount>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>runcolordecay</Id>
@@ -129,6 +155,22 @@
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>running</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'running':'recursivedecay'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>mousechaser</Id>
+                <Inputs>
+                    <Id>followmouse</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>echo</Id>
+                    <Id>colorchange</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
@@ -141,7 +183,7 @@
                 <Inputs>
                     <Id>pygame</Id>
                 </Inputs>
-                <StepSize>10</StepSize>
+                <StepSize>1</StepSize>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>

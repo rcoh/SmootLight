@@ -37,7 +37,6 @@ class Behavior(SmootCoreObject):
         except:
             return (self.processResponse(sensorInputs, recursiveInputs),[])
     def addInputs(self, sensorInputs):
-        print sensorInputs
         if type(sensorInputs) == type([]):
             [self.addInput(sensorInput) for sensorInput in sensorInputs]
         else:

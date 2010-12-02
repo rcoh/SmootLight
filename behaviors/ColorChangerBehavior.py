@@ -6,7 +6,9 @@ class ColorChangerBehavior(Behavior):
         ret = []
         for sensory in sensorInputs:
             newDict = dict(sensory) #don't run into shallow copy issues
-            #TODO: support for PixelEvents
-            newDict['Color'] = Util.randomColor() 
+            if self['ColorList'] != None:
+                newDict['Color'] = Util.randomColor(self['ColorList']) 
+            else:
+                newDict['Color'] = Util.chooseRandomColor() 
             ret.append(newDict)
         return ret
