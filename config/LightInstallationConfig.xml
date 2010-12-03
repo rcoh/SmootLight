@@ -46,7 +46,7 @@
                 <Id>gaussmap</Id>
                 <CutoffDist>30</CutoffDist>
                 <Width>5</Width>
-                <Height>.5</Height>
+                <Height>1</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
@@ -77,14 +77,14 @@
                 <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
-        <InputElement>
+        <!--<InputElement>
             <Class>inputs.PygameInput</Class>
-            <Args><!--Passed as a dictionary-->
+            <Args>
                 <Id>followmouse</Id>
                 <RefreshInterval>100</RefreshInterval>
                 <FollowMouse>True</FollowMouse>
             </Args>
-        </InputElement>
+        </InputElement>-->
         <InputElement>
             <Class>inputs.UDPInput</Class>
             <Args>
@@ -134,7 +134,7 @@
                 <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
-                    <Id>UDP</Id>
+                    <Id>pygame</Id>
                 </Inputs>
             </Args>
         </Behavior>
@@ -161,7 +161,7 @@
                 <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior>
+        <!--<Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>mousechaser</Id>
@@ -175,7 +175,7 @@
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
-        </Behavior>
+        </Behavior>-->
         <Behavior>
             <Class>behaviors.RunningBehavior</Class>
             <Args>
@@ -183,7 +183,7 @@
                 <Inputs>
                     <Id>pygame</Id>
                 </Inputs>
-                <StepSize>1</StepSize>
+                <StepSize>10</StepSize>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>

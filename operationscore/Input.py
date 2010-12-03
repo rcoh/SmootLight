@@ -32,7 +32,10 @@ class Input(threading.Thread):
     def respond(self, eventDict):
         #if eventDict != []:
             #pdb.set_trace()
+        self.parentScope.lock.acquire()
         self.parentScope.processResponse(self.argDict, eventDict)
+        self.parentScope.lock.release()
+        time.sleep(.001)
     def newEvent(self, event): #Mostly just useful for grabbing events from the
         #computer running the sim (key presses, clicks etc.)
         self.eventQueue.append(event)

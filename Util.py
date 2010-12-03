@@ -1,18 +1,21 @@
 import pdb
 from xml.etree.ElementTree import ElementTree
 import math,struct
+from bisect import *
 #import json # json.loads() to decode string; json.dumps() to encode data
 import socket
 import random
 from pygame.locals import *
 import time as clock
 from pixelevents.StepEvent import *
+
 VERSION = 0x0001
 MAGIC = 0x4adc0104
 MOREMAGIC = 0xdeadbeef
 DEEPMAGIC = 0xc001d00d
 MAGICHASH = 0x69000420
 PORTOUT = 0x0108
+classArgsMem = {}
 UNI = 0
 CONFIG_PATH = 'config/'
 kinetDict = {'flags': 0, 'startcode': 0, 'pad':0}
@@ -55,23 +58,38 @@ def randomColor():
 def chooseRandomColor(colorList):
     return random.choice(colorList)
 def loadParamRequirementDict(className):
-    return fileToDict(CONFIG_PATH + className)
+    if not className in classArgsMem: #WOO CACHING
+        classArgsMem[className] = fileToDict(CONFIG_PATH + className) 
+    return classArgsMem[className]
 def loadConfigFile(fileName):
-    fileName = CONFIG_PATH + fileName
-    if '.params' in fileName:
-        return fileToDict(fileName)
-    if '.xml' in fileName:
-        config = ElementTree()
-        config.parse(fileName)
-        return config
+    try:
+        fileName = CONFIG_PATH + fileName
+        if '.params' in fileName:
+            return fileToDict(fileName)
+        if '.xml' in fileName:
+            config = ElementTree()
+            config.parse(fileName)
+            return config
+    except:
+        return None
 def fileToDict(fileName):
     fileText = ''
-    with open(fileName) as f:
-        for line in f:
-            fileText += line.rstrip('\n').lstrip('\t') + ' ' 
+    try:
+        with open(fileName) as f:
+            for line in f:
+                fileText += line.rstrip('\n').lstrip('\t') + ' ' 
+    except IOError:
+        return {}
     if fileText == '':
         return {}
     return eval(fileText)
+def find_le(a, x):
+    'Find rightmost value less than or equal to x'
+    return bisect_right(a, x)-1
+
+def find_ge(a, x):
+    'Find leftmost value greater than x'
+    return bisect_left(a, x)
 def safeColor(c):
     return [min(channel,255) for channel in c]
 def combineColors(c1,c2):
@@ -186,7 +204,22 @@ def testXMLParse(fileName):
     config.parse(fileName)
     print generateArgDict(config.find('ChildElement'))
     print generateArgDict(config.find('Renderer'))
-
+class Stopwatch:
+    def __init__(self):
+        self.running = False
+        self.startTime = -1
+        self.stopTime = -1
+    def start(self):
+        self.startTime = Util.time()
+        self.running = True
+    def elapsed(self):
+        if self.running:
+            return Util.time()-self.startTime
+        else:
+            return self.stopTime - self.startTime
+    def stop(self):
+        self.stopTime = Util.time()
+        self.running = False
 ##CONSTANTS##
 location = 'Location'
 

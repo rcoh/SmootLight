@@ -12,6 +12,7 @@ class Pixel:
     def __init__(self, location):
         self.location = location
         self.events = {}
+        self.memState = None
     def turnOn(self):
         self.turnOnFor(-1)
     #Turn the light white for 'time' ms.  Really only meant for testing.  Use
@@ -28,7 +29,13 @@ class Pixel:
         self.events = {}
     #Combines all PixelEvents currently active and computes the current color of
     #the pixel.
+    def invalidateState(self):
+        self.memState = None
     def state(self):
+        if self.memState != None:
+            return self.memState
+        if len(self.events) == 0:
+            return (0,0,0)
         deadEvents = []
         currentTime = Util.time()
         resultingColor = (0,0,0)
@@ -40,6 +47,7 @@ class Pixel:
             else:
                 deadEvents.append(eventTime)
         [self.events.pop(event) for event in deadEvents]
+        self.memState = tuple(resultingColor)
         return tuple(resultingColor)
     def __str__(self):
         return 'Loc: ' + str(self.location)

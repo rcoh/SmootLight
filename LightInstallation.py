@@ -1,14 +1,17 @@
 from xml.etree.ElementTree import ElementTree
 from pixelcore.Screen import * 
 from pixelcore.PixelStrip import *
-import pdb, sys, time, Util
+import pdb, sys, time, Util, thread
 from pygame.locals import *
 #Python class to instantiate and drive a Screen through different patterns,
 #and effects.
 class LightInstallation:
     def __init__(self, configFileName):
+        self.timer = Util.Stopwatch()
+        self.timer.start()
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
         self.behaviors = {}
+        self.lock = thread.allocate_lock()
         self.behaviorOutputs = {} #key: [list of output destinations]
         self.behaviorInputs = {}
         self.componentDict = {}
@@ -39,6 +42,8 @@ class LightInstallation:
         self.registerComponents(self.inputs)
         self.registerComponents(self.behaviors)
         #Done initializing.  Lets start this thing!
+        self.timer.stop()
+        print 'Initialization done.  Time: ', self.timer.elapsed(), 'ms'
         self.mainLoop()
     def initializeMapper(self, mapperConfig):
         self.mapper = self.initializeComponent(mapperConfig)[0] #TODO: support
@@ -82,16 +87,21 @@ class LightInstallation:
         #self.screen.allOn()
         lastLoopTime = Util.time()
         refreshInterval = 30
-        while 1:
+        runCount = 1000
+        while runCount > 0:
+            runCount -= 1
             loopStart = Util.time()
             responses = self.evaluateBehaviors() #inputs are all queued when they
             #happen, so we only need to run the behaviors
+            self.timer.start()
             [self.screen.respond(response) for response in responses if
                     response != []]
             self.screen.timeStep()
             [r.render(self.screen) for r in self.renderers]
             loopElapsed = Util.time()-loopStart
             sleepTime = max(0,refreshInterval-loopElapsed)
+            self.timer.stop()
+            #print self.timer.elapsed()
             if sleepTime > 0:
                 time.sleep(sleepTime/1000)
     #evaluates all the behaviors (including inter-dependencies) and returns a

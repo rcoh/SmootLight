@@ -56,5 +56,6 @@ class Behavior(SmootCoreObject):
         try:
             return outputs
         except:
-            pdb.set_trace()
+            pass
+            #pdb.set_trace()
         return outputs 

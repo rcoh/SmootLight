@@ -21,10 +21,8 @@ class SmootCoreObject:
     def __getiter__(self):
         return self.argDict.__getiter__()
     def validateArgs(self, argFileName):
-        try:
-            self.validateArgDict(Util.loadParamRequirementDict(argFileName))
-        except IOError:
-            print 'No Arg Dict found for ' + self.className()
+        self.validateArgDict(Util.loadParamRequirementDict(argFileName))#util
+        #caches for us, woo!
     def validateArgDict(self, validationDict):
         for item in validationDict:
             if not item in self.argDict:
