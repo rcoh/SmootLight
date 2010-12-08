@@ -93,6 +93,14 @@
                 <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.TCPInput</Class>
+            <Args>
+                <Id>TCP</Id>
+                <Port>20120</Port>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior>
@@ -116,6 +124,17 @@
                 </Inputs>
             </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.ColorChangerBehavior</Class>
+            <Args>
+                <Id>colorchangeTCP</Id>
+                <z-index>0</z-index>
+                <RenderToScreen>True</RenderToScreen>
+                <Inputs>
+                    <Id>TCP</Id>
+                </Inputs>
+            </Args>
+        </Behavior>        
         <Behavior>
             <Class>behaviors.DecayBehavior</Class>
             <Args>

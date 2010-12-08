@@ -1,50 +1,41 @@
-import SocketServer
 import Util
 from operationscore.Input import *
+import socket, json, time
+class TCPInput(Input):
+    def inputInit(self):
+        self.HOST = ''                 # Symbolic name meaning all available interfaces
+        self.PORT = self.argDict['Port']              # Arbitrary non-privileged port
+        self.BUFFER_SIZE = 1024
+        self.IS_RESPONDING = 1
+        
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.sock.bind((self.HOST, self.PORT))
+        self.sock.listen(1)
+        (self.conn, self.address) = self.sock.accept()
 
-"""
-A rough sketch about how a TCP socket server receives data from the phone (or other stuff).
-Some corrections are probably needed from Russell.
-Looks good to me -- not really the way I envisioned it, but since the server
-we're using has a built in loop.  When we call the reponse method to pass the
-data up the pipe, we should use the sensingLoop so that everything stays
-thread-safe.
-"""
-class TCPInput(Input.Input):
-	class InputTCPHandler(SocketServer.BaseRequestHandler):
-		def handle(self):
-			# get data from the TCP socket connected to the client
-			self.data = self.request.recv(1024).strip()
-			
-			pydict = json.loads(self.data) # decode and add to queue 
-                        self.responseQueue.append(pydict) 
-
-			"""
-			do something to the dict
-			"""
-			
-			self.request.send("yes") # send back confirmation.
-	
-	def inputInit(self):
-		# initialize
-		self.host = "localhost"
-		self.port = 9999
-                self.responseQueue = []
-		# start server
-		self.server = SocketServer.TCPServer((self.host, self.port), InputTCPHandler)
-                self.server.responseQueue = self.responseQueue
-		self.server.serve_forever() # server keeps running till Ctrl+C or self.server.shutdown() is called.
-			
-	def sensingLoop(self):
-		# loop action handled through TCPHandler?
-		# if check says to shut down the server, shut it.
-		if self.doShutDown():
-			self.server.shutdown()	
-                else:
-                    for event in self.responseQueue:
-                        self.respond(event)
-                    self.responseQueue = []
-	  
-	def doShutDown(self):
-		# do some checks to see if server should be shut down
-		return False;
+    def sensingLoop(self):
+        data = self.conn.recv(self.BUFFER_SIZE)
+        print data
+        if not data or 'end' in data: # data end, close socket
+            print 'END!!'
+            self.IS_RESPONDING = 0
+            self.sock.close()
+        
+        if self.IS_RESPONDING == 1: # if 'responding', respond to the received data			
+            dataDict = json.loads(data)
+            # socketDict = {'data':dataDict, 'address':self.address}
+            socketDict = {Util.location: (100 * (1 - dataDict['x'] / 10), 25 * (1 + dataDict['y'] / 10))} # like PygameInput
+            
+            self.respond(socketDict)
+        else:
+            # if not 'responding', don't respond to data and restart socket
+            # * an incomplete hack for now. will be changed if same-type-multi-Input is implemented.
+            time.sleep(1)
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.sock.bind((self.HOST, self.PORT))
+            self.sock.listen(1)
+            (self.conn, self.address) = self.sock.accept()
+            self.IS_RESPONDING = 1
+             
