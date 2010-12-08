@@ -1,4 +1,5 @@
 import threading,time,Util
+from operationscore.SmootCoreObject import *
 #Abstract class for inputs.  Inheriting classes should call "respond" to raise
 #their event.  Inheriting classes MUST define sensingLoop.  Called at the
 #interval specified in RefreshInterval while the input is active.  For example, if you are writing
@@ -6,7 +7,7 @@ import threading,time,Util
 #Inheriting classes MAY define inputInit.  This is called before the loop
 #begins.
 import pdb
-class Input(threading.Thread):
+class Input(SmootCoreObject):
     #Event scope is a function pointer the function that will get called when
     #an Parent is raised.
     def __init__(self, argDict):
@@ -19,16 +20,6 @@ class Input(threading.Thread):
         self.inputInit()
         threading.Thread.__init__(self)
         self.daemon = True #This kills this thread when the main thread stops
-    #CHEATING until I can get multiple inheritence working
-    def __setitem__(self,k, item):
-        self.argDict[k] = item
-    def __getitem__(self, item):
-        if item in self.argDict:
-            return self.argDict[item]
-        else:
-            return None
-    def __getiter__(self):
-        return self.argDict.__getiter__()
     def respond(self, eventDict):
         #if eventDict != []:
             #pdb.set_trace()
@@ -48,7 +39,9 @@ class Input(threading.Thread):
     def run(self):
         while self.parentAlive():
             time.sleep(self.argDict['RefreshInterval']/float(1000))
+            self.acquireLock()
             self.sensingLoop()
+            self.releaseLock()
     def sensingLoop(self):
         pass
     def inputInit(self):

@@ -1,16 +1,24 @@
 import Util
 import pdb
-class SmootCoreObject:
-    def __init__(self, argDict):
+import threading
+import thread
+class SmootCoreObject(threading.Thread):
+    def __init__(self, argDict, skipValidation = False):
         self.argDict = argDict
         self.validateArgs(self.className()+'.params') 
+        self.lock = thread.allocate_lock()
         self.init() #call init of inheriting class
     #    self.__setitem__ = self.argDict.__setitem__
     #    self.__getitem__ = self.argDict.__getitem__
     def init(self):
         pass
+    def acquireLock(self):
+        self.lock = thread.allocate_lock() #TODO: fix.
+        self.lock.acquire()
+    def releaseLock(self):
+        self.lock.release()
     def className(self):
-        return str(self.__class__).split('.')[-1]
+        return str(self.__class__).split('.')[-1] #TODO: this doesn't work.
     def __setitem__(self,k, item):
         self.argDict[k] = item
     def __getitem__(self, item):

@@ -41,7 +41,7 @@ class Behavior(SmootCoreObject):
             [self.addInput(sensorInput) for sensorInput in sensorInputs]
         else:
             self.addInput(sensorInputs)
-    def timeStep(self):
+    def timeStep(self): #TODO: type checking.  clean this up
         responses = self.processResponse(self.sensorResponseQueue, \
                 self.recursiveResponseQueue)
         if type(responses) == type(tuple()) and len(responses) == 2:

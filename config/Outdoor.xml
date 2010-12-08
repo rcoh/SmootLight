@@ -2,32 +2,63 @@
 <LightInstallation>
     <PixelConfiguration>
         <PixelStrip>
-            <Class>layouts.ZigzagLayout</Class><!--Name of Layout Class,
-            imported dynamically via a eval('import ' + name)-->
-            <Args><!--Any args the layout class needs.  This go as
-            elements of a dictionary that gets passed to the Layout machinery-->
+            <Class>layouts.LineLayout</Class>
+            <Args>
                 <Id>strip1</Id>
-                <zigLength>250</zigLength>
-                <zigAxis>X</zigAxis>
-                <yDirection>-1</yDirection>
-                <pixelToPixelSpacing>12</pixelToPixelSpacing>
-                <spacing>5</spacing> <!--we can space at any value less the
-                l2lspacing--> 
-                <numPixels>500</numPixels>
+                <pixelToPixelSpacing>4</pixelToPixelSpacing>
+                <spacing>4</spacing> 
+                <numPixels>50</numPixels>
                 <originLocation>(10,20)</originLocation>
             </Args>
         </PixelStrip>
         <PixelStrip>
-            <Class>layouts.ZigzagLayout</Class>
+            <Class>layouts.LineLayout</Class>
             <Args>
                 <Id>strip2</Id>
-                <zigLength>250</zigLength>
-                <zigAxis>X</zigAxis>
-                <yDirection>1</yDirection>
-                <pixelToPixelSpacing>12</pixelToPixelSpacing>
-                <spacing>5</spacing> 
-                <numPixels>500</numPixels>
-                <originLocation>(10,30)</originLocation>
+                <pixelToPixelSpacing>4</pixelToPixelSpacing>
+                <spacing>4</spacing> 
+                <numPixels>50</numPixels>
+                <originLocation>(10,24)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <Class>layouts.LineLayout</Class>
+            <Args>
+                <Id>strip3</Id>
+                <pixelToPixelSpacing>4</pixelToPixelSpacing>
+                <spacing>4</spacing> 
+                <numPixels>50</numPixels>
+                <originLocation>(10,28)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <Class>layouts.LineLayout</Class>
+            <Args>
+                <Id>strip4</Id>
+                <pixelToPixelSpacing>4</pixelToPixelSpacing>
+                <spacing>4</spacing> 
+                <numPixels>50</numPixels>
+                <originLocation>(10,32)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <Class>layouts.LineLayout</Class>
+            <Args>
+                <Id>strip5</Id>
+                <pixelToPixelSpacing>4</pixelToPixelSpacing>
+                <spacing>4</spacing> 
+                <numPixels>50</numPixels>
+                <originLocation>(10,36)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <Class>layouts.LineLayout</Class>
+            <Args>
+                <Id>strip6</Id>
+                <pixelToPixelSpacing>4</pixelToPixelSpacing>
+                <spacing>4</spacing> 
+                <numPixels>50</numPixels>
+                <originLocation>(10,40)</originLocation>
             </Args>
         </PixelStrip>
     </PixelConfiguration>
@@ -63,8 +94,16 @@
             <Args>
                 <Id>indoorRenderer</Id>
                 <PowerSupply>
-                    <IP>10.1.218.72</IP>
+                    <IP>10.31.255.233</IP>
                     <PortMapping>{'strip1':1, 'strip2':2}</PortMapping>
+                </PowerSupply>
+                <PowerSupply>
+                    <IP>10.32.97.17</IP>
+                    <PortMapping>{'strip3':1, 'strip4':2}</PortMapping>
+                </PowerSupply>
+                <PowerSupply>
+                    <IP>10.32.96.211</IP>
+                    <PortMapping>{'strip5':1, 'strip6':2}</PortMapping>
                 </PowerSupply>
             </Args>
         </Renderer>
@@ -77,14 +116,14 @@
                 <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
-        <!--<InputElement>
+        <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
                 <Id>followmouse</Id>
-                <RefreshInterval>100</RefreshInterval>
+                <RefreshInterval>10</RefreshInterval>
                 <FollowMouse>True</FollowMouse>
             </Args>
-        </InputElement>-->
+        </InputElement>
         <InputElement>
             <Class>inputs.UDPInput</Class>
             <Args>
@@ -111,6 +150,9 @@
                 <Id>colorchange</Id>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
+            <!--<ColorList>
+                <Color>(255,0,0)</Color>
+            </ColorList>-->
                 <Inputs>
                     <Id>pygame</Id>
                 </Inputs>
@@ -142,7 +184,7 @@
             <Class>behaviors.RecursiveDecay</Class>
             <Args>
                 <Id>recursivedecay</Id>
-                <InitialResponseCount>20000</InitialResponseCount>
+                <InitialResponseCount>70</InitialResponseCount>
             </Args>
         </Behavior>
         <Behavior>
@@ -157,11 +199,30 @@
                     <Id>running</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'running':'recursivedecay'}</RecursiveHooks>
+                <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
-        <!--<Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>accelerate</Id>
+                <ParamType>Sensor</ParamType>
+                <ParamName>StepSize</ParamName>
+                <ParamOp>{val}*1.05</ParamOp>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>acceleratedie</Id>
+                <ChainedBehaviors>
+                    <Id>accelerate</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>mousechaser</Id>
@@ -175,7 +236,7 @@
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
-        </Behavior>-->
+        </Behavior>
         <Behavior>
             <Class>behaviors.RunningBehavior</Class>
             <Args>
@@ -183,7 +244,7 @@
                 <Inputs>
                     <Id>pygame</Id>
                 </Inputs>
-                <StepSize>10</StepSize>
+                <StepSize>1</StepSize>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>

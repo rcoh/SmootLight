@@ -59,9 +59,9 @@ class Screen:
 
             minY = min(y, minY)
             maxY = max(y, maxY)
-        self.size = (minX, minY, maxX, maxY)
+        self.size = (0,0, maxX, maxY)
         self.sizeValid = True
-        return (minX, minY, maxX, maxY)
+        return (0, 0, maxX+100, maxY+100) #TODO: cleaner
     #private
     def processResponse(self, responseInfo): #we need to make a new dict for
         #each to prevent interference

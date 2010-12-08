@@ -17,6 +17,7 @@ MAGICHASH = 0x69000420
 PORTOUT = 0x0108
 classArgsMem = {}
 UNI = 0
+colorByteMem = {}
 CONFIG_PATH = 'config/'
 kinetDict = {'flags': 0, 'startcode': 0, 'pad':0}
 componentDict = {}
@@ -75,6 +76,7 @@ def loadConfigFile(fileName):
 def fileToDict(fileName):
     fileText = ''
     try:
+        print 'File Read'
         with open(fileName) as f:
             for line in f:
                 fileText += line.rstrip('\n').lstrip('\t') + ' ' 
@@ -95,7 +97,7 @@ def safeColor(c):
 def combineColors(c1,c2):
     return safeColor([c1[i]+c2[i] for i in range(min(len(c1),len(c2)))])
 def multiplyColor(color, percent):
-    return safeColor(tuple([channel*(percent) for channel in color]))
+    return safeColor([channel*(percent) for channel in color])
 #parses arguments into python objects if possible, otherwise leaves as strings
 def generateArgDict(parentNode, recurse=False):
     args = {}
@@ -159,13 +161,17 @@ def composePixelStripData(pixelStrip):
         for channel in color: #skip the last value, its an
             #alpha value
             packet.append(struct.pack('B', channel))
-    #pdb.set_trace()
     return packet
+#    packet = [0]*len(pixelStrip.pixels)*3 #preallocate for speed
+#    for i in range(len(pixelStrip.pixels)): 
+#color = pixelStrip.pixels[i].state()
+#packet[i:i+2] = color
+#    return bytearray(packet)
 def composePixelStripPacket(pixelStrip,port):
     packet = bytearray()
     data = composePixelStripData(pixelStrip)
     subDict = dict(kinetDict)
-    subDict['len'] = 38399 #I have no idea why this works.
+    subDict['len'] = 38000 #I have no idea why this works.
     subDict['port'] = port
     #pdb.set_trace()
     packet.extend(kinetPortOutPacket(subDict))

@@ -47,6 +47,7 @@ class Pixel:
             else:
                 deadEvents.append(eventTime)
         [self.events.pop(event) for event in deadEvents]
+        resultingColor = [int(round(c)) for c in resultingColor]
         self.memState = tuple(resultingColor)
         return tuple(resultingColor)
     def __str__(self):

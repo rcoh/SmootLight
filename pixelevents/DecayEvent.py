@@ -2,7 +2,6 @@ from operationscore.PixelEvent import *
 import Util, math
 class DecayEvent(PixelEvent):
     def initEvent(self):
-        self.validateArgs('DecayEvent.params')
         self['Coefficient'] = abs(self['Coefficient'])
     def state(self,timeDelay):
         if self['DecayType'] == 'Exponential':

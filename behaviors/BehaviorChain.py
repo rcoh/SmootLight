@@ -20,8 +20,11 @@ class BehaviorChain(Behavior):
 
             if behaviorId in self.hooks: #process recursive hook if there is one
                 hookBehavior = Util.getComponentById(self.hooks[behaviorId])
-                (response, recurrence) = \
-                hookBehavior.immediateProcessInput(response,
-                        recurrence)
-            self.feedback[behaviorId] = recurrence
+#we feed its recurrence in as input to the behavior.  
+                (recurrence, hookRecurrence) = \
+                hookBehavior.immediateProcessInput(recurrence, \
+                        [])
+                if hookRecurrence != []:
+                    print 'Hook recurrences are not currently supported.  Implement it yourself or bug russell'
+            self.feedback[behaviorId] = recurrence 
         return response

@@ -87,7 +87,7 @@ class LightInstallation:
         #self.screen.allOn()
         lastLoopTime = Util.time()
         refreshInterval = 30
-        runCount = 1000
+        runCount = 10000
         while runCount > 0:
             runCount -= 1
             loopStart = Util.time()
