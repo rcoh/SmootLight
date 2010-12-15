@@ -94,10 +94,13 @@ def find_ge(a, x):
     return bisect_left(a, x)
 def safeColor(c):
     return [min(channel,255) for channel in c]
+def convertToInt(c):
+    return [int(channel) for channel in c]
 def combineColors(c1,c2):
     return safeColor([c1[i]+c2[i] for i in range(min(len(c1),len(c2)))])
 def multiplyColor(color, percent):
-    return safeColor([channel*(percent) for channel in color])
+    color = convertToInt(color)
+    return convertToInt(safeColor([channel*(percent) for channel in color]))
 #parses arguments into python objects if possible, otherwise leaves as strings
 def generateArgDict(parentNode, recurse=False):
     args = {}
