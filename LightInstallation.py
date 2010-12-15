@@ -3,11 +3,13 @@ from pixelcore.Screen import *
 from pixelcore.PixelStrip import *
 import pdb, sys, time, Util, thread
 from pygame.locals import *
+import util.TimeOps as clock
+import util.Config as configGetter 
 #Python class to instantiate and drive a Screen through different patterns,
 #and effects.
 class LightInstallation:
     def __init__(self, configFileName):
-        self.timer = Util.Stopwatch()
+        self.timer = clock.Stopwatch()
         self.timer.start()
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
         self.behaviors = {}
@@ -22,7 +24,7 @@ class LightInstallation:
         Util.setComponentDict(self.componentDict)
         self.screen = Screen()
         Util.setScreen(self.screen)
-        config = Util.loadConfigFile(configFileName)
+        config = configGetter.loadConfigFile(configFileName)
         #read configs from xml
         rendererConfig = config.find('RendererConfiguration')
         pixelConfig = config.find('PixelConfiguration')
@@ -75,7 +77,7 @@ class LightInstallation:
             for configItem in config.getchildren():
                 [module,className] = configItem.find('Class').text.split('.')
                 exec('from ' + module+'.'+className + ' import *')
-                args = Util.generateArgDict(configItem.find('Args'))
+                args = configGetter.generateArgDict(configItem.find('Args'))
                 args['parentScope'] = self #TODO: we shouldn't give away scope
                 #like this, find another way.
                 components.append(eval(className+'(args)')) #TODO: doesn't error
@@ -85,12 +87,12 @@ class LightInstallation:
         return True
     def mainLoop(self):
         #self.screen.allOn()
-        lastLoopTime = Util.time()
+        lastLoopTime = clock.time()
         refreshInterval = 30
         runCount = 10000
         while runCount > 0:
             runCount -= 1
-            loopStart = Util.time()
+            loopStart = clock.time()
             responses = self.evaluateBehaviors() #inputs are all queued when they
             #happen, so we only need to run the behaviors
             self.timer.start()
@@ -98,7 +100,7 @@ class LightInstallation:
                     response != []]
             self.screen.timeStep()
             [r.render(self.screen) for r in self.renderers]
-            loopElapsed = Util.time()-loopStart
+            loopElapsed = clock.time()-loopStart
             sleepTime = max(0,refreshInterval-loopElapsed)
             self.timer.stop()
             #print self.timer.elapsed()

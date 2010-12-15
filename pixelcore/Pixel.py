@@ -1,6 +1,7 @@
-import Util
+import util.ColorOps as color
 import pdb
 from pixelevents.StepEvent import *
+import util.TimeOps as clock
 #Pixel keeps a queue of events (PixelEvent objects) (actually a dictionary
 #keyed by event time).  Every time is state is
 #requested, it processes all the members of its queue.  If a member returns none,
@@ -24,7 +25,7 @@ class Pixel:
         #arg
     #Add a pixelEvent to the list of active events
     def processInput(self,pixelEvent,zindex): #consider migrating arg to dict
-        self.events[Util.time()] = (zindex, pixelEvent)
+        self.events[clock.time()] = (zindex, pixelEvent)
     def clearAllEvents(self):
         self.events = {}
     #Combines all PixelEvents currently active and computes the current color of
@@ -37,13 +38,13 @@ class Pixel:
         if len(self.events) == 0:
             return (0,0,0)
         deadEvents = []
-        currentTime = Util.time()
+        currentTime = clock.time()
         resultingColor = (0,0,0)
         for eventTime in self.events: #TODO: right color weighting code
             (zindex,event) = self.events[eventTime]
             eventResult = event.state(currentTime-eventTime)
             if eventResult != None:
-                resultingColor = Util.combineColors(eventResult, resultingColor)
+                resultingColor = color.combineColors(eventResult, resultingColor)
             else:
                 deadEvents.append(eventTime)
         [self.events.pop(event) for event in deadEvents]
