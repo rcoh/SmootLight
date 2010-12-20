@@ -1,4 +1,5 @@
 from operationscore.Behavior import *
+import util.ComponentRegistry as compReg
 import Util
 import pdb
 class BehaviorChain(Behavior):
@@ -10,7 +11,7 @@ class BehaviorChain(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
         response = sensorInputs
         for behaviorId in self['ChainedBehaviors']:
-            behavior = Util.getComponentById(behaviorId)
+            behavior = compReg.getComponent(behaviorId)
             if behaviorId in self.feedback:
                 recurrence = self.feedback[behaviorId]
             else:
@@ -19,7 +20,7 @@ class BehaviorChain(Behavior):
                     recurrence)
 
             if behaviorId in self.hooks: #process recursive hook if there is one
-                hookBehavior = Util.getComponentById(self.hooks[behaviorId])
+                hookBehavior = compReg.getComponent(self.hooks[behaviorId])
 #we feed its recurrence in as input to the behavior.  
                 (recurrence, hookRecurrence) = \
                 hookBehavior.immediateProcessInput(recurrence, \

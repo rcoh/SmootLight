@@ -5,6 +5,7 @@ import pdb, sys, time, Util, thread
 from pygame.locals import *
 import util.TimeOps as clock
 import util.Config as configGetter 
+import util.ComponentRegistry as compReg
 #Python class to instantiate and drive a Screen through different patterns,
 #and effects.
 class LightInstallation:
@@ -21,9 +22,10 @@ class LightInstallation:
         #input
         #give Util a pointer to our componentRegistry and screen so that everyone can use
         #it
-        Util.setComponentDict(self.componentDict)
+        #Util.setComponentDict(self.componentDict)
         self.screen = Screen()
-        Util.setScreen(self.screen)
+        #Util.setScreen(self.screen)
+        compReg.registerComponent(self.screen, 'Screen') #TODO: move to constants file
         config = configGetter.loadConfigFile(configFileName)
         #read configs from xml
         rendererConfig = config.find('RendererConfiguration')
@@ -70,7 +72,8 @@ class LightInstallation:
             cid = component['Id']
             if cid == None: 
                 raise Exception('Components must have Ids!')
-            self.componentDict[cid] = component
+            #self.componentDict[cid] = component
+            compReg.registerComponent(component)
     def initializeComponent(self, config):
         components = []
         if config != None:
@@ -134,8 +137,11 @@ class LightInstallation:
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
-        [self.componentDict[b].addInput(responseDict) for b in boundBehaviorIds]
-
+        #TODO: fix this, it crashes because inputs get run before beahviors exist 
+        try:
+            [compReg.getComponent(b).addInput(responseDict) for b in boundBehaviorIds]
+        except:
+            print 'Behaviors not initialized yet.  WAIT!' 
 def main(argv):
     print argv
     if len(argv) == 1:

@@ -20,17 +20,6 @@ def pointWithinBoundingBox(point, bb): #this could be in 4 lines, but I'm lazy.
 print pointWithinBoundingBox((118,21), (10,8,298,42))
 def addLocations(l1,l2):
     return tuple([l1[i]+l2[i] for i in range(len(l1))])
-def setScreen(screen):
-    globals()["screen"] = screen
-def getScreen():
-    return screen
-def setComponentDict(componentDictRef):
-    globals()["componentDict"] = componentDictRef
-def getComponentById(cid):
-    if cid in componentDict:
-        return componentDict[cid]
-    else:
-        return None
 def addPixelEventIfMissing(responseDict):
     if not 'PixelEvent' in responseDict:
         if 'Color' in responseDict:
@@ -52,34 +41,6 @@ def find_le(a, x):
 def find_ge(a, x):
     'Find leftmost value greater than x'
     return bisect_left(a, x)
-#Given a dictionary of connections, returns their topological ordering -- (the
-#order in which they can be visited such that all parents have been visited
-#before their children.  Returns the order or None if no such ordering exists
-#(the graph contains a cycle).
-def topologicalSort(adjacencyDict):
-    def dfsVisit(vertex):
-        gray[vertex] = 1
-        for child in adjacencyDict[vertex]:
-            if not child in visited:
-                if child in gray: #We have a cycle.  No topological ordering
-                    #exists!
-                    raise Exception('Cycle!') 
-                dfsVisit(child)
-        orderedList.insert(0, vertex)
-        visited[vertex] = 1
-    orderedList = []
-    visited = {}
-    gray = {}
-    for vertex in adjacencyDict:
-        try:
-            if not vertex in visited:
-                dfsVisit(vertex)
-        except:
-            return None #cycle
-    return orderedList
-def topoTest():
-    adj = {'a':['d','c'], 'b':['c'], 'c':['e'], 'd':['e'], 'e':[]}
-    print topologicalOrdering(adj)
 def testXMLParse(fileName):
     #pdb.set_trace()
     config = ElementTree()

@@ -1,4 +1,5 @@
 from operationscore.Behavior import *
+import util.ComponentRegistry as compReg
 import pdb
 import Util
 class RunningBehavior(Behavior):
@@ -15,7 +16,7 @@ class RunningBehavior(Behavior):
             outDict['Location']= Util.addLocations(outDict['Location'],
             (outDict['StepSize']*outDict['Dir'],0))
             if not Util.pointWithinBoundingBox(outDict['Location'], \
-                Util.getScreen().getSize()):
+                compReg.getComponent('Screen').getSize()):
                     outDict['Dir'] *= -1
             ret.append(outDict)
         ret += newResponses
