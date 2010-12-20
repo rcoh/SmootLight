@@ -1,4 +1,5 @@
 import Util
+import util.Strings as Strings
 from operationscore.Input import *
 import socket, json, time
 class TCPInput(Input):
@@ -25,7 +26,7 @@ class TCPInput(Input):
         if self.IS_RESPONDING == 1: # if 'responding', respond to the received data			
             dataDict = json.loads(data)
             # socketDict = {'data':dataDict, 'address':self.address}
-            socketDict = {Util.location: (100 * (1 - dataDict['x'] / 10), 25 * (1 + dataDict['y'] / 10))} # like PygameInput
+            socketDict = {Strings.LOCATION: (100 * (1 - dataDict['x'] / 10), 25 * (1 + dataDict['y'] / 10))} # like PygameInput
             
             self.respond(socketDict)
         else:

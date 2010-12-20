@@ -1,15 +1,15 @@
 from operationscore.Renderer import *
-import socket, Util
-import pdb
-kinetPort = 6038
+import util.PacketComposition as composer 
+import util.NetworkOps as network
+import socket,pdb
+port = 6038
+#Renderer for a Specific Light System.
 class IndoorRenderer(Renderer):
     def initRenderer(self):
-        #pdb.set_trace()
         self.stripLocations = {} #Dict that stores info necessary to render to
         #strips
-        self.sockets = {} #dict of (IP,port)->Socket
+        self.sockets = {} #dict of (IP)->Socket
         #a strip
-#     g   self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         powerSupplies = self.argDict['PowerSupply']
         if not type(powerSupplies) == type([]):
             powerSupplies = [powerSupplies]
@@ -25,7 +25,7 @@ class IndoorRenderer(Renderer):
             (ip, port) = self.stripLocations[stripId] 
             if not ip in self.sockets: #do we have a socket to this
                 #strip? if not, spin off a new one
-                self.sockets[ip] = Util.getConnectedSocket(ip,kinetPort)
-            packet = Util.composePixelStripPacket(pixelStrip, port) 
+                self.sockets[ip] = network.getConnectedSocket(ip,port)
+            packet = composer.composePixelStripPacket(pixelStrip, port) 
             self.sockets[ip].send(packet, 0x00)
 

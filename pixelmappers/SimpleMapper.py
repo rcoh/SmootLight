@@ -24,3 +24,4 @@ class SimpleMapper(PixelMapper):
                 except:
                     raise Exception('Bad event condition')
             return ret
+

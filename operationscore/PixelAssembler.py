@@ -1,4 +1,5 @@
 from operationscore.SmootCoreObject import *
+import util.Geo as Geo
 import Util
 import pdb
 class PixelAssembler(SmootCoreObject):
@@ -17,7 +18,7 @@ class PixelAssembler(SmootCoreObject):
             if newLocation == None:
                 raise Exception('Location cannot be null.  layoutFunc not \
                 defined or improperly defined.')
-            if Util.dist(newLocation, locations[-1]) > \
+            if Geo.dist(newLocation, locations[-1]) > \
                     self['pixelToPixelSpacing']:
                         raise Exception('Illegal pixel location.  Distance \
                         between adjacent pixels must be less than \

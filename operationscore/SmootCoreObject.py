@@ -2,6 +2,7 @@ import Util
 import pdb
 import threading
 import thread
+import util.Config as configGetter
 class SmootCoreObject(threading.Thread):
     def __init__(self, argDict, skipValidation = False):
         self.argDict = argDict
@@ -29,7 +30,7 @@ class SmootCoreObject(threading.Thread):
     def __getiter__(self):
         return self.argDict.__getiter__()
     def validateArgs(self, argFileName):
-        self.validateArgDict(Util.loadParamRequirementDict(argFileName))#util
+        self.validateArgDict(configGetter.loadParamRequirementDict(argFileName))#util
         #caches for us, woo!
     def validateArgDict(self, validationDict):
         for item in validationDict:

@@ -1,4 +1,5 @@
 from operationscore.PixelMapper import *
+import util.Geo as Geo
 import Util
 class GaussianMapper(PixelMapper):
     def mappingFunction(self, eventLocation, screen):
@@ -6,8 +7,8 @@ class GaussianMapper(PixelMapper):
         [x,y] = eventLocation
         for (x,pixel) in screen.pixelsInRange(x-self['CutoffDist'], \
                 x+self['CutoffDist']):
-            pixelDist = Util.dist(pixel.location, eventLocation)
+            pixelDist = Geo.dist(pixel.location, eventLocation)
             if pixelDist < self['CutoffDist']:
-                w = Util.gaussian(pixelDist, self['Height'], 0, self['Width'])
+                w = Geo.gaussian(pixelDist, self['Height'], 0, self['Width'])
                 returnPixels.append((pixel, w))
         return returnPixels

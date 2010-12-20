@@ -1,5 +1,6 @@
 from operationscore.PixelEvent import *
-import Util, math
+import math
+from util.ColorOps import * 
 class DecayEvent(PixelEvent):
     def initEvent(self):
         self['Coefficient'] = abs(self['Coefficient'])
@@ -8,7 +9,7 @@ class DecayEvent(PixelEvent):
             decay = math.exp(timeDelay*-1*self['Coefficient'])
         if self['DecayType'] == 'Proportional':
             decay = float(self['Coefficient']) / timeDelay
-        color = Util.multiplyColor(self['Color'], decay)
+        color = multiplyColor(self['Color'], decay)
         return color if sum(color) > 5 else None
     @staticmethod
     def generate(decayType, coefficient, color):
