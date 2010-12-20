@@ -1,4 +1,5 @@
 from operationscore.Behavior import *
+import util.Strings as Strings
 import Util
 import pdb
 class EchoBehavior(Behavior):
@@ -6,7 +7,7 @@ class EchoBehavior(Behavior):
         ret = []
         for sensory in sensorInputs:
             outDict = {}
-            outDict[Util.location] = sensory[Util.location]
+            outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
             outDict['Color'] = (255,0,0) 
             ret.append(outDict)
         return ret

@@ -1,5 +1,6 @@
 from operationscore.Behavior import *
 from pixelevents.DecayEvent import *
+import util.Strings as Strings
 import Util
 import pdb
 class DecayBehavior(Behavior):
@@ -7,7 +8,7 @@ class DecayBehavior(Behavior):
         ret = []
         for sensory in sensorInputs:
             outDict = {}
-            outDict[Util.location] = sensory[Util.location]
+            outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
             outDict['PixelEvent'] = \
             DecayEvent.generate(self['DecayType'],self['Coefficient'], sensory['Color'])
             ret.append(outDict)

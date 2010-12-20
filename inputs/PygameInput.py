@@ -1,4 +1,5 @@
 import time, Util
+import util.Strings as Strings
 from operationscore.Input import *
 import pygame
 from pygame.locals import *
@@ -8,13 +9,13 @@ class PygameInput(Input):
     def sensingLoop(self):
         #try:
             if self['FollowMouse']:
-                self.respond({Util.location: pygame.mouse.get_pos()})
+                self.respond({Strings.LOCATION: pygame.mouse.get_pos()})
                 return
             for event in pygame.event.get():
                 if event.type is KEYDOWN:
-                    self.respond({Util.location: (5,5),'Key': event.key})
+                    self.respond({Strings.LOCATION: (5,5),'Key': event.key})
                 if event.type is MOUSEBUTTONDOWN:
-                    self.respond({Util.location: pygame.mouse.get_pos()})
+                    self.respond({Strings.LOCATION: pygame.mouse.get_pos()})
         #except:
             #raise Exception('Pygame not initialized.  Pygame must be \
             #initialized.')

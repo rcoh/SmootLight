@@ -1,4 +1,6 @@
 from pixelcore.Pixel import *
+import util.Strings as Strings
+import util.Geo as Geo
 from pixelevents.StepEvent import *
 import pygame
 import math
@@ -21,7 +23,7 @@ class PixelStrip:
         [l.turnOnFor(time) for l in self.pixels] #TODO: add test-on method to
         #pixels
     def respond(self, responseInfo):
-        location = responseInfo[Util.location]
+        location = responseInfo[Strings.LOCATION]
         if not 'PixelEvent' in responseInfo:
             if 'Color' in responseInfo:
                 color = responseInfo['Color']
@@ -32,7 +34,7 @@ class PixelStrip:
         pixel.processInput(responseInfo['PixelEvent'], 0) #TODO: z-index
         
     def getPixelNearest(self, location):
-        dists = [(Util.dist(location, pixel.location), pixel) for pixel in self.pixels]
+        dists = [(Geo.dist(location, pixel.location), pixel) for pixel in self.pixels]
         dists.sort()
         return dists[0]
         #just for now.

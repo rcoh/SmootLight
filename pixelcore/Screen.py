@@ -1,5 +1,7 @@
 from pixelcore.Pixel import * 
 from pixelcore.PixelStrip import *
+from operationscore.PixelEvent import *
+import util.Search as Search
 import itertools
 #Class representing a collection of Pixels grouped into PixelStrips.  Needs a
 #PixelMapper, currently set via setMapper by may be migrated into the argDict.
@@ -17,8 +19,8 @@ class Screen:
         self.computeXSortedPixels()
     #Returns (pixelIndex, pixel).  Does a binary search.
     def pixelsInRange(self, minX, maxX):
-        minIndex = Util.find_ge(self.xPixelLocs, minX) 
-        maxIndex = Util.find_le(self.xPixelLocs, maxX)+1
+        minIndex = Search.find_ge(self.xPixelLocs, minX) 
+        maxIndex = Search.find_le(self.xPixelLocs, maxX)+1
         return self.xSortedPixels[minIndex:maxIndex]
     def computeXSortedPixels(self):
         for pixel in self:
@@ -70,7 +72,7 @@ class Screen:
             pass
             #pdb.set_trace()
         pixelWeightList = self.mapper.mapEvent(responseInfo['Location'], self)
-        Util.addPixelEventIfMissing(responseInfo)
+        PixelEvent.addPixelEventIfMissing(responseInfo)
         for (pixel, weight) in pixelWeightList: 
             pixel.processInput(responseInfo['PixelEvent'].scale(weight), 0) #TODO: z-index
 

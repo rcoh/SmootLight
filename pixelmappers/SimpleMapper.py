@@ -5,7 +5,7 @@ class SimpleMapper(PixelMapper):
         bestDist = 10**10 #don't kill me, I'm lazy
         bestPixel = None
         for pixel in screen:
-            pixelDist = Util.dist(pixel.location, eventLocation)
+            pixelDist = Geo.dist(pixel.location, eventLocation)
             if pixelDist < bestDist:
                 bestPixel = pixel
                 bestDist = pixelDist

@@ -16,4 +16,12 @@ class PixelEvent(SmootCoreObject):
         return self.__class__(newDict)
     def state(self,timeDelay):
         pass
+    @staticmethod 
+    def addPixelEventIfMissing(responseDict):
+        if not 'PixelEvent' in responseDict:
+            if 'Color' in responseDict:
+                color = responseDict['Color']
+            else:
+                raise Exception('Need Color.  Probably')
+            responseDict['PixelEvent'] = StepEvent.generate(300, color)
         

@@ -1,5 +1,6 @@
 from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
+import util.Geo as Geo
 import pdb
 import Util
 class RunningBehavior(Behavior):
@@ -13,9 +14,9 @@ class RunningBehavior(Behavior):
                 outDict['Dir'] = 1 #to the right
             if not 'StepSize' in outDict:
                 outDict['StepSize'] = self['StepSize']
-            outDict['Location']= Util.addLocations(outDict['Location'],
+            outDict['Location']= Geo.addLocations(outDict['Location'],
             (outDict['StepSize']*outDict['Dir'],0))
-            if not Util.pointWithinBoundingBox(outDict['Location'], \
+            if not Geo.pointWithinBoundingBox(outDict['Location'], \
                 compReg.getComponent('Screen').getSize()):
                     outDict['Dir'] *= -1
             ret.append(outDict)
