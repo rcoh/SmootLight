@@ -6,7 +6,7 @@ def loadParamRequirementDict(className):
         classArgsMem[className] = fileToDict(CONFIG_PATH + className) 
     return classArgsMem[className]
 def loadConfigFile(fileName): #TODO: error handling etc.
-    try:
+    #try:
         fileName = CONFIG_PATH + fileName
         if '.params' in fileName:
             return fileToDict(fileName)
@@ -14,7 +14,7 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             config = ElementTree()
             config.parse(fileName)
             return config
-    except:
+    #except:
         return None
 def fileToDict(fileName):
     fileText = ''

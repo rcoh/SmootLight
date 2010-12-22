@@ -1,6 +1,5 @@
 from operationscore.Behavior import *
 import util.Strings as Strings
-import Util
 import pdb
 class EchoBehavior(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):

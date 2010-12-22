@@ -2,7 +2,6 @@ from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
 import util.Geo as Geo
 import pdb
-import Util
 class RunningBehavior(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
         newResponses = sensorInputs 

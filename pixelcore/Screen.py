@@ -1,7 +1,10 @@
 from pixelcore.Pixel import * 
 from pixelcore.PixelStrip import *
 from operationscore.PixelEvent import *
+from operationscore.PixelMapper import *
 import util.Search as Search
+import util.ComponentRegistry as compReg
+import util.Strings as Strings
 import itertools
 #Class representing a collection of Pixels grouped into PixelStrips.  Needs a
 #PixelMapper, currently set via setMapper by may be migrated into the argDict.
@@ -29,8 +32,6 @@ class Screen:
         self.xPixelLocs = [p[0] for p in self.xSortedPixels]
     def render(self, surface):
         [lS.render(surface) for lS in self.pixelStrips]
-    def setMapper(self, mapper):
-        self.mapper = mapper
     def allOn(self):
         [lS.allOn(-1) for lS in self.pixelStrips]
     def __iter__(self): #the iterator of all our pixel strips chained togther
@@ -70,8 +71,13 @@ class Screen:
         #[strip.respond(dict(responseInfo)) for strip in self.pixelStrips]
         if type(responseInfo) != type(dict()):
             pass
-            #pdb.set_trace()
-        pixelWeightList = self.mapper.mapEvent(responseInfo['Location'], self)
+        if 'Mapper' in responseInfo:
+            mapper = compReg.getComponent(responseInfo['Mapper']) 
+        else:
+            mapper = compReg.getComponent(Strings.DEFAULT_MAPPER)
+        #if type(mapper) != type(PixelMapper):
+        #    raise Exception('No default mapper specified.')
+        pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
         PixelEvent.addPixelEventIfMissing(responseInfo)
         for (pixel, weight) in pixelWeightList: 
             pixel.processInput(responseInfo['PixelEvent'].scale(weight), 0) #TODO: z-index

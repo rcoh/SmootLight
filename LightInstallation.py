@@ -1,7 +1,7 @@
 from xml.etree.ElementTree import ElementTree
 from pixelcore.Screen import * 
 from pixelcore.PixelStrip import *
-import pdb, sys, time, Util, thread
+import pdb, sys, time, thread
 from pygame.locals import *
 import util.TimeOps as clock
 import util.Config as configGetter 
@@ -20,11 +20,8 @@ class LightInstallation:
         self.componentDict = {}
         self.inputBehaviorRegistry = {} #inputid -> behaviors listening to that
         #input
-        #give Util a pointer to our componentRegistry and screen so that everyone can use
-        #it
-        #Util.setComponentDict(self.componentDict)
         self.screen = Screen()
-        #Util.setScreen(self.screen)
+        compReg.initRegistry()
         compReg.registerComponent(self.screen, 'Screen') #TODO: move to constants file
         config = configGetter.loadConfigFile(configFileName)
         #read configs from xml
@@ -33,25 +30,34 @@ class LightInstallation:
         inputConfig = config.find('InputConfiguration')
         behaviorConfig = config.find('BehaviorConfiguration')
         mapperConfig = config.find('PixelMapperConfiguration')
+
+        installationConfig = config.find('InstallationConfiguration')
         #inits
         self.initializeScreen(pixelConfig)
         self.initializeRenderers(rendererConfig)
         self.initializeInputs(inputConfig)
         self.initializeBehaviors(behaviorConfig)
         self.initializeMapper(mapperConfig)
-
-        self.screen.setMapper(self.mapper)
         #registration in dict
         self.registerComponents(self.renderers)
         self.registerComponents(self.inputs)
         self.registerComponents(self.behaviors)
+        self.registerComponents(self.mappers)
+        pdb.set_trace() 
+        self.configureInstallation(installationConfig)
         #Done initializing.  Lets start this thing!
         self.timer.stop()
         print 'Initialization done.  Time: ', self.timer.elapsed(), 'ms'
         self.mainLoop()
+    def configureInstallation(self, installationConfig):
+        defaults = configGetter.generateArgDict(installationConfig.find('Defaults'))
+        for defaultSelection in defaults:
+            componentToMap = compReg.getComponent(defaults[defaultSelection])
+            compReg.registerComponent(compReg.getComponent(defaults[defaultSelection]),\
+                'Default'+defaultSelection)
+             
     def initializeMapper(self, mapperConfig):
-        self.mapper = self.initializeComponent(mapperConfig)[0] #TODO: support
-        #multiple mappers
+        self.mappers = self.initializeComponent(mapperConfig) 
     def initializeScreen(self, layoutConfig):
         pixelAssemblers = self.initializeComponent(layoutConfig)
         [self.addPixelStrip(l) for l in pixelAssemblers]
@@ -72,7 +78,6 @@ class LightInstallation:
             cid = component['Id']
             if cid == None: 
                 raise Exception('Components must have Ids!')
-            #self.componentDict[cid] = component
             compReg.registerComponent(component)
     def initializeComponent(self, config):
         components = []
@@ -141,7 +146,8 @@ class LightInstallation:
         try:
             [compReg.getComponent(b).addInput(responseDict) for b in boundBehaviorIds]
         except:
-            print 'Behaviors not initialized yet.  WAIT!' 
+            pass
+            #print 'Behaviors not initialized yet.  WAIT!' 
 def main(argv):
     print argv
     if len(argv) == 1:

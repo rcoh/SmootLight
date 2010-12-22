@@ -1,6 +1,5 @@
 from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
-import Util
 import pdb
 class BehaviorChain(Behavior):
     def behaviorInit(self):

@@ -1,7 +1,6 @@
 from operationscore.Behavior import *
 from pixelevents.DecayEvent import *
 import util.Strings as Strings
-import Util
 import pdb
 class DecayBehavior(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):

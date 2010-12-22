@@ -20,12 +20,15 @@ class IndoorRenderer(Renderer):
                 self.stripLocations[stripId] = (ip, \
                         stripsInPowerSupply[stripId])
     def render(self, lightSystem): 
-        for pixelStrip in lightSystem.pixelStrips:
-            stripId = pixelStrip.argDict['Id']
-            (ip, port) = self.stripLocations[stripId] 
-            if not ip in self.sockets: #do we have a socket to this
-                #strip? if not, spin off a new one
-                self.sockets[ip] = network.getConnectedSocket(ip,port)
-            packet = composer.composePixelStripPacket(pixelStrip, port) 
-            self.sockets[ip].send(packet, 0x00)
+        try:
+            for pixelStrip in lightSystem.pixelStrips:
+                stripId = pixelStrip.argDict['Id']
+                (ip, port) = self.stripLocations[stripId] 
+                if not ip in self.sockets: #do we have a socket to this
+                    #strip? if not, spin off a new one
+                    self.sockets[ip] = network.getConnectedSocket(ip,port)
+                packet = composer.composePixelStripPacket(pixelStrip, port) 
+                self.sockets[ip].send(packet, 0x00)
+        except:
+            pass #Rendering error.  Log it. LOG
 

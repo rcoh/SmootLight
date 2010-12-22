@@ -1,5 +1,10 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>simplemap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
     <PixelConfiguration>
         <PixelStrip>
             <Class>layouts.LineLayout</Class>
@@ -62,15 +67,13 @@
             </Args>
         </PixelStrip>
     </PixelConfiguration>
-    <!--<PixelMapperConfiguration>
+    <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
             <Args>
                 <Id>simplemap</Id>
             </Args>
         </PixelMapper>
-    </PixelMapperConfiguration>-->
-    <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>

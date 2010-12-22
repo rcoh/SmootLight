@@ -26,7 +26,6 @@ def composePixelStripPacket(pixelStrip,port):
     subDict = dict(kinetDict)
     subDict['len'] = 38000 #I have no idea why this works.
     subDict['port'] = port
-    #pdb.set_trace()
     packet.extend(kinetPortOutPacket(subDict))
     packet.append(0x0)
     packet.extend(data)
@@ -50,7 +49,6 @@ def kinetPortOutPayload(argDict):
     #payload.append(0x00) #somepadding? lolwtf.
     payload.extend(struct.pack('H', argDict['len']))
     payload.extend(struct.pack('H', argDict['startcode']))
-    #pdb.set_trace()
     return payload
 def kinetPortOutPacket(payloadArgs):
     packet = bytearray()

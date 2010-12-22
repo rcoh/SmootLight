@@ -1,6 +1,5 @@
 from operationscore.PixelMapper import *
 import util.Geo as Geo
-import Util
 class GaussianMapper(PixelMapper):
     def mappingFunction(self, eventLocation, screen):
         returnPixels = [] #TODO: consider preallocation and trimming

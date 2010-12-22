@@ -1,12 +1,12 @@
 from operationscore.PixelMapper import *
-import Util
+import util.Geo as Geo
 class SimpleMapper(PixelMapper):
     def mappingFunction(self, eventLocation, screen):
         if type(eventLocation) == type(tuple()):
             bestDist = 10**10 #don't kill me, I'm lazy
             bestPixel = None
             for pixel in screen:
-                pixelDist = Util.dist(pixel.location, eventLocation)
+                pixelDist = Geo.dist(pixel.location, eventLocation)
                 if pixelDist < bestDist:
                     bestPixel = pixel
                     bestDist = pixelDist

@@ -33,14 +33,26 @@ class Behavior(SmootCoreObject):
                     recursiveInputs)
             if type(output) != type([]):
                 output = [output]
-            return (output, recursions)
-        except:
+            return self.addMapperToResponse((output, recursions)) #TODO: use a decorator for this?
+        except:  #deal with behaviors that don't return a tuple.
+            responses = self.processResponse(sensorInputs, recursiveInputs)
             return (self.processResponse(sensorInputs, recursiveInputs),[])
     def addInputs(self, sensorInputs):
         if type(sensorInputs) == type([]):
             [self.addInput(sensorInput) for sensorInput in sensorInputs]
         else:
             self.addInput(sensorInputs)
+    #private
+    def addMapperToResponse(self, responses):
+        if self['Mapper'] != None:
+            if type(responses) == type(tuple):
+                (out, recurs) = responses
+                return (self.addMapperToResponse(out), self.addMapperToResponse(recurs))
+            if type(responses) == type([]):
+                    for r in responses:
+                        r['Mapper'] = self['Mapper']
+                    return responses
+        return responses
     def timeStep(self): #TODO: type checking.  clean this up
         responses = self.processResponse(self.sensorResponseQueue, \
                 self.recursiveResponseQueue)
@@ -54,8 +66,7 @@ class Behavior(SmootCoreObject):
         if type(outputs) != type([]):
             outputs = [outputs]
         try:
-            return outputs
+            return self.addMapperToResponse(outputs) #TODO: WTF is up with this?
         except:
             pass
-            #pdb.set_trace()
-        return outputs 
+        return self.addMapperToResponse(outputs)
