@@ -43,7 +43,6 @@ class LightInstallation:
         self.registerComponents(self.inputs)
         self.registerComponents(self.behaviors)
         self.registerComponents(self.mappers)
-        pdb.set_trace() 
         self.configureInstallation(installationConfig)
         #Done initializing.  Lets start this thing!
         self.timer.stop()
@@ -130,9 +129,6 @@ class LightInstallation:
         self.behaviors = self.initializeComponent(behaviorConfig)
         for behavior in self.behaviors:
             self.addBehavior(behavior)
-    #TODO: we probably don't need this anymore :(
-    def topologicalBehaviorSort(self):
-        return Util.topologicalSort(self.behaviorDependencies)
     #Does work needed to add a behavior: currently -- maps behavior inputs into
     #the input behavior registry.
     def addBehavior(self, behavior):
