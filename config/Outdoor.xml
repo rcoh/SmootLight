@@ -210,6 +210,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
