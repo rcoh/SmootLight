@@ -184,6 +184,12 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.AllPixelsLeft</Class>
+            <Args>
+                <Id>pixelsleft</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.RecursiveDecay</Class>
             <Args>
                 <Id>recursivedecay</Id>
@@ -234,6 +240,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
+                    <Id>pixelsleft</Id>
                     <Id>colorchange</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
