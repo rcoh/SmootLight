@@ -1,0 +1,3 @@
+sed -i '/pdb.set_trace()/d' ../*.py ../*/*.py
+echo "Breakpoints deleted"
+
