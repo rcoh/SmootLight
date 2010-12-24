@@ -15,5 +15,5 @@ exception_log = logging.getLogger("exception")
 #main_log.error("error message")
 #main_log.critical("critical message")
 #exception_log.critical("hi")
-#screen_log.error("whoa")
+#screen_log.error("whoa hello")
 
