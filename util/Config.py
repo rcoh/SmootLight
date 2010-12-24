@@ -11,7 +11,7 @@ def loadConfigFile(fileName): #TODO: error handling etc.
         if '.params' in fileName:
             return fileToDict(fileName)
         if '.xml' in fileName:
-            config = ElementTree()
+            config = ElementTree() #use .fromstring, and resolve xincludes
             config.parse(fileName)
             return config
     except:
