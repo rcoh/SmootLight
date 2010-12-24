@@ -3,10 +3,13 @@ from pixelcore.Screen import *
 from pixelcore.PixelStrip import *
 import pdb, sys, time, Util, thread
 from pygame.locals import *
+from logger import main_log
 #Python class to instantiate and drive a Screen through different patterns,
 #and effects.
 class LightInstallation:
     def __init__(self, configFileName):
+        main_log.critical("hi russell, i'm sending info to the log files")
+        main_log.critical("initializing based on file: " + str(configFileName))
         self.timer = Util.Stopwatch()
         self.timer.start()
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
@@ -45,6 +48,7 @@ class LightInstallation:
         self.timer.stop()
         print 'Initialization done.  Time: ', self.timer.elapsed(), 'ms'
         self.mainLoop()
+
     def initializeMapper(self, mapperConfig):
         self.mapper = self.initializeComponent(mapperConfig)[0] #TODO: support
         #multiple mappers
