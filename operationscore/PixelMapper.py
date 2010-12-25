@@ -1,5 +1,4 @@
 from operationscore.SmootCoreObject import *
-import Util
 import pdb
 class PixelMapper(SmootCoreObject):
     def init(self):

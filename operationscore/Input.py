@@ -1,4 +1,4 @@
-import threading,time,Util
+import threading,time
 from operationscore.SmootCoreObject import *
 #Abstract class for inputs.  Inheriting classes should call "respond" to raise
 #their event.  Inheriting classes MUST define sensingLoop.  Called at the
@@ -22,14 +22,10 @@ class Input(SmootCoreObject):
         self.daemon = True #This kills this thread when the main thread stops
     def respond(self, eventDict):
         #if eventDict != []:
-            #pdb.set_trace()
         self.parentScope.lock.acquire()
         self.parentScope.processResponse(self.argDict, eventDict)
         self.parentScope.lock.release()
         time.sleep(.001)
-    def newEvent(self, event): #Mostly just useful for grabbing events from the
-        #computer running the sim (key presses, clicks etc.)
-        self.eventQueue.append(event)
     def parentAlive(self):
         try:
             parentAlive = self.parentScope.alive()

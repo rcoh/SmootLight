@@ -1,4 +1,3 @@
-import Util
 import pdb
 import threading
 import thread
@@ -8,6 +7,7 @@ class SmootCoreObject(threading.Thread):
         self.argDict = argDict
         self.validateArgs(self.className()+'.params') 
         self.lock = thread.allocate_lock()
+        threading.Thread.__init__(self)
         self.init() #call init of inheriting class
     #    self.__setitem__ = self.argDict.__setitem__
     #    self.__getitem__ = self.argDict.__getitem__

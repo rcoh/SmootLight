@@ -1,5 +1,10 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>simplemap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
     <PixelConfiguration>
         <PixelStrip>
             <Class>layouts.LineLayout</Class>
@@ -62,15 +67,13 @@
             </Args>
         </PixelStrip>
     </PixelConfiguration>
-    <!--<PixelMapperConfiguration>
+    <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
             <Args>
                 <Id>simplemap</Id>
             </Args>
         </PixelMapper>
-    </PixelMapperConfiguration>-->
-    <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
@@ -181,6 +184,12 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.AllPixelsLeft</Class>
+            <Args>
+                <Id>pixelsleft</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.RecursiveDecay</Class>
             <Args>
                 <Id>recursivedecay</Id>
@@ -201,6 +210,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
@@ -231,6 +241,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
+                    <Id>pixelsleft</Id>
                     <Id>colorchange</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>

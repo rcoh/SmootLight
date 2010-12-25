@@ -1,4 +1,3 @@
-import Util
 from operationscore.Input import *
 import socket
 class UDPInput(Input):

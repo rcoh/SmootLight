@@ -1,6 +1,5 @@
 from operationscore.SmootCoreObject import *
 import util.Geo as Geo
-import Util
 import pdb
 class PixelAssembler(SmootCoreObject):
     def init(self):

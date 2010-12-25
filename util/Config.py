@@ -1,4 +1,5 @@
 from xml.etree.ElementTree import ElementTree
+import util.Strings as Strings
 classArgsMem = {}
 CONFIG_PATH = 'config/'
 def loadParamRequirementDict(className):
@@ -6,7 +7,7 @@ def loadParamRequirementDict(className):
         classArgsMem[className] = fileToDict(CONFIG_PATH + className) 
     return classArgsMem[className]
 def loadConfigFile(fileName): #TODO: error handling etc.
-    try:
+    #try:
         fileName = CONFIG_PATH + fileName
         if '.params' in fileName:
             return fileToDict(fileName)
@@ -14,8 +15,37 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             config = ElementTree() #use .fromstring, and resolve xincludes
             config.parse(fileName)
             return config
-    except:
+    #except:
         return None
+def compositeXMLTrees(parentTree, overridingTree):
+    #type checking -- convert ElementTrees to their root elements
+    parentItems = parentTree.getchildren()
+    overrideItems = overridingTree.getchildren()
+    #first, lets figure out what tags we have in the override tree:
+    tagCollection = [el.tag for el in overrideItems] #we can speed this up with a dict if necessary
+    overrideRoot = overridingTree.getroot()
+    for item in parentItems:
+        if not item.tag in tagCollection: #no override 
+            overrideRoot.insert(-1, item) #insert the new item at the end
+        else:
+            #do we merge or replace?
+            intersectingElements = findElementsByTag(item.tag, overrideItems)
+            if len(intersectingItems) > 1:
+                print 'ABUSE!'
+            interEl = intersectingElements[0]
+            mode = 'Replace'
+            if Strings.OVERRIDE_BEHAVIOR in interEl.attrib:
+                mode = interEl.attrib[Strings.OVERRIDE_BEHAVIOR] 
+            if mode != 'Replace' and mode != 'Merge':
+                print 'Bad Mode.  Replacing'
+                mode = 'Replace'
+            if mode == 'Replace':
+                pass #we don't need to do anything
+            if mode == 'Merge': 
+                pass #TODO: code this
+
+def findElementsByTag(tag, eList):
+    return [el for el in eList if el.tag == tag]
 def fileToDict(fileName):
     fileText = ''
     try:

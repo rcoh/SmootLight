@@ -1,5 +1,4 @@
 from operationscore.Behavior import * 
-import Util
 import pdb
 class DebugBehavior(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
