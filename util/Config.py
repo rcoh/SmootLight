@@ -39,9 +39,9 @@ def compositeXMLTrees(parentTree, overridingTree):
             if mode != 'Replace' and mode != 'Merge':
                 print 'Bad Mode.  Replacing'
                 mode = 'Replace'
-            if mode = 'Replace':
+            if mode == 'Replace':
                 pass #we don't need to do anything
-            if mode = 'Merge': 
+            if mode == 'Merge': 
                 pass #TODO: code this
 
 def findElementsByTag(tag, eList):

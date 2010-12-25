@@ -4,4 +4,4 @@ DEFAULT_MAPPER = 'DefaultPixelMapper'
 
 
 #XMLStuff
-OVERRIDE_BEHAVIOR
+OVERRIDE_BEHAVIOR = 'OverrideBehavior'
