@@ -6,10 +6,13 @@ from pygame.locals import *
 import util.TimeOps as clock
 import util.Config as configGetter 
 import util.ComponentRegistry as compReg
+from logger import main_log
 #Python class to instantiate and drive a Screen through different patterns,
 #and effects.
 class LightInstallation:
     def __init__(self, configFileName):
+        main_log.critical("hi russell, i'm sending info to the log files")
+        main_log.critical("initializing based on file: " + str(configFileName))
         self.timer = clock.Stopwatch()
         self.timer.start()
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
@@ -54,7 +57,7 @@ class LightInstallation:
             componentToMap = compReg.getComponent(defaults[defaultSelection])
             compReg.registerComponent(compReg.getComponent(defaults[defaultSelection]),\
                 'Default'+defaultSelection)
-             
+
     def initializeMapper(self, mapperConfig):
         self.mappers = self.initializeComponent(mapperConfig) 
     def initializeScreen(self, layoutConfig):
