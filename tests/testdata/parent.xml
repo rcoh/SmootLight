@@ -1,0 +1,10 @@
+<Parent>
+<A>
+    <blah>test</blah>
+    <foo>bar</foo>
+</A>
+<B>
+    <this>taht</this>
+    <that>this</that>
+</B>
+</Parent>

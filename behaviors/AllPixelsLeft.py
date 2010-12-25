@@ -6,6 +6,5 @@ class AllPixelsLeft(Behavior):
         for sensory in sensorInputs:
             xLoc = sensory['Location'][0] 
             if type(xLoc) == type(tuple()):
-                pdb.set_trace()
             sensory['Location'] = '[{x}<' + str(xLoc) + ']'
         return (sensorInputs, recursiveInputs)

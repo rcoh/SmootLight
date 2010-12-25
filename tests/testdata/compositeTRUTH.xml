@@ -1,0 +1,10 @@
+<Override>
+<A>
+    <override>overide parameter</override>
+</A>
+<B OverrideBehavior="Merge">
+    <this>taht</this>
+    <that>this</that>
+<SomeNewParam>blah</SomeNewParam>
+</B>
+</Override>
