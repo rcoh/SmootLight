@@ -6,66 +6,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <PixelStrip>
-            <Class>layouts.LineLayout</Class>
-            <Args>
-                <Id>strip1</Id>
-                <pixelToPixelSpacing>4</pixelToPixelSpacing>
-                <spacing>4</spacing> 
-                <numPixels>50</numPixels>
-                <originLocation>(10,20)</originLocation>
-            </Args>
-        </PixelStrip>
-        <PixelStrip>
-            <Class>layouts.LineLayout</Class>
-            <Args>
-                <Id>strip2</Id>
-                <pixelToPixelSpacing>4</pixelToPixelSpacing>
-                <spacing>4</spacing> 
-                <numPixels>50</numPixels>
-                <originLocation>(10,24)</originLocation>
-            </Args>
-        </PixelStrip>
-        <PixelStrip>
-            <Class>layouts.LineLayout</Class>
-            <Args>
-                <Id>strip3</Id>
-                <pixelToPixelSpacing>4</pixelToPixelSpacing>
-                <spacing>4</spacing> 
-                <numPixels>50</numPixels>
-                <originLocation>(10,28)</originLocation>
-            </Args>
-        </PixelStrip>
-        <PixelStrip>
-            <Class>layouts.LineLayout</Class>
-            <Args>
-                <Id>strip4</Id>
-                <pixelToPixelSpacing>4</pixelToPixelSpacing>
-                <spacing>4</spacing> 
-                <numPixels>50</numPixels>
-                <originLocation>(10,32)</originLocation>
-            </Args>
-        </PixelStrip>
-        <PixelStrip>
-            <Class>layouts.LineLayout</Class>
-            <Args>
-                <Id>strip5</Id>
-                <pixelToPixelSpacing>4</pixelToPixelSpacing>
-                <spacing>4</spacing> 
-                <numPixels>50</numPixels>
-                <originLocation>(10,36)</originLocation>
-            </Args>
-        </PixelStrip>
-        <PixelStrip>
-            <Class>layouts.LineLayout</Class>
-            <Args>
-                <Id>strip6</Id>
-                <pixelToPixelSpacing>4</pixelToPixelSpacing>
-                <spacing>4</spacing> 
-                <numPixels>50</numPixels>
-                <originLocation>(10,40)</originLocation>
-            </Args>
-        </PixelStrip>
+        <InheritsFrom>layouts/BasicSixStrip.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>

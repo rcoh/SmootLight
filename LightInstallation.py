@@ -84,6 +84,7 @@ class LightInstallation:
     def initializeComponent(self, config):
         components = []
         if config != None:
+            config = configGetter.resolveConfigInheritance(config)
             for configItem in config.getchildren():
                 [module,className] = configItem.find('Class').text.split('.')
                 exec('from ' + module+'.'+className + ' import *')
