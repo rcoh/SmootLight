@@ -7,4 +7,7 @@
     <that>this</that>
 <SomeNewParam>blah</SomeNewParam>
 </B>
+<A>
+        <someparam>appenedA</someparam>
+    </A>
 </Override>

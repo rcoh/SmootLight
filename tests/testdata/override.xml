@@ -5,4 +5,9 @@
 <B OverrideBehavior="Merge">
     <SomeNewParam>blah</SomeNewParam>
 </B>
+<APPEND>
+    <A>
+        <someparam>appenedA</someparam>
+    </A>
+</APPEND>
 </Override>

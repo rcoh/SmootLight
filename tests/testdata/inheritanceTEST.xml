@@ -1,0 +1,3 @@
+<A>
+    <InheritsFrom>tests/testdata/aParent.xml</InheritsFrom>
+</A>

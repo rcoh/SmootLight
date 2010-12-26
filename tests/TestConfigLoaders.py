@@ -18,8 +18,14 @@ class TestConfigLoaders(unittest.TestCase):
 
         result = Config.compositeXMLTrees(parent,overrider)
         result = ElementTree(result)
-        result.write('tests/testdata/compositeTEST.xml')
-        assert filecmp.cmp('tests/testdata/compositeTEST.xml','tests/testdata/compositeTRUTH.xml') 
+        result.write('tests/testdata/compositeTESTout.xml')
+        assert filecmp.cmp('tests/testdata/compositeTESTout.xml','tests/testdata/compositeTRUTH.xml') 
+    def test_inheritance(self):
+        result = Config.loadConfigFile('tests/testdata/inheritanceTEST.xml')
+
+        result.write('tests/testdata/inheritanceTESTout.xml')
+        assert filecmp.cmp('tests/testdata/inheritanceTESTout.xml',\
+            'tests/testdata/inheritanceTRUTH.xml')
 
 if __name__ == '__main__':
     unittest.main()

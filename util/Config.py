@@ -8,23 +8,28 @@ def loadParamRequirementDict(className):
     if not className in classArgsMem: #WOO CACHING
         classArgsMem[className] = fileToDict(CONFIG_PATH + className) 
     return classArgsMem[className]
+#Loads a config file.  If its an xml file, inheritances are automatically resolved.
 def loadConfigFile(fileName): #TODO: error handling etc.
     #try:
-        fileName = CONFIG_PATH + fileName
+        #fileName = CONFIG_PATH + fileName
         if '.params' in fileName:
             return fileToDict(fileName)
         if '.xml' in fileName:
             config = ElementTree() #use .fromstring, and resolve xincludes
             config.parse(fileName)
+            config = ElementTree(resolveConfigInheritance(config.getroot()))
             return config
     #except:
         return None
+#Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
+#it
 def getElement(el):
     if xml.etree.ElementTree.iselement(el):
         return el
     elif el.__class__ == ElementTree:
         return el.getroot()
-def compositeXMLTrees(parentTree, overridingTree):
+def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-methods, change it to
+#use .find()
     #type checking -- convert ElementTrees to their root elements
     parentTree = getElement(parentTree)
     overridingTree = getElement(overridingTree)
@@ -45,12 +50,18 @@ def compositeXMLTrees(parentTree, overridingTree):
             if Strings.OVERRIDE_BEHAVIOR in interEl.attrib:
                 mode = interEl.attrib[Strings.OVERRIDE_BEHAVIOR] 
             if mode != 'Replace' and mode != 'Merge':
-                print 'Bad Mode.  Replacing'
+                print 'Bad Mode.  Choosing to replace.'
                 mode = 'Replace'
             if mode == 'Replace':
                 pass #we don't need to do anything
             if mode == 'Merge': 
                 interEl = compositeXMLTrees(item, interEl)
+    for item in overrideItems: #resolve appendages
+        if item.tag == 'APPEND':
+            children = item.getchildren()
+            for child in children:
+                overrideItems.insert(-1, child)
+            overrideItems.remove(item)
     return overridingTree
 def findElementsByTag(tag, eList):
     return [el for el in eList if el.tag == tag]
@@ -89,3 +100,11 @@ def generateArgDict(parentNode, recurse=False):
     if len(args.keys()) == 1 and recurse:
         return args[args.keys()[0]]
     return args
+
+def resolveConfigInheritance(el):
+    parentClass = el.find('InheritsFrom')
+    if parentClass != None:
+        parentTree = loadConfigFile(parentClass.text)
+        el = compositeXMLTrees(el, parentTree) 
+        el.remove(parentClass) #get rid of the inheritance flag
+    return el
