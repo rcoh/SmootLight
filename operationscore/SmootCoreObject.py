@@ -19,7 +19,7 @@ class SmootCoreObject(threading.Thread):
     def releaseLock(self):
         self.lock.release()
     def className(self):
-        return str(self.__class__).split('.')[-1] #TODO: this doesn't work.
+        return self.__class__.__name__
     def __setitem__(self,k, item):
         self.argDict[k] = item
     def __getitem__(self, item):

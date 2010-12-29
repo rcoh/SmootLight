@@ -1,6 +1,7 @@
 import util.Strings as Strings
 from operationscore.Input import *
 import socket, json, time
+import logging as main_log
 class TCPInput(Input):
     def inputInit(self):
         self.HOST = ''                 # Symbolic name meaning all available interfaces
@@ -16,9 +17,9 @@ class TCPInput(Input):
 
     def sensingLoop(self):
         data = self.conn.recv(self.BUFFER_SIZE)
-        print data
+        main_log.debug('Incoming data', data)
         if not data or 'end' in data: # data end, close socket
-            print 'END!!'
+            main_log.debug('End in data')
             self.IS_RESPONDING = 0
             self.sock.close()
         

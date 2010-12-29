@@ -1,5 +1,6 @@
 import threading,time
 from operationscore.SmootCoreObject import *
+from logger import main_log, exception_log
 #Abstract class for inputs.  Inheriting classes should call "respond" to raise
 #their event.  Inheriting classes MUST define sensingLoop.  Called at the
 #interval specified in RefreshInterval while the input is active.  For example, if you are writing
@@ -33,7 +34,11 @@ class Input(SmootCoreObject):
         except:
             return False
     def run(self):
-        while self.parentAlive():
+        while 1:
+            try:
+                die = self.parentAlive()
+            except:
+                break
             time.sleep(self.argDict['RefreshInterval']/float(1000))
             self.acquireLock()
             self.sensingLoop()

@@ -8,6 +8,8 @@ def safeColor(c):
     return [min(channel,255) for channel in c]
 def combineColors(c1,c2):
     return safeColor([c1[i]+c2[i] for i in range(min(len(c1),len(c2)))])
+def colorToInt(color):
+    return [int(channel) for channel in color]
 def multiplyColor(color, percent):
     return safeColor([fastMultiply(channel, percent, 1) for channel in color])
 
