@@ -6,3 +6,17 @@ def find_le(a, x):
 def find_ge(a, x):
     'Find leftmost value greater than x'
     return bisect_left(a, x)
+#returns parents of nodes that meed a given condition
+def parental_tree_search(root, childrenstr, conditionstr):
+    ret = []
+    queue = [root]
+    while queue:
+        current = queue.pop()
+        children = eval('current'+childrenstr)
+        for child in children:
+            if eval('child'+conditionstr):
+                ret.append(current)
+        #we know have a tree, so there are no back-edges etc, so no checking of that kind is
+        #necessary
+        queue += children
+    return ret

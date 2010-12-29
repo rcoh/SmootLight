@@ -1,3 +1,22 @@
 <A>
-    <InheritsFrom>tests/testdata/aParent.xml</InheritsFrom>
+    <B>
+        <SubB>
+            <SubSubB>
+                <A>
+                    <InheritsFrom>tests/testdata/aParent.xml</InheritsFrom>
+                </A>
+            </SubSubB>
+       </SubB>
+       <A>
+            <InheritsFrom>tests/testdata/aParent.xml</InheritsFrom>
+       </A>
+    </B>
 </A>
+
+<!--
+<Parent>
+    <A>
+        <InheritsFrom>tests/testdata/aParent.xml</InheritsFrom>
+    </A>
+</Parent>
+-->

@@ -26,6 +26,7 @@ class LightInstallation:
         compReg.initRegistry()
         compReg.registerComponent(self.screen, 'Screen') #TODO: move to constants file
         config = configGetter.loadConfigFile(configFileName)
+        pdb.set_trace()
         #read configs from xml
         rendererConfig = config.find('RendererConfiguration')
         pixelConfig = config.find('PixelConfiguration')
@@ -88,11 +89,7 @@ class LightInstallation:
     def initializeComponent(self, config):
         components = []
         if config != None:
-            config = configGetter.resolveConfigInheritance(config)
             for configItem in config.getchildren():
-                configItem = configGetter.resolveConfigInheritance(configItem) #resolve
-                #inheritences.  TODO: migrate to a recursive inheritence resolver that gets run on
-                #file-parse
                 try:
                     [module,className] = configItem.find('Class').text.split('.')
                 except:

@@ -1,4 +1,16 @@
 <A>
-    <param1>1</param1>
+    <B>
+        <SubB>
+            <SubSubB>
+                <A>
+                    <param1>1</param1>
     <param2>2</param2>
+</A>
+            </SubSubB>
+       </SubB>
+       <A>
+            <param1>1</param1>
+    <param2>2</param2>
+</A>
+    </B>
 </A>

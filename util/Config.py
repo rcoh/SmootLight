@@ -3,6 +3,7 @@ import sys
 import xml
 import pdb
 import util.Strings as Strings
+import util.Search as Search
 from logger import main_log, exception_log
 classArgsMem = {}
 CONFIG_PATH = 'config/'
@@ -16,9 +17,9 @@ def loadConfigFile(fileName): #TODO: error handling etc.
         if '.params' in fileName:
             return fileToDict(fileName)
         if '.xml' in fileName:
-            config = ElementTree() #use .fromstring, and resolve xincludes
+            config = ElementTree() 
             config.parse(fileName)
-            config = ElementTree(resolveConfigInheritance(config.getroot()))
+            resolveDocumentInheritances(config.getroot())
             return config
     except Exception as inst:
         main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
@@ -30,6 +31,7 @@ def getElement(el):
         return el
     elif el.__class__ == ElementTree:
         return el.getroot()
+#XML tree composition.  Returns the resulting tree, but happens in-place in the overriding tree.
 def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-methods, change it to
 #use .find()
     #type checking -- convert ElementTrees to their root elements
@@ -113,8 +115,13 @@ def generateArgDict(parentNode, recurse=False):
     if len(args.keys()) == 1 and recurse:
         return args[args.keys()[0]]
     return args
-
-def resolveConfigInheritance(el):
+#In place resolution of document inheritances.  Doesn't return anything.
+def resolveDocumentInheritances(el):
+    abstractMembers = Search.parental_tree_search(el, '.getchildren()', '.tag==\'InheritsFrom\'')
+    for subel in abstractMembers:
+        subel = resolveInheritance(subel)
+#In place resolution of inheritence.  Doesn't return anything.
+def resolveInheritance(el):
     parentClass = el.find('InheritsFrom')
     if parentClass != None:
         parentTree = loadConfigFile(parentClass.text)
@@ -122,6 +129,5 @@ def resolveConfigInheritance(el):
             main_log.warn('Inheritance Failed.  ' + parentClass.text + 'does not exist')
             main_log.error('Inheritance Failed.  ' + parentClass.text + 'does not exist')
             return el
-        el = compositeXMLTrees(el, parentTree) 
+        el = compositeXMLTrees(parentTree, el) 
         el.remove(parentClass) #get rid of the inheritance flag
-    return el
