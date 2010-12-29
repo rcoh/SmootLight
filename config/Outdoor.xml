@@ -20,7 +20,7 @@
             <Args>
                 <Id>gaussmap</Id>
                 <CutoffDist>20</CutoffDist>
-                <Width>3</Width>
+                <Width>1</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -93,7 +93,7 @@
             <Class>behaviors.RecursiveDecay</Class>
             <Args>
                 <Id>recursivedecay</Id>
-                <InitialResponseCount>70</InitialResponseCount>
+                <InitialResponseCount>700</InitialResponseCount>
             </Args>
         </Behavior>
         <Behavior>
@@ -110,7 +110,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <!--<Mapper>gaussmap</Mapper>-->
             </Args>
         </Behavior>
         <Behavior>
@@ -119,7 +119,7 @@
                 <Id>accelerate</Id>
                 <ParamType>Sensor</ParamType>
                 <ParamName>StepSize</ParamName>
-                <ParamOp>{val}*1.05</ParamOp>
+                <ParamOp>{val}*1.01</ParamOp>
             </Args>
         </Behavior>
         <Behavior>
