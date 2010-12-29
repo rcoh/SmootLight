@@ -11,8 +11,7 @@ from logger import main_log
 #and effects.
 class LightInstallation:
     def __init__(self, configFileName):
-        main_log.critical("hi russell, i'm sending info to the log files")
-        main_log.critical("initializing based on file: " + str(configFileName))
+        main_log.info("System Initialization began based on: " + str(configFileName))
         self.timer = clock.Stopwatch()
         self.timer.start()
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
@@ -41,6 +40,7 @@ class LightInstallation:
         self.initializeInputs(inputConfig)
         self.initializeBehaviors(behaviorConfig)
         self.initializeMapper(mapperConfig)
+        main_log.info('All components initialized')
         #registration in dict
         self.registerComponents(self.renderers)
         self.registerComponents(self.inputs)
@@ -49,7 +49,7 @@ class LightInstallation:
         self.configureInstallation(installationConfig)
         #Done initializing.  Lets start this thing!
         self.timer.stop()
-        print 'Initialization done.  Time: ', self.timer.elapsed(), 'ms'
+        #main_log.info('Initialization done.  Time: ', self.timer.elapsed(), 'ms')
         self.mainLoop()
     def configureInstallation(self, installationConfig):
         defaults = configGetter.generateArgDict(installationConfig.find('Defaults'))
@@ -57,6 +57,8 @@ class LightInstallation:
             componentToMap = compReg.getComponent(defaults[defaultSelection])
             compReg.registerComponent(compReg.getComponent(defaults[defaultSelection]),\
                 'Default'+defaultSelection)
+            main_log.debug('Default Set: ' + defaultSelection + 'set to ' +\
+                defaults[defaultSelection])
 
     def initializeMapper(self, mapperConfig):
         self.mappers = self.initializeComponent(mapperConfig) 
@@ -78,21 +80,43 @@ class LightInstallation:
     def registerComponents(self, components):
         for component in components:
             cid = component['Id']
-            if cid == None: 
-                raise Exception('Components must have Ids!')
-            compReg.registerComponent(component)
+            if cid == None:  #TODO: determine if componenent is critical, and if so, die
+                main_log.error('Components must be registered with Ids.  Component not registered')
+            else:
+                compReg.registerComponent(component)
+                main_log.debug(cid + ' registered')
     def initializeComponent(self, config):
         components = []
         if config != None:
             config = configGetter.resolveConfigInheritance(config)
             for configItem in config.getchildren():
-                [module,className] = configItem.find('Class').text.split('.')
-                exec('from ' + module+'.'+className + ' import *')
+                configItem = configGetter.resolveConfigInheritance(configItem) #resolve
+                #inheritences.  TODO: migrate to a recursive inheritence resolver that gets run on
+                #file-parse
+                try:
+                    [module,className] = configItem.find('Class').text.split('.')
+                except:
+                    main_log.error('Module must have Class element')
+                    main_log.warn('Module without class element.  Module not initialized')
+                    continue
+                try:
+                    exec('from ' + module+'.'+className + ' import *')
+                    main_log.debug(module +'.' +className + 'imported')
+                except:
+                    main_log.error('Error importing ' + module+'.'+'.className.  Component not\
+                    initialized.')
+                    continue #TODO: verify functions as expected
                 args = configGetter.generateArgDict(configItem.find('Args'))
                 args['parentScope'] = self #TODO: we shouldn't give away scope
                 #like this, find another way.
-                components.append(eval(className+'(args)')) #TODO: doesn't error
+                try:
+                    components.append(eval(className+'(args)')) #TODO: doesn't error
+                    main_log.debug(className + 'initialized with args ' + str(args))
                 #right
+                except Exception as inst:
+                    main_log.error('Failure while initializing ' + className + ' with ' + str(args))
+                    #main_log.error(inst) TODO: exception logging
+                
         return components
     def alive(self):
         return True
@@ -149,11 +173,12 @@ class LightInstallation:
             pass
             #print 'Behaviors not initialized yet.  WAIT!' 
 def main(argv):
-    print argv
     if len(argv) == 1:
         l = LightInstallation('LightInstallationConfig.xml')
     else:
         l = LightInstallation(argv[1])
 if __name__ == "__main__":
-    main(sys.argv)
-
+    try:
+        main(sys.argv)
+    except KeyboardInterrupt:
+        main_log.info('Terminated by keyboard.')

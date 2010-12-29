@@ -4,7 +4,7 @@ from util.ColorOps import *
 class DecayEvent(PixelEvent):
     def initEvent(self):
         self['Coefficient'] = abs(self['Coefficient'])
-    def state(self,timeDelay):
+    def state(self,timeDelay): #TODO: make this fast.
         if self['DecayType'] == 'Exponential':
             decay = math.exp(timeDelay*-1*self['Coefficient'])
         if self['DecayType'] == 'Proportional':

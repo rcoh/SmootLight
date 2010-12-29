@@ -1,5 +1,6 @@
 from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
+import logging as main_log
 import pdb
 class BehaviorChain(Behavior):
     def behaviorInit(self):
@@ -20,11 +21,12 @@ class BehaviorChain(Behavior):
 
             if behaviorId in self.hooks: #process recursive hook if there is one
                 hookBehavior = compReg.getComponent(self.hooks[behaviorId])
-#we feed its recurrence in as input to the behavior.  
+                #we feed its recurrence in as input to the behavior.  
                 (recurrence, hookRecurrence) = \
                 hookBehavior.immediateProcessInput(recurrence, \
                         [])
                 if hookRecurrence != []:
-                    print 'Hook recurrences are not currently supported.  Implement it yourself or bug russell'
-            self.feedback[behaviorId] = recurrence 
+                    main_log.warn('Hook recurrences are not currently supported.  Implement it\
+                        yourself or bug russell')
+                self.feedback[behaviorId] = recurrence 
         return response

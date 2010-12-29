@@ -26,31 +26,7 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
-            <Class>renderers.PygameRenderer</Class>
-            <Args>
-                <Id>pygamerender</Id>
-                <displaySize>(1300,50)</displaySize>
-            </Args>
-        </Renderer>
-        <Renderer>
-            <Class>renderers.IndoorRenderer</Class>
-            <Args>
-                <Id>indoorRenderer</Id>
-                <PowerSupply>
-                    <IP>10.31.255.233</IP>
-                    <PortMapping>{'strip1':1, 'strip2':2}</PortMapping>
-                </PowerSupply>
-                <PowerSupply>
-                    <IP>10.32.97.17</IP>
-                    <PortMapping>{'strip3':1, 'strip4':2}</PortMapping>
-                </PowerSupply>
-                <PowerSupply>
-                    <IP>10.32.96.211</IP>
-                    <PortMapping>{'strip5':1, 'strip6':2}</PortMapping>
-                </PowerSupply>
-            </Args>
-        </Renderer>
+        <InheritsFrom>renderers/SixStripUDPPygame.xml</InheritsFrom>
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
@@ -61,20 +37,7 @@
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>followmouse</Id>
-                <RefreshInterval>50</RefreshInterval>
-                <FollowMouse>True</FollowMouse>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.UDPInput</Class>
-            <Args>
-                <Id>UDP</Id>
-                <Port>6038</Port>
-                <RefreshInterval>100</RefreshInterval>
-            </Args>
+            <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
@@ -84,8 +47,6 @@
                 <Id>echo</Id>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
-                <Inputs>
-                </Inputs>
             </Args>
         </Behavior>
         <Behavior>
@@ -110,8 +71,6 @@
                 <Coefficient>.01</Coefficient>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
-                <Inputs>
-                </Inputs>
             </Args>
         </Behavior>
         <Behavior>
@@ -183,7 +142,6 @@
                 <ChainedBehaviors>
                     <Id>echo</Id>
                     <Id>pixelsleft</Id>
-                    <Id>colorchange</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>

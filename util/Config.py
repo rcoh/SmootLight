@@ -1,7 +1,9 @@
 from xml.etree.ElementTree import *
+import sys
 import xml
 import pdb
 import util.Strings as Strings
+from logger import main_log, exception_log
 classArgsMem = {}
 CONFIG_PATH = 'config/'
 def loadParamRequirementDict(className):
@@ -10,8 +12,7 @@ def loadParamRequirementDict(className):
     return classArgsMem[className]
 #Loads a config file.  If its an xml file, inheritances are automatically resolved.
 def loadConfigFile(fileName): #TODO: error handling etc.
-    #try:
-        #fileName = CONFIG_PATH + fileName
+    try:
         if '.params' in fileName:
             return fileToDict(fileName)
         if '.xml' in fileName:
@@ -19,7 +20,8 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             config.parse(fileName)
             config = ElementTree(resolveConfigInheritance(config.getroot()))
             return config
-    #except:
+    except Exception as inst:
+        main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
         return None
 #Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
 #it
@@ -31,6 +33,10 @@ def getElement(el):
 def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-methods, change it to
 #use .find()
     #type checking -- convert ElementTrees to their root elements
+    if parentTree == None:
+        return overridingTree
+    if overridingTree == None:
+        return parentTree
     parentTree = getElement(parentTree)
     overridingTree = getElement(overridingTree)
     parentItems = parentTree.getchildren()
@@ -44,13 +50,14 @@ def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-meth
             #do we merge or replace?
             intersectingElements = findElementsByTag(item.tag, overrideItems)
             if len(intersectingElements) > 1:
-                print 'ABUSE!'
+                main_log.warn('ABUSE!  Override of multiple items isn\'t well defined.  Don\'t do\
+                it!')
             interEl = intersectingElements[0]
             mode = 'Replace'
             if Strings.OVERRIDE_BEHAVIOR in interEl.attrib:
                 mode = interEl.attrib[Strings.OVERRIDE_BEHAVIOR] 
             if mode != 'Replace' and mode != 'Merge':
-                print 'Bad Mode.  Choosing to replace.'
+                main_log.warn('Bad Override Mode.  Choosing to replace.')
                 mode = 'Replace'
             if mode == 'Replace':
                 pass #we don't need to do anything
@@ -68,14 +75,20 @@ def findElementsByTag(tag, eList):
 def fileToDict(fileName):
     fileText = ''
     try:
-        print 'File Read'
         with open(fileName) as f:
             for line in f:
                 fileText += line.rstrip('\n').lstrip('\t') + ' ' 
     except IOError:
+        exception_log.exception('Failure reading ' + fileName)
         return {}
     if fileText == '':
         return {}
+    try:
+        resultDict = eval(fileText)
+        main_log.info(fileName + ' read and parsed')
+        return resultDict
+    except:
+        exception_log.info(fileName + ' is not a well formed python dict.  Parsing failed') 
     return eval(fileText)
 #parses arguments into python objects if possible, otherwise leaves as strings
 def generateArgDict(parentNode, recurse=False):
@@ -105,6 +118,10 @@ def resolveConfigInheritance(el):
     parentClass = el.find('InheritsFrom')
     if parentClass != None:
         parentTree = loadConfigFile(parentClass.text)
+        if parentTree == None:
+            main_log.warn('Inheritance Failed.  ' + parentClass.text + 'does not exist')
+            main_log.error('Inheritance Failed.  ' + parentClass.text + 'does not exist')
+            return el
         el = compositeXMLTrees(el, parentTree) 
         el.remove(parentClass) #get rid of the inheritance flag
     return el
