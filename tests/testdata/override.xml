@@ -2,7 +2,7 @@
 <A>
     <override>overide parameter</override>
 </A>
-<B OverrideBehavior="Merge">
+<B OverrideBehavior="Replace">
     <SomeNewParam>blah</SomeNewParam>
 </B>
 <APPEND>

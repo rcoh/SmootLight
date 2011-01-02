@@ -1,0 +1,7 @@
+<Renderer>
+    <Class>renderers.PygameRenderer</Class>
+    <Args>
+        <Id>pygamerender</Id>
+        <displaySize>(1300,50)</displaySize>
+    </Args>
+</Renderer>

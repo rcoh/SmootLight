@@ -26,7 +26,12 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <InheritsFrom>renderers/SixStripUDPPygame.xml</InheritsFrom>
+        <Renderer>
+            <InheritsFrom>renderers/SixStripUDP.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
@@ -36,7 +41,7 @@
                 <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
-        <InputElement>
+        <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
     </InputConfiguration>
@@ -49,14 +54,14 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior>
+        <Behavior Id="colorchange">
             <Class>behaviors.ColorChangerBehavior</Class>
             <Args>
                 <Id>colorchange</Id>
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
             <!--<ColorList>
-                <Color>(255,0,0)</Color>
+                 <Color>(255,0,0)</Color>
             </ColorList>-->
                 <Inputs>
                     <Id>pygame</Id>

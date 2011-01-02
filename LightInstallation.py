@@ -26,7 +26,6 @@ class LightInstallation:
         compReg.initRegistry()
         compReg.registerComponent(self.screen, 'Screen') #TODO: move to constants file
         config = configGetter.loadConfigFile(configFileName)
-        pdb.set_trace()
         #read configs from xml
         rendererConfig = config.find('RendererConfiguration')
         pixelConfig = config.find('PixelConfiguration')
@@ -103,7 +102,7 @@ class LightInstallation:
                     main_log.error('Error importing ' + module+'.'+'.className.  Component not\
                     initialized.')
                     continue #TODO: verify functions as expected
-                args = configGetter.generateArgDict(configItem.find('Args'))
+                args = configGetter.pullArgsFromItem(configItem)
                 args['parentScope'] = self #TODO: we shouldn't give away scope
                 #like this, find another way.
                 try:

@@ -7,6 +7,7 @@ import util.Search as Search
 from logger import main_log, exception_log
 classArgsMem = {}
 CONFIG_PATH = 'config/'
+DEFAULT_OVERRIDE_MODE = 'Merge'
 def loadParamRequirementDict(className):
     if not className in classArgsMem: #WOO CACHING
         classArgsMem[className] = fileToDict(CONFIG_PATH + className) 
@@ -38,7 +39,8 @@ def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-meth
     if parentTree == None:
         return overridingTree
     if overridingTree == None:
-        return parentTree
+        return parentTree #TODO: this will probably cause a bug since it isn't in-place on
+        #overridingTree
     parentTree = getElement(parentTree)
     overridingTree = getElement(overridingTree)
     parentItems = parentTree.getchildren()
@@ -55,7 +57,7 @@ def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-meth
                 main_log.warn('ABUSE!  Override of multiple items isn\'t well defined.  Don\'t do\
                 it!')
             interEl = intersectingElements[0]
-            mode = 'Replace'
+            mode = DEFAULT_OVERRIDE_MODE
             if Strings.OVERRIDE_BEHAVIOR in interEl.attrib:
                 mode = interEl.attrib[Strings.OVERRIDE_BEHAVIOR] 
             if mode != 'Replace' and mode != 'Merge':
@@ -93,6 +95,15 @@ def fileToDict(fileName):
         exception_log.info(fileName + ' is not a well formed python dict.  Parsing failed') 
     return eval(fileText)
 #parses arguments into python objects if possible, otherwise leaves as strings
+def pullArgsFromItem(parentNode):
+    attribArgs = {}
+    for arg in parentNode.attrib: #automatically pull attributes into the argdict
+        attribArgs[arg] = parentNode.attrib[arg]
+    argNode = parentNode.find('Args')
+    args = generateArgDict(argNode)
+    for key in attribArgs:
+        args[key] = attribArgs[key]
+    return args
 def generateArgDict(parentNode, recurse=False):
     args = {}
     for arg in parentNode.getchildren():

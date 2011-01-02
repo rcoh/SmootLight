@@ -1,11 +1,11 @@
 <Override>
 <A>
-    <override>overide parameter</override>
+    <blah>test</blah>
+    <foo>bar</foo>
+<override>overide parameter</override>
 </A>
-<B OverrideBehavior="Merge">
-    <this>taht</this>
-    <that>this</that>
-<SomeNewParam>blah</SomeNewParam>
+<B OverrideBehavior="Replace">
+    <SomeNewParam>blah</SomeNewParam>
 </B>
 <A>
         <someparam>appenedA</someparam>
