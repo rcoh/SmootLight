@@ -29,6 +29,7 @@ class IndoorRenderer(Renderer):
                     self.sockets[ip] = network.getConnectedSocket(ip,port)
                 packet = composer.composePixelStripPacket(pixelStrip, port) 
                 self.sockets[ip].send(packet, 0x00)
-        except:
-            pass #Rendering error.  Log it. LOG
+                #pdb.set_trace()
+        except Exception as inst:
+            print inst
 

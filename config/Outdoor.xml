@@ -55,28 +55,10 @@
             </Args>
         </Behavior>
         <Behavior Id="colorchange">
-            <Class>behaviors.ColorChangerBehavior</Class>
-            <Args>
-                <Id>colorchange</Id>
-                <z-index>0</z-index>
-                <RenderToScreen>False</RenderToScreen>
-            <!--<ColorList>
-                 <Color>(255,0,0)</Color>
-            </ColorList>-->
-                <Inputs>
-                    <Id>pygame</Id>
-                </Inputs>
-            </Args>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.DecayBehavior</Class>
-            <Args>
-                <Id>decay</Id>
-                <DecayType>Exponential</DecayType>
-                <Coefficient>.01</Coefficient>
-                <z-index>0</z-index>
-                <RenderToScreen>False</RenderToScreen>
-            </Args>
+        <Behavior Id="decay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.DebugBehavior</Class>
@@ -94,12 +76,8 @@
                 <Id>pixelsleft</Id>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.RecursiveDecay</Class>
-            <Args>
-                <Id>recursivedecay</Id>
-                <InitialResponseCount>70</InitialResponseCount>
-            </Args>
+        <Behavior Id="recursivedecay">
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
@@ -118,14 +96,8 @@
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>accelerate</Id>
-                <ParamType>Sensor</ParamType>
-                <ParamName>StepSize</ParamName>
-                <ParamOp>{val}*1.05</ParamOp>
-            </Args>
+        <Behavior Id="accelerate">
+            <InheritsFrom>behaviors/Accelerate.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
@@ -152,16 +124,8 @@
                 <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.RunningBehavior</Class>
-            <Args>
-                <Id>running</Id>
-                <Inputs>
-                    <Id>pygame</Id>
-                </Inputs>
-                <StepSize>1</StepSize>
-                <RenderToScreen>False</RenderToScreen>
-            </Args>
+        <Behavior Id="running">
+            <InheritsFrom>behaviors/RunningBehavior.xml</InheritsFrom>
         </Behavior>
     </BehaviorConfiguration>
 </LightInstallation>

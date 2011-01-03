@@ -44,7 +44,7 @@ def kinetPortOut():
 def kinetPortOutPayload(argDict):
     payload = bytearray()
     payload.extend(struct.pack('B', argDict['port']))
-    #payload.append(0x00) #somepadding? lolwtf.
+    payload.append(0x00) #somepadding? lolwtf.
     payload.extend(struct.pack('H', argDict['flags']))
     #payload.append(0x00) #somepadding? lolwtf.
     payload.extend(struct.pack('H', argDict['len']))

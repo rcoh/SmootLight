@@ -2,7 +2,7 @@
     <B>
         <SubB>
             <SubSubB>
-                <A param3="val3">
+                <A>
                     <param1>1</param1>
     <param2>2</param2>
 </A>
