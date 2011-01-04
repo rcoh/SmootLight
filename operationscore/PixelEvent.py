@@ -11,6 +11,8 @@ class PixelEvent(SmootCoreObject):
         pass
     #Returns  a new PixelEvent, but with a response scaled by c.
     def scale(self,c):
+        if c == 1:
+            return self
         newDict = dict(self.argDict) 
         newDict['Color'] = color.multiplyColor(newDict['Color'], c)
         return self.__class__(newDict)
