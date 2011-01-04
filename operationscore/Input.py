@@ -1,5 +1,6 @@
 import threading,time
 from operationscore.SmootCoreObject import *
+from operationscore.ThreadedSmootCoreObject import ThreadedSmootCoreObject
 #Abstract class for inputs.  Inheriting classes should call "respond" to raise
 #their event.  Inheriting classes MUST define sensingLoop.  Called at the
 #interval specified in RefreshInterval while the input is active.  For example, if you are writing
@@ -7,7 +8,7 @@ from operationscore.SmootCoreObject import *
 #Inheriting classes MAY define inputInit.  This is called before the loop
 #begins.
 import pdb
-class Input(SmootCoreObject):
+class Input(ThreadedSmootCoreObject):
     #Event scope is a function pointer the function that will get called when
     #an Parent is raised.
     def __init__(self, argDict):
