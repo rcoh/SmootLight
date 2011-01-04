@@ -22,7 +22,8 @@ class SimpleMapper(PixelMapper):
             eventLocation = eventLocation.replace('{y}', 'pixel.location[1]')
             for pixel in screen:
                 try:
-                    pixelValid = sum(eval(eventLocation)) == len(eval(eventLocation)) #TODO: some
+                    preValid = eval(eventLocation)
+                    pixelValid = sum(preValid) == len(preValid) #TODO: some
                     #optimizations possible.  This might be slow in the long run
                     if pixelValid:
                         ret.append((pixel, 1))

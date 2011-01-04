@@ -5,6 +5,7 @@ from operationscore.PixelMapper import *
 import util.Search as Search
 import util.ComponentRegistry as compReg
 import util.Strings as Strings
+import util.TimeOps as timeops
 import itertools
 import sys
 from logger import main_log
@@ -54,7 +55,6 @@ class Screen:
         self.responseQueue = []
         for response in tempQueue:
             self.processResponse(response)
-        [p.invalidateState() for p in self]
         
     #public
     def respond(self, responseInfo):
@@ -92,6 +92,7 @@ class Screen:
         main_log.debug(str(len(pixelWeightList)))
         main_log.debug(pixelWeightList)
         PixelEvent.addPixelEventIfMissing(responseInfo)
+        currentTime = timeops.time()
         for (pixel, weight) in pixelWeightList: 
-            pixel.processInput(responseInfo['PixelEvent'].scale(weight), 0) #TODO: z-index
+            pixel.processInput(responseInfo['PixelEvent'].scale(weight), 0, currentTime) #TODO: z-index
 

@@ -2,7 +2,7 @@
     <Class>inputs.PygameInput</Class>
     <Args>
         <Id>followmouse</Id>
-        <RefreshInterval>50</RefreshInterval>
+        <RefreshInterval>20</RefreshInterval>
         <FollowMouse>True</FollowMouse>
     </Args>
 </InputElement>

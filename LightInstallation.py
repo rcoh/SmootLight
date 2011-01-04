@@ -99,9 +99,9 @@ class LightInstallation:
                     exec('from ' + module+'.'+className + ' import *')
                     main_log.debug(module +'.' +className + 'imported')
                 except Exception as inst:
-                    pdb.set_trace()
                     main_log.error('Error importing ' + module+'.'+'.className.  Component not\
                     initialized.')
+                    main_log.error(str(inst)) #TODO: exception logging
                     continue #TODO: verify functions as expected
                 args = configGetter.pullArgsFromItem(configItem)
                 args['parentScope'] = self #TODO: we shouldn't give away scope
@@ -112,7 +112,7 @@ class LightInstallation:
                 #right
                 except Exception as inst:
                     main_log.error('Failure while initializing ' + className + ' with ' + str(args))
-                    #main_log.error(inst) TODO: exception logging
+                    main_log.error(str(inst)) #TODO: exception logging
                 
         return components
     def alive(self):
@@ -121,7 +121,7 @@ class LightInstallation:
         #self.screen.allOn()
         lastLoopTime = clock.time()
         refreshInterval = 30
-        runCount = 3000 
+        runCount = 2000 
         while runCount > 0:
             runCount -= 1
             loopStart = clock.time()
@@ -131,7 +131,7 @@ class LightInstallation:
             [self.screen.respond(response) for response in responses if
                     response != []]
             self.screen.timeStep()
-            [r.render(self.screen) for r in self.renderers]
+            [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
             sleepTime = max(0,refreshInterval-loopElapsed)
             self.timer.stop()

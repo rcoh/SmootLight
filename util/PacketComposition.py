@@ -7,11 +7,12 @@ MAGICHASH = 0x69000420
 PORTOUT = 0x0108
 UNI = 0
 import pdb
+import util.TimeOps as timeops
 kinetDict = {'flags': 0, 'startcode': 0, 'pad':0}
-def composePixelStripData(pixelStrip):
+def composePixelStripData(pixelStrip,currentTime=timeops.time()):
     packet = bytearray()
     for light in pixelStrip:
-        color = light.state()
+        color = light.state(currentTime)
         for channel in color: #skip the last value, its an
             #alpha value
             packet.append(struct.pack('B', channel))
@@ -21,9 +22,9 @@ def composePixelStripData(pixelStrip):
 #color = pixelStrip.pixels[i].state()
 #packet[i:i+2] = color
 #    return bytearray(packet)
-def composePixelStripPacket(pixelStrip,port):
+def composePixelStripPacket(pixelStrip,port, currentTime):
     packet = bytearray()
-    data = composePixelStripData(pixelStrip)
+    data = composePixelStripData(pixelStrip, currentTime)
     subDict = dict(kinetDict)
     subDict['len'] = 38000 #I have no idea why this works.
     subDict['port'] = port

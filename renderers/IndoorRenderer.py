@@ -1,6 +1,7 @@
 from operationscore.Renderer import *
 import util.PacketComposition as composer 
 import util.NetworkOps as network
+import util.TimeOps as timeops
 import socket,pdb
 sock_port = 6038
 #Renderer for a Specific Light System.
@@ -19,7 +20,7 @@ class IndoorRenderer(Renderer):
             for stripId in stripsInPowerSupply:
                 self.stripLocations[stripId] = (ip, \
                         stripsInPowerSupply[stripId])
-    def render(self, lightSystem): 
+    def render(self, lightSystem, currentTime=timeops.time()): 
         try:
             for pixelStrip in lightSystem.pixelStrips:
                 stripId = pixelStrip.argDict['Id']
@@ -27,9 +28,8 @@ class IndoorRenderer(Renderer):
                 if not ip in self.sockets: #do we have a socket to this
                     #strip? if not, spin off a new one
                     self.sockets[ip] = network.getConnectedSocket(ip,sock_port)
-                packet = composer.composePixelStripPacket(pixelStrip, port) 
+                packet = composer.composePixelStripPacket(pixelStrip, port, currentTime) 
                 self.sockets[ip].send(packet, 0x00)
-                #pdb.set_trace()
         except Exception as inst:
             print inst
 

@@ -8,6 +8,9 @@ class SmootCoreObject(object):
         self.validateArgs(self.className()+'.params') 
         self.lock = thread.allocate_lock()
         self.init() #call init of inheriting class
+        #put everything into attributes for speed
+        for key in argDict:
+            setattr(self, key, argDict[key])
     #    self.__setitem__ = self.argDict.__setitem__
     #    self.__getitem__ = self.argDict.__getitem__
     def init(self):

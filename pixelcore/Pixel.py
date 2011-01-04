@@ -14,7 +14,8 @@ class Pixel:
     def __init__(self, location):
         self.location = location
         self.events = {}
-        self.memState = None
+        self.lastRenderTime = timeops.time()
+        self.lastRender = (0,0,0) 
         
     def turnOn(self):
         self.turnOnFor(-1)
@@ -28,24 +29,23 @@ class Pixel:
         #arg
         
     #Add a pixelEvent to the list of active events
-    def processInput(self,pixelEvent,zindex): #consider migrating arg to dict
-        self.events[timeops.time()] = (zindex, pixelEvent)
+    def processInput(self,pixelEvent,zindex, currentTime=None): #consider migrating arg to dict
+        if currentTime == None:
+            currentTime = timeops.time()
+        self.events[currentTime] = (zindex, pixelEvent)
         
     def clearAllEvents(self):
         self.events = {}
         
     #Combines all PixelEvents currently active and computes the current color of
     #the pixel.
-    def invalidateState(self):
-        self.memState = None
-        
-    def state(self):
-        if self.memState != None:
-            return self.memState
-        if self.events == []:
+    def state(self, currentTime=timeops.time()): #TODO: this only evaluates at import time, I think
+        if currentTime-self.lastRenderTime < 5:
+            return self.lastRender
+        if self.events == {}:
+            self.lastRenderTime = currentTime
             return (0,0,0)
         deadEvents = []
-        currentTime = timeops.time()
         resultingColor = (0,0,0)
         colors = []
         for eventTime in self.events: #TODO: right color weighting code
@@ -59,7 +59,8 @@ class Pixel:
         resultingColor = color.combineColors(colors)
         [self.events.pop(event) for event in deadEvents]
         resultingColor = [int(round(c)) for c in resultingColor]
-        self.memState = tuple(resultingColor)
+        self.lastRender = tuple(resultingColor)
+        self.lastRenderTime = currentTime
         return tuple(resultingColor)
         
     def __str__(self):

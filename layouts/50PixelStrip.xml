@@ -3,6 +3,6 @@
     <Args>
         <pixelToPixelSpacing>4</pixelToPixelSpacing>
         <spacing>4</spacing> 
-        <numPixels>50</numPixels>
+        <numPixels>500</numPixels>
     </Args>
 </PixelStrip>
