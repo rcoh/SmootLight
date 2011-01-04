@@ -3,8 +3,8 @@
 #Inheriting classes may define initRenderer which is called after the dictionary
 #is pulled from config.  
 #TODO: multithreaded-rendering
-from operationscore.SmootCoreObject import *
-class Renderer(SmootCoreObject):
+from operationscore.ThreadedSmootCoreObject import *
+class Renderer(ThreadedSmootCoreObject):
     def init(self):
         self.initRenderer()
         threading.Thread.__init__(self)

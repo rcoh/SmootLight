@@ -9,5 +9,6 @@ class GaussianMapper(PixelMapper):
             pixelDist = Geo.dist(pixel.location, eventLocation)
             if pixelDist < self['CutoffDist']:
                 w = Geo.gaussian(pixelDist, self['Height'], 0, self['Width'])
-                returnPixels.append((pixel, w))
+                if w > self['MinWeight']:
+                    returnPixels.append((pixel, w))
         return returnPixels

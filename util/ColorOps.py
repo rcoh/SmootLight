@@ -4,16 +4,16 @@ def randomColor():
 def chooseRandomColor(colorList):
     return random.choice(colorList)
 def safeColor(c):
-    return [min(channel,255) for channel in c]
-def combineColors(c1,c2):
-    return safeColor([c1[i]+c2[i] for i in range(min(len(c1),len(c2)))])
-def fastMultiply(color, percent, acc=100):
-    percent = int(percent*acc)
-    color = colorToInt(color)
-    color = [channel*percent for channel in color]
-
-def colorToInt(color):
-    return [int(channel) for channel in color]
+    c[0] = c[0] if c[0] < 255 else 255
+    c[1] = c[1] if c[1] < 255 else 255
+    c[2] = c[2] if c[2] < 255 else 255
+    return c
+def combineColors(colors):
+    result = [0,0,0]
+    for c in colors:
+        result[0] += c[0]
+        result[1] += c[1]
+        result[2] += c[2]
+    return safeColor(result)
 def multiplyColor(color, percent):
-    
     return safeColor([channel*(percent) for channel in color])
