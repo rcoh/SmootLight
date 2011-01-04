@@ -23,7 +23,7 @@ class SimpleMapper(PixelMapper):
                     #optimizations possible.  This might be slow in the long run
                     if pixelValid:
                         ret.append((pixel, 1))
-                except:
+                except Exception as exp:
                     raise Exception('Bad event condition')
             return ret
 

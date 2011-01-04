@@ -1,0 +1,8 @@
+<Behavior>
+    <Class>behaviors.RunningBehavior</Class>
+    <Args>
+        <Id>running</Id>
+        <StepSize>1</StepSize>
+        <RenderToScreen>False</RenderToScreen>
+    </Args>
+</Behavior>

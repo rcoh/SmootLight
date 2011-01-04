@@ -98,7 +98,8 @@ class LightInstallation:
                 try:
                     exec('from ' + module+'.'+className + ' import *')
                     main_log.debug(module +'.' +className + 'imported')
-                except:
+                except Exception as inst:
+                    pdb.set_trace()
                     main_log.error('Error importing ' + module+'.'+'.className.  Component not\
                     initialized.')
                     continue #TODO: verify functions as expected

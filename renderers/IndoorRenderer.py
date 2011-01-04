@@ -2,7 +2,7 @@ from operationscore.Renderer import *
 import util.PacketComposition as composer 
 import util.NetworkOps as network
 import socket,pdb
-port = 6038
+sock_port = 6038
 #Renderer for a Specific Light System.
 class IndoorRenderer(Renderer):
     def initRenderer(self):
@@ -26,7 +26,7 @@ class IndoorRenderer(Renderer):
                 (ip, port) = self.stripLocations[stripId] 
                 if not ip in self.sockets: #do we have a socket to this
                     #strip? if not, spin off a new one
-                    self.sockets[ip] = network.getConnectedSocket(ip,port)
+                    self.sockets[ip] = network.getConnectedSocket(ip,sock_port)
                 packet = composer.composePixelStripPacket(pixelStrip, port) 
                 self.sockets[ip].send(packet, 0x00)
                 #pdb.set_trace()

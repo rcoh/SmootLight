@@ -6,6 +6,7 @@ DEEPMAGIC = 0xc001d00d
 MAGICHASH = 0x69000420
 PORTOUT = 0x0108
 UNI = 0
+import pdb
 kinetDict = {'flags': 0, 'startcode': 0, 'pad':0}
 def composePixelStripData(pixelStrip):
     packet = bytearray()
@@ -44,7 +45,6 @@ def kinetPortOut():
 def kinetPortOutPayload(argDict):
     payload = bytearray()
     payload.extend(struct.pack('B', argDict['port']))
-    payload.append(0x00) #somepadding? lolwtf.
     payload.extend(struct.pack('H', argDict['flags']))
     #payload.append(0x00) #somepadding? lolwtf.
     payload.extend(struct.pack('H', argDict['len']))

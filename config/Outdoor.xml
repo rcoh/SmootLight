@@ -44,6 +44,12 @@
         <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
+        <InputElement>
+            <Class>inputs.RandomLocs</Class>
+            <Args>
+                <Id>randomLoc</Id>
+            </Args>
+        </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior>
@@ -85,6 +91,7 @@
                 <Id>runcolordecay</Id>
                 <Inputs>
                     <Id>pygame</Id>
+                    <Id>randomLoc</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
