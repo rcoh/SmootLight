@@ -1,0 +1,10 @@
+package packet;
+
+/**
+ * Action types for Client to Server packet
+ * @author seojin
+ *
+ */
+public enum CSActionType {
+	OpenConversation, ExitConversation, sendMessage, InviteUser, acceptInvitation, rejectInvitation
+}

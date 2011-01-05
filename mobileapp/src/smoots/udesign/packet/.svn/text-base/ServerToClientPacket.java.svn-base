@@ -1,0 +1,222 @@
+package packet;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import library.User;
+
+/**
+ * Server to Client Packet data type including parser and toText converters.
+ * @author seojin
+ *
+ */
+public class ServerToClientPacket implements Packet{
+	
+	/* -----------PROTOCOL-------------
+	Server to client
+	Packet ::= AdministrativePacket | ConversationalPacket
+	AdministrativePacket ::= acceptLogin | wholeUserList
+	acceptLogin ::= clientID
+	wholeUserList ::= (user \n)*
+	ConversationalPacket ::= ConversationID  \t  actionType  \t  clientID  \n  (Message | screenName | userList)?
+	actionType ::= OthersJoinConversation | OthersExitConversation | sendMessage | Invitation | participantList | screenNameChange
+	userList ::= (user \n)*
+	user ::= clientID \t screenName
+	 **clientID specifies who's source of event.
+	 **screenNameChange is followed by screenName
+	 **userList comes after Invitation.
+	*/
+
+	/**
+	 * Class for Administrative type packet in Server to Client Packet
+	 */
+	public static class Admin extends ServerToClientPacket{
+		/**
+		 * Class for AcceptLogin packet.
+		 */
+		public static class AcceptLogin extends Admin{
+			public final int clientID;
+			/**
+			 * Constructor for AcceptLogin.
+			 * @param clientID newly assigned clientID for this user. 
+			 */
+			public AcceptLogin(int clientID){
+				this.clientID = clientID;
+			}
+		}
+		/**
+		 * Class for WholeUserList packet
+		 */
+		public static class WholeUserList extends Admin{
+			public final List<User> userList;
+			/**
+			 * Constructor for WholeUserList.
+			 * @param userList total online user list.
+			 */
+			public WholeUserList(List<User> userList){
+				this.userList = Collections.unmodifiableList(userList);				
+			}
+		}
+	}
+	
+	/**
+	 * Class for Conversational type packet in Server to Client Packet
+	 * @author seojin
+	 */
+	public static class Conv extends ServerToClientPacket{
+		public final int conversationID;
+		public final SCActionType action;
+		public final int senderID;
+		public final String message;
+		public final String screenName;
+		public final List<User> userList;
+		/**
+		 * Constructor for Conv packet
+		 * @param conversationID	conversationID this conversation has.
+		 * @param action	action type of this packet
+		 * @param senderID	client ID of creator of action of this packet.
+		 * @param messageOrScreenName	Can be message or screenName according to action type.
+		 * @param isMessageNotScreenName	assign true if messageOrScreenName is message not screenName.
+		 */
+		public Conv(int conversationID, SCActionType action, int senderID, String messageOrScreenName, boolean isMessageNotScreenName){
+			this.conversationID = conversationID;
+			this.action = action;
+			this.senderID = senderID;
+			if (isMessageNotScreenName){
+				this.message = messageOrScreenName;
+				this.screenName = null;
+			}else{
+				this.message = null;
+				this.screenName = messageOrScreenName;
+			}
+			this.userList = null;
+		}
+		/**
+		 * Constructor for Conv packet
+		 * @param conversationID	conversationID this conversation has.
+		 * @param action	action type of this packet (suggested for invitation)
+		 * @param senderID	client ID of creator of action of this packet.
+		 * @param userList	list of users in conversation.
+		 */
+		public Conv(int conversationID, SCActionType action, int senderID, List<User> userList){
+			this.conversationID = conversationID;
+			this.action = action;
+			this.senderID = senderID;
+			this.message = null;
+			this.screenName = null;
+			this.userList = userList;
+		}
+	}
+	
+	/**
+	 * returns ServerToClientPacket.Admin.AcceptLogin | ServerToClientPacket.Admin.WholeUserList | ServerToClientPacket.Conv
+	 * You may use instanceof to figure out which one is right.
+	 * @param textFormat raw text of packet from socket. 
+	 */
+	public static ServerToClientPacket parsePacket(String textFormat) {
+		String[] lines = textFormat.split("\n");
+		int nLine = Integer.parseInt(lines[0]);
+		String[] token = lines[1].split("\t");
+		if(token[0].equals("Admin.AcceptLogin")){
+			Admin res;
+			int clientID = Integer.parseInt(token[1]);
+			res = new Admin.AcceptLogin(clientID);
+			return res;
+		}else if(token[0].equals("Admin.WholeUserList")){
+			Admin res;
+			List<User> ulist = new ArrayList<User>();
+			for(int i = 2; i < nLine; i++){
+				String[] userToken = lines[i].split("\t");
+				ulist.add(new User(Integer.parseInt(userToken[0]), userToken[1]));
+			}
+			res = new Admin.WholeUserList(ulist);
+			return res;
+		}
+		else if(token[0].equals("Conv")){
+			Conv res = null;
+			int conversationID = Integer.parseInt(token[1]);
+			SCActionType action = SCActionType.valueOf(token[2]);
+			int senderID = Integer.parseInt(token[3]);
+			if(action == SCActionType.Invitation || action == SCActionType.participantList ){
+				List<User> ulist = new ArrayList<User>();
+				for(int i = 2; i < nLine; i++){
+					String[] userToken = lines[i].split("\t");
+					ulist.add(new User(Integer.parseInt(userToken[0]), userToken[1]));
+				}
+				res = new Conv(conversationID, action, senderID, ulist);
+			}else if(action == SCActionType.screenNameChange || action == SCActionType.OthersJoinConversation ||action == SCActionType.OthersExitConversation){
+				String screenName = lines[2];
+				res = new Conv(conversationID, action, senderID, screenName, false);
+			}else if(action == SCActionType.sendMessage){
+				String message = lines[2];
+				for(int i = 3; i < nLine; i++){
+					message += "\n" + lines[i];
+				}
+				res = new Conv(conversationID, action, senderID, message, true);				
+			}
+			return res;
+		}
+		return null;
+	}
+	
+	/**
+	 * Count newline characters.
+	 * @param s string to count newline character.
+	 * @return number of newline characters in string s
+	 */
+	private static int countNewline(String s){
+		int count = 0;
+		for(int i = 0; i < s.length(); i++){
+			if(s.charAt(i) == '\n')
+				count++;
+		}
+		return count;
+	}
+	
+	@Override
+	public String packetToText() {
+		String res = "";
+		int nLine = 1;
+		if (this instanceof Admin){
+			if(this instanceof Admin.AcceptLogin){
+				Admin.AcceptLogin p = (Admin.AcceptLogin) this;
+				res += "Admin.AcceptLogin\t";
+				res += p.clientID + "\n";
+				nLine += 1;
+			}else if(this instanceof Admin.WholeUserList){
+				Admin.WholeUserList p = (Admin.WholeUserList) this;
+				res += "Admin.WholeUserList\n";
+				nLine += 1;
+				for (User u : p.userList){
+					res += u.ID + "\t" + u.getScreenName() + "\n";
+					nLine += 1;
+				}
+			}
+		}
+		else if(this instanceof Conv){
+			Conv p = (Conv) this;
+			res += "Conv\t";
+			res += p.conversationID + "\t";
+			res += p.action + "\t";
+			res += p.senderID + "\n";
+			nLine += 1;
+			if(p.action == SCActionType.Invitation || p.action == SCActionType.participantList){
+				for (User u : p.userList){
+					res += u.ID + "\t" + u.getScreenName() + "\n";
+					nLine += 1;
+				}
+			}else if(p.action == SCActionType.screenNameChange || p.action == SCActionType.OthersJoinConversation ||p.action == SCActionType.OthersExitConversation){
+				assert p.screenName != null;
+				res += p.screenName + "\n";
+				nLine += 1;
+			}else if(p.action == SCActionType.sendMessage){
+				res += p.message + "\n";
+				nLine += countNewline(p.message) + 1;				
+			} 
+		}
+		res = nLine + "\n" + res;
+		System.out.print(res);
+		return res;
+	}
+}

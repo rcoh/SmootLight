@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, UDesign!</string>
+    <string name="app_name">UDesign</string>
+    <string name="tab_canvas_name">Canvas</string>
+    <string name="tab_color_name">Color</string>
+    <string name="tab_interactions_name">Interactions</string>
+    <string name="tab_settings_name">Settings</string>
+    <string name="menu_color_picker">Color Picker</string>
+    <string name="menu_effect_picker">Effect Picker</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_send">Send</string>
+    
+    <string name="settings_ok">OK</string>
+    
+	<string-array name="interactions_array">
+		<item>Accelerometer Test</item>
+		<item>Follow the Light</item>
+		<item>Phone Blade</item>
+		<item>Pixel Mover</item>
+	</string-array>
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+    
+    <TableLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:stretchColumns="0|1"
+    	android:layout_gravity="center_vertical|center_horizontal">
+    
+    	<TableRow>
+			<TextView 
+			    android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content" 
+			    android:gravity="right"
+			    android:text="IP : "/>
+		    <EditText
+		        android:id="@+id/settings_ip"
+		        android:width="200dip"
+		        android:layout_height="wrap_content"
+		        android:layout_width="wrap_content"
+		        android:scrollHorizontally="true"
+		        android:autoText="false"
+		        android:capitalize="none"
+		        android:gravity="fill_horizontal"
+		        android:singleLine="True"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+    	</TableRow>
+    
+    	<TableRow>
+			<TextView 
+			    android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content" 
+			    android:gravity="right"
+			    android:text="Port : "/>
+		    <EditText
+		        android:id="@+id/settings_port"
+		        android:inputType="number"
+		        android:width="50dip"
+		        android:layout_height="wrap_content"
+		        android:layout_width="wrap_content"
+		        android:scrollHorizontally="true"
+		        android:autoText="false"
+		        android:singleLine="True"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+    	</TableRow>
+    
+    	<TableRow>
+    		<TextView 
+			    android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content" 
+			    android:gravity="right"
+			    android:text=""/>
+    		<Button
+    			android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content"
+    			android:id="@+id/settings_ok"
+    			android:gravity="fill"
+    			android:text="@string/settings_ok" />
+    	</TableRow>
+    </TableLayout>
+    
+</merge>

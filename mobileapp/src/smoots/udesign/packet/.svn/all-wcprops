@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/6.005/fa09/!svn/ver/13356/groups/guichat/suny-seojin-makif/src/packet
+END
+ClientToServerPacket.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/6.005/fa09/!svn/ver/13337/groups/guichat/suny-seojin-makif/src/packet/ClientToServerPacket.java
+END
+ServerToClientPacket.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/6.005/fa09/!svn/ver/13350/groups/guichat/suny-seojin-makif/src/packet/ServerToClientPacket.java
+END
+ClientToServerPacketTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/6.005/fa09/!svn/ver/13356/groups/guichat/suny-seojin-makif/src/packet/ClientToServerPacketTest.java
+END
+ServerToClientPacketTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/6.005/fa09/!svn/ver/13356/groups/guichat/suny-seojin-makif/src/packet/ServerToClientPacketTest.java
+END
+CSActionType.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/6.005/fa09/!svn/ver/13352/groups/guichat/suny-seojin-makif/src/packet/CSActionType.java
+END
+SCActionType.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/6.005/fa09/!svn/ver/13352/groups/guichat/suny-seojin-makif/src/packet/SCActionType.java
+END
+Packet.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/6.005/fa09/!svn/ver/13350/groups/guichat/suny-seojin-makif/src/packet/Packet.java
+END
+UnaryAction.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/6.005/fa09/!svn/ver/13352/groups/guichat/suny-seojin-makif/src/packet/UnaryAction.java
+END

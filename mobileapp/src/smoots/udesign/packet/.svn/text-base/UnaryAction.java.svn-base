@@ -1,0 +1,10 @@
+package packet;
+
+/**
+ * Unary Action Type for Client to Server Admin packet
+ * @author seojin
+ *
+ */
+public enum UnaryAction {
+	logIn, logOut, changeScreenName, requestWholeUserList
+}

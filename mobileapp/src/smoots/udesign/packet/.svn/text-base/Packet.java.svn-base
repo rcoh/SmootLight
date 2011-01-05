@@ -1,0 +1,14 @@
+package packet;
+
+/**
+ * Interface for Packet datatype.
+ * @author seojin
+ *
+ */
+public interface Packet {
+	/**
+	 * Return text form packet that can be sent throgh socket.
+	 * @return text form packet
+	 */
+	public String packetToText();
+}
