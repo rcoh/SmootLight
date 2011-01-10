@@ -162,10 +162,10 @@ argument.  This will be passed in via recursive inputs.}
                 \item Constants: \texttt{ALL\_CAPS\_WITH\_UNDERSCORES}
             \end{itemize}
         \subsection{Time}
-            For time, use the \texttt{Util.time()} method to return the current
+            For time, use the \texttt{util.TimeOps.time()} method to return the current
             time in ms.
         \subsection{Acessing a Component Given an Id}
-            Use \texttt{Util.getComponentById(id)}.  This provides any
+            Use \texttt{util.ComponentRegistry.getComponent(id)}.  This provides any
             component access to any other components.  We may consider a way to
             make this read-only.
         \subsection{Acessing Pixels}
@@ -174,7 +174,7 @@ argument.  This will be passed in via recursive inputs.}
             acceptable method.  
         \subsection{Determining the state of a \texttt{Pixel}}
             The best practice for determining the color of a \texttt{Pixel} is to call
-            \texttt{lightState} (may be renamed to State TODO).  This ensures
+            \texttt{state}.  This ensures
             all current active responses running on the Pixel contribute correctly. 
         \subsection{Color}
             For color, use a tuple of (R,G,B) 0-255 for each.  Colors can be
@@ -182,4 +182,7 @@ argument.  This will be passed in via recursive inputs.}
         \subsection{Locations}
             Locations are stored (x,y), in whatever unit you light system is
             in.  (Whatever unit you use when you define spacing).
+        \subsection{Constant Strings (key strings, 'Location', 'Color', etc.)}
+            Use the util.Strings module.  It contains many currently in use
+            Strings, and ensures consistency. 
     \end{document}

@@ -133,7 +133,7 @@
                     <Id>pixelsleft</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="running">

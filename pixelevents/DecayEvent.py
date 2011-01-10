@@ -1,6 +1,7 @@
 from operationscore.PixelEvent import *
 import math
 from util.ColorOps import * 
+import util.Geo as Geo
 class DecayEvent(PixelEvent):
     def initEvent(self):
         self.coefficient = float(abs(self['Coefficient']))
@@ -13,7 +14,7 @@ class DecayEvent(PixelEvent):
     #SUBVERTING DESIGN FOR THE SAKE OF EFFICIENCY -- RUSSELL COHEN (2011-01-03-23:18)    
     def state(self,timeDelay):
         if self.decayType == 1:
-            decay = math.exp(timeDelay*-1*self.coefficient)
+            decay = Geo.approxexp(timeDelay*-1*self.coefficient)
         if self.decayType == 2:
             decay = self.coefficient / timeDelay
         color = multiplyColor(self.color, decay)
