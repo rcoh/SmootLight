@@ -89,8 +89,7 @@ class Screen:
         #if type(mapper) != type(PixelMapper):
         #    raise Exception('No default mapper specified.')
         pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
-        main_log.debug(str(len(pixelWeightList)))
-        main_log.debug(pixelWeightList)
+
         PixelEvent.addPixelEventIfMissing(responseInfo)
         currentTime = timeops.time()
         for (pixel, weight) in pixelWeightList: 
