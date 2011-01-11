@@ -1,8 +1,10 @@
-#import cProfile
+import cProfile
 import struct
 import random
+import scipy.weave as weave
+import math
 #from LightInstallation import main
-numiter = 10000000
+numiter = 1000000
 def main1():
     for i in xrange(0,numiter):
         if 'abc' == 'def':
@@ -37,14 +39,39 @@ def dictlookup():
         lookup[i] = struct.pack('B', random.randint(0,255))
     for i in xrange(0,numiter):
         b = lookup[random.randint(0,255)]
-print('starting')
-abc1()
-print('starting')
-abc2()
-print('done')
-#command = """abc1()"""
-#cProfile.runctx(command, globals(), locals())
+#print('starting')
+#abc1()
+#print('starting')
+#abc2()
+#print('done')
 
-#command = """abc2()"""
-#cProfile.runctx(command, globals(), locals())
+def normal_python():
+    for i in xrange(0,numiter):
+        a = math.sqrt(3 + 4 + 5)
+
+def weave_outloop():
+    code = """
+        float x = 0;
+        for (int i = 0;i < numiter;i++) {
+            x = sqrt(3 + 4 + 5);
+        }
+    """
+    weave.inline(code, ['numiter'])
+    
+def weave_inloop():
+    code = """
+        x = sqrt(3 + 4 + 5);
+    """
+    x = 0.0
+    for i in xrange(0,numiter):
+        weave.inline(code, ['x'])
+        
+command = """normal_python()"""
+cProfile.runctx(command, globals(), locals())
+
+command = """weave_outloop()"""
+cProfile.runctx(command, globals(), locals())
+
+command = """weave_inloop()"""
+cProfile.runctx(command, globals(), locals())
 
