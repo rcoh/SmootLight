@@ -79,12 +79,8 @@ class LightInstallation:
         self.renderers = self.initializeComponent(rendererConfig) 
     def registerComponents(self, components):
         for component in components:
-            cid = component['Id']
-            if cid == None:  #TODO: determine if componenent is critical, and if so, die
-                main_log.error('Components must be registered with Ids.  Component not registered')
-            else:
-                compReg.registerComponent(component)
-                main_log.debug(cid + ' registered')
+            cid = compReg.registerComponent(component)
+            main_log.debug(cid + ' registered')
     def initializeComponent(self, config):
         components = []
         if config != None:

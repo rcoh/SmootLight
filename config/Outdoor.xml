@@ -84,6 +84,13 @@
                 <Id>pixelsleft</Id>
             </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.Square</Class>
+            <Args>
+                <Id>square</Id>
+                <Width>10</Width>
+            </Args>
+        </Behavior>
         <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
@@ -130,7 +137,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
-                    <Id>pixelsleft</Id>
+                    <Id>square</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>

@@ -32,3 +32,8 @@ yourself or bug russell')
                 self.feedback[behaviorId] = recurrence 
         return response
 
+    def appendBehavior(behavior):
+        bid = compReg.registerComponent(behavior) #register behavior (will make
+        #a new id if there isn't one)
+        self['ChainedBehaviors'].append(bid)
+
