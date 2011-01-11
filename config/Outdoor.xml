@@ -87,7 +87,7 @@
         <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
-                <InitialResponseCount>2000</InitialResponseCount>
+                <InitialResponseCount>200</InitialResponseCount>
             </Args>
         </Behavior>
         <Behavior>
