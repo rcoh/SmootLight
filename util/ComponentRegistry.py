@@ -1,43 +1,40 @@
 import pdb
-#component registry, a singleton
-import thread
-#class ComponentRegistry:
-#    def __init__(self):
-#        self.regDict = {}
-#    @staticmethod
-#    def getRegistry(self):
-#        if self.instance == None:
-#            self.instance = self.__class__() 
-#        return self.instance
-#    def registerComponent(component, cid=None):
-#        if cid != None:
-#            globals()['Registry'][cid] = component
-#        else:
-#            try:
-#                cid = component['Id']
-#                globals()['Registry'][cid] = component
-#            except:
-#                raise Exception('Must specify Id, component did not store it')
-#def registerDefault(
+import hashlib 
+from logger import main_log
+#TODO: make component registry a singleton
+def initRegistry():
+    #TODO: don't overwrite existing registry
+    globals()['Registry'] = {}
+
+def clearRegistry():
+    initRegistry()
 def removeComponent(cid):
     globals()['Registry'].pop(cid)
 def getComponent(cid):
     return globals()['Registry'][cid]
 #Registry of all components of the light system
 #TODO: pick a graceful failure behavior and implement it
-def initRegistry():
-    globals()['Registry'] = {}
 def registerComponent(component, cid=None):
     if cid != None:
         globals()['Registry'][cid] = component
     else:
         try:
             cid = component['Id']
-            globals()['Registry'][cid] = component
-        except:
-            raise Exception('Must specify Id, component did not store it')
+        except KeyError:
+            cid = getNewId() 
+            component['Id'] = cid 
+            main_log.debug(cid + 'automatically assigned')
+        globals()['Registry'][cid] = component
+    return cid
 #def registerDefault(
 def removeComponent(cid):
     globals()['Registry'].pop(cid)
 def getComponent(cid):
     return globals()['Registry'][cid]
+def getNewId():
+    trialKey = len(globals()['Registry'])
+    trialId = hashlib.md5(str(trialKey)).hexdigest()
+    while trialId in globals()['Registry']:
+        trialKey += 1
+        trialId = hashlib.md5(str(trialKey)).hexdigest()
+    return trialId

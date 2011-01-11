@@ -5,5 +5,5 @@ class AllPixelsLeft(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
         for sensory in sensorInputs:
             xLoc = sensory['Location'][0] 
-            sensory['Location'] = '[{x}<' + str(xLoc) + ']'
+            sensory['Location'] = '{x}<' + str(xLoc) 
         return (sensorInputs, recursiveInputs)

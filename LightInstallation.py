@@ -101,27 +101,26 @@ class LightInstallation:
                 except Exception as inst:
                     main_log.error('Error importing ' + module+'.'+'.className.  Component not\
                     initialized.')
-                    main_log.error(str(inst)) #TODO: exception logging
-                    continue #TODO: verify functions as expected
+                    main_log.error(str(inst)) 
+                    continue 
                 args = configGetter.pullArgsFromItem(configItem)
                 args['parentScope'] = self #TODO: we shouldn't give away scope
                 #like this, find another way.
                 try:
-                    components.append(eval(className+'(args)')) #TODO: doesn't error
+                    components.append(eval(className+'(args)')) 
                     main_log.debug(className + 'initialized with args ' + str(args))
                 #right
                 except Exception as inst:
                     main_log.error('Failure while initializing ' + className + ' with ' + str(args))
-                    main_log.error(str(inst)) #TODO: exception logging
+                    main_log.error(str(inst)) 
                 
         return components
     def alive(self):
         return True
     def mainLoop(self):
-        #self.screen.allOn()
         lastLoopTime = clock.time()
         refreshInterval = 30
-        runCount = 2000 
+        runCount = 200 
         while runCount > 0:
             runCount -= 1
             loopStart = clock.time()

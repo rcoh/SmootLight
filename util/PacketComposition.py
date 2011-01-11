@@ -22,14 +22,25 @@ def composePixelStripData(pixelStrip,currentTime=timeops.time()):
 #color = pixelStrip.pixels[i].state()
 #packet[i:i+2] = color
 #    return bytearray(packet)
-def composePixelStripPacket(pixelStrip,port, currentTime):
+cache = {}
+def memoize(f):
+    def helper(x):
+        if x not in cache:            
+            cache[x] = f(x)
+        return cache[x]
+    return helper
+@memoize
+def cachePacketHeader(port):
     packet = bytearray()
-    data = composePixelStripData(pixelStrip, currentTime)
     subDict = dict(kinetDict)
     subDict['len'] = 38000 #I have no idea why this works.
     subDict['port'] = port
     packet.extend(kinetPortOutPacket(subDict))
     packet.append(0x0)
+    return packet
+def composePixelStripPacket(pixelStrip,port, currentTime):
+    packet = bytearray(cachePacketHeader(port))
+    data = composePixelStripData(pixelStrip, currentTime)
     packet.extend(data)
     return packet
 def kinetHeader():

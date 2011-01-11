@@ -14,17 +14,21 @@ class SimpleMapper(PixelMapper):
                     bestPixel = pixel
                     bestDist = pixelDist
             return [(bestPixel,1)]
-        elif type(type(str)):
-            #[{x}>5,{y}<k]
+        else:
+            #{x}>5,{y}<k
             #TODO: we should probably encapsulate this somewhere
             ret = []
             eventLocation = eventLocation.replace('{x}', 'pixel.location[0]')
             eventLocation = eventLocation.replace('{y}', 'pixel.location[1]')
+            conditions = eventLocation.split(',')
+            conditionLambdas = [eval('lambda pixel:'+condition) for condition in conditions]
             for pixel in screen:
                 try:
-                    preValid = eval(eventLocation)
-                    pixelValid = sum(preValid) == len(preValid) #TODO: some
-                    #optimizations possible.  This might be slow in the long run
+                    pixelValid = True
+                    for p in conditionLambdas:
+                        if p(pixel) == False:
+                            pixelValid = False
+                            continue
                     if pixelValid:
                         ret.append((pixel, 1))
                 except Exception as exp:
