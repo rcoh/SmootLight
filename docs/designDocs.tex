@@ -35,6 +35,9 @@
                 between members as python dictionaries because their easy
                 serialization.
         \end{itemize}
+    \section{Overview}
+        \begin{itemize}
+            \item
     \section{Operations Class Patterns}
     \classDoc{SmootCoreObject}{None}{All 2nd level classes (PixelAssembler, Renderer,
                 Input, Behavior)}
@@ -44,7 +47,8 @@
                     \item Defines a constructor that sets argDict
                     \item Defines a \texttt{\_\_getitem\_\_} , which lets us acces items in
                     argDict as if the class was a dictionary.
-                    (\texttt{self['itemName']})
+                    (\texttt{self['itemName']}).  It also automatically maps the
+                    initial contents of the argDict to class attributes.
                     \item Defines validateArgs and validateArgDict which
                     validate the incoming arguments against a dictionary
                     containing argument names as keys and an error message to

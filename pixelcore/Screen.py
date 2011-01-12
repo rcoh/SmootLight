@@ -37,9 +37,7 @@ class Screen:
         self.xSortedPixels.sort()
         self.xPixelLocs = [p[0] for p in self.xSortedPixels]
         
-    def render(self, surface):
-        [lS.render(surface) for lS in self.pixelStrips]
-        
+    #For debug only    
     def allOn(self):
         [lS.allOn(-1) for lS in self.pixelStrips]
         
@@ -89,8 +87,7 @@ class Screen:
         #if type(mapper) != type(PixelMapper):
         #    raise Exception('No default mapper specified.')
         pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
-        main_log.debug(str(len(pixelWeightList)))
-        main_log.debug(pixelWeightList)
+
         PixelEvent.addPixelEventIfMissing(responseInfo)
         currentTime = timeops.time()
         for (pixel, weight) in pixelWeightList: 

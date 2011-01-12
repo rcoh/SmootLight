@@ -40,9 +40,17 @@
             <Class>inputs.PygameInput</Class>
             <Args><!--Passed as a dictionary-->
                 <Id>pygame</Id>
-                <RefreshInterval>100</RefreshInterval>
+                <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
+        <!--<InputElement>
+            <Class>inputs.TCPInput</Class>
+            <Args>
+                <Id>tcp</Id>
+                <Port>20120</Port>
+                <RefreshInterval>10</RefreshInterval>
+            </Args>
+        </InputElement>-->
         <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
@@ -68,6 +76,12 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
+        <Behavior Id="slowdecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.01</Coefficient>
+            </Args>
+        </Behavior>
         <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Args>
@@ -88,13 +102,13 @@
             <Class>behaviors.Square</Class>
             <Args>
                 <Id>square</Id>
-                <Width>10</Width>
+                <Width>5</Width>
             </Args>
         </Behavior>
         <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
-                <InitialResponseCount>2000</InitialResponseCount>
+                <InitialResponseCount>300</InitialResponseCount>
             </Args>
         </Behavior>
         <Behavior>
@@ -134,11 +148,12 @@
                 <Id>mousechaser</Id>
                 <Inputs>
                     <Id>followmouse</Id>
+                    <Id>tcp</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
                     <Id>square</Id>
-                    <Id>decay</Id>
+                    <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
             </Args>

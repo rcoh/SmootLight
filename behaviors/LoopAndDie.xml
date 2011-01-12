@@ -1,6 +1,6 @@
 <Behavior>
     <Class>behaviors.RecursiveDecay</Class>
     <Args>
-        <InitialResponseCount>70</InitialResponseCount>
+        <InitialResponseCount>20</InitialResponseCount>
     </Args>
 </Behavior>

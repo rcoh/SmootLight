@@ -11,28 +11,28 @@ import pdb
 class Input(ThreadedSmootCoreObject):
     #Event scope is a function pointer the function that will get called when
     #an Parent is raised.
-    def __init__(self, argDict):
+    def init(self):
         self.eventQueue = []
-        self.parentScope = argDict['parentScope']
-        self.argDict = argDict
-        if not 'RefreshInterval' in argDict:
+        if not 'RefreshInterval' in self.argDict:
             print 'RefreshInterval not defined.  Defaulting to .5s.'
             self.argDict['RefreshInterval'] = 500 
+        self.parentScope = self.argDict['parentScope']
         self.inputInit()
-        threading.Thread.__init__(self)
-        self.daemon = True #This kills this thread when the main thread stops
+        
     def respond(self, eventDict):
         #if eventDict != []:
         self.parentScope.lock.acquire()
         self.parentScope.processResponse(self.argDict, eventDict)
         self.parentScope.lock.release()
         time.sleep(.001)
+        
     def parentAlive(self):
         try:
             parentAlive = self.parentScope.alive()
             return parentAlive
         except:
             return False
+            
     def run(self):
         while 1:
             try:
@@ -43,8 +43,10 @@ class Input(ThreadedSmootCoreObject):
             self.acquireLock()
             self.sensingLoop()
             self.releaseLock()
+            
     def sensingLoop(self):
         pass
+        
     def inputInit(self):
         pass
 
