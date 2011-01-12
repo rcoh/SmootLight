@@ -24,6 +24,7 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             return config
     except Exception as inst:
         main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
+        main_log.error(str(inst))
         return None
 #Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
 #it

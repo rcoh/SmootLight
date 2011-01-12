@@ -1,12 +1,3 @@
-<!--<Behavior>
-    <Class>behaviors.DecayBehavior</Class>
-    <Args>
-        <DecayType>Exponential</DecayType>
-        <Coefficient>.01</Coefficient>
-        <z-index>0</z-index>
-        <RenderToScreen>False</RenderToScreen>
-    </Args>
-</Behavior>-->
 <Behavior>
     <Class>behaviors.AddPixelEvent</Class>
     <Args>

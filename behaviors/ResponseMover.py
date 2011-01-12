@@ -1,3 +1,4 @@
+import pdb
 from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
 #ResponseMover is a scaffold for behaviors that spawn 'walkers' which act autonomously on input.
@@ -6,7 +7,6 @@ class ResponseMover(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
         newResponses = sensorInputs 
         ret = []
-        ret += newResponses
         for recurInput in recursiveInputs:
             outDict = dict(recurInput)
             ret.append(outDict)

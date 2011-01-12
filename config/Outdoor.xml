@@ -72,6 +72,12 @@
         </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <ColorList>
+                    <Color>(0,255,0)</Color>
+                    <Color>(255,0,0)</Color>
+                </ColorList>
+            </Args>
         </Behavior>
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
@@ -127,6 +133,36 @@
                 <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>randomwalk</Id>
+                <Inputs>
+                    <Id>pygame</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'randmovement'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ResponseMover</Class>
+            <Args>
+                <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>randmovement</Id>
+                <StepSize>2</StepSize>
             </Args>
         </Behavior>
         <Behavior Id="accelerate">

@@ -8,6 +8,7 @@ import util.Strings as Strings
 import util.TimeOps as timeops
 import itertools
 import sys
+import pdb
 from logger import main_log
 #Class representing a collection of Pixels grouped into PixelStrips.  Needs a
 #PixelMapper, currently set via setMapper by may be migrated into the argDict.
@@ -91,5 +92,7 @@ class Screen:
         PixelEvent.addPixelEventIfMissing(responseInfo)
         currentTime = timeops.time()
         for (pixel, weight) in pixelWeightList: 
+            if pixel == None:
+                pdb.set_trace()
             pixel.processInput(responseInfo['PixelEvent'].scale(weight), 0, currentTime) #TODO: z-index
 
