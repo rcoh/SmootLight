@@ -2,7 +2,6 @@ from pixelcore.Pixel import *
 import util.Strings as Strings
 import util.Geo as Geo
 from pixelevents.StepEvent import *
-import pygame
 import math
 import pdb
 #Python class representing a single Pixel strip (usually 50 Pixels)
