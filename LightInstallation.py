@@ -2,7 +2,6 @@ from xml.etree.ElementTree import ElementTree
 from pixelcore.Screen import * 
 from pixelcore.PixelStrip import *
 import pdb, sys, time, thread
-from pygame.locals import *
 import util.TimeOps as clock
 import util.Config as configGetter 
 import util.ComponentRegistry as compReg
