@@ -121,7 +121,7 @@ class LightInstallation:
         lastLoopTime = clock.time()
         refreshInterval = 30
         runCount = 200 
-        while runCount > 0:
+        while 1:
             runCount -= 1
             loopStart = clock.time()
             responses = self.evaluateBehaviors() #inputs are all queued when they
