@@ -31,21 +31,8 @@
         <Renderer>
             <InheritsFrom>renderers/SixStripUDP.xml</InheritsFrom>
         </Renderer>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args><!--Passed as a dictionary-->
-                <Id>pygame</Id>
-                <RefreshInterval>100</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement Id="followmouse">
-            <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
-        </InputElement>
         <InputElement>
             <Class>inputs.RandomLocs</Class>
             <Args>
@@ -74,7 +61,6 @@
                 <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
-                    <Id>pygame</Id>
                 </Inputs>
             </Args>
         </Behavior>
@@ -95,7 +81,6 @@
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>pygame</Id>
                     <Id>randomLoc</Id>
                 </Inputs>
                 <ChainedBehaviors>
@@ -125,9 +110,6 @@
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>mousechaser</Id>
-                <Inputs>
-                    <Id>followmouse</Id>
-                </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
                     <Id>pixelsleft</Id>

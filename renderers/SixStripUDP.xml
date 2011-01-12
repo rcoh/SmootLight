@@ -3,11 +3,11 @@
     <Args>
         <Id>indoorRenderer</Id>
         <PowerSupply>
-            <IP>10.31.255.233</IP>
+            <IP>10.32.97.17</IP>
             <PortMapping>{'strip1':1, 'strip2':2}</PortMapping>
         </PowerSupply>
         <PowerSupply>
-            <IP>10.32.97.17</IP>
+            <IP>10.31.255.233</IP>
             <PortMapping>{'strip3':1, 'strip4':2}</PortMapping>
         </PowerSupply>
         <PowerSupply>
