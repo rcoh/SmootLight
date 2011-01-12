@@ -9,7 +9,7 @@ import util.ComponentRegistry as compReg
 from logger import main_log
 #Python class to instantiate and drive a Screen through different patterns,
 #and effects.
-class LightInstallation:
+class LightInstallation(object):
     def __init__(self, configFileName):
         main_log.info("System Initialization began based on: " + str(configFileName))
         self.timer = clock.Stopwatch()
@@ -21,36 +21,50 @@ class LightInstallation:
         self.behaviorInputs = {}
         self.componentDict = {}
         self.inputBehaviorRegistry = {} #inputid -> behaviors listening to that
+        self.dieNow = False
         #input
         self.screen = Screen()
         compReg.initRegistry()
         compReg.registerComponent(self.screen, 'Screen') #TODO: move to constants file
-        config = configGetter.loadConfigFile(configFileName)
+        
         #read configs from xml
+        config = configGetter.loadConfigFile(configFileName)
+        
         rendererConfig = config.find('RendererConfiguration')
-        pixelConfig = config.find('PixelConfiguration')
-        inputConfig = config.find('InputConfiguration')
-        behaviorConfig = config.find('BehaviorConfiguration')
-        mapperConfig = config.find('PixelMapperConfiguration')
-
-        installationConfig = config.find('InstallationConfiguration')
-        #inits
-        self.initializeScreen(pixelConfig)
         self.initializeRenderers(rendererConfig)
+        
+        pixelConfig = config.find('PixelConfiguration')
+        self.initializeScreen(pixelConfig)
+        
+        inputConfig = config.find('InputConfiguration')
         self.initializeInputs(inputConfig)
+        
+        behaviorConfig = config.find('BehaviorConfiguration')
         self.initializeBehaviors(behaviorConfig)
+        
+        mapperConfig = config.find('PixelMapperConfiguration')
         self.initializeMapper(mapperConfig)
+
+        #inits
         main_log.info('All components initialized')
-        #registration in dict
-        self.registerComponents(self.renderers)
-        self.registerComponents(self.inputs)
-        self.registerComponents(self.behaviors)
-        self.registerComponents(self.mappers)
+        #
+        self.registerAllComponents()
+        
+        installationConfig = config.find('InstallationConfiguration')
         self.configureInstallation(installationConfig)
         #Done initializing.  Lets start this thing!
         self.timer.stop()
         #main_log.info('Initialization done.  Time: ', self.timer.elapsed(), 'ms')
         self.mainLoop()
+    
+    def registerAllComponents(self):
+        #registration in dict
+        self.registerComponents(self.renderers)
+        self.registerComponents(self.inputs)
+        self.registerComponents(self.behaviors)
+        self.registerComponents(self.mappers)
+        
+    
     def configureInstallation(self, installationConfig):
         defaults = configGetter.generateArgDict(installationConfig.find('Defaults'))
         for defaultSelection in defaults:
@@ -62,12 +76,15 @@ class LightInstallation:
 
     def initializeMapper(self, mapperConfig):
         self.mappers = self.initializeComponent(mapperConfig) 
+        
     def initializeScreen(self, layoutConfig):
         pixelAssemblers = self.initializeComponent(layoutConfig)
         [self.addPixelStrip(l) for l in pixelAssemblers]
+        
     def addPixelStrip(self, layoutEngine):
         pixelStrip = PixelStrip(layoutEngine)
         self.screen.addStrip(pixelStrip)
+        
     def initializeInputs(self, inputConfig):
         inputs = self.initializeComponent(inputConfig)
         self.inputs = inputs
@@ -75,8 +92,10 @@ class LightInstallation:
             inputClass.start()
             self.inputBehaviorRegistry[inputClass['Id']] = []
             #empty list is list of bound behaviors
+            
     def initializeRenderers(self, rendererConfig):
         self.renderers = self.initializeComponent(rendererConfig) 
+        
     def registerComponents(self, components):
         for component in components:
             cid = component['Id']
@@ -85,6 +104,7 @@ class LightInstallation:
             else:
                 compReg.registerComponent(component)
                 main_log.debug(cid + ' registered')
+                
     def initializeComponent(self, config):
         components = []
         if config != None:
@@ -107,7 +127,9 @@ class LightInstallation:
                 args['parentScope'] = self #TODO: we shouldn't give away scope
                 #like this, find another way.
                 try:
-                    components.append(eval(className+'(args)')) 
+                    new_component = eval(className+'(args)')
+                    new_component.addDieListener(self)
+                    components.append(new_component) #TODO: doesn't error
                     main_log.debug(className + 'initialized with args ' + str(args))
                 #right
                 except Exception as inst:
@@ -115,13 +137,15 @@ class LightInstallation:
                     main_log.error(str(inst)) 
                 
         return components
+        
     def alive(self):
         return True
+        
     def mainLoop(self):
         lastLoopTime = clock.time()
         refreshInterval = 30
-        runCount = 200 
-        while 1:
+        runCount = 2000 
+        while runCount > 0 and not self.dieNow:
             runCount -= 1
             loopStart = clock.time()
             responses = self.evaluateBehaviors() #inputs are all queued when they
@@ -137,6 +161,7 @@ class LightInstallation:
             #print self.timer.elapsed()
             if sleepTime > 0:
                 time.sleep(sleepTime/1000)
+                
     #evaluates all the behaviors (including inter-dependencies) and returns a
     #list of responses to go to the screen.
     def evaluateBehaviors(self):
@@ -153,12 +178,14 @@ class LightInstallation:
         self.behaviors = self.initializeComponent(behaviorConfig)
         for behavior in self.behaviors:
             self.addBehavior(behavior)
+            
     #Does work needed to add a behavior: currently -- maps behavior inputs into
     #the input behavior registry.
     def addBehavior(self, behavior):
         for inputId in behavior.argDict['Inputs']:
             if inputId in self.inputBehaviorRegistry: #it could be a behavior
                 self.inputBehaviorRegistry[inputId].append(behavior['Id'])
+                
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
@@ -167,12 +194,17 @@ class LightInstallation:
             [compReg.getComponent(b).addInput(responseDict) for b in boundBehaviorIds]
         except:
             pass
-            #print 'Behaviors not initialized yet.  WAIT!' 
+            #print 'Behaviors not initialized yet.  WAIT!'
+            
+    def handleDie(self, caller):
+        self.dieNow = True
+            
 def main(argv):
     if len(argv) == 1:
         l = LightInstallation('LightInstallationConfig.xml')
     else:
         l = LightInstallation(argv[1])
+        
 if __name__ == "__main__":
     try:
         main(sys.argv)

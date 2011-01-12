@@ -7,7 +7,6 @@ from operationscore.ThreadedSmootCoreObject import *
 class Renderer(ThreadedSmootCoreObject):
     def init(self):
         self.initRenderer()
-        threading.Thread.__init__(self)
     def render(lightSystem):
         pass
     def initRenderer(self):
