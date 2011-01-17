@@ -6,8 +6,8 @@ import random
 class RandomWalk(Behavior):
     def processResponse(self, sensors, recursives):
         ret = []
+        s = self['StepSize']
         for sensory in sensors:
-            s = self['StepSize']
             step = [random.randint(-s,s), random.randint(-s,s)]
             outdict = dict(sensory)
             outdict[Strings.LOCATION] = Geo.addLocations(step, outdict[Strings.LOCATION])

@@ -31,6 +31,9 @@ def registerComponent(component, cid=None):
         globals()['Registry'][cid] = component
     return cid
 
+def verifyUniqueId(cid):
+    return not cid in globals()['Registry']
+
 def removeComponent(cid):
     globals()['Registry'].pop(cid)
 
