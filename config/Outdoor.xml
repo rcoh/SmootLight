@@ -70,6 +70,9 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
+        <Behavior Id="redshift">
+            <InheritsFrom>behaviors/RedShift.xml</InheritsFrom>
+        </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Args>
@@ -114,7 +117,7 @@
         <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
-                <InitialResponseCount>300</InitialResponseCount>
+                <InitialResponseCount>30</InitialResponseCount>
             </Args>
         </Behavior>
         <Behavior>
@@ -123,7 +126,7 @@
                 <Id>runcolordecay</Id>
                 <Inputs>
                     <Id>pygame</Id>
-                    <Id>randomLoc</Id>
+                    <!--<Id>randomLoc</Id>-->
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
@@ -147,7 +150,7 @@
                     <Id>mover</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'randmovement'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'redwalk'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
@@ -156,6 +159,16 @@
             <Class>behaviors.ResponseMover</Class>
             <Args>
                 <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>redwalk</Id>
+                <ChainedBehaviors>
+                    <Id>randmovement</Id>
+                    <Id>redshift</Id>
+                </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
@@ -188,6 +201,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
+                    <Id>redshift</Id>
                     <Id>square</Id>
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>

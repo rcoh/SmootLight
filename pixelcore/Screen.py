@@ -92,7 +92,4 @@ class Screen:
         PixelEvent.addPixelEventIfMissing(responseInfo)
         currentTime = timeops.time()
         for (pixel, weight) in pixelWeightList: 
-            if pixel == None:
-                pdb.set_trace()
             pixel.processInput(responseInfo['PixelEvent'].scale(weight), 0, currentTime) #TODO: z-index
-

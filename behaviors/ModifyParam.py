@@ -5,7 +5,7 @@ class ModifyParam(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
         paramType = self['ParamType']
         paramName = self['ParamName']
-        paramOp = self['ParamOp']
+        paramOp = str(self['ParamOp'])
         if paramType == 'Sensor':
             searchSet = sensorInputs
         elif paramType == 'Recurse':
@@ -13,12 +13,10 @@ class ModifyParam(Behavior):
         else:
             raise Exception('Unknown Param Type')
         for behaviorInput in searchSet:
-            if paramName in behaviorInput:
-                try:
+            if paramName in behaviorInput: #TODO: copy -> modify instead of just
+            #copying
                     paramOp = paramOp.replace('{val}', 'behaviorInput[paramName]') #convert the {val} marker to something we can execute
                     behaviorInput[paramName] = eval(paramOp)
-                except:
-                    raise Exception('Bad operation.  Use things like \'{val}*5\', \'{val}+5\', exp({val}) etc.')
         if paramType == 'Sensor': #return accordingly
             return (searchSet, recursiveInputs)
         if paramType == 'Recurse':

@@ -3,6 +3,7 @@ import util.ComponentRegistry as compReg
 import util.Geo as Geo
 import util.Strings as Strings
 import random
+import pdb
 class RandomWalk(Behavior):
     def processResponse(self, sensors, recursives):
         ret = []

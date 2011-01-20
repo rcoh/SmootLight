@@ -9,4 +9,4 @@ class EchoBehavior(Behavior):
             outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
             outDict['Color'] = (255,0,0) 
             ret.append(outDict)
-        return ret
+        return (ret, [])

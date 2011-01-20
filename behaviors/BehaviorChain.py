@@ -29,8 +29,8 @@ class BehaviorChain(Behavior):
                 if hookRecurrence != []:
                     main_log.warn('Hook recurrences are not currently supported.  Implement it\
 yourself or bug russell')
-                self.feedback[behaviorId] = recurrence 
-        return response
+            self.feedback[behaviorId] = recurrence 
+        return (response, [])
 
     def appendBehavior(behavior):
         bid = compReg.registerComponent(behavior) #register behavior (will make
