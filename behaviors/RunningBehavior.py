@@ -15,6 +15,7 @@ class RunningBehavior(Behavior):
                 outDict['StepSize'] = self['StepSize']
             outDict['Location']= Geo.addLocations(outDict['Location'],
             (outDict['StepSize']*outDict['Dir'],0))
+            
             if not Geo.pointWithinBoundingBox(outDict['Location'], \
                 compReg.getComponent('Screen').getSize()):
                     outDict['Dir'] *= -1

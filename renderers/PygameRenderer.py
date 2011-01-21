@@ -6,7 +6,7 @@ import pdb
 class PygameRenderer(Renderer):
     def initRenderer(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((1300,50))
+        self.screen = pygame.display.set_mode((1300,500))
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
         self.background.fill(Color('Black'))

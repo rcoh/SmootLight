@@ -73,6 +73,7 @@ class Screen:
             maxY = max(y, maxY)
         self.size = (0,0, maxX, maxY)
         self.sizeValid = True
+        print self.size
         return (0, 0, maxX+100, maxY+100) #TODO: cleaner
         
     #private
@@ -88,8 +89,7 @@ class Screen:
         #if type(mapper) != type(PixelMapper):
         #    raise Exception('No default mapper specified.')
         pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
-
         PixelEvent.addPixelEventIfMissing(responseInfo)
         currentTime = timeops.time()
         for (pixel, weight) in pixelWeightList: 
-            pixel.processInput(responseInfo['PixelEvent'].scale(weight), 0, currentTime) #TODO: z-index
+            pixel.processInput(responseInfo['PixelEvent'], 0,weight, currentTime) #TODO: z-index

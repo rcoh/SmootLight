@@ -4,12 +4,12 @@ from util.ColorOps import *
 import util.Geo as Geo
 class DecayEvent(PixelEvent):
     def initEvent(self):
-        self.coefficient = float(abs(self['Coefficient']))
-        if self['DecayType'] == 'Exponential':
+        self.coefficient = float(abs(self.Coefficient))
+        if self.DecayType == 'Exponential':
             self.decayType = 1
         else:
             self.decayType = 2
-        self.color = self['Color']   
+        self.color = self.Color   
         
     #SUBVERTING DESIGN FOR THE SAKE OF EFFICIENCY -- RUSSELL COHEN (2011-01-03-23:18)    
     def state(self,timeDelay):
