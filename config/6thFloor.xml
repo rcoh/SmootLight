@@ -7,6 +7,7 @@
     </InstallationConfiguration>
     <PixelConfiguration>
         <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <!--<InheritsFrom>layouts/BasicSixStrip.xml</InheritsFrom-->
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -28,9 +29,9 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
+        <!--<Renderer>
             <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
+        </Renderer>-->
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
@@ -79,6 +80,9 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
+        <Behavior Id="singleframe">
+            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+        </Behavior>
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
             <Args>
@@ -86,6 +90,60 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.XYMove</Class>
+            <Args>
+                <Id>xymove</Id>
+                <XStep>5</XStep>
+                <YStep>2</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RestrictLocation</Class>
+            <Args>
+                <Id>xbounce</Id>
+                <Action>{val}*-1</Action>
+                <ParamName>XStep</ParamName>
+                <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RestrictLocation</Class>
+            <Args>
+                <Id>ybounce</Id>
+                <Action>{val}*-1</Action>
+                <ParamName>YStep</ParamName>
+                <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>movebounce</Id>
+                <ChainedBehaviors>
+                    <Id>xymove</Id>
+                    <Id>ybounce</Id>
+                    <Id>xbounce</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>xymover</Id>
+                <Inputs>
+                    <Id>pygame</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+           </Args>
+       </Behavior>
+       <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Args>
                 <Id>debug</Id>
@@ -108,6 +166,12 @@
                 <Width>20</Width>
             </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.AllPixels</Class>
+            <Args>
+                <Id>allpixels</Id>
+            </Args>
+        </Behavior>
         <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
@@ -127,7 +191,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -144,7 +208,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'redwalk'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -196,9 +260,9 @@
                     <Id>echo</Id>
                     <Id>redshift</Id>
                     <Id>square</Id>
-                    <Id>slowdecay</Id>
+                    <Id>decay</Id>
                 </ChainedBehaviors>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="running">

@@ -25,7 +25,7 @@ class RestrictLocation(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
         ret = []
         for data in sensorInputs:
-            if not self.locEval(data['Location']):
+            if self.locEval(data['Location']):
                 (dataOut, recur) = self.paramModifier.immediateProcessInput([data], [])
                 #behaviors expect lists ^[]
                 ret += dataOut

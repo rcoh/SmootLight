@@ -134,6 +134,7 @@ class LightInstallation(object):
                     main_log.debug(className + 'initialized with args ' + str(args))
                 #right
                 except Exception as inst:
+                    pdb.set_trace()
                     main_log.error('Failure while initializing ' + className + ' with ' + str(args))
                     main_log.error(str(inst)) 
                 

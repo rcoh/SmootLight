@@ -3,10 +3,6 @@
     <Args>
         <Id>indoorRenderer</Id>
         <PowerSupply>
-            <IP>10.32.0.0</IP>
-            <PortMapping>{'strip0.1':1, 'strip0.2':2}</PortMapping>
-        </PowerSupply>
-        <PowerSupply>
             <IP>10.32.0.1</IP>
             <PortMapping>{'strip1.1':1, 'strip1.2':2}</PortMapping>
         </PowerSupply>

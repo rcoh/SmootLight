@@ -5,6 +5,7 @@ class Square(Behavior):
                 xLoc = sensory['Location'][0]
                 yLoc = sensory['Location'][1]
                 width = self['Width']
+                #sensory['Location'] = 'True'
                 sensory['Location'] =\
                     '{x}<'+str(xLoc+width)+',{x}>'+str(xLoc-width)+\
                     ',{y}<'+str(yLoc+width)+',{y}>'+str(yLoc-width)

@@ -14,7 +14,6 @@ class Input(ThreadedSmootCoreObject):
     def init(self):
         self.eventQueue = []
         if not 'RefreshInterval' in self.argDict:
-            print 'RefreshInterval not defined.  Defaulting to .5s.'
             self.argDict['RefreshInterval'] = 500 
         self.parentScope = self.argDict['parentScope']
         self.inputInit()

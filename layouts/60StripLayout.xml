@@ -1,179 +1,179 @@
 <PixelConfiguration>
-    <PixelStrip Id="strip1.1" originLocation="(0,0)">
+    <PixelStrip Id="strip1.1" originLocation="(0,0)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip1.2" originLocation="(200,0)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip2.1" originLocation="(0,15)">
+    <PixelStrip Id="strip2.1" originLocation="(0,15)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip2.2" originLocation="(200,15)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip3.1" originLocation="(0,30)">
+    <PixelStrip Id="strip3.1" originLocation="(0,30)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip3.2" originLocation="(200,30)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip4.1" originLocation="(0,45)">
+    <PixelStrip Id="strip4.1" originLocation="(0,45)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip4.2" originLocation="(200,45)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip5.1" originLocation="(0,60)">
+    <PixelStrip Id="strip5.1" originLocation="(0,60)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip5.2" originLocation="(200,60)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip6.1" originLocation="(0,75)">
+    <PixelStrip Id="strip6.1" originLocation="(0,75)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip6.2" originLocation="(200,75)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip7.1" originLocation="(0,90)">
+    <PixelStrip Id="strip7.1" originLocation="(0,90)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip7.2" originLocation="(200,90)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip8.1" originLocation="(0,105)">
+    <PixelStrip Id="strip8.1" originLocation="(0,105)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip8.2" originLocation="(200,105)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip9.1" originLocation="(0,120)">
+    <PixelStrip Id="strip9.1" originLocation="(0,120)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip9.2" originLocation="(200,120)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip10.1" originLocation="(0,135)">
+    <PixelStrip Id="strip10.1" originLocation="(0,135)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip10.2" originLocation="(200,135)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip11.1" originLocation="(0,150)">
+    <PixelStrip Id="strip11.1" originLocation="(0,150)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip11.2" originLocation="(200,150)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip12.1" originLocation="(0,165)">
+    <PixelStrip Id="strip12.1" originLocation="(0,165)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip12.2" originLocation="(200,165)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip13.1" originLocation="(0,180)">
+    <PixelStrip Id="strip13.1" originLocation="(0,180)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip13.2" originLocation="(200,180)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip14.1" originLocation="(0,195)">
+    <PixelStrip Id="strip14.1" originLocation="(0,195)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip14.2" originLocation="(200,195)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip15.1" originLocation="(0,210)">
+    <PixelStrip Id="strip15.1" originLocation="(0,210)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip15.2" originLocation="(200,210)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip16.1" originLocation="(400,0)">
+    <PixelStrip Id="strip16.1" originLocation="(400,0)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip16.2" originLocation="(600,0)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip17.1" originLocation="(400,15)">
+    <PixelStrip Id="strip17.1" originLocation="(400,15)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip17.2" originLocation="(600,15)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip18.1" originLocation="(400,30)">
+    <PixelStrip Id="strip18.1" originLocation="(400,30)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip18.2" originLocation="(600,30)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip19.1" originLocation="(400,45)">
+    <PixelStrip Id="strip19.1" originLocation="(400,45)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip19.2" originLocation="(600,45)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip20.1" originLocation="(400,60)">
+    <PixelStrip Id="strip20.1" originLocation="(400,60)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip20.2" originLocation="(600,60)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip21.1" originLocation="(400,75)">
+    <PixelStrip Id="strip21.1" originLocation="(400,75)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip21.2" originLocation="(600,75)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip22.1" originLocation="(400,90)">
+    <PixelStrip Id="strip22.1" originLocation="(400,90)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip22.2" originLocation="(600,90)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip23.1" originLocation="(400,105)">
+    <PixelStrip Id="strip23.1" originLocation="(400,105)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip23.2" originLocation="(600,105)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip24.1" originLocation="(400,120)">
+    <PixelStrip Id="strip24.1" originLocation="(400,120)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip24.2" originLocation="(600,120)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip25.1" originLocation="(400,135)">
+    <PixelStrip Id="strip25.1" originLocation="(400,135)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip25.2" originLocation="(600,135)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip26.1" originLocation="(400,150)">
+    <PixelStrip Id="strip26.1" originLocation="(400,150)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip26.2" originLocation="(600,150)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip27.1" originLocation="(400,165)">
+    <PixelStrip Id="strip27.1" originLocation="(400,165)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip27.2" originLocation="(600,165)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip28.1" originLocation="(400,180)">
+    <PixelStrip Id="strip28.1" originLocation="(400,180)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip28.2" originLocation="(600,180)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip29.1" originLocation="(400,195)">
+    <PixelStrip Id="strip29.1" originLocation="(400,195)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip29.2" originLocation="(600,195)">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
-    <PixelStrip Id="strip30.1" originLocation="(400,210)">
+    <PixelStrip Id="strip30.1" originLocation="(400,210)" Reverse="True">
         <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
     </PixelStrip>
     <PixelStrip Id="strip30.2" originLocation="(600,210)">

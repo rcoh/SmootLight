@@ -1,4 +1,5 @@
 from operationscore.SmootCoreObject import *
+from logger import main_log
 import pdb
 class PixelMapper(SmootCoreObject):
     def init(self):
@@ -8,7 +9,8 @@ class PixelMapper(SmootCoreObject):
     def mapEvent(self, eventLocation, screen):
         self.totalCalls += 1
         if self.totalCalls % 100 == 0:
-            print self['Id'], self.cachehits / float(self.totalCalls)
+            main_log.info('Cache percentage for :', self['Id'], self.cachehits /\
+                float(self.totalCalls))
         if eventLocation in self.mem:
             self.cachehits += 1
             return self.mem[eventLocation]
