@@ -29,10 +29,10 @@ class Pixel:
         #arg
         
     #Add a pixelEvent to the list of active events
-    def processInput(self,pixelEvent,zindex, currentTime=None): #consider migrating arg to dict
+    def processInput(self,pixelEvent,zindex, scale=1,currentTime=None): #consider migrating arg to dict
         if currentTime == None:
             currentTime = timeops.time()
-        self.events[currentTime] = (zindex, pixelEvent)
+        self.events[currentTime] = (zindex,scale, pixelEvent)
         
     def clearAllEvents(self):
         self.events = {}
@@ -49,10 +49,10 @@ class Pixel:
         resultingColor = (0,0,0)
         colors = []
         for eventTime in self.events: #TODO: right color weighting code
-            (zindex,event) = self.events[eventTime]
+            (zindex,scale,event) = self.events[eventTime]
             eventResult = event.state(currentTime-eventTime)
             if eventResult != None:
-                colors.append(eventResult)
+                colors.append(color.multiplyColor(eventResult,scale))
             else:
                 deadEvents.append(eventTime)
         

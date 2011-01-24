@@ -13,7 +13,10 @@ class SimpleMapper(PixelMapper):
                 if pixelDist < bestDist:
                     bestPixel = pixel
                     bestDist = pixelDist
-            return [(bestPixel,1)]
+            if bestPixel != None:
+                return [(bestPixel,1)]
+            else:
+                return [] 
         else:
             #{x}>5,{y}<k
             #TODO: we should probably encapsulate this somewhere

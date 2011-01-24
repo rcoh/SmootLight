@@ -97,6 +97,8 @@ class LightInstallation(object):
         
     def registerComponents(self, components):
         for component in components:
+            cid = compReg.registerComponent(component)
+            main_log.debug(cid + ' registered')
             cid = component['Id']
             if cid == None:  #TODO: determine if componenent is critical, and if so, die
                 main_log.error('Components must be registered with Ids.  Component not registered')
@@ -118,7 +120,7 @@ class LightInstallation(object):
                     exec('from ' + module+'.'+className + ' import *')
                     main_log.debug(module +'.' +className + 'imported')
                 except Exception as inst:
-                    main_log.error('Error importing ' + module+'.'+'.className.  Component not\
+                    main_log.error('Error importing ' + module+'.'+className+ '.  Component not\
                     initialized.')
                     main_log.error(str(inst)) 
                     continue 

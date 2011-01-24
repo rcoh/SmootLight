@@ -1,4 +1,5 @@
 from operationscore.Behavior import *
+import pdb
 class RecursiveDecay(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
         ret = []
@@ -9,4 +10,4 @@ class RecursiveDecay(Behavior):
                 response['ResponsesLeft'] -= 1
             if response['ResponsesLeft'] > 0:
                 ret.append(response)
-        return (ret, recursiveInputs) #no direct ouput
+        return (ret, []) #no direct ouput

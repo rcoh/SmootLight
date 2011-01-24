@@ -22,21 +22,19 @@ class Behavior(SmootCoreObject):
         self.behaviorInit()
     def behaviorInit(self):
         pass
+    def addMapper(fn):
+        def withmap(fn):
+            return self.addMapperToResponse(fn())
+        return withmap
     def processResponse(self, sensorInputs, recursiveInputs):
-        pass
+        raise Exception('ProcessResponse not defined!')
     def addInput(self, sensorInput):
         self.sensorResponseQueue.append(sensorInput)
     #used for behavior chaining
     def immediateProcessInput(self, sensorInputs, recursiveInputs=[]): 
-        try:
-            (output,recursions) = self.processResponse(sensorInputs, \
+            (outputs,recursions) = self.processResponse(sensorInputs, \
                     recursiveInputs)
-            if type(output) != type([]):
-                output = [output]
-            return self.addMapperToResponse((output, recursions)) #TODO: use a decorator for this?
-        except:  #deal with behaviors that don't return a tuple.
-            responses = self.processResponse(sensorInputs, recursiveInputs)
-            return (self.processResponse(sensorInputs, recursiveInputs),[])
+            return self.addMapperToResponse((outputs,recursions))
     def addInputs(self, sensorInputs):
         if type(sensorInputs) == type([]):
             [self.addInput(sensorInput) for sensorInput in sensorInputs]
@@ -54,19 +52,8 @@ class Behavior(SmootCoreObject):
                     return responses
         return responses
     def timeStep(self): #TODO: type checking.  clean this up
-        responses = self.processResponse(self.sensorResponseQueue, \
+        (outputs, recursions) = self.processResponse(self.sensorResponseQueue, \
                 self.recursiveResponseQueue)
-        if type(responses) == type(tuple()) and len(responses) == 2:
-            (outputs, recursions) = responses
-        else:
-            outputs = responses
-            recursions = []
         self.sensorResponseQueue = []
         self.recursiveResponseQueue = recursions 
-        if type(outputs) != type([]):
-            outputs = [outputs]
-        try:
-            return self.addMapperToResponse(outputs) #TODO: WTF is up with this?
-        except:
-            pass
         return self.addMapperToResponse(outputs)

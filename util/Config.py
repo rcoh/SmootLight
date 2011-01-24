@@ -24,6 +24,7 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             return config
     except Exception as inst:
         main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
+        main_log.error(str(inst))
         return None
 #Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
 #it
@@ -98,12 +99,19 @@ def fileToDict(fileName):
 def pullArgsFromItem(parentNode):
     attribArgs = {}
     for arg in parentNode.attrib: #automatically pull attributes into the argdict
-        attribArgs[arg] = parentNode.attrib[arg]
+        attribArgs[arg] = attemptEval(parentNode.attrib[arg])
     argNode = parentNode.find('Args')
     args = generateArgDict(argNode)
     for key in attribArgs:
         args[key] = attribArgs[key]
     return args
+
+def attemptEval(val):
+    try:
+        val = eval(val)
+    except (NameError, SyntaxError):
+        val = str(val)
+    return val
 def generateArgDict(parentNode, recurse=False):
     args = {}
     for arg in parentNode.getchildren():
@@ -112,10 +120,7 @@ def generateArgDict(parentNode, recurse=False):
             value = generateArgDict(arg, True)
         else:
             #convert into python if possible, otherwise don't
-            try:
-                value = eval(arg.text)
-            except (NameError,SyntaxError):
-                value = str(arg.text)
+            value = attemptEval(arg.text)
         if key in args: #build of lists of like-elements
             if type(args[key]) != type([]):
                 args[key] = [args[key]]

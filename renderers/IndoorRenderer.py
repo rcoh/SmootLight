@@ -21,7 +21,7 @@ class IndoorRenderer(Renderer):
                 self.stripLocations[stripId] = (ip, \
                         stripsInPowerSupply[stripId])
     def render(self, lightSystem, currentTime=timeops.time()): 
-        try:
+        #try:
             for pixelStrip in lightSystem.pixelStrips:
                 stripId = pixelStrip.argDict['Id']
                 (ip, port) = self.stripLocations[stripId] 
@@ -30,6 +30,6 @@ class IndoorRenderer(Renderer):
                     self.sockets[ip] = network.getConnectedSocket(ip,sock_port)
                 packet = composer.composePixelStripPacket(pixelStrip, port, currentTime) 
                 self.sockets[ip].send(packet, 0x00)
-        except Exception as inst:
-            print inst
+        #except Exception as inst:
+        #    print inst
 

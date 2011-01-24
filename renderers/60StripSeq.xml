@@ -1,0 +1,130 @@
+<Renderer>
+    <Class>renderers.IndoorRenderer</Class>
+    <Args>
+        <Id>indoorRenderer</Id>
+        <PowerSupply>
+            <IP>10.32.0.0</IP>
+            <PortMapping>{'strip0.1':1, 'strip0.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.1</IP>
+            <PortMapping>{'strip1.1':1, 'strip1.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.2</IP>
+            <PortMapping>{'strip2.1':1, 'strip2.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.3</IP>
+            <PortMapping>{'strip3.1':1, 'strip3.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.4</IP>
+            <PortMapping>{'strip4.1':1, 'strip4.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.5</IP>
+            <PortMapping>{'strip5.1':1, 'strip5.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.6</IP>
+            <PortMapping>{'strip6.1':1, 'strip6.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.7</IP>
+            <PortMapping>{'strip7.1':1, 'strip7.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.8</IP>
+            <PortMapping>{'strip8.1':1, 'strip8.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.9</IP>
+            <PortMapping>{'strip9.1':1, 'strip9.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.10</IP>
+            <PortMapping>{'strip10.1':1, 'strip10.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.11</IP>
+            <PortMapping>{'strip11.1':1, 'strip11.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.12</IP>
+            <PortMapping>{'strip12.1':1, 'strip12.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.13</IP>
+            <PortMapping>{'strip13.1':1, 'strip13.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.14</IP>
+            <PortMapping>{'strip14.1':1, 'strip14.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.15</IP>
+            <PortMapping>{'strip15.1':1, 'strip15.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.16</IP>
+            <PortMapping>{'strip16.1':1, 'strip16.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.17</IP>
+            <PortMapping>{'strip17.1':1, 'strip17.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.18</IP>
+            <PortMapping>{'strip18.1':1, 'strip18.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.19</IP>
+            <PortMapping>{'strip19.1':1, 'strip19.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.20</IP>
+            <PortMapping>{'strip20.1':1, 'strip20.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.21</IP>
+            <PortMapping>{'strip21.1':1, 'strip21.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.22</IP>
+            <PortMapping>{'strip22.1':1, 'strip22.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.23</IP>
+            <PortMapping>{'strip23.1':1, 'strip23.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.24</IP>
+            <PortMapping>{'strip24.1':1, 'strip24.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.25</IP>
+            <PortMapping>{'strip25.1':1, 'strip25.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.26</IP>
+            <PortMapping>{'strip26.1':1, 'strip26.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.27</IP>
+            <PortMapping>{'strip27.1':1, 'strip27.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.28</IP>
+            <PortMapping>{'strip28.1':1, 'strip28.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.29</IP>
+            <PortMapping>{'strip29.1':1, 'strip29.2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.30</IP>
+            <PortMapping>{'strip30.1':1, 'strip30.2':2}</PortMapping>
+        </PowerSupply>
+    </Args>
+</Renderer>

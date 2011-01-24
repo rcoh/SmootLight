@@ -1,0 +1,9 @@
+<Behavior>
+    <Class>behaviors.RestrictLocation</Class>
+    <Args>
+        <Action>(255,0,255)</Action>
+        <ParamName>Color</ParamName>
+        <LocationRestriction>{x}>100</LocationRestriction>
+    </Args>
+</Behavior>
+

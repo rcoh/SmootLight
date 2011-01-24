@@ -11,4 +11,4 @@ class ColorChangerBehavior(Behavior):
             else:
                 newDict['Color'] = color.randomColor() 
             ret.append(newDict)
-        return (ret, recursiveInputs)
+        return (ret, [])

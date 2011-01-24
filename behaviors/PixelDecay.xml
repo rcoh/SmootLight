@@ -1,9 +1,9 @@
 <Behavior>
-    <Class>behaviors.DecayBehavior</Class>
+    <Class>behaviors.AddPixelEvent</Class>
     <Args>
+        <Class>pixelevents.DecayEvent</Class>
         <DecayType>Exponential</DecayType>
         <Coefficient>.01</Coefficient>
         <z-index>0</z-index>
-        <RenderToScreen>False</RenderToScreen>
     </Args>
 </Behavior>
