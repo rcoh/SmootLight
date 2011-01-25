@@ -5,21 +5,19 @@ import util.Strings as Strings
 
 class MoveBehavior(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
-        print 'processing'
-        print sensorInputs
         if recursiveInputs:
             currRecLocs = recursiveInputs
         else:
-            currRecLocs = [{'Location' : (5, 5)), 'Color' : [255, 255, 255]}]
+            currRecLocs = [{'Location' : (5, 5), 'Color' : [255, 255, 255]}]
 
         if sensorInputs:   # if input exists, change location
             ret = []
             for currRecLoc in currRecLocs:
                 currDict = dict(currRecLoc)
                 for sensorInput in sensorInputs:
-                    currDict['Location'][0] += sensorInput['x'] * self['XStep']
-                    currDict['Location'][1] += sensorInput['y'] * self['YStep']
-                    #currDict['Color'] = sensorInput['color']
+                    currDict['Location'] = (currDict['Location'][0] - sensorInput['x'] * self['XStep'], \
+                                            currDict['Location'][1] + sensorInput['y'] * self['YStep'])
+                    currDict['Color'] = [sensorInput['r'], sensorInput['g'], sensorInput['b']]
                 ret.append(currDict)
             #print ret
             return (ret, ret)
