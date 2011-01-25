@@ -1,0 +1,10 @@
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Args>
+                <Id>osc</Id>
+                <Port>1234</Port>
+            </Args>
+        </InputElement>
+        <Behavior Id="mrmrcolor">
+            <Class>behaviors.MrmrSetColor</Class>
+        </Behavior>

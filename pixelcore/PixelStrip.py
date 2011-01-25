@@ -14,9 +14,6 @@ class PixelStrip:
         self.pixels = [Pixel(l) for l in pixelLocations]
     def __iter__(self):
         return self.pixels.__iter__()
-    def render(self, surface):
-        [l.render(surface) for l in self.pixels]
-        #step
     def allOn(self, time):
         [l.turnOnFor(time) for l in self.pixels] #TODO: add test-on method to
         #pixels
