@@ -4,6 +4,8 @@ class GaussianMapper(PixelMapper):
     def mappingFunction(self, eventLocation, screen):
         returnPixels = [] #TODO: consider preallocation and trimming
         [x,y] = eventLocation
+        potentialPixels = screen.pixelsInRange(x-self.CutoffDist, \
+                x+self.CutoffDist)
         for (x,pixel) in screen.pixelsInRange(x-self.CutoffDist, \
                 x+self.CutoffDist):
             pixelDist = Geo.dist(pixel.location, eventLocation)

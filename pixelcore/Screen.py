@@ -49,11 +49,15 @@ class Screen:
     #increment time -- This processes all queued responses.  Responses generated
     #during this period are added to the queue that will be processed on the next
     #time step.
-    def timeStep(self):
+    #SUBVERTING DESIGN FOR EFFICIENCY 1/24/11, RCOH -- It would be cleaner to store the time on the responses
+    #themselves, however, it is faster to just pass it in.
+    def timeStep(self, currentTime=None):
+        if currentTime == None:
+            currentTime = timeops.time()
         tempQueue = list(self.responseQueue)
         self.responseQueue = []
         for response in tempQueue:
-            self.processResponse(response)
+            self.processResponse(response, currentTime)
         
     #public
     def respond(self, responseInfo):
@@ -73,13 +77,15 @@ class Screen:
             maxY = max(y, maxY)
         self.size = (0,0, maxX, maxY)
         self.sizeValid = True
-        print self.size
         return (0, 0, maxX+100, maxY+100) #TODO: cleaner
         
     #private
-    def processResponse(self, responseInfo): #we need to make a new dict for
+    def processResponse(self, responseInfo, currentTime=None): #we need to make a new dict for
         #each to prevent interference
         #[strip.respond(dict(responseInfo)) for strip in self.pixelStrips]
+        if currentTime == None:
+            currentTime = timeops.time()
+            print 'cachetime fail'
         if type(responseInfo) != type(dict()):
             pass
         if 'Mapper' in responseInfo:
@@ -89,7 +95,8 @@ class Screen:
         #if type(mapper) != type(PixelMapper):
         #    raise Exception('No default mapper specified.')
         pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
+        main_log.debug('Screen processing response.  ' + str(len(pixelWeightList)) + ' events\
+generated')
         PixelEvent.addPixelEventIfMissing(responseInfo)
-        currentTime = timeops.time()
         for (pixel, weight) in pixelWeightList: 
             pixel.processInput(responseInfo['PixelEvent'], 0,weight, currentTime) #TODO: z-index

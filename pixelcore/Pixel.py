@@ -52,7 +52,11 @@ class Pixel:
             (zindex,scale,event) = self.events[eventTime]
             eventResult = event.state(currentTime-eventTime)
             if eventResult != None:
-                colors.append(color.multiplyColor(eventResult,scale))
+                scaledEvent = color.multiplyColor(eventResult,scale)
+                if (scaledEvent[0] + scaledEvent[1] + scaledEvent[2]) < 5:
+                    deadEvents.append(eventTime)
+                else:
+                    colors.append(scaledEvent)
             else:
                 deadEvents.append(eventTime)
         

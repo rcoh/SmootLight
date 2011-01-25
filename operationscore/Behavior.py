@@ -9,6 +9,7 @@
 
 import pdb
 from operationscore.SmootCoreObject import *
+from logger import main_log
 #timeStep is called on every iteration of the LightInstallation
 #addInput is called on each individual input received, and the inputs queue
 class Behavior(SmootCoreObject):
@@ -56,4 +57,5 @@ class Behavior(SmootCoreObject):
                 self.recursiveResponseQueue)
         self.sensorResponseQueue = []
         self.recursiveResponseQueue = recursions 
+        main_log.debug(self['Id'] + ' Ouputs ' + str(outputs))
         return self.addMapperToResponse(outputs)

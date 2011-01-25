@@ -146,19 +146,19 @@ class LightInstallation(object):
     def mainLoop(self):
         lastLoopTime = clock.time()
         refreshInterval = 30
-        runCount = 2000 
-        while runCount > 0 and not self.dieNow:
-            runCount -= 1
+        while not self.dieNow:
             loopStart = clock.time()
             responses = self.evaluateBehaviors() #inputs are all queued when they
             #happen, so we only need to run the behaviors
             self.timer.start()
             [self.screen.respond(response) for response in responses if
                     response != []]
-            self.screen.timeStep()
+            self.screen.timeStep(loopStart)
             [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
             sleepTime = max(0,refreshInterval-loopElapsed)
+            main_log.debug('Loop complete in ' + str(loopElapsed) + 'ms.  Sleeping for ' +\
+                str(sleepTime))
             self.timer.stop()
             #print self.timer.elapsed()
             if sleepTime > 0:

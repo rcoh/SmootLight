@@ -29,9 +29,9 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <!--<Renderer>
+        <Renderer>
             <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
@@ -260,9 +260,9 @@
                     <Id>echo</Id>
                     <Id>redshift</Id>
                     <Id>square</Id>
-                    <Id>decay</Id>
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="running">
