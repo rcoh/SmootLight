@@ -6,6 +6,7 @@ class XYMove(Behavior):
         for loc in sensor:
             oploc = dict(loc)
             self.insertStepIfMissing(oploc)
+            print oploc['YStep']
             oploc['Location'] = Geo.addLocations((oploc['XStep'], oploc['YStep']), oploc['Location']) 
             ret.append(oploc)
         return (ret, []) 
