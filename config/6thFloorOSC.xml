@@ -41,7 +41,8 @@
             <Class>inputs.OSCInput</Class>
             <Args>
                 <Id>osc</Id>
-                <Port>1234</Port>
+                <Port>12345</Port>
+                <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -80,9 +81,9 @@
         </Behavior>
         <Behavior>
             <Args>
-                <Id>mrmrcolor</Id>
+                <Id>touchosc</Id>
             </Args>
-            <Class>behaviors.MrmrSetColor</Class>
+            <Class>behaviors.TouchOSC</Class>
         </Behavior>
         <Behavior Id="redshift">
             <InheritsFrom>behaviors/RedShift.xml</InheritsFrom>
@@ -266,12 +267,12 @@
             <Args>
                 <Id>mousechaser</Id>
                 <Inputs>
-                    <Id>followmouse</Id>
+                    <!--Id>followmouse</Id-->
                     <Id>tcp</Id>
                     <Id>osc</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>mrmrcolor</Id>
+                    <Id>touchosc</Id>
                     <Id>square</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>

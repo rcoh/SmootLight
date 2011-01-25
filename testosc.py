@@ -4,7 +4,7 @@ import liblo, sys
 
 # create server, listening on port 1234
 try:
-    server = liblo.Server(1234)
+    server = liblo.Server(12345)
 except liblo.ServerError, err:
     print str(err)
     sys.exit()
