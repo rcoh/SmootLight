@@ -7,6 +7,7 @@
     </InstallationConfiguration>
     <PixelConfiguration>
         <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <!--<InheritsFrom>layouts/BasicSixStrip.xml</InheritsFrom-->
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -37,27 +38,18 @@
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args><!--Passed as a dictionary-->
-                <Id>pygameclick</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args><!--Passed as a dictionary-->
-                <Id>pygamekey</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Keyboard>True</Keyboard>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.UDPInput</Class>
+            <Class>inputs.OSCInput</Class>
             <Args>
-                <Id>udp</Id>
-                <Port>3344</Port>
-                <RefreshInterval>50</RefreshInterval>
+                <Id>osc</Id>
+                <Port>12345</Port>
+                <RefreshInterval>10</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args><!--Passed as a dictionary-->
+                <Id>pygame</Id>
+                <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
         <!--<InputElement>
@@ -71,11 +63,14 @@
         <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
+        <InputElement>
+            <Class>inputs.RandomLocs</Class>
+            <Args>
+                <Id>randomLoc</Id>
+            </Args>
+        </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
-        <Behavior Id="risefall">
-            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
-        </Behavior>
         <Behavior>
             <Class>behaviors.EchoBehavior</Class>
             <Args>
@@ -84,24 +79,17 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior Id="dim">
-            <InheritsFrom>behaviors/DimColor.xml</InheritsFrom>
-        </Behavior>
         <Behavior>
-            <Class>behaviors.Expand</Class>
             <Args>
-                <Id>expand</Id>
-                <ExpandRate>1</ExpandRate>
+                <Id>touchosc</Id>
             </Args>
+            <Class>behaviors.TouchOSC</Class>
+        </Behavior>
+        <Behavior Id="redshift">
+            <InheritsFrom>behaviors/RedShift.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-            <Args>
-                <ColorList>
-                    <Val>(255,0,0)</Val>
-                    <Val>(0,0,255)</Val>
-                </ColorList>
-            </Args>
         </Behavior>
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
@@ -147,57 +135,26 @@
                 <Id>movebounce</Id>
                 <ChainedBehaviors>
                     <Id>xymove</Id>
-                    <!--Id>ybounce</Id-->
+                    <Id>ybounce</Id>
                     <Id>xbounce</Id>
-                    <Id>ysin</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>ysin</Id>
-                <ParamName>YStep</ParamName>
-                <ParamType>Sensor</ParamType>
-                <ParamOp>4*math.sin({x}/float(40))</ParamOp>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>expanddie</Id>
-                <ChainedBehaviors>
-                    <Id>expand</Id>
-                    <Id>dim</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>risefalldie</Id>
-                <ChainedBehaviors>
-                    <Id>risefall</Id>
-                    <Id>2sec</Id>
-                    <Id>dim</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>inpexpanddim</Id>
+                <Id>xymover</Id>
                 <Inputs>
-                    <Id>pygamekey</Id>
+                    <Id>pygame</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>mitdoors</Id>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'risefalldie'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
            </Args>
        </Behavior>
        <Behavior>
@@ -206,23 +163,8 @@
                 <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
-                    <Id>pygamekey</Id>
-                    <Id>udp</Id>
+                    <Id>pygame</Id>
                 </Inputs>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Timeout</Class>
-            <Args>
-                <Id>2sec</Id>
-                <Timeout>2000</Timeout>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.MITDoors</Class>
-            <Args>
-                <Id>mitdoors</Id>
-                <Bottom>50</Bottom>
             </Args>
         </Behavior>
         <Behavior>
@@ -238,6 +180,12 @@
                 <Width>20</Width>
             </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.AllPixels</Class>
+            <Args>
+                <Id>allpixels</Id>
+            </Args>
+        </Behavior>
         <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
@@ -249,7 +197,7 @@
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>pygameclick</Id>
+                    <Id>pygame</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
@@ -262,9 +210,36 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>randomwalk</Id>
+                <Inputs>
+                    <Id>pygame</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'redwalk'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.ResponseMover</Class>
             <Args>
                 <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>redwalk</Id>
+                <ChainedBehaviors>
+                    <Id>randmovement</Id>
+                    <Id>redshift</Id>
+                </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
@@ -292,11 +267,12 @@
             <Args>
                 <Id>mousechaser</Id>
                 <Inputs>
-                    <Id>followmouse</Id>
+                    <!--Id>followmouse</Id-->
                     <Id>tcp</Id>
+                    <Id>osc</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>echo</Id>
+                    <Id>touchosc</Id>
                     <Id>square</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
