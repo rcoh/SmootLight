@@ -12,7 +12,8 @@ class TouchOSC(Behavior):
         self.xy = (-1,-1)
     def processResponse(self, sensorInputs, recursiveInputs):
         ret = []
-        for data in sensorInputs:
+        if sensorInputs:
+            data = sensorInputs[-1]#for data in sensorInputs:
             if data['Path'] == '/1/fader1':
                 try:
                     self.h = data['Value'][0]*360.0

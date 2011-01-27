@@ -42,7 +42,7 @@
             <Args>
                 <Id>osc</Id>
                 <Port>12345</Port>
-                <RefreshInterval>10</RefreshInterval>
+                <RefreshInterval>20</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
