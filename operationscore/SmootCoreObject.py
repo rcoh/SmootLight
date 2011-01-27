@@ -4,6 +4,10 @@ import thread
 import util.Config as configGetter
 
 class SmootCoreObject(object):
+    """SmootCoreObject is essentially a super-object class which grants us some niceties.  It allows
+    us to use objects as if they are dictionaries -- we use this to store their arguments
+    convienently -- note that querying for a parameter that does not exist will return None.  It
+    also offers some basic ThreadSafety."""
     def __init__(self, argDict, skipValidation = False):
         self.dieListeners = []
         self.argDict = argDict
@@ -13,8 +17,6 @@ class SmootCoreObject(object):
         for key in argDict:
             setattr(self, key, argDict[key])
         self.init() #call init of inheriting class
-    #    self.__setitem__ = self.argDict.__setitem__
-    #    self.__getitem__ = self.argDict.__getitem__
     
     def init(self):
         pass
@@ -37,7 +39,8 @@ class SmootCoreObject(object):
             return self.argDict[item]
         else:
             return None
-            
+    def __contains__(self, item):
+        return item in self.argDict
     def __getiter__(self):
         return self.argDict.__getiter__()
         

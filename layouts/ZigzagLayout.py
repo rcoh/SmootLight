@@ -10,6 +10,15 @@ import pdb
 # |
 # X-X-X-X etc.
 class ZigzagLayout(PixelAssembler):
+    """ZigZagLayout is a slightly more complex layout class that makes a zig-Zag Led Pattern
+    Inheriting classes must specify zigLength, the length in lights of a of a zig
+    and zig Axis, the direction of the long X axis (X or Y).
+    EG: zig length = 4, zig Axis = X would give:
+     X-X-X-X
+           |
+     X-X-X-X
+     |
+     X-X-X-X etc.
     def initLayout(self):
         if not 'zigLength' in self.argDict:
             raise Exception('zigLength must be defined in argDict') 

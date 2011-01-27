@@ -23,6 +23,8 @@ class PixelAssembler(SmootCoreObject):
                         between adjacent pixels must be less than \
                         pixelToPixelSpacing.')
             locations.append(newLocation)
+        if self['Reverse']:
+            locations.reverse()
         return locations
     def initLayout(self):
         pass

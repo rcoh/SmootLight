@@ -4,6 +4,9 @@ from operationscore.Behavior import *
 #import util.Strings as Strings
 
 class MoveBehavior(Behavior):
+    """Moves current location by the x and y components of sensorInput.  Uses recurrences to track
+    current input.  @Author: Euguene"""
+
     def processResponse(self, sensorInputs, recursiveInputs):
         if recursiveInputs:
             currRecLocs = recursiveInputs

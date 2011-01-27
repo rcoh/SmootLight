@@ -89,8 +89,8 @@ class LightInstallation(object):
         self.inputs = inputs
         for inputClass in inputs:
             inputClass.start()
-            self.inputBehaviorRegistry[inputClass['Id']] = []
-            #empty list is list of bound behaviors
+            self.inputBehaviorRegistry[inputClass['Id']] = [] #Bound behaviors will be added to this
+            #list
             
     def initializeRenderers(self, rendererConfig):
         self.renderers = self.initializeComponent(rendererConfig) 
@@ -98,13 +98,9 @@ class LightInstallation(object):
     def registerComponents(self, components):
         for component in components:
             cid = compReg.registerComponent(component)
-            main_log.debug(cid + ' registered')
-            cid = component['Id']
-            if cid == None:  #TODO: determine if componenent is critical, and if so, die
-                main_log.error('Components must be registered with Ids.  Component not registered')
-            else:
-                compReg.registerComponent(component)
-                main_log.debug(cid + ' registered')
+            main_log.info(cid + ' registered')
+            compReg.registerComponent(component)
+            main_log.info(cid + ' registered')
                 
     def initializeComponent(self, config):
         components = []
@@ -114,7 +110,6 @@ class LightInstallation(object):
                     [module,className] = configItem.find('Class').text.split('.')
                 except:
                     main_log.error('Module must have Class element')
-                    main_log.warn('Module without class element.  Module not initialized')
                     continue
                 try:
                     exec('from ' + module+'.'+className + ' import *')
@@ -125,14 +120,12 @@ class LightInstallation(object):
                     main_log.error(str(inst)) 
                     continue 
                 args = configGetter.pullArgsFromItem(configItem)
-                args['parentScope'] = self #TODO: we shouldn't give away scope
-                #like this, find another way.
+                args['parentScope'] = self 
                 try:
                     new_component = eval(className+'(args)')
                     new_component.addDieListener(self)
-                    components.append(new_component) #TODO: doesn't error
-                    main_log.debug(className + 'initialized with args ' + str(args))
-                #right
+                    components.append(new_component) 
+                    main_log.info(className + 'initialized with args ' + str(args))
                 except Exception as inst:
                     main_log.error('Failure while initializing ' + className + ' with ' + str(args))
                     main_log.error(str(inst)) 
@@ -145,33 +138,30 @@ class LightInstallation(object):
     def mainLoop(self):
         lastLoopTime = clock.time()
         refreshInterval = 30
-        runCount = 2000 
-        while runCount > 0 and not self.dieNow:
-            runCount -= 1
+        while not self.dieNow: #dieNow is set if one of its constituents sends a die request.
             loopStart = clock.time()
-            responses = self.evaluateBehaviors() #inputs are all queued when they
-            #happen, so we only need to run the behaviors
+            responses = self.evaluateBehaviors() 
             self.timer.start()
             [self.screen.respond(response) for response in responses if
                     response != []]
-            self.screen.timeStep()
+            self.screen.timeStep(loopStart)
             [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
             sleepTime = max(0,refreshInterval-loopElapsed)
+            main_log.debug('Loop complete in ' + str(loopElapsed) + 'ms.  Sleeping for ' +\
+                str(sleepTime))
             self.timer.stop()
-            #print self.timer.elapsed()
             if sleepTime > 0:
                 time.sleep(sleepTime/1000)
                 
-    #evaluates all the behaviors (including inter-dependencies) and returns a
-    #list of responses to go to the screen.
     def evaluateBehaviors(self):
+        """Evaluates all the behaviors (including inter-dependencies) and returns a list of responses to
+        go to the screen"""
         responses = {}
         responses['Screen'] = [] #responses to the screen
         for behavior in self.behaviors:
             responses[behavior['Id']] = behavior.timeStep()
-            if behavior['RenderToScreen'] == True: #TODO: this uses extra space,
-            #we can use less in the future if needbe.
+            if behavior['RenderToScreen'] == True: 
                 responses['Screen'] += responses[behavior['Id']]
         return responses['Screen']
 
@@ -180,9 +170,9 @@ class LightInstallation(object):
         for behavior in self.behaviors:
             self.addBehavior(behavior)
             
-    #Does work needed to add a behavior: currently -- maps behavior inputs into
-    #the input behavior registry.
     def addBehavior(self, behavior):
+        """Does work needed to add a behavior: currently -- maps behavior inputs into the input behavior
+        registry"""
         for inputId in behavior.argDict['Inputs']:
             if inputId in self.inputBehaviorRegistry: #it could be a behavior
                 self.inputBehaviorRegistry[inputId].append(behavior['Id'])
@@ -190,12 +180,11 @@ class LightInstallation(object):
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
-        #TODO: fix this, it crashes because inputs get run before beahviors exist 
         try:
             [compReg.getComponent(b).addInput(responseDict) for b in boundBehaviorIds]
         except:
             pass
-            #print 'Behaviors not initialized yet.  WAIT!'
+            #Behavior run before loading.  Not a big deal.
             
     def handleDie(self, caller):
         self.dieNow = True

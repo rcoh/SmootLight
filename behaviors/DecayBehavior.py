@@ -3,6 +3,7 @@ from pixelevents.DecayEvent import *
 import util.Strings as Strings
 import pdb
 class DecayBehavior(Behavior):
+    """DecayBehavior is obsolete.  Use AddPixelEvent instead"""
     def processResponse(self, sensorInputs, recursiveInputs):
         ret = []
         for sensory in sensorInputs:

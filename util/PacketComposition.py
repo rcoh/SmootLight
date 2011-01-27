@@ -6,6 +6,7 @@ UNI = 0
 import pdb
 import util.TimeOps as timeops
 argDict = {'flags': 0, 'startcode': 0, 'pad':0}
+
 def composePixelStripData(pixelStrip,currentTime=timeops.time()):
     packet = bytearray()
     for light in pixelStrip:
@@ -19,6 +20,7 @@ def composePixelStripData(pixelStrip,currentTime=timeops.time()):
 #color = pixelStrip.pixels[i].state()
 #packet[i:i+2] = color
 #    return bytearray(packet)
+
 cache = {}
 def memoize(f):
     def helper(x):
@@ -26,6 +28,7 @@ def memoize(f):
             cache[x] = f(x)
         return cache[x]
     return helper
+
 @memoize
 def cachePacketHeader(port):
     packet = bytearray()
@@ -35,11 +38,13 @@ def cachePacketHeader(port):
     packet.extend(portOutPacket(subDict))
     packet.append(0x0)
     return packet
+
 def composePixelStripPacket(pixelStrip,port, currentTime):
     packet = bytearray(cachePacketHeader(port))
     data = composePixelStripData(pixelStrip, currentTime)
     packet.extend(data)
     return packet
+
 def packheader():
     header = bytearray()
     header.extend(struct.pack('L', MAGIC))
@@ -47,18 +52,20 @@ def packheader():
     header.extend(struct.pack('H', PORTOUT))
     header.extend(struct.pack('L', 0))
     return header
+
 def portOut():
     header = packheader()
     header.extend(struct.pack('L', UNI))
     return header
+
 def portOutPayload(argDict):
     payload = bytearray()
     payload.extend(struct.pack('B', argDict['port']))
     payload.extend(struct.pack('H', argDict['flags']))
-    #payload.append(0x00) #somepadding? lolwtf.
     payload.extend(struct.pack('H', argDict['len']))
     payload.extend(struct.pack('H', argDict['startcode']))
     return payload
+
 def portOutPacket(payloadArgs):
     packet = bytearray()
     packet.extend(portOut())

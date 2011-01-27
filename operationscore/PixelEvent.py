@@ -1,6 +1,6 @@
-#Class defining a light response.  Inheriting classes should define lightState,
-#which should return a color, or None if the response is complete.  Consider
-#requiring a generate event.
+"""PixelEvent is a class defining a light response.  Inheriting classes should define state,
+which should return a color, or None if the response is complete.  Consider
+requiring a generate event."""
 from operationscore.SmootCoreObject import *
 from pixelevents.StepEvent import *
 import util.ColorOps as color
@@ -26,6 +26,5 @@ class PixelEvent(SmootCoreObject):
                 color = responseDict['Color']
             else:
                 raise Exception('Need Color.  Probably')
-            pdb.set_trace()
             responseDict['PixelEvent'] = StepEvent.generate(300, color)
         
