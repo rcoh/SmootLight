@@ -207,10 +207,17 @@
             <Class>behaviors.MoveBehavior</Class>
             <Args>
                 <Id>move</Id>
-	        <XStep>5</XStep>
-	        <YStep>5</YStep>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
             </Args>
         </Behavior>
+	<Behavior>
+	  <Class>behaviors.MobileShakeBehavior</Class>
+	  <Args>
+	    <Id>mobileshake</Id>
+	    <SizeMult>3</SizeMult>
+	  </Args>
+	</Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
@@ -222,9 +229,24 @@
                     <Id>move</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RenderToScreen>True</RenderToScreen>
+		<RenderToScreen>True</RenderToScreen>		
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
+	<Behavior>
+	  <Class>behaviors.BehaviorChain</Class>
+	  <Args>
+	    <Id>shakeanddecay</Id>
+	    <Inputs>
+	      <Id>tcp</Id>
+	    </Inputs>
+	    <ChainedBehaviors>
+	      <Id>mobileshake</Id>
+	      <Id>slowdecay</Id>
+	    </ChainedBehaviors>
+	    <RenderToScreen>True</RenderToScreen>
+	    <Mapper>simplemap</Mapper>
+	  </Args>
+	</Behavior>
     </BehaviorConfiguration>
 </LightInstallation>

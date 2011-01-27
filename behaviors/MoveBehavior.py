@@ -1,7 +1,7 @@
 from operationscore.Behavior import *
-import util.ComponentRegistry as compReg
-import util.Geo as Geo
-import util.Strings as Strings
+#import util.ComponentRegistry as compReg
+#import util.Geo as Geo
+#import util.Strings as Strings
 
 class MoveBehavior(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
@@ -15,9 +15,13 @@ class MoveBehavior(Behavior):
             for currRecLoc in currRecLocs:
                 currDict = dict(currRecLoc)
                 for sensorInput in sensorInputs:
-                    currDict['Location'] = (currDict['Location'][0] - sensorInput['x'] * self['XStep'], \
-                                            currDict['Location'][1] + sensorInput['y'] * self['YStep'])
-                    currDict['Color'] = [sensorInput['r'], sensorInput['g'], sensorInput['b']]
+                    if 'type' in sensorInput and sensorInput['type'] == 1:
+                        currDict['Location'] = (currDict['Location'][0] - sensorInput['x'] * self['XStep'], \
+                                                currDict['Location'][1] + sensorInput['y'] * self['YStep'])
+                        currDict['Color'] = [sensorInput['r'], sensorInput['g'], sensorInput['b']]
+                    #elif sensorInput['type'] == 2:
+                    #    currDict['Shake'] = 1
+                    #    currDict['Force'] = sensorInput['force']
                 ret.append(currDict)
             #print ret
             return (ret, ret)
