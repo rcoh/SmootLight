@@ -7,7 +7,7 @@ class UDPInput(Input):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((HOST, PORT))
     def sensingLoop(self):
-            (data,address) = self.sock.recvfrom(1024)
-            dataDict = {'data':data, 'address':address}
-            self.respond(dataDict)
+        (data,address) = self.sock.recvfrom(1024)
+        dataDict = {'data':data, 'address':address}
+        self.respond(dataDict)
              

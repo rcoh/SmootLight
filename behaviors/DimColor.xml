@@ -1,0 +1,8 @@
+<Behavior>
+    <Class>behaviors.ModifyParam</Class>
+    <Args>
+        <ParamType>Sensor</ParamType>
+        <ParamName>Color</ParamName>
+        <ParamOp>[chan*.99 for chan in {val}]</ParamOp>
+    </Args>
+</Behavior>

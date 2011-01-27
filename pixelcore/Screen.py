@@ -19,25 +19,28 @@ class Screen:
         self.xSortedPixels = []
         self.xPixelLocs = []
         sizeValid = False 
-        
+        self.pixelsSorted = False 
     def addStrip(self, lS):
         self.pixelStrips.append(lS)
         self.sizeValid = False #keep track of whether or not our screen size has
+        self.pixelsSorted = False
         #been invalidated by adding more pixels
-        self.computeXSortedPixels()
         
     #Returns (pixelIndex, pixel).  Does a binary search.
     def pixelsInRange(self, minX, maxX):
+        if not self.pixelsSorted:
+            self.computeXSortedPixels()
         minIndex = Search.find_ge(self.xPixelLocs, minX) 
         maxIndex = Search.find_le(self.xPixelLocs, maxX)+1
         return self.xSortedPixels[minIndex:maxIndex]
         
     def computeXSortedPixels(self):
+        self.xSortedPixels = []
         for pixel in self:
             self.xSortedPixels.append((pixel.location[0], pixel))
         self.xSortedPixels.sort()
         self.xPixelLocs = [p[0] for p in self.xSortedPixels]
-        
+        self.pixelsSorted = True 
     #For debug only    
     def allOn(self):
         [lS.allOn(-1) for lS in self.pixelStrips]
@@ -77,6 +80,7 @@ class Screen:
             maxY = max(y, maxY)
         self.size = (0,0, maxX, maxY)
         self.sizeValid = True
+        print self.size
         return (0, 0, maxX+100, maxY+100) #TODO: cleaner
         
     #private

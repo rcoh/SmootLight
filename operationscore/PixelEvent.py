@@ -26,5 +26,6 @@ class PixelEvent(SmootCoreObject):
                 color = responseDict['Color']
             else:
                 raise Exception('Need Color.  Probably')
+            pdb.set_trace()
             responseDict['PixelEvent'] = StepEvent.generate(300, color)
         

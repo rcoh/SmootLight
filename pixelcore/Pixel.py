@@ -13,7 +13,7 @@ class Pixel:
     
     def __init__(self, location):
         self.location = location
-        self.events = {}
+        self.events = []
         self.lastRenderTime = timeops.time()
         self.lastRender = (0,0,0) 
         
@@ -30,38 +30,45 @@ class Pixel:
         
     #Add a pixelEvent to the list of active events
     def processInput(self,pixelEvent,zindex, scale=1,currentTime=None): #consider migrating arg to dict
+        #TODO: fix for multiple pixel events
         if currentTime == None:
             currentTime = timeops.time()
-        self.events[currentTime] = (zindex,scale, pixelEvent)
-        
+        #if not currentTime in self.events:
+        #    self.events[currentTime] = []
+        #self.events[currentTime].append((zindex,scale, pixelEvent))
+        self.events.append((currentTime, zindex, scale, pixelEvent)) #TODO: this is kindof
+        #gross
     def clearAllEvents(self):
-        self.events = {}
+        self.events = [] 
         
     #Combines all PixelEvents currently active and computes the current color of
     #the pixel.
     def state(self, currentTime=timeops.time()): #TODO: this only evaluates at import time, I think
         if currentTime-self.lastRenderTime < 5:
             return self.lastRender
-        if self.events == {}:
+        if self.events == []:
             self.lastRenderTime = currentTime
             return (0,0,0)
         deadEvents = []
         resultingColor = (0,0,0)
         colors = []
-        for eventTime in self.events: #TODO: right color weighting code
-            (zindex,scale,event) = self.events[eventTime]
-            eventResult = event.state(currentTime-eventTime)
+        for eventObj in self.events: #TODO: right color weighting code
+            if len(self.events) > 50:
+                pdb.set_trace()
+        #TODO: this sucks.  fix it
+            eventTime, zindex, scale, pixelEvent = eventObj
+            eventResult = pixelEvent.state(currentTime-eventTime)
             if eventResult != None:
                 scaledEvent = color.multiplyColor(eventResult,scale)
                 if (scaledEvent[0] + scaledEvent[1] + scaledEvent[2]) < 5:
-                    deadEvents.append(eventTime)
+                    deadEvents.append(eventObj)
                 else:
                     colors.append(scaledEvent)
             else:
-                deadEvents.append(eventTime)
+                deadEvents.append(eventObj)
         
         resultingColor = color.combineColors(colors)
-        [self.events.pop(event) for event in deadEvents]
+        [self.events.remove(event) for event in deadEvents]
         resultingColor = [int(round(c)) for c in resultingColor]
         self.lastRender = tuple(resultingColor)
         self.lastRenderTime = currentTime

@@ -28,9 +28,9 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <!--Renderer>
+        <Renderer>
             <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
@@ -44,21 +44,13 @@
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.UDPInput</Class>
-            <Args>
-                <Id>udp</Id>
-                <Port>3344</Port>
-                <RefreshInterval>50</RefreshInterval>
-            </Args>
-        </InputElement>
-        <!--<InputElement>
             <Class>inputs.TCPInput</Class>
             <Args>
                 <Id>tcp</Id>
                 <Port>20120</Port>
-                <RefreshInterval>10</RefreshInterval>
+                <RefreshInterval>50</RefreshInterval>
             </Args>
-        </InputElement>-->
+        </InputElement>
         <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
@@ -78,33 +70,14 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior Id="dim">
-            <InheritsFrom>behaviors/DimColor.xml</InheritsFrom>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Expand</Class>
-            <Args>
-                <Id>expand</Id>
-                <ExpandRate>1</ExpandRate>
-            </Args>
-        </Behavior>
         <Behavior Id="redshift">
             <InheritsFrom>behaviors/RedShift.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-            <Args>
-                <ColorList>
-                    <Val>(255,0,0)</Val>
-                    <Val>(0,0,255)</Val>
-                </ColorList>
-            </Args>
         </Behavior>
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="singleframe">
-            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
@@ -113,77 +86,12 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.XYMove</Class>
-            <Args>
-                <Id>xymove</Id>
-                <XStep>5</XStep>
-                <YStep>2</YStep>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
-            <Args>
-                <Id>xbounce</Id>
-                <Action>{val}*-1</Action>
-                <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
-            <Args>
-                <Id>ybounce</Id>
-                <Action>{val}*-1</Action>
-                <ParamName>YStep</ParamName>
-                <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>movebounce</Id>
-                <ChainedBehaviors>
-                    <Id>xymove</Id>
-                    <Id>ybounce</Id>
-                    <Id>xbounce</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>expanddie</Id>
-                <ChainedBehaviors>
-                    <Id>expand</Id>
-                    <Id>dim</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>inpexpanddim</Id>
-                <Inputs>
-                    <Id>pygame</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>colorchange</Id>
-                    <Id>mover</Id>
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
-           </Args>
-       </Behavior>
-       <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Args>
                 <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
                     <Id>pygame</Id>
-                    <Id>udp</Id>
                 </Inputs>
             </Args>
         </Behavior>
@@ -219,7 +127,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -236,7 +144,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'redwalk'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -282,18 +190,41 @@
                 <Id>mousechaser</Id>
                 <Inputs>
                     <Id>followmouse</Id>
-                    <Id>tcp</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
+                    <Id>redshift</Id>
                     <Id>square</Id>
-                    <Id>singleframe</Id>
+                    <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="running">
             <InheritsFrom>behaviors/RunningBehavior.xml</InheritsFrom>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move</Id>
+	        <XStep>5</XStep>
+	        <YStep>5</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay</Id>
+                <Inputs>
+                    <Id>tcp</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
         </Behavior>
     </BehaviorConfiguration>
 </LightInstallation>
