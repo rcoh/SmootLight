@@ -3,6 +3,10 @@ import math
 from util.ColorOps import * 
 import util.Geo as Geo
 class DecayEvent(PixelEvent):
+    """DecayEvent is a pixel event that can decay either Exponentially or Proportionally.  Specify:
+    <DecayType> -- Exponential or Proportional
+    <Coefficient> -- Controls the speed of decay."""
+
     def initEvent(self):
         self.coefficient = float(abs(self.Coefficient))
         if self.DecayType == 'Exponential':

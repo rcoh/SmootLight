@@ -3,6 +3,6 @@
     <Args>
         <ParamType>Sensor</ParamType>
         <ParamName>Color</ParamName>
-        <ParamOp>[chan*.99 for chan in {val}]</ParamOp>
+        <ParamOp>[chan*.95 for chan in {val}]</ParamOp>
     </Args>
 </Behavior>

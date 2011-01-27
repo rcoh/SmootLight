@@ -1,5 +1,9 @@
 from operationscore.Behavior import *
 class Expand(Behavior):
+    """Expand is a behavior that generates a response that grows horizontally starting a location
+    specifed in input.  Required Args:
+    <ExpandRate>123</ExpandRate> which is the expandrate in units/response"""
+
     def processResponse(self, sensorInputs, recurs):
         ret = []
         for data in sensorInputs:

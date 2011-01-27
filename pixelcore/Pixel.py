@@ -2,12 +2,13 @@ import util.ColorOps as color
 import pdb
 from pixelevents.StepEvent import *
 import util.TimeOps as timeops
-#Pixel keeps a queue of events (PixelEvent objects) (actually a dictionary
-#keyed by event time).  Every time is state is
-#requested, it processes all the members of its queue.  If a member returns none,
-#it is removed from the queue.  Otherwise, its value added to the Pixels color
-#weighted by z-index.
 class Pixel:
+    """Pixel keeps a queue of events (PixelEvent objects) (actually a dictionary
+    keyed by event time).  Every time is state is
+    requested, it processes all the members of its queue.  If a member returns none,
+    it is removed from the queue.  Otherwise, its value added to the Pixels color
+    weighted by z-index."""
+
     radius = 2
     timeOff = -1
     
@@ -24,26 +25,22 @@ class Pixel:
     #processInput instead.  Also, you shouldn't use this anyway.  You should be
     #using the input method on the screen!
     def turnOnFor(self, time):
-        event = StepEvent.generate(time, (255,255,255)) #TODO: Move color to
+        event = StepEvent.generate(time, (255,255,255)) 
         self.processInput(event, 0)
-        #arg
         
     #Add a pixelEvent to the list of active events
     def processInput(self,pixelEvent,zindex, scale=1,currentTime=None): #consider migrating arg to dict
-        #TODO: fix for multiple pixel events
         if currentTime == None:
             currentTime = timeops.time()
-        #if not currentTime in self.events:
-        #    self.events[currentTime] = []
-        #self.events[currentTime].append((zindex,scale, pixelEvent))
-        self.events.append((currentTime, zindex, scale, pixelEvent)) #TODO: this is kindof
-        #gross
+        self.events.append((currentTime, zindex, scale, pixelEvent)) #TODO: clean this up, maybe? 
     def clearAllEvents(self):
         self.events = [] 
         
-    #Combines all PixelEvents currently active and computes the current color of
-    #the pixel.
-    def state(self, currentTime=timeops.time()): #TODO: this only evaluates at import time, I think
+    def state(self, currentTime=None): 
+        """Combines all PixelEvents currently active and computes the current color of
+        the pixel."""
+        if currentTime == None:
+            currentTime = timeops.time()
         if currentTime-self.lastRenderTime < 5:
             return self.lastRender
         if self.events == []:
@@ -54,8 +51,7 @@ class Pixel:
         colors = []
         for eventObj in self.events: #TODO: right color weighting code
             if len(self.events) > 50:
-                pdb.set_trace()
-        #TODO: this sucks.  fix it
+                main_log.error('High pixel event count!  Investigate!')
             eventTime, zindex, scale, pixelEvent = eventObj
             eventResult = pixelEvent.state(currentTime-eventTime)
             if eventResult != None:

@@ -6,6 +6,10 @@ import logging as main_log
 import string
 
 class TCPInput(Input):
+    """TCPInput is a input to receive input on a TCP port.  In its current incarnation, it parses
+    json data into python dicts.  Warning: contains a bug where init will hang until it receives a
+    connection.  Specify:
+    <Port> -- Port number to listen on."""
     def inputInit(self):
         self.HOST = ''                 # Symbolic name meaning all available interfaces
         self.PORT = self.argDict['Port']              # Arbitrary non-privileged port
@@ -34,12 +38,7 @@ class TCPInput(Input):
                 for datagroup in data.split('\n'):
                     if datagroup != None and datagroup != '':
                         dataDict = json.loads(datagroup)
-                        #print dataDict
                         self.respond(dataDict)
-                        #socketDict = {'data':dataDict, 'address':self.address}
-                        #socketDict = {Strings.LOCATION: (dataDict['x'], dataDict['y'])} # like PygameInput
-                        #print 'input'
-                        #self.respond(socketDict)
             except Exception as exp:
                 print str(exp) 
         else:

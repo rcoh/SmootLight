@@ -2,8 +2,17 @@ from operationscore.Behavior import *
 import pdb
 #Class to perform a given operation on some element of an argDict.  Designed to be used a recursive hook, but can serve sensor-based functions as well.  Specify ParamType (Sensor or Recurse), ParamName, and ParamOp, (a valid python statement with the old value represented as {val})
 class ModifyParam(Behavior):
+    """ModifyParam is a powerful class to perform an action on a specified key in the Argument
+    Dictionary of a response.  Specify:
+    <ParamType> -- Sensor or Recurse
+    <ParamName> -- The name of the parameter you wish to modify
+    <ParamOp> -- The modification you wish to do.  Use {val} to specify the current value of the
+    parameter in question.  Special hooks for {x} and {y} exist in some versions"""
+
     def processResponse(self, sensorInputs, recursiveInputs):
         paramType = self['ParamType']
+        if paramType == None:
+            paramType = 'Sensor'
         paramName = self['ParamName']
         paramOp = str(self['ParamOp'])
         if paramType == 'Sensor':

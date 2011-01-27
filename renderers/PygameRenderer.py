@@ -4,16 +4,19 @@ import pygame
 from pygame.locals import *
 import pdb
 class PygameRenderer(Renderer):
+    """PygameRenderer is a renderer which renders the LightSystem to a pygame display"""
+
     def initRenderer(self):
         pygame.init()
         self.screen = pygame.display.set_mode((1300,500))
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
-        self.background.fill(Color('Black'))
+        self.background.fill(Color(0,0,0))
         self.stopwatch = timeops.Stopwatch()
         self.stopwatch.start()
+    
     def render(self, lightSystem, currentTime=timeops.time()):
-        self.background.fill(Color('Black'))
+        self.background.fill(Color(0,0,0))
         #print 'drawing color:',light.color
         for light in lightSystem:
             pygame.draw.circle(self.background, light.state(currentTime), light.location, \

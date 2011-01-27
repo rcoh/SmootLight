@@ -10,9 +10,10 @@ import itertools
 import sys
 import pdb
 from logger import main_log
-#Class representing a collection of Pixels grouped into PixelStrips.  Needs a
-#PixelMapper, currently set via setMapper by may be migrated into the argDict.
 class Screen:
+    """Class representing a collection of Pixels grouped into PixelStrips.  Needs a
+    PixelMapper, currently set via setMapper by may be migrated into the argDict."""
+    
     def __init__(self):
         self.responseQueue = []
         self.pixelStrips = []
@@ -20,14 +21,15 @@ class Screen:
         self.xPixelLocs = []
         sizeValid = False 
         self.pixelsSorted = False 
+    
     def addStrip(self, lS):
         self.pixelStrips.append(lS)
         self.sizeValid = False #keep track of whether or not our screen size has
         self.pixelsSorted = False
         #been invalidated by adding more pixels
         
-    #Returns (pixelIndex, pixel).  Does a binary search.
     def pixelsInRange(self, minX, maxX):
+        """Returns (pixelIndex, pixel).  Does a binary search."""
         if not self.pixelsSorted:
             self.computeXSortedPixels()
         minIndex = Search.find_ge(self.xPixelLocs, minX) 
@@ -41,10 +43,7 @@ class Screen:
         self.xSortedPixels.sort()
         self.xPixelLocs = [p[0] for p in self.xSortedPixels]
         self.pixelsSorted = True 
-    #For debug only    
-    def allOn(self):
-        [lS.allOn(-1) for lS in self.pixelStrips]
-        
+    
     def __iter__(self): #the iterator of all our pixel strips chained togther
         return itertools.chain(*[strip.__iter__() for strip in \
             self.pixelStrips]) #the * operator breaks the list into args 

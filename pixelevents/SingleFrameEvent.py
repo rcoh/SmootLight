@@ -1,5 +1,8 @@
 from operationscore.PixelEvent import *
 class SingleFrameEvent(PixelEvent):
+    """SingleFrameEvent is a PixelEvent that will only render for the first frame on which it is
+    queried"""
+
     def initEvent(self):
         self.timeState = -1 
     def state(self, timeDelay):

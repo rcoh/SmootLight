@@ -1,0 +1,7 @@
+<Behavior>
+    <Class>behaviors.RiseFall</Class>
+    <Args>
+        <Period>2000</Period>
+        <MaxHeight>50</MaxHeight>
+    </Args>
+</Behavior>

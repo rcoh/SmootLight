@@ -1,11 +1,3 @@
-#Abstract class for a behavior.  On every time step, the behavior is passed the
-#inputs from all sensors it is bound to as well as any recursive inputs that it
-#spawned during the last time step.  Inheriting classes MUST define
-#processResponse.  processResponse should return a list of dictionaries which
-#define the properties of the light response, (outputs, recursions).  They must give a location and
-#color.  They may define a PixelEvent to more closely control the outgoing
-#data, however, this is normally handled by routing the event to a behavior
-#specifically designed to do this (like DecayBehavior). 
 
 import pdb
 from operationscore.SmootCoreObject import *
@@ -13,6 +5,16 @@ from logger import main_log
 #timeStep is called on every iteration of the LightInstallation
 #addInput is called on each individual input received, and the inputs queue
 class Behavior(SmootCoreObject):
+    """Abstract class for a behavior.  On every time step, the behavior is passed the
+    inputs from all sensors it is bound to as well as any recursive inputs that it
+    spawned during the last time step.  Inheriting classes MUST define
+    processResponse.  processResponse should return a list of dictionaries which
+    define the properties of the light response, (outputs, recursions).  They must give a location and
+    color.  They may define a PixelEvent to more closely control the outgoing
+    data, however, this is normally handled by routing the event to a behavior
+    specifically designed to do this (like AddPixelEvent). 
+    timeStep is called on every iteration of the LightInstallation
+    addInput is called on each individual input received, and the inputs queue"""
     def init(self):
         self.validateArgs('Behavior.params')
         if type(self['Inputs']) != type([]):

@@ -1,6 +1,7 @@
 import time as clock
 def time():
     return clock.time()*1000 #all times in MS
+
 class Stopwatch:
     def __init__(self):
         self.running = False

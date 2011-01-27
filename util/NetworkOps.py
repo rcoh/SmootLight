@@ -8,4 +8,3 @@ def getConnectedSocket(ip,port):
     except Exception as inst:
         main_log.error('Network down.  All network based renderers and sensors will not function.',
             inst)
-    print (ip, port)

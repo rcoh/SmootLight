@@ -1,16 +1,14 @@
 import threading,time
 from logger import main_log, exception_log
 from operationscore.ThreadedSmootCoreObject import ThreadedSmootCoreObject
-#Abstract class for inputs.  Inheriting classes should call "respond" to raise
-#their event.  Inheriting classes MUST define sensingLoop.  Called at the
-#interval specified in RefreshInterval while the input is active.  For example, if you are writing
-#webserver, this is where the loop should go.
-#Inheriting classes MAY define inputInit.  This is called before the loop
-#begins.
 import pdb
 class Input(ThreadedSmootCoreObject):
-    #Event scope is a function pointer the function that will get called when
-    #an Parent is raised.
+    """Abstract class for inputs.  Inheriting classes should call "respond" to raise
+    their event.  Inheriting classes MUST define sensingLoop.  Called at the
+    interval specified in RefreshInterval while the input is active.  For example, if you are writing
+    webserver, this is where the loop should go.
+    Inheriting classes MAY define inputInit.  This is called before the loop
+    begins."""
     def init(self):
         self.eventQueue = []
         if not 'RefreshInterval' in self.argDict:

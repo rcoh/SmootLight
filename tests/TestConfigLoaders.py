@@ -7,8 +7,10 @@ import xml
 class TestConfigLoaders(unittest.TestCase):
     def setUp(self):
         pass
+ 
     def tearDown(self):
         pass
+    
     def test_composite(self):
         parent = ElementTree()
         overrider = ElementTree()
@@ -20,6 +22,7 @@ class TestConfigLoaders(unittest.TestCase):
         result = ElementTree(result)
         result.write('tests/testdata/compositeTESTout.xml')
         assert filecmp.cmp('tests/testdata/compositeTESTout.xml','tests/testdata/compositeTRUTH.xml') 
+    
     def test_inheritance(self):
         result = Config.loadConfigFile('tests/testdata/inheritanceTEST.xml')
 

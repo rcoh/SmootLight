@@ -39,8 +39,17 @@
         <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args><!--Passed as a dictionary-->
-                <Id>pygame</Id>
+                <Id>pygameclick</Id>
                 <RefreshInterval>10</RefreshInterval>
+                <Clicks>True</Clicks>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args><!--Passed as a dictionary-->
+                <Id>pygamekey</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <Keyboard>True</Keyboard>
             </Args>
         </InputElement>
         <InputElement>
@@ -62,14 +71,11 @@
         <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
-        <InputElement>
-            <Class>inputs.RandomLocs</Class>
-            <Args>
-                <Id>randomLoc</Id>
-            </Args>
-        </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
+        <Behavior Id="risefall">
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+        </Behavior>
         <Behavior>
             <Class>behaviors.EchoBehavior</Class>
             <Args>
@@ -87,9 +93,6 @@
                 <Id>expand</Id>
                 <ExpandRate>1</ExpandRate>
             </Args>
-        </Behavior>
-        <Behavior Id="redshift">
-            <InheritsFrom>behaviors/RedShift.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
@@ -162,18 +165,29 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
+                <Id>risefalldie</Id>
+                <ChainedBehaviors>
+                    <Id>risefall</Id>
+                    <Id>2sec</Id>
+                    <Id>dim</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
                 <Id>inpexpanddim</Id>
                 <Inputs>
-                    <Id>pygame</Id>
+                    <Id>pygamekey</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>mitdoors</Id>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'risefalldie'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
            </Args>
        </Behavior>
        <Behavior>
@@ -182,9 +196,23 @@
                 <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
-                    <Id>pygame</Id>
+                    <Id>pygamekey</Id>
                     <Id>udp</Id>
                 </Inputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Timeout</Class>
+            <Args>
+                <Id>2sec</Id>
+                <Timeout>2000</Timeout>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MITDoors</Class>
+            <Args>
+                <Id>mitdoors</Id>
+                <Bottom>50</Bottom>
             </Args>
         </Behavior>
         <Behavior>
@@ -211,7 +239,7 @@
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>pygame</Id>
+                    <Id>pygameclick</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
@@ -224,36 +252,9 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>randomwalk</Id>
-                <Inputs>
-                    <Id>pygame</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>colorchange</Id>
-                    <Id>mover</Id>
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'redwalk'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-        <Behavior>
             <Class>behaviors.ResponseMover</Class>
             <Args>
                 <Id>mover</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>redwalk</Id>
-                <ChainedBehaviors>
-                    <Id>randmovement</Id>
-                    <Id>redshift</Id>
-                </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
