@@ -8,7 +8,8 @@ class ModifyParam(Behavior):
     <ParamType> -- Sensor or Recurse
     <ParamName> -- The name of the parameter you wish to modify
     <ParamOp> -- The modification you wish to do.  Use {val} to specify the current value of the
-    parameter in question.  Special hooks for {x} and {y} exist in some versions"""
+    parameter in question.  Special hooks for {x} and {y} also exist to access the x and y
+    locations."""
 
     def processResponse(self, sensorInputs, recursiveInputs):
         paramType = self['ParamType']
