@@ -28,9 +28,9 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <!--Renderer>
+        <Renderer>
             <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
@@ -147,9 +147,19 @@
                 <Id>movebounce</Id>
                 <ChainedBehaviors>
                     <Id>xymove</Id>
-                    <Id>ybounce</Id>
+                    <!--Id>ybounce</Id-->
                     <Id>xbounce</Id>
+                    <Id>ysin</Id>
                 </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>ysin</Id>
+                <ParamName>YStep</ParamName>
+                <ParamType>Sensor</ParamType>
+                <ParamOp>4*math.sin({x}/float(40))</ParamOp>
             </Args>
         </Behavior>
         <Behavior>
