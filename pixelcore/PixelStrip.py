@@ -17,8 +17,4 @@ class PixelStrip:
     
     def __iter__(self):
         return self.pixels.__iter__()
-    
-    
-    
-        
 
