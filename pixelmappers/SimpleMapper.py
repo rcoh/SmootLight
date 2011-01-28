@@ -2,6 +2,10 @@ from operationscore.PixelMapper import *
 import util.Geo as Geo
 import sys
 class SimpleMapper(PixelMapper):
+    """SimpleMapper is a PixelMapper which maps events to the nearest Pixel.  It also supports
+    strings of the form:
+    {x}>5, {y}<10, {x}*{y}<{x}, etc. (Conditons, separated by commas.  and and or may also be
+    used)."""
     def mappingFunction(self, eventLocation, screen):
         if type(eventLocation) == type(tuple()):
             bestDist = sys.maxint 
@@ -19,7 +23,6 @@ class SimpleMapper(PixelMapper):
                 return [] 
         else:
             #{x}>5,{y}<k
-            #TODO: we should probably encapsulate this somewhere
             ret = []
             eventLocation = eventLocation.replace('{x}', 'pixel.location[0]')
             eventLocation = eventLocation.replace('{y}', 'pixel.location[1]')

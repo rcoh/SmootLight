@@ -8,12 +8,14 @@ from logger import main_log, exception_log
 classArgsMem = {}
 CONFIG_PATH = 'config/'
 DEFAULT_OVERRIDE_MODE = 'Merge'
+
 def loadParamRequirementDict(className):
     if not className in classArgsMem: #WOO CACHING
         classArgsMem[className] = fileToDict(CONFIG_PATH + className) 
     return classArgsMem[className]
-#Loads a config file.  If its an xml file, inheritances are automatically resolved.
+
 def loadConfigFile(fileName): #TODO: error handling etc.
+    """Loads a config file.  If its an xml file, inheritances are automatically resolved."""
     try:
         if '.params' in fileName:
             return fileToDict(fileName)
@@ -26,17 +28,17 @@ def loadConfigFile(fileName): #TODO: error handling etc.
         main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
         main_log.error(str(inst))
         return None
-#Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
-#it
 def getElement(el):
+    """Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
+    it"""
     if xml.etree.ElementTree.iselement(el):
         return el
     elif el.__class__ == ElementTree:
         return el.getroot()
-#XML tree composition.  Returns the resulting tree, but happens in-place in the overriding tree.
-def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-methods, change it to
-#use .find()
-    #type checking -- convert ElementTrees to their root elements
+def compositeXMLTrees(parentTree, overridingTree): 
+    """XML tree composition.  Returns the resulting tree, but happens in-place in the overriding
+    tree."""
+    #TODO: break up into sub-methods, change it to use .find()
     if parentTree == None:
         return overridingTree
     if overridingTree == None:
@@ -75,8 +77,10 @@ def compositeXMLTrees(parentTree, overridingTree): #TODO: break up into sub-meth
                 overrideItems.insert(-1, child)
             overrideItems.remove(item)
     return overridingTree
+
 def findElementsByTag(tag, eList):
     return [el for el in eList if el.tag == tag]
+
 def fileToDict(fileName):
     fileText = ''
     try:
@@ -95,8 +99,9 @@ def fileToDict(fileName):
     except:
         exception_log.info(fileName + ' is not a well formed python dict.  Parsing failed') 
     return eval(fileText)
-#parses arguments into python objects if possible, otherwise leaves as strings
+
 def pullArgsFromItem(parentNode):
+    """Parses arguments into python objects if possible, otherwise leaves as strings"""
     attribArgs = {}
     for arg in parentNode.attrib: #automatically pull attributes into the argdict
         attribArgs[arg] = attemptEval(parentNode.attrib[arg])
@@ -112,6 +117,7 @@ def attemptEval(val):
     except (NameError, SyntaxError):
         val = str(val)
     return val
+
 def generateArgDict(parentNode, recurse=False):
     args = {}
     for arg in parentNode.getchildren():
@@ -131,13 +137,13 @@ def generateArgDict(parentNode, recurse=False):
     if len(args.keys()) == 1 and recurse:
         return args[args.keys()[0]]
     return args
-#In place resolution of document inheritances.  Doesn't return anything.
 def resolveDocumentInheritances(el):
+    """In place resolution of document inheritances.  Doesn't return anything."""
     abstractMembers = Search.parental_tree_search(el, '.getchildren()', '.tag==\'InheritsFrom\'')
     for subel in abstractMembers:
         subel = resolveInheritance(subel)
-#In place resolution of inheritence.  Doesn't return anything.
 def resolveInheritance(el):
+    """In place resolution of inheritence.  Doesn't return anything."""
     parentClass = el.find('InheritsFrom')
     if parentClass != None:
         parentTree = loadConfigFile(parentClass.text)

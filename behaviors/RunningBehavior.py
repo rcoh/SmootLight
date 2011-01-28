@@ -3,6 +3,11 @@ import util.ComponentRegistry as compReg
 import util.Geo as Geo
 import pdb
 class RunningBehavior(Behavior):
+    """RunningBehavior is a straightforward behavior that makes a Location run back and forth across
+    a screen.  Specify:
+    <StepSize> -- the length of movment in units when the response moves.
+    """
+
     def processResponse(self, sensorInputs, recursiveInputs):
         newResponses = sensorInputs 
         ret = []

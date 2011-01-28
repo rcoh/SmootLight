@@ -39,43 +39,29 @@
         <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args><!--Passed as a dictionary-->
-                <Id>pygameclick</Id>
+                <Id>pygame</Id>
                 <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args><!--Passed as a dictionary-->
-                <Id>pygamekey</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Keyboard>True</Keyboard>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.UDPInput</Class>
-            <Args>
-                <Id>udp</Id>
-                <Port>3344</Port>
-                <RefreshInterval>50</RefreshInterval>
-            </Args>
-        </InputElement>
-        <!--<InputElement>
             <Class>inputs.TCPInput</Class>
             <Args>
                 <Id>tcp</Id>
                 <Port>20120</Port>
-                <RefreshInterval>10</RefreshInterval>
+                <RefreshInterval>50</RefreshInterval>
             </Args>
-        </InputElement>-->
+        </InputElement>
         <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
+        <InputElement>
+            <Class>inputs.RandomLocs</Class>
+            <Args>
+                <Id>randomLoc</Id>
+            </Args>
+        </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
-        <Behavior Id="risefall">
-            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
-        </Behavior>
         <Behavior>
             <Class>behaviors.EchoBehavior</Class>
             <Args>
@@ -84,30 +70,14 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior Id="dim">
-            <InheritsFrom>behaviors/DimColor.xml</InheritsFrom>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Expand</Class>
-            <Args>
-                <Id>expand</Id>
-                <ExpandRate>1</ExpandRate>
-            </Args>
+        <Behavior Id="redshift">
+            <InheritsFrom>behaviors/RedShift.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-            <Args>
-                <ColorList>
-                    <Val>(255,0,0)</Val>
-                    <Val>(0,0,255)</Val>
-                </ColorList>
-            </Args>
         </Behavior>
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="singleframe">
-            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
@@ -116,113 +86,13 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.XYMove</Class>
-            <Args>
-                <Id>xymove</Id>
-                <XStep>5</XStep>
-                <YStep>2</YStep>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
-            <Args>
-                <Id>xbounce</Id>
-                <Action>{val}*-1</Action>
-                <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
-            <Args>
-                <Id>ybounce</Id>
-                <Action>{val}*-1</Action>
-                <ParamName>YStep</ParamName>
-                <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>movebounce</Id>
-                <ChainedBehaviors>
-                    <Id>xymove</Id>
-                    <!--Id>ybounce</Id-->
-                    <Id>xbounce</Id>
-                    <Id>ysin</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>ysin</Id>
-                <ParamName>YStep</ParamName>
-                <ParamType>Sensor</ParamType>
-                <ParamOp>4*math.sin({x}/float(40))</ParamOp>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>expanddie</Id>
-                <ChainedBehaviors>
-                    <Id>expand</Id>
-                    <Id>dim</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>risefalldie</Id>
-                <ChainedBehaviors>
-                    <Id>risefall</Id>
-                    <Id>2sec</Id>
-                    <Id>dim</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>doors</Id>
-                <Inputs>
-                    <Id>pygamekey</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>mitdoors</Id>
-                    <Id>colorchange</Id>
-                    <Id>mover</Id>
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'risefalldie'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
-           </Args>
-       </Behavior>
-       <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Args>
                 <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
-                    <Id>pygamekey</Id>
-                    <Id>udp</Id>
+                    <Id>pygame</Id>
                 </Inputs>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Timeout</Class>
-            <Args>
-                <Id>2sec</Id>
-                <Timeout>2000</Timeout>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.MITDoors</Class>
-            <Args>
-                <Id>mitdoors</Id>
-                <Bottom>50</Bottom>
             </Args>
         </Behavior>
         <Behavior>
@@ -249,7 +119,7 @@
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>pygameclick</Id>
+                    <Id>pygame</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
@@ -257,7 +127,24 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'running':'acceleratedie'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>randomwalk</Id>
+                <Inputs>
+                    <Id>pygame</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'redwalk'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -265,6 +152,16 @@
             <Class>behaviors.ResponseMover</Class>
             <Args>
                 <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>redwalk</Id>
+                <ChainedBehaviors>
+                    <Id>randmovement</Id>
+                    <Id>redshift</Id>
+                </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
@@ -293,12 +190,12 @@
                 <Id>mousechaser</Id>
                 <Inputs>
                     <Id>followmouse</Id>
-                    <Id>tcp</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
+                    <Id>redshift</Id>
                     <Id>square</Id>
-                    <Id>singleframe</Id>
+                    <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
@@ -306,5 +203,50 @@
         <Behavior Id="running">
             <InheritsFrom>behaviors/RunningBehavior.xml</InheritsFrom>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+	<Behavior>
+	  <Class>behaviors.MobileShakeBehavior</Class>
+	  <Args>
+	    <Id>mobileshake</Id>
+	    <SizeMult>3</SizeMult>
+	  </Args>
+	</Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay</Id>
+                <Inputs>
+                    <Id>tcp</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+		<RenderToScreen>True</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+	<Behavior>
+	  <Class>behaviors.BehaviorChain</Class>
+	  <Args>
+	    <Id>shakeanddecay</Id>
+	    <Inputs>
+	      <Id>tcp</Id>
+	    </Inputs>
+	    <ChainedBehaviors>
+	      <Id>mobileshake</Id>
+	      <Id>slowdecay</Id>
+	    </ChainedBehaviors>
+	    <RenderToScreen>True</RenderToScreen>
+	    <Mapper>simplemap</Mapper>
+	  </Args>
+	</Behavior>
     </BehaviorConfiguration>
 </LightInstallation>

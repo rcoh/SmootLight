@@ -2,6 +2,9 @@ from operationscore.SmootCoreObject import *
 from logger import main_log
 import pdb
 class PixelMapper(SmootCoreObject):
+    """PixelMapper is the parent class for PixelMappers.  Inheriting classes should define
+    mappingFunction which takes an eventLocation and a screen and returns a list of (weight, pixels).  PixelMapper
+    handles caching automatically."""
     def init(self):
         self.mem = {} #Dictionary of all seen events
         self.totalCalls = 0
@@ -19,6 +22,7 @@ class PixelMapper(SmootCoreObject):
             return self.mem[eventLocation]
     #Takes a Screen and returns a list of tuples
     #(pixel, weight), with the sum of weights = 1
-    #TODO: consider abstracting away from pixels
     def mappingFunction(self,eventLocation, screen):
-        pass
+        """Takes a Screen and event location and returns a list of tuples (pixel,weight) with
+        sum(weights)=1"""
+        raise Exception('Mapping function not defined!')

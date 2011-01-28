@@ -4,8 +4,9 @@ import util.NetworkOps as network
 import util.TimeOps as timeops
 import socket,pdb
 sock_port = 6038
-#Renderer for a Specific Light System.
 class IndoorRenderer(Renderer):
+    """IndoorRenderer is a renderer for a specific Light System"""
+
     def initRenderer(self):
         self.stripLocations = {} #Dict that stores info necessary to render to
         #strips
@@ -20,6 +21,7 @@ class IndoorRenderer(Renderer):
             for stripId in stripsInPowerSupply:
                 self.stripLocations[stripId] = (ip, \
                         stripsInPowerSupply[stripId])
+    
     def render(self, lightSystem, currentTime=timeops.time()): 
         #try:
             for pixelStrip in lightSystem.pixelStrips:
@@ -30,6 +32,4 @@ class IndoorRenderer(Renderer):
                     self.sockets[ip] = network.getConnectedSocket(ip,sock_port)
                 packet = composer.composePixelStripPacket(pixelStrip, port, currentTime) 
                 self.sockets[ip].send(packet, 0x00)
-        #except Exception as inst:
-        #    print inst
 
