@@ -15,7 +15,8 @@ class Expand(Behavior):
             data = dict(data)
             data['Left'] -= data['ExpandRate']
             data['Right'] += data['ExpandRate']
-            data['Location'] = "{x}>" + str(data['Left']) + ", {x}<" + str(data['Right'])
+            data['Location'] = "{x}>" + str(data['Left']) + ", {x}<" +\
+                str(data['Right'])+", {y}<50"
             ret.append(data)
         return (ret, [])
 

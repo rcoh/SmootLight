@@ -186,7 +186,7 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>inpexpanddim</Id>
+                <Id>doors</Id>
                 <Inputs>
                     <Id>pygamekey</Id>
                 </Inputs>

@@ -7,11 +7,5 @@ class ResponseMover(Behavior):
     modulates the location."""
 
     def processResponse(self, sensorInputs, recursiveInputs):
-        newResponses = sensorInputs 
-        ret = []
-        for recurInput in recursiveInputs:
-            outDict = dict(recurInput)
-            ret.append(outDict)
-        ret += newResponses
-        return (ret, ret)
+        return (recursiveInputs, recursiveInputs+sensorInputs)
     
