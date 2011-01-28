@@ -4,13 +4,13 @@ import util.Geo as Geo
 import util.Strings as Strings
 from operationscore.Input import *
 class RandomLocs(Input):
-    """RandomLocs is an Input that generates RandomLocations at a preset time interval.  Just a
+    """RandomLocs is an Input that generates RandomLocations at a preset but randomly changing time interval.  Just a
     prototype, some assembly required."""
 
     def inputInit(self):
         self['LastEvent'] = clock.time()
     def sensingLoop(self): #TODO: move to params
         currentTime = clock.time()
-        if currentTime - self['LastEvent'] > 2000:
-            self.respond({Strings.LOCATION: Geo.randomLoc((50,50))})
+        if currentTime - self['LastEvent'] > 200+500*random.random():
+            self.respond({Strings.LOCATION: Geo.randomLoc((200,200))})
             self['LastEvent'] = currentTime
