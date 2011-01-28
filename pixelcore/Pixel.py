@@ -1,4 +1,5 @@
 import util.ColorOps as color
+from logger import main_log
 import pdb
 from pixelevents.StepEvent import *
 import util.TimeOps as timeops
@@ -57,7 +58,8 @@ class Pixel:
             if eventResult != None:
                 scaledEvent = color.multiplyColor(eventResult,scale)
                 if (scaledEvent[0] + scaledEvent[1] + scaledEvent[2]) < 5:
-                    deadEvents.append(eventObj)
+                    pass
+                    #deadEvents.append(eventObj)
                 else:
                     colors.append(scaledEvent)
             else:

@@ -40,6 +40,14 @@
         <InputElement>
             <Class>inputs.OSCInput</Class>
             <Args>
+                <Id>osc2</Id>
+                <Port>1234</Port>
+                <RefreshInterval>10</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Args>
                 <Id>osc</Id>
                 <Port>12345</Port>
                 <RefreshInterval>20</RefreshInterval>
@@ -52,14 +60,14 @@
                 <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
-        <!--<InputElement>
+        <InputElement>
             <Class>inputs.TCPInput</Class>
             <Args>
                 <Id>tcp</Id>
                 <Port>20120</Port>
                 <RefreshInterval>10</RefreshInterval>
             </Args>
-        </InputElement>-->
+        </InputElement>
         <InputElement Id="followmouse">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
@@ -71,13 +79,64 @@
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
-        <Behavior>
-            <Class>behaviors.EchoBehavior</Class>
+    <Behavior>
+        <Class>behaviors.EchoBehavior</Class>
+        <Args>
+            <Id>echo</Id>
+            <z-index>0</z-index>
+            <RenderToScreen>False</RenderToScreen>
+        </Args>
+    </Behavior>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>moveanddecay</Id>
+            <Inputs>
+                <Id>tcp</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>move</Id>
+                <Id>decay</Id>
+            </ChainedBehaviors>
+    <RenderToScreen>True</RenderToScreen>		
+            <Mapper>gaussmap</Mapper>
+        </Args>
+    </Behavior>
+    <Behavior>
+        <Class>behaviors.MoveBehavior</Class>
+        <Args>
+            <Id>move</Id>
+            <XStep>3</XStep>
+            <YStep>3</YStep>
+        </Args>
+    </Behavior>
+	<Behavior>
+	  <Class>behaviors.MobileShakeBehavior</Class>
+	  <Args>
+	    <Id>mobileshake</Id>
+	    <SizeMult>3</SizeMult>
+	  </Args>
+	</Behavior>
+	<Behavior>
+	  <Class>behaviors.BehaviorChain</Class>
+	  <Args>
+	    <Id>shakeanddecay</Id>
+	    <Inputs>
+	      <Id>tcp</Id>
+	    </Inputs>
+	    <ChainedBehaviors>
+	      <Id>mobileshake</Id>
+	      <Id>slowdecay</Id>
+	    </ChainedBehaviors>
+	    <RenderToScreen>True</RenderToScreen>
+	    <Mapper>simplemap</Mapper>
+	  </Args>
+	</Behavior>
+    <Behavior>
             <Args>
-                <Id>echo</Id>
-                <z-index>0</z-index>
-                <RenderToScreen>False</RenderToScreen>
+                <Id>sixaxis</Id>
             </Args>
+            <Class>behaviors.ControllerOSC</Class>
         </Behavior>
         <Behavior>
             <Args>
@@ -265,10 +324,24 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
+                <Id>mousechaser2</Id>
+                <Inputs>
+                    <Id>osc2</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>sixaxis</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
                 <Id>mousechaser</Id>
                 <Inputs>
                     <!--Id>followmouse</Id-->
-                    <Id>tcp</Id>
                     <Id>osc</Id>
                 </Inputs>
                 <ChainedBehaviors>

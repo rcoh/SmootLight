@@ -82,6 +82,15 @@
                 <Timeout>2000</Timeout>
             </Args>
         </Behavior>
+        <!--Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>swaposc</Id>
+                <ParamType>Sensor</ParamType>
+                <ParamName>Oscillate</ParamName>
+                <ParamOp>not {val}</ParamOp>
+            </Args>
+        </Behavior-->
         <Behavior>
             <Class>behaviors.MITDoors</Class>
             <Args>

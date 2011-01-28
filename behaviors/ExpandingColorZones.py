@@ -2,13 +2,14 @@ from operationscore.Behavior import *
 from logger import main_log
 class ExpandingColorZones(Behavior):
     def behaviorInit(self):
-        self.mapping = {'r':[(132,0),(255,0,0)], 'g':[(400,0), (0,255,0)],
-                'b':[(668,0),
+        self.mapping = {'s001':[(132,0),(255,0,0)], 's002':[(400,0), (0,255,0)],
+                's003':[(668,0),
             (0,0,255)]}
-        self.mappingkey = 'KeyChar'
+        self.mappingkey = 'data'
     def processResponse(self, sensorInputs, recursiveInputs):
         ret = []
         for data in sensorInputs:
+            print data
             data = dict(data)
             if self.mappingkey in data:
                 try:

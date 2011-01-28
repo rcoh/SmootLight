@@ -19,12 +19,13 @@ class MoveBehavior(Behavior):
                 currDict = dict(currRecLoc)
                 for sensorInput in sensorInputs:
                     if 'type' in sensorInput and sensorInput['type'] == 1:
+                        currDict['Shake'] = 0
                         currDict['Location'] = (currDict['Location'][0] - sensorInput['x'] * self['XStep'], \
                                                 currDict['Location'][1] + sensorInput['y'] * self['YStep'])
                         currDict['Color'] = [sensorInput['r'], sensorInput['g'], sensorInput['b']]
-                    #elif sensorInput['type'] == 2:
-                    #    currDict['Shake'] = 1
-                    #    currDict['Force'] = sensorInput['force']
+                    elif sensorInput['type'] == 2:
+                        currDict['Shake'] = 1
+                        #currDict['Force'] = sensorInput['force']
                 ret.append(currDict)
             #print ret
             return (ret, ret)

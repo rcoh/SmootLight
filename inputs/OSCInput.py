@@ -7,8 +7,8 @@ class OSCInput(Input):
     def inputInit(self):
         HOST = ''                 # Symbolic name meaning all available interfaces
         PORT = self['Port']              # Arbitrary non-privileged port
-	self.server = liblo.Server(PORT)
-	self.server.add_method(None,None, self.fallback)
+        self.server = liblo.Server(PORT)
+        self.server.add_method(None,None, self.fallback)
 #	except liblo.ServerError, err:
  #   		main_log.error(str(err))
 

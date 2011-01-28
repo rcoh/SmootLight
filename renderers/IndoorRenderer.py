@@ -21,7 +21,7 @@ class IndoorRenderer(Renderer):
             for stripId in stripsInPowerSupply:
                 self.stripLocations[stripId] = (ip, \
                         stripsInPowerSupply[stripId])
-    
+        self.broadSocket = network.getBroadcastSocket(6038) 
     def render(self, lightSystem, currentTime=timeops.time()): 
         #try:
             for pixelStrip in lightSystem.pixelStrips:
@@ -32,4 +32,9 @@ class IndoorRenderer(Renderer):
                     self.sockets[ip] = network.getConnectedSocket(ip,sock_port)
                 packet = composer.composePixelStripPacket(pixelStrip, port, currentTime) 
                 self.sockets[ip].send(packet, 0x00)
+            
+            synchPacket = composer.composeSynchPacket()
+            #pdb.set_trace()
+            #self.broadSocket.sendto(synchPacket, ('10.0.32.255', 6038))
+            
 

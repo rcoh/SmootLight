@@ -7,7 +7,11 @@ import pdb
 import util.ComponentRegistry as compReg
 
 speedfactor = 15
+<<<<<<< HEAD
 vel_decay = .01
+=======
+vel_decay = .00
+>>>>>>> b67a37ad06fa4c97dcdb32cecc71c7f492b12840
 
 def constrainLocation(v,c):
     if v[0] > c[0]:
@@ -40,11 +44,16 @@ class ControllerOSC(Behavior):
                 #try:
                     x = data['Value'][0]
                     y = data['Value'][1]
+<<<<<<< HEAD
+=======
+                    main_log.error(str(x))
+>>>>>>> b67a37ad06fa4c97dcdb32cecc71c7f492b12840
                     if y < 0:
                         self.start_hsv[1] = 1.0+y #s
                     else:
                         self.start_hsv[2] = 1.0-y
                     self.start_hsv[0] = (x+1) * 180.0  
+<<<<<<< HEAD
 #                    if self.start_hsv[0] >= 360:
 #                        self.start_hsv[0] = 0
 #                    if self.start_hsv[0] <=0:
@@ -57,6 +66,12 @@ class ControllerOSC(Behavior):
                 val=data['Value']
                 vy = val[3] if val[3] else -val[2]
                 vx = -val[0] if val[0] else val[1]
+=======
+            elif data['Path'] == '/sixaxis/lrud':
+                val=data['Value']
+                vy = val[3]-val[2]
+                vx = val[1]-val[0] 
+>>>>>>> b67a37ad06fa4c97dcdb32cecc71c7f492b12840
                 #pdb.set_trace()
                 #self.v_xy = (val[1]*ssize[0], (1.0-val[0])*ssize[1])
                 self.v_xy = array((vx, vy)) * speedfactor
@@ -69,7 +84,11 @@ class ControllerOSC(Behavior):
             self.v_xy[0] = 0
         if self.v_xy[1] < 0:
             self.v_xy[1] = 0
+<<<<<<< HEAD
         ret.append({'Color':[i*256 for i in
         colorsys.hsv_to_rgb(*self.start_hsv)],'Location':(int(self.xy[0]), int(self.xy[1]))})
+=======
+        ret.append({'Color':[i*255 for i in colorsys.hsv_to_rgb(*self.start_hsv)],'Location':(int(self.xy[0]), int(self.xy[1]))})
+>>>>>>> b67a37ad06fa4c97dcdb32cecc71c7f492b12840
     
         return (ret, [])

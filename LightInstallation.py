@@ -139,7 +139,7 @@ class LightInstallation(object):
         
     def mainLoop(self):
         lastLoopTime = clock.time()
-        refreshInterval = 30
+        refreshInterval = 30 
         while not self.dieNow: #dieNow is set if one of its constituents sends a die request.
             loopStart = clock.time()
             responses = self.evaluateBehaviors() 
