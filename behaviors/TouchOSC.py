@@ -15,7 +15,7 @@ class TouchOSC(Behavior):
         for data in sensorInputs:
             if data['Path'] == '/1/fader1':
                 try:
-                    self.h = data['Value'][0]*360.0
+                    self.h = data['Value'][0]
                 except:
                     pdb.set_trace()
             elif data['Path'] == '/1/fader2':

@@ -7,7 +7,7 @@ import pdb
 import util.ComponentRegistry as compReg
 
 speedfactor = 15
-vel_decay = .00
+vel_decay = .9
 
 def constrainLocation(v,c):
     if v[0] > c[0]:
@@ -40,12 +40,11 @@ class ControllerOSC(Behavior):
                 #try:
                     x = data['Value'][0]
                     y = data['Value'][1]
-                    main_log.error(str(x))
                     if y < 0:
                         self.start_hsv[1] = 1.0+y #s
                     else:
                         self.start_hsv[2] = 1.0-y
-                    self.start_hsv[0] = (x+1) * 180.0  
+                    self.start_hsv[0] = (x+1)/2.   
             elif data['Path'] == '/sixaxis/lrud':
                 val=data['Value']
                 vy = val[3]-val[2]
@@ -57,11 +56,7 @@ class ControllerOSC(Behavior):
                 main_log.error('Sensor Inputs: ' + str(sensorInputs))
         self.xy = self.xy + self.v_xy
         constrainLocation(self.xy,self.ssize)
-        self.v_xy -= self.v_decay
-        if self.v_xy[0] < 0:
-            self.v_xy[0] = 0
-        if self.v_xy[1] < 0:
-            self.v_xy[1] = 0
-        ret.append({'Color':[i*255 for i in colorsys.hsv_to_rgb(*self.start_hsv)],'Location':(int(self.xy[0]), int(self.xy[1]))})
+        self.v_xy *= self.v_decay
+        ret.append({'Color':[i*255. for i in colorsys.hsv_to_rgb(*self.start_hsv)],'Location':(int(self.xy[0]), int(self.xy[1]))})
     
         return (ret, [])
