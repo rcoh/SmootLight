@@ -1,17 +1,26 @@
 from operationscore.Behavior import *
+import util.ComponentRegistry as compReg
 import util.Strings as Strings
 
 class MobileShakeBehavior(Behavior):
+    def behaviorInit(self):
+        self.mapper = None
+        
     def processResponse(self, sensorInputs, recursiveInputs):
+        if self.mapper == None:
+            try:
+                self.mapper = compReg.getComponent('mobilegaussmap')
+            except KeyError:
+                pass
+
         #print sensorInputs
-        ret = []
         for sInput in sensorInputs:
-            outDict = dict(sInput)
-            if 'type' in sInput and sInput['type'] == 2:
-                outDict['Location'] = '{x}>' + str(0) + ',{y}>' + str(0)
-                outDict['Color'] = [sInput['r'], sInput['g'], sInput['b']]
-            else: # dumb invisible pixel
-                outDict['Location'] = (-1, -1)
-                outDict['Color'] = [0, 0, 0]
-            ret.append(outDict)
-        return (ret, recursiveInputs)
+            if 'Shake' in sInput and sInput['Shake'] == 1:
+                #print 'increase!'
+                self.mapper.argDict['Width'] += 30
+                #self.mapper.argDict['CutoffDist'] += 20                
+                sInput['Shake'] = 0
+                print 'Width:' + str(compReg.getComponent('mobilegaussmap').argDict['Width'])
+                #print 'CutoffDist: '+ str(compReg.getComponent('mobilegaussmap').argDict['CutoffDist'])
+                
+        return (sensorInputs, recursiveInputs)

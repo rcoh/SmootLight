@@ -26,6 +26,16 @@
                 <Height>1</Height>
             </Args>
         </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>mobilegaussmap</Id>
+                <CutoffDist>30</CutoffDist>
+                <MinWeight>0.1</MinWeight>
+                <Width>10</Width>
+                <Height>1</Height>
+            </Args>
+        </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
         <Renderer>
@@ -227,26 +237,12 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>move</Id>
+		    <Id>mobileshake</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
 		<RenderToScreen>True</RenderToScreen>		
-                <Mapper>gaussmap</Mapper>
+                <Mapper>mobilegaussmap</Mapper>
             </Args>
         </Behavior>
-	<Behavior>
-	  <Class>behaviors.BehaviorChain</Class>
-	  <Args>
-	    <Id>shakeanddecay</Id>
-	    <Inputs>
-	      <Id>tcp</Id>
-	    </Inputs>
-	    <ChainedBehaviors>
-	      <Id>mobileshake</Id>
-	      <Id>slowdecay</Id>
-	    </ChainedBehaviors>
-	    <RenderToScreen>True</RenderToScreen>
-	    <Mapper>simplemap</Mapper>
-	  </Args>
-	</Behavior>
     </BehaviorConfiguration>
 </LightInstallation>

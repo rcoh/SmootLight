@@ -50,6 +50,8 @@ class TCPInput(Input):
                 for datagroup in data.split('\n'):
                     if datagroup != None and datagroup != '':
                         dataDict = json.loads(datagroup)
+                        #if dataDict['type'] != 1:
+                        #print dataDict
                         self.respond(dataDict)
             except Exception as exp:
                 print str(exp) 
