@@ -26,3 +26,9 @@ def randomLoc(boundingBox): #TODO: make less shitty
 def approxexp(x):
     """Approximates exp with a 3 term Taylor Series."""
     return 1+x+x**2/2+x**3/6
+
+def windtrail(x,y,height,center,width):
+    a=height
+    b=center
+    c=width
+    return a*((math.exp(-((x-b))/(c)))**2)*(math.exp(-((y))/(0.2*c)))**2
