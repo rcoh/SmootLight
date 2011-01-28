@@ -21,8 +21,6 @@ class AddPixelEvent(Behavior):
         ret = []
         for sensory in sensors:
             outDict = {}
-            if not 'Location' in sensory:
-                pdb.set_trace()
             outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
             settingsDict = dict(self.argDict)
             settingsDict['Color'] = sensory['Color']
