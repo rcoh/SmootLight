@@ -23,5 +23,6 @@ class MITDoors(Behavior):
                 data['Left'], data['Right'] = bounds 
                 data['Bottom'] = self['Bottom']
                 data['Location'] = (sum(bounds) / 2., self['Bottom'])
+                data['Oscillate'] = False
                 ret.append(data)
         return (ret, [])

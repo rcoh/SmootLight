@@ -40,6 +40,14 @@
         <InputElement>
             <Class>inputs.OSCInput</Class>
             <Args>
+                <Id>osc2</Id>
+                <Port>1234</Port>
+                <RefreshInterval>10</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Args>
                 <Id>osc</Id>
                 <Port>12345</Port>
                 <RefreshInterval>10</RefreshInterval>
@@ -78,6 +86,12 @@
                 <z-index>0</z-index>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
+        </Behavior>
+        <Behavior>
+            <Args>
+                <Id>sixaxis</Id>
+            </Args>
+            <Class>behaviors.ControllerOSC</Class>
         </Behavior>
         <Behavior>
             <Args>
@@ -265,10 +279,24 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
+                <Id>mousechaser2</Id>
+                <Inputs>
+                    <Id>osc2</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>sixaxis</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
                 <Id>mousechaser</Id>
                 <Inputs>
                     <!--Id>followmouse</Id-->
-                    <Id>tcp</Id>
                     <Id>osc</Id>
                 </Inputs>
                 <ChainedBehaviors>

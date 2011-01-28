@@ -23,7 +23,10 @@ class PygameInput(Input):
                 if event.key == 27:
                     self.die()
                 if self['Keyboard']:
-                    self.respond({'Key': event.key, 'KeyChar': chr(event.key)})
+                    try:
+                        self.respond({'Key': event.key, 'KeyChar': chr(event.key)})
+                    except:
+                        self.respond({'Key': event.key})
                     return
                 else:
                     pygame.event.post(event)

@@ -29,7 +29,13 @@ class RiseFall(Behavior):
                     data['Right'] = data['Location'][0]+data['Width']/2.
             currentTime = timeOps.time()
             deltaTime = currentTime-data['StartTime']
+            #if data['Oscillate'] == True:
             data['Height'] = data['MaxHeight']*math.sin(deltaTime/data['Period']*(math.pi*2))
+            #else:
+            #    data['Height'] = data['MaxHeight']
+            #if (currentTime-data['StartTime']) > data['Period']:
+            #    del data['StartTime']
+
             data['Location'] = "{x}>"+str(data['Left']) + ", " +\
             "{x}<"+str(data['Right'])+", {y}<" + str(data['Bottom']) + ",\
             {y}>"+str(data['Bottom']-data['Height'])

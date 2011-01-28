@@ -53,6 +53,14 @@
                 <RefreshInterval>1</RefreshInterval>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args>
+                <Id>pygamekey</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <Keyboard>True</Keyboard>
+            </Args>
+        </InputElement>
 	<InputElement>
 	  <Class>inputs.HTMLInput</Class>
 	  <Args>
@@ -141,8 +149,8 @@
 	    <Args>
 		<Id>smootwind</Id>		
 		<Inputs>
-		  <Id>weatherinput</Id>
-	    	</Inputs>		
+          <Id>pygamekey</Id>
+	    </Inputs>		
 	    </Args>
 	</Behavior>
         <Behavior>
