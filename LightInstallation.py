@@ -193,7 +193,7 @@ class LightInstallation(object):
             
 def main(argv):
     if len(argv) == 1:
-        l = LightInstallation('LightInstallationConfig.xml')
+        l = LightInstallation('config/6thFloor.xml')
     else:
         l = LightInstallation(argv[1])
         
