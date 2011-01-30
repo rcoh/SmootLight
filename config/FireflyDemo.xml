@@ -33,11 +33,9 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-<!--
         <Renderer>
             <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
         </Renderer>
--->
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
@@ -67,61 +65,17 @@
                 <RefreshInterval>50</RefreshInterval>
             </Args>
         </InputElement>
-        <!--<InputElement>
-            <Class>inputs.TCPInput</Class>
-            <Args>
-                <Id>tcp</Id>
-                <Port>20120</Port>
-                <RefreshInterval>10</RefreshInterval>
-            </Args>
-        </InputElement>-->
-        <InputElement Id="followmouse">
-            <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
-        </InputElement>
     </InputConfiguration>
 
     <BehaviorConfiguration>
         <Behavior>
-	    <Class>behaviors.RandomSetBrightColorBehavior</Class>
-	    <Args>
-	      <Id>setbrightcolor</Id>
-	    </Args>
-        </Behavior>
-
-        <Behavior Id="colorchange">
-            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Class>behaviors.RandomSetBrightColorBehavior</Class>
             <Args>
-                <ColorList>
-                    <Val>(255,0,0)</Val>
-                    <Val>(0,0,255)</Val>
-                </ColorList>
-            </Args>
-        </Behavior>
-        <Behavior Id="fastdecay">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-            <Args>
-                <Coefficient>.5</Coefficient>
+                <Id>setbrightcolor</Id>
             </Args>
         </Behavior>
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="singleframe">
-            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="slowdecay">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-            <Args>
-                <Coefficient>.01</Coefficient>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.XYMove</Class>
-            <Args>
-                <Id>xymove</Id>
-                <XStep>5</XStep>
-                <YStep>2</YStep>
-            </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.RestrictLocation</Class>
@@ -141,24 +95,12 @@
                 <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>movebounce</Id>
-                <ChainedBehaviors>
-                    <Id>xymove</Id>
-                    <Id>ybounce</Id>
-                    <Id>xbounce</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
 	<Behavior>
 	  <Class>behaviors.Flasher</Class>
 	  <Args>
 	    <Id>flasher</Id>
 	  </Args>
 	</Behavior>
-
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
@@ -167,8 +109,7 @@
                     <Id>randmovement</Id>
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
-		    <!-- <Id>fadecolor</Id> -->
-		    <Id>flasher</Id>
+		            <Id>flasher</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -179,12 +120,6 @@
                 <Width>15</Width>
             </Args>
         </Behavior>
-        <Behavior Id="recursivedecay">
-            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
-            <Args>
-                <InitialResponseCount>80</InitialResponseCount>
-            </Args>
-        </Behavior>
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
@@ -192,17 +127,6 @@
                 <StepSize>20</StepSize>
             </Args>
         </Behavior>
-
-	<Behavior>
-	  <Class>behaviors.ModifyParam</Class>
-	  <Args>
-	    <Id>fadecolor</Id>
-            <ParamType>Sensor</ParamType>
-            <ParamName>Color</ParamName>
-            <ParamOp>[chan*.98 for chan in {val}]</ParamOp>
-	  </Args>
-	</Behavior>
-
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
@@ -226,36 +150,14 @@
                 <Id>mover</Id>
             </Args>
         </Behavior>
-        <Behavior Id="accelerate">
-            <InheritsFrom>behaviors/Accelerate.xml</InheritsFrom>
-        </Behavior>
         <Behavior>
             <Class>behaviors.EchoBehavior</Class>
             <Args>
                 <Id>echo</Id>
                 <z-index>0</z-index>
-		<Color>(90,90,90)</Color>
+	        	<Color>(90,90,90)</Color>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>mousechaser</Id>
-                <Inputs>
-                    <Id>followmouse</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>echo</Id>
-                    <Id>square</Id>
-                    <Id>singleframe</Id>
-                </ChainedBehaviors>
-                <RenderToScreen>True</RenderToScreen>
-            </Args>
-        </Behavior>
-
-        <Behavior Id="running">
-            <InheritsFrom>behaviors/RunningBehavior.xml</InheritsFrom>
         </Behavior>
     </BehaviorConfiguration>
 </LightInstallation>
