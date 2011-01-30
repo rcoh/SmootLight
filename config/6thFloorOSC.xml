@@ -40,19 +40,19 @@
         <InputElement>
             <Class>inputs.OSCInput</Class>
             <Args>
-                <Id>osc2</Id>
+                <Id>osc</Id>
                 <Port>1234</Port>
                 <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
-        <InputElement>
+        <!--InputElement>
             <Class>inputs.OSCInput</Class>
             <Args>
                 <Id>osc</Id>
                 <Port>12345</Port>
                 <RefreshInterval>20</RefreshInterval>
             </Args>
-        </InputElement>
+        </InputElement-->
         <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args><!--Passed as a dictionary-->
@@ -110,7 +110,7 @@
             <YStep>3</YStep>
         </Args>
     </Behavior>
-	<Behavior>
+	<!--Behavior>
 	  <Class>behaviors.MobileShakeBehavior</Class>
 	  <Args>
 	    <Id>mobileshake</Id>
@@ -131,7 +131,7 @@
 	    <RenderToScreen>True</RenderToScreen>
 	    <Mapper>simplemap</Mapper>
 	  </Args>
-	</Behavior>
+	</Behavior-->
     <Behavior>
             <Args>
                 <Id>sixaxis</Id>
@@ -188,7 +188,7 @@
                 <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
             </Args>
         </Behavior>
-        <Behavior>
+        <!--Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>movebounce</Id>
@@ -215,8 +215,8 @@
                 <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
            </Args>
-       </Behavior>
-       <Behavior>
+       </Behavior-->
+       <!--Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Args>
                 <Id>debug</Id>
@@ -225,7 +225,7 @@
                     <Id>pygame</Id>
                 </Inputs>
             </Args>
-        </Behavior>
+        </Behavior-->
         <Behavior>
             <Class>behaviors.AllPixelsLeft</Class>
             <Args>
@@ -245,7 +245,7 @@
                 <Id>allpixels</Id>
             </Args>
         </Behavior>
-        <Behavior Id="recursivedecay">
+        <!--Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
                 <InitialResponseCount>50</InitialResponseCount>
@@ -267,8 +267,8 @@
                 <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
-        </Behavior>
-        <Behavior>
+        </Behavior-->
+        <!--Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>randomwalk</Id>
@@ -320,13 +320,13 @@
                     <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
-        </Behavior>
+        </Behavior-->
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>mousechaser2</Id>
+                <Id>SixaxisChase</Id>
                 <Inputs>
-                    <Id>osc2</Id>
+                    <Id>osc</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>sixaxis</Id>
@@ -339,9 +339,8 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>mousechaser</Id>
+                <Id>OSCTouchChase</Id>
                 <Inputs>
-                    <!--Id>followmouse</Id-->
                     <Id>osc</Id>
                 </Inputs>
                 <ChainedBehaviors>
