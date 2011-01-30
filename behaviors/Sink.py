@@ -1,9 +1,10 @@
+
 from operationscore.Behavior import *
 import math
 import util.TimeOps as timeOps
 #Required Args:
 #Period (ms), MaxHeight, Width
-class RiseFall(Behavior):
+class Sink(Behavior):
     """RiseFall is a behavior that creates a rising and falling column of light.  Specify:
     <MaxHeight> -- the maximum height that it rises to.
     <Width> -- the width of the column OR <Left> and <Right>
@@ -29,12 +30,7 @@ class RiseFall(Behavior):
                     data['Right'] = data['Location'][0]+data['Width']/2.
             currentTime = timeOps.time()
             deltaTime = currentTime-data['StartTime']
-            #if data['Oscillate'] == True:
-            data['Height'] = data['MaxHeight']*math.sin(deltaTime/data['Period']*(math.pi*2))
-            #else:
-            #    data['Height'] = data['MaxHeight']
-            #if (currentTime-data['StartTime']) > data['Period']:
-            #    del data['StartTime']
+            data['Height'] = data['MaxHeight']*math.cos(deltaTime/data['Period']*(math.pi*2))
 
             data['Location'] = "{x}>"+str(data['Left']) + ", " +\
             "{x}<"+str(data['Right'])+", {y}<" + str(data['Bottom']) + ",\

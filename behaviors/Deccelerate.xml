@@ -1,8 +1,9 @@
+
 <Behavior>
     <Class>behaviors.ModifyParam</Class>
     <Args>
         <ParamType>Sensor</ParamType>
         <ParamName>StepSize</ParamName>
-        <ParamOp>{val}*1.01</ParamOp>
+        <ParamOp>{val}*.98</ParamOp>
     </Args>
 </Behavior>

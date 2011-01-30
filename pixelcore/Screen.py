@@ -22,14 +22,14 @@ class Screen:
         sizeValid = False 
         self.pixelsSorted = False 
     
-    def addStrip(self, lS):
-        self.pixelStrips.append(lS)
+    def addStrip(self, strip):
+        self.pixelStrips.append(strip)
         self.sizeValid = False #keep track of whether or not our screen size has
         self.pixelsSorted = False
         #been invalidated by adding more pixels
         
     def pixelsInRange(self, minX, maxX):
-        """Returns (pixelIndex, pixel).  Does a binary search."""
+        """Returns (pixelIndex, pixel).  Does a binary search.  Sorts first if neccesary."""
         if not self.pixelsSorted:
             self.computeXSortedPixels()
         minIndex = Search.find_ge(self.xPixelLocs, minX) 
@@ -48,12 +48,11 @@ class Screen:
         return itertools.chain(*[strip.__iter__() for strip in \
             self.pixelStrips]) #the * operator breaks the list into args 
             
-    #increment time -- This processes all queued responses.  Responses generated
-    #during this period are added to the queue that will be processed on the next
-    #time step.
     #SUBVERTING DESIGN FOR EFFICIENCY 1/24/11, RCOH -- It would be cleaner to store the time on the responses
     #themselves, however, it is faster to just pass it in.
     def timeStep(self, currentTime=None):
+        """Increments time -- This processes all queued responses, adding that to a queue that will
+        be processed on the next time step."""
         if currentTime == None:
             currentTime = timeops.time()
         tempQueue = list(self.responseQueue)
@@ -66,6 +65,7 @@ class Screen:
         self.responseQueue.append(responseInfo)
         
     def getSize(self):
+        """Returns the size of the screen in the form: (minx, miny, maxx, maxy)"""
         if self.sizeValid:
             return self.size
         (minX, minY, maxX, maxY) = (sys.maxint,sys.maxint,-sys.maxint,-sys.maxint)
@@ -79,24 +79,19 @@ class Screen:
             maxY = max(y, maxY)
         self.size = (0,0, maxX, maxY)
         self.sizeValid = True
-        print self.size
-        return (0, 0, maxX+100, maxY+100) #TODO: cleaner
+        return (0, 0, maxX, maxY) 
         
     #private
     def processResponse(self, responseInfo, currentTime=None): #we need to make a new dict for
         #each to prevent interference
-        #[strip.respond(dict(responseInfo)) for strip in self.pixelStrips]
         if currentTime == None:
             currentTime = timeops.time()
-            print 'cachetime fail'
         if type(responseInfo) != type(dict()):
             pass
         if 'Mapper' in responseInfo:
             mapper = compReg.getComponent(responseInfo['Mapper']) 
         else:
             mapper = compReg.getComponent(Strings.DEFAULT_MAPPER)
-        #if type(mapper) != type(PixelMapper):
-        #    raise Exception('No default mapper specified.')
         pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
         main_log.debug('Screen processing response.  ' + str(len(pixelWeightList)) + ' events\
 generated')

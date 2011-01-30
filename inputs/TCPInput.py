@@ -4,6 +4,7 @@ from operationscore.Input import *
 import socket, json, time
 import logging as main_log
 import string
+from select import select
 
 class TCPInput(Input):
     """TCPInput is a input to receive input on a TCP port.  In its current incarnation, it parses
@@ -20,9 +21,20 @@ class TCPInput(Input):
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.sock.bind((self.HOST, self.PORT))
         self.sock.listen(1)
-        (self.conn, self.address) = self.sock.accept()
+
+        isreadable=select([self.sock],[],[], 0)[0]
+        self.conn = None
+        if isreadable:
+            (self.conn, self.address) = self.sock.accept()
 
     def sensingLoop(self):
+        if self.conn == None:
+            isreadable=select([self.sock],[],[], 0)[0]
+            if isreadable:
+                (self.conn, self.address) = self.sock.accept()
+            else:
+                return
+        
         data = self.conn.recv(self.BUFFER_SIZE)
         main_log.debug('Incoming data', data)
         
@@ -38,6 +50,8 @@ class TCPInput(Input):
                 for datagroup in data.split('\n'):
                     if datagroup != None and datagroup != '':
                         dataDict = json.loads(datagroup)
+                        #if dataDict['type'] != 1:
+                        #print dataDict
                         self.respond(dataDict)
             except Exception as exp:
                 print str(exp) 
