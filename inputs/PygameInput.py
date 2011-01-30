@@ -33,3 +33,5 @@ class PygameInput(Input):
             if event.type is MOUSEBUTTONDOWN:
                 if self['Clicks']:
                     self.respond({Strings.LOCATION: pygame.mouse.get_pos()})
+                else:
+                    pygame.event.post(event)
