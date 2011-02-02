@@ -68,7 +68,7 @@
                 <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>-->
-        <InputElement Id="followmouse">
+        <InputElement Id="followmouse" RefreshInterval="1000">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
     </InputConfiguration>
@@ -152,7 +152,7 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.Square</Class>
+            <Class>behaviors.AllPixels</Class>
             <Args>
                 <Id>square</Id>
                 <Width>20</Width>
