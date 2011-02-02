@@ -273,9 +273,9 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>touchosc</Id>
-                    <Id>square</Id>
-                    <Id>singleframe</Id>
+                    <Id>decay</Id>
                 </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
