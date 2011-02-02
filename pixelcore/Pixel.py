@@ -1,19 +1,21 @@
 import util.ColorOps as color
+from logger import main_log
 import pdb
 from pixelevents.StepEvent import *
 import util.TimeOps as timeops
-#Pixel keeps a queue of events (PixelEvent objects) (actually a dictionary
-#keyed by event time).  Every time is state is
-#requested, it processes all the members of its queue.  If a member returns none,
-#it is removed from the queue.  Otherwise, its value added to the Pixels color
-#weighted by z-index.
 class Pixel:
+    """Pixel keeps a queue of events (PixelEvent objects) (actually a dictionary
+    keyed by event time).  Every time is state is
+    requested, it processes all the members of its queue.  If a member returns none,
+    it is removed from the queue.  Otherwise, its value added to the Pixels color
+    weighted by z-index."""
+
     radius = 2
     timeOff = -1
     
     def __init__(self, location):
         self.location = location
-        self.events = {}
+        self.events = []
         self.lastRenderTime = timeops.time()
         self.lastRender = (0,0,0) 
         
@@ -24,44 +26,47 @@ class Pixel:
     #processInput instead.  Also, you shouldn't use this anyway.  You should be
     #using the input method on the screen!
     def turnOnFor(self, time):
-        event = StepEvent.generate(time, (255,255,255)) #TODO: Move color to
+        event = StepEvent.generate(time, (255,255,255)) 
         self.processInput(event, 0)
-        #arg
         
     #Add a pixelEvent to the list of active events
     def processInput(self,pixelEvent,zindex, scale=1,currentTime=None): #consider migrating arg to dict
         if currentTime == None:
             currentTime = timeops.time()
-        self.events[currentTime] = (zindex,scale, pixelEvent)
-        
+        self.events.append((currentTime, zindex, scale, pixelEvent)) #TODO: clean this up, maybe? 
     def clearAllEvents(self):
-        self.events = {}
+        self.events = [] 
         
-    #Combines all PixelEvents currently active and computes the current color of
-    #the pixel.
-    def state(self, currentTime=timeops.time()): #TODO: this only evaluates at import time, I think
+    def state(self, currentTime=None): 
+        """Combines all PixelEvents currently active and computes the current color of
+        the pixel."""
+        if currentTime == None:
+            currentTime = timeops.time()
         if currentTime-self.lastRenderTime < 5:
             return self.lastRender
-        if self.events == {}:
+        if self.events == []:
             self.lastRenderTime = currentTime
             return (0,0,0)
         deadEvents = []
         resultingColor = (0,0,0)
         colors = []
-        for eventTime in self.events: #TODO: right color weighting code
-            (zindex,scale,event) = self.events[eventTime]
-            eventResult = event.state(currentTime-eventTime)
+        for eventObj in self.events: #TODO: right color weighting code
+            if len(self.events) > 50:
+                main_log.error('High pixel event count!  Investigate!')
+            eventTime, zindex, scale, pixelEvent = eventObj
+            eventResult = pixelEvent.state(currentTime-eventTime)
             if eventResult != None:
                 scaledEvent = color.multiplyColor(eventResult,scale)
                 if (scaledEvent[0] + scaledEvent[1] + scaledEvent[2]) < 5:
-                    deadEvents.append(eventTime)
+                    pass
+                    #deadEvents.append(eventObj)
                 else:
                     colors.append(scaledEvent)
             else:
-                deadEvents.append(eventTime)
+                deadEvents.append(eventObj)
         
         resultingColor = color.combineColors(colors)
-        [self.events.pop(event) for event in deadEvents]
+        [self.events.remove(event) for event in deadEvents]
         resultingColor = [int(round(c)) for c in resultingColor]
         self.lastRender = tuple(resultingColor)
         self.lastRenderTime = currentTime

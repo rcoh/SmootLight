@@ -2,6 +2,9 @@ from operationscore.Behavior import *
 import util.Strings as Strings
 from logger import main_log
 class AddPixelEvent(Behavior):
+    """AddPixelEvent is a behavior to append an arbitrary PixelEvent to a behavior response.  The
+    classname of the PixelEvent should be specified in the Class field of Args.  All arguments normally
+    passed to the PixelEvent should also be specified in Args."""
     def behaviorInit(self):
         [module, className] = self['Class'].split('.')
         try:

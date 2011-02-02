@@ -5,6 +5,9 @@ import util.Strings as Strings
 import random
 import pdb
 class RandomWalk(Behavior):
+    """Behavior to move the curent location by a random distance specified by 
+    <StepSize> -- StepSize in units/response"""
+
     def processResponse(self, sensors, recursives):
         ret = []
         s = self['StepSize']

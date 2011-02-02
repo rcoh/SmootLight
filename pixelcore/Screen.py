@@ -10,48 +10,49 @@ import itertools
 import sys
 import pdb
 from logger import main_log
-#Class representing a collection of Pixels grouped into PixelStrips.  Needs a
-#PixelMapper, currently set via setMapper by may be migrated into the argDict.
 class Screen:
+    """Class representing a collection of Pixels grouped into PixelStrips.  Needs a
+    PixelMapper, currently set via setMapper by may be migrated into the argDict."""
+    
     def __init__(self):
         self.responseQueue = []
         self.pixelStrips = []
         self.xSortedPixels = []
         self.xPixelLocs = []
         sizeValid = False 
-        
-    def addStrip(self, lS):
-        self.pixelStrips.append(lS)
+        self.pixelsSorted = False 
+    
+    def addStrip(self, strip):
+        self.pixelStrips.append(strip)
         self.sizeValid = False #keep track of whether or not our screen size has
+        self.pixelsSorted = False
         #been invalidated by adding more pixels
-        self.computeXSortedPixels()
         
-    #Returns (pixelIndex, pixel).  Does a binary search.
     def pixelsInRange(self, minX, maxX):
+        """Returns (pixelIndex, pixel).  Does a binary search.  Sorts first if neccesary."""
+        if not self.pixelsSorted:
+            self.computeXSortedPixels()
         minIndex = Search.find_ge(self.xPixelLocs, minX) 
         maxIndex = Search.find_le(self.xPixelLocs, maxX)+1
         return self.xSortedPixels[minIndex:maxIndex]
         
     def computeXSortedPixels(self):
+        self.xSortedPixels = []
         for pixel in self:
             self.xSortedPixels.append((pixel.location[0], pixel))
         self.xSortedPixels.sort()
         self.xPixelLocs = [p[0] for p in self.xSortedPixels]
-        
-    #For debug only    
-    def allOn(self):
-        [lS.allOn(-1) for lS in self.pixelStrips]
-        
+        self.pixelsSorted = True 
+    
     def __iter__(self): #the iterator of all our pixel strips chained togther
         return itertools.chain(*[strip.__iter__() for strip in \
             self.pixelStrips]) #the * operator breaks the list into args 
             
-    #increment time -- This processes all queued responses.  Responses generated
-    #during this period are added to the queue that will be processed on the next
-    #time step.
     #SUBVERTING DESIGN FOR EFFICIENCY 1/24/11, RCOH -- It would be cleaner to store the time on the responses
     #themselves, however, it is faster to just pass it in.
     def timeStep(self, currentTime=None):
+        """Increments time -- This processes all queued responses, adding that to a queue that will
+        be processed on the next time step."""
         if currentTime == None:
             currentTime = timeops.time()
         tempQueue = list(self.responseQueue)
@@ -64,6 +65,7 @@ class Screen:
         self.responseQueue.append(responseInfo)
         
     def getSize(self):
+        """Returns the size of the screen in the form: (minx, miny, maxx, maxy)"""
         if self.sizeValid:
             return self.size
         (minX, minY, maxX, maxY) = (sys.maxint,sys.maxint,-sys.maxint,-sys.maxint)
@@ -77,23 +79,19 @@ class Screen:
             maxY = max(y, maxY)
         self.size = (0,0, maxX, maxY)
         self.sizeValid = True
-        return (0, 0, maxX+100, maxY+100) #TODO: cleaner
+        return (0, 0, maxX, maxY) 
         
     #private
     def processResponse(self, responseInfo, currentTime=None): #we need to make a new dict for
         #each to prevent interference
-        #[strip.respond(dict(responseInfo)) for strip in self.pixelStrips]
         if currentTime == None:
             currentTime = timeops.time()
-            print 'cachetime fail'
         if type(responseInfo) != type(dict()):
             pass
         if 'Mapper' in responseInfo:
             mapper = compReg.getComponent(responseInfo['Mapper']) 
         else:
             mapper = compReg.getComponent(Strings.DEFAULT_MAPPER)
-        #if type(mapper) != type(PixelMapper):
-        #    raise Exception('No default mapper specified.')
         pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
         main_log.debug('Screen processing response.  ' + str(len(pixelWeightList)) + ' events\
 generated')
