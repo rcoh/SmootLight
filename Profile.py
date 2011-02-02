@@ -1,4 +1,4 @@
 import cProfile
 from LightInstallation import main
-command = """main(['', 'config/Kuan.xml'])"""
+command = """main(['', 'config/Demo.xml'])"""
 cProfile.runctx(command, globals(), locals(), filename="smootlight.profile")
