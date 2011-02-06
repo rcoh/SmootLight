@@ -2,6 +2,7 @@ import pdb
 import threading
 import thread
 import util.Config as configGetter
+import types
 
 class SmootCoreObject(object):
     """SmootCoreObject is essentially a super-object class which grants us some niceties.  It allows
@@ -34,9 +35,13 @@ class SmootCoreObject(object):
     def __setitem__(self,k, item):
         self.argDict[k] = item
         
-    def __getitem__(self, item):
-        if item in self.argDict:
-            return self.argDict[item]
+    def __getitem__(self, key):
+        if key in self.argDict:
+            item = self.argDict[key]
+            if isinstance(item, types.FunctionType):
+                return item(self.argDict) #resolve the lambda function, if it exists
+            else:
+                return item
         else:
             return None
     def __contains__(self, item):
