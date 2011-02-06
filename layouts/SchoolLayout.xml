@@ -1,0 +1,51 @@
+<PixelConfiguration>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>strip1</Id>
+                <originLocation>(0,0)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>strip2</Id>
+                <originLocation>(0,10)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>strip3</Id>
+                <originLocation>(0,20)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>strip4</Id>
+                <originLocation>(0,30)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>strip5</Id>
+                <originLocation>(0,40)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>strip6</Id>
+                <originLocation>(0,50)</originLocation>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>strip7</Id>
+                <originLocation>(0,60)</originLocation>
+            </Args>
+        </PixelStrip>
+</PixelConfiguration>

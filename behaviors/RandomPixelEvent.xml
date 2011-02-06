@@ -1,0 +1,7 @@
+<Behavior>
+    <Class>behaviors.AddPixelEvent</Class>
+    <Args>
+        <Class>pixelevents.RandomEvent</Class>
+        <z-index>0</z-index>
+    </Args>
+</Behavior>

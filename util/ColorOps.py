@@ -27,6 +27,8 @@ def combineColors(colors):
 def multiplyColor(color, percent):
     return safeColor([channel*(percent) for channel in color])
 
+def addColors(color1, color2):
+    return (color1[0]+color2[0], color1[1]+color2[1], color1[2]+color2[2])
 def floatToIntColor(rgb):
     rgb[0] = int(rgb[0]*256 + .5)
     rgb[1] = int(rgb[1]*256 + .5)

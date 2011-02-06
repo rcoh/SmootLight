@@ -9,7 +9,7 @@ class SynchTestEvent(PixelEvent):
             self.eventstate += 1 
             self.cachedDelay = timeDelay
         color = [0]*3
-        color[self.eventstate % 3] = 150
+        color[self.eventstate % 3] = 255 
         if self.eventstate > 500:
             self.eventstate = 0
         return color

@@ -346,10 +346,10 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>touchosc</Id>
-                    <Id>square</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
         <Behavior Id="running">
