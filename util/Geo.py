@@ -32,3 +32,10 @@ def windtrail(x,y,height,center,width):
     b=center
     c=width
     return a*((math.exp(-((x-b))/(c)))**2)*(math.exp(-((y))/(0.2*c)))**2
+
+class Location(object):
+    def __init__(self,x=0,y=0):
+        self.x = x
+        self.y = y
+    def __add__(self, b):
+        return Location(self.x+b.x, self.y+b.y)
