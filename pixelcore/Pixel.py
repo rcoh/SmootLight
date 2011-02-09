@@ -8,7 +8,7 @@ class Pixel:
     keyed by event time).  Every time is state is
     requested, it processes all the members of its queue.  If a member returns none,
     it is removed from the queue.  Otherwise, its value added to the Pixels color
-    weighted by z-index."""
+    weighted by z-index.  To get the current color of the pixel, call the state method."""
 
     radius = 2
     timeOff = -1
