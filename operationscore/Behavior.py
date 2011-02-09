@@ -1,9 +1,6 @@
-
 import pdb
 from operationscore.SmootCoreObject import *
 from logger import main_log
-#timeStep is called on every iteration of the LightInstallation
-#addInput is called on each individual input received, and the inputs queue
 class Behavior(SmootCoreObject):
     """Abstract class for a behavior.  On every time step, the behavior is passed the
     inputs from all sensors it is bound to as well as any recursive inputs that it
@@ -44,6 +41,11 @@ class Behavior(SmootCoreObject):
         else:
             self.addInput(sensorInputs)
     #private
+    def getLastOutput(self):
+        return self.lastState
+    def setLastOutput(self, output):
+        """Override to modify state."""
+        self.lastState = output
     def addMapperToResponse(self, responses):
         if self['Mapper'] != None:
             if type(responses) == type(tuple):

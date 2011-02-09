@@ -37,5 +37,12 @@ class TestConfigLoaders(unittest.TestCase):
         assert singleLayerLambda({'Val':2}) == 10 
         doubleLayerLambda = Config.attemptEval("${Val1}$*'${Val2}$'")
         assert doubleLayerLambda({'Val1':3})({'Val2':7}) == 21
+
+        conditional = Config.attemptEval("${Val1}$*5=='${Val2}$'")
+        assert conditional({'Val1':5})({'Val2':25}) == True
+        assert conditional({'Val1':5})({'Val2':26}) == False 
+
+        onlyDouble = Config.attemptEval("'${Val1}$'*'${Val2}$'")
+        assert onlyDouble({})({'Val1':3, 'Val2':7}) == 21
 if __name__ == '__main__':
     unittest.main()
