@@ -16,7 +16,7 @@ def query(predicateList):
     #want to do queries wrt: behavior itself, the behavior packet, the querying behavior
     if isinstance(predicateList, types.FunctionType):
         predicateList = [predicateList]
-    elif not isinstance(prediateList, list):
+    elif not isinstance(predicateList, list):
         raise Exception('Predicate list must be a function or list of functions')
     global behaviorList, initialized
     ret = [] 
