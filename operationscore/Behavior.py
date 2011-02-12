@@ -19,6 +19,7 @@ class Behavior(SmootCoreObject):
         self.recursiveResponseQueue = []
         self.sensorResponseQueue = []
         self.outGoingQueue = []
+        self.lastState = None
         self.behaviorInit()
     def behaviorInit(self):
         pass
@@ -44,7 +45,9 @@ class Behavior(SmootCoreObject):
     def getLastOutput(self):
         return self.lastState
     def setLastOutput(self, output):
-        """Override to modify state."""
+        """Override to modify state.  For example: if you are using a behavior that does uses
+        strings for location specification, you will want to override this to point to a single
+        location.  Make sure you keep lastState as a [] of {}.  (List of dicts)"""
         self.lastState = output
     def addMapperToResponse(self, responses):
         if self['Mapper'] != None:
@@ -61,5 +64,6 @@ class Behavior(SmootCoreObject):
                 self.recursiveResponseQueue)
         self.sensorResponseQueue = []
         self.recursiveResponseQueue = recursions 
+        self.setLastOutput(outputs)
         main_log.debug(self['Id'] + ' Ouputs ' + str(outputs))
         return self.addMapperToResponse(outputs)

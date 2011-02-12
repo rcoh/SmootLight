@@ -2,8 +2,9 @@
 import math
 from bisect import *
 import random
-def pointWithinBoundingBox(point, bb): #this could be in 4 lines, but I'm lazy.
-    return sum([(point[i % 2] <= bb[i]) == (i>1) for i in range(4)]) == 4 
+def pointWithinBoundingBox(point, bb): 
+    """Returns whether or not a point (x,y) is within a bounding box (xmin, ymin, xmax, ymax)"""
+    return all([(point[i % 2] <= bb[i]) == (i>1) for i in range(4)])
 
 def addLocations(l1,l2):
     return tuple([l1[i]+l2[i] for i in range(len(l1))])

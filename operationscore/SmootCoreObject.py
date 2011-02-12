@@ -40,6 +40,8 @@ class SmootCoreObject(object):
             item = self.argDict[key]
             if isinstance(item, types.FunctionType):
                 return item(self.argDict) #resolve the lambda function, if it exists
+            #elif isinstance(item, list): #if its a list of items
+            #    pass #TODO: consider doing resolution of lambda funcs for items in lists
             else:
                 return item
         else:
