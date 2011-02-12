@@ -1,9 +1,6 @@
-
 import pdb
 from operationscore.SmootCoreObject import *
 from logger import main_log
-#timeStep is called on every iteration of the LightInstallation
-#addInput is called on each individual input received, and the inputs queue
 class Behavior(SmootCoreObject):
     """Abstract class for a behavior.  On every time step, the behavior is passed the
     inputs from all sensors it is bound to as well as any recursive inputs that it
@@ -22,6 +19,7 @@ class Behavior(SmootCoreObject):
         self.recursiveResponseQueue = []
         self.sensorResponseQueue = []
         self.outGoingQueue = []
+        self.lastState = None
         self.behaviorInit()
     def behaviorInit(self):
         pass
@@ -44,6 +42,13 @@ class Behavior(SmootCoreObject):
         else:
             self.addInput(sensorInputs)
     #private
+    def getLastOutput(self):
+        return self.lastState
+    def setLastOutput(self, output):
+        """Override to modify state.  For example: if you are using a behavior that does uses
+        strings for location specification, you will want to override this to point to a single
+        location.  Make sure you keep lastState as a [] of {}.  (List of dicts)"""
+        self.lastState = output
     def addMapperToResponse(self, responses):
         if self['Mapper'] != None:
             if type(responses) == type(tuple):
@@ -59,5 +64,6 @@ class Behavior(SmootCoreObject):
                 self.recursiveResponseQueue)
         self.sensorResponseQueue = []
         self.recursiveResponseQueue = recursions 
+        self.setLastOutput(outputs)
         main_log.debug(self['Id'] + ' Ouputs ' + str(outputs))
         return self.addMapperToResponse(outputs)

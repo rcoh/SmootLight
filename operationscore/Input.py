@@ -17,7 +17,7 @@ class Input(ThreadedSmootCoreObject):
         self.inputInit()
         
     def respond(self, eventDict):
-        #if eventDict != []:
+        eventDict['InputId'] = self['Id']
         self.parentScope.lock.acquire()
         self.parentScope.processResponse(self.argDict, eventDict)
         self.parentScope.lock.release()

@@ -1,4 +1,5 @@
 from xml.etree.ElementTree import *
+import re
 import sys
 import xml
 import pdb
@@ -112,8 +113,20 @@ def pullArgsFromItem(parentNode):
     return args
 
 def attemptEval(val):
+    """Runs an eval if possible, or converts into a lambda expression if indicated.  Otherwise,
+    leaves as a string."""
     try:
-        val = eval(val)
+        if '${' in val and '}$' in val: #TODO: this could be a little cleaner
+            dictVal = re.sub("'\$\{(.+?)\}\$'", "b['\\1']", val) #replace expressions '${blah}$' with b['blah']
+            dictVal = re.sub("\$\{(.+?)\}\$", "a['\\1']", dictVal) #replace all expressions like {blah} with a['blah']
+            if "'${" and "}$'" in val: #nested lambda madness
+                lambdaVal = eval('lambda a: lambda b: ' + dictVal)
+            else:
+                lambdaVal = eval('lambda a:'+dictVal) #TODO: nested lambdas
+            return lambdaVal  #convert referential objects to lambda expressions which can be
+            #resolved dynamically.
+        else:
+            val = eval(val)
     except (NameError, SyntaxError):
         val = str(val)
     return val
