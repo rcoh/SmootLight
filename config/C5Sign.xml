@@ -164,6 +164,7 @@
                     <Id>xymove</Id>
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
+                    <Id>longrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -174,6 +175,17 @@
                 <ParamName>YStep</ParamName>
                 <ParamType>Sensor</ParamType>
                 <ParamOp>4*math.sin({x}/float(40))</ParamOp>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.TimeSwitch</Class>
+            <Args>
+                <Id>main</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <Behaviors>{'runcolordecay':10,'expandingcircles':10}</Behaviors>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
        <Behavior>
@@ -194,19 +206,16 @@
                 <Width>20</Width>
             </Args>
         </Behavior>
-        <Behavior Id="recursivedecay">
+        <Behavior Id="recursivedecay" InitialResponseCount="80">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
-            <Args>
-                <InitialResponseCount>80</InitialResponseCount>
-            </Args>
+        </Behavior>
+        <Behavior Id="longrecursivedecay" InitialResponseCount="400">
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>runcolordecay</Id>
-                <Inputs>
-                    <Id>pygameclick</Id>
-                </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
@@ -311,18 +320,13 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>expandingcirlces</Id>
-                <Inputs>
-                    <Id>pygameclick</Id>
-                    <Id>center</Id>
-                </Inputs>
+                <Id>expandingcircles</Id>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
-                    <Id>decay</Id>
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="running">

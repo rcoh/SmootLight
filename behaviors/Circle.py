@@ -15,7 +15,7 @@ class Circle(Behavior):
                 data[self['Id']+'Radius'] = self['Radius']
             rad = data[self['Id']+'Radius']
             cond = '>=' if self['Outside'] else '<='
-            circleStr = 'math.sqrt(({x}-'+str(xLoc)+')**2+(({y}-'+str(yLoc)+')**2))'+cond+str(rad)
+            circleStr = 'math.sqrt(({x}-'+str(xLoc)+')**2+(({y}-'+str(yLoc)+')**2)*2)'+cond+str(rad)
             if self['Combine']:
                 data['Location'] += ',' + circleStr
             else:
