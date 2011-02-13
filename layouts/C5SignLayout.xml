@@ -1,0 +1,16 @@
+    <PixelConfiguration>
+        <PixelStrip>
+            <Class>layouts.ZigzagLayout</Class>
+            <Args>
+                <Id>strip1</Id>
+                <zigLength>10</zigLength>
+                <zigAxis>X</zigAxis>
+                <yDirection>1</yDirection>
+                <pixelToPixelSpacing>20</pixelToPixelSpacing>
+                <spacing>20</spacing> <!--we can space at any value less the
+                l2lspacing--> 
+                <numPixels>50</numPixels>
+                <originLocation>(0,0)</originLocation>
+            </Args>
+        </PixelStrip>
+    </PixelConfiguration>
