@@ -175,11 +175,12 @@
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
+                    <Id>square</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <!--Mapper>gaussmap</Mapper-->
             </Args>
         </Behavior>
         <Behavior>

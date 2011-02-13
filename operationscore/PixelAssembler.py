@@ -19,6 +19,7 @@ class PixelAssembler(SmootCoreObject):
                 defined or improperly defined.')
             if Geo.dist(newLocation, locations[-1]) > \
                     self['pixelToPixelSpacing']:
+                        import pdb; pdb.set_trace()
                         raise Exception('Illegal pixel location.  Distance \
                         between adjacent pixels must be less than \
                         pixelToPixelSpacing.')
