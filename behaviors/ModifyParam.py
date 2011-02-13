@@ -30,6 +30,8 @@ class ModifyParam(Behavior):
                     #TODO: move elsewhere
                     paramOp = paramOp.replace('{y}', "behaviorInput['Location'][1]")
                     paramOp = paramOp.replace('{x}', "behaviorInput['Location'][0]")
+                    if eval(paramOp) == None:
+                        import pdb; pdb.set_trace()
                     behaviorInput[paramName] = eval(paramOp)
         if paramType == 'Sensor': #return accordingly
             return (searchSet, recursiveInputs)

@@ -68,6 +68,13 @@
                 <RefreshInterval>50</RefreshInterval>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.ContinuousCenterInput</Class>
+            <Args>
+                <Id>center</Id>
+                <RefreshInterval>1800</RefreshInterval>
+            </Args>
+        </InputElement>
         <!--<InputElement>
             <Class>inputs.TCPInput</Class>
             <Args>
@@ -76,7 +83,7 @@
                 <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>-->
-        <InputElement Id="followmouse" RefreshInterval="1000">
+        <InputElement Id="followmouse" RefreshInterval="10">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
     </InputConfiguration>
@@ -90,10 +97,10 @@
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Args>
-                <ColorList>
+                <!--ColorList>
                     <Val>(255,0,0)</Val>
                     <Val>(0,0,255)</Val>
-                </ColorList>
+                </ColorList-->
             </Args>
         </Behavior>
         <Behavior>
@@ -108,7 +115,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <Mapper>gaussmap</Mapper>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="decay">
@@ -155,7 +162,6 @@
                 <Id>movebounce</Id>
                 <ChainedBehaviors>
                     <Id>xymove</Id>
-                    <!--Id>colorshift</Id-->
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
                 </ChainedBehaviors>
@@ -207,7 +213,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -246,14 +252,76 @@
             <Args>
                 <Id>mousechaser</Id>
                 <Inputs>
-                    <Id>followmouse</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>echo</Id>
-                    <Id>square</Id>
+                    <Id>innercircle</Id>
+                    <Id>outercircle</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Circle</Class>
+            <Args>
+                <Id>innercircle</Id>
+                <Radius>0</Radius>
+                <Outside>True</Outside>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Circle</Class>
+            <Args>
+                <Id>outercircle</Id>
+                <Radius>3</Radius>
+                <Combine>True</Combine>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>incrinner</Id>
+                <ParamOp>{val}+.3</ParamOp>
+                <ParamName>innercircleRadius</ParamName>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>incrouter</Id>
+                <ParamOp>{val}+.3</ParamOp>
+                <ParamName>outercircleRadius</ParamName>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>circle_expand</Id>
+                <ChainedBehaviors>
+                    <Id>innercircle</Id>
+                    <Id>outercircle</Id>
+                    <Id>incrinner</Id>
+                    <Id>incrouter</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>expandingcirlces</Id>
+                <Inputs>
+                    <Id>pygameclick</Id>
+                    <Id>center</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="running">
