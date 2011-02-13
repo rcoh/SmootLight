@@ -51,13 +51,13 @@ class Behavior(SmootCoreObject):
             self.addInput(sensorInputs)
    
     @staticmethod 
-    def deepCopyPacket(self, datapacket):
+    def deepCopyPacket(datapacket):
         """Returns a deep copy of a behavior data packet (a list of dicts) so that modifying the
         returned packet will not modify the incoming packet."""
         ret = []
         for d in datapacket:
             d = dict(d)
-            ret.append[d]
+            ret.append(d)
         return ret
     
     def getLastOutput(self):
@@ -88,7 +88,5 @@ class Behavior(SmootCoreObject):
         self.sensorResponseQueue = []
         self.recursiveResponseQueue = recursions 
         self.setLastOutput(outputs)
-        if outputs != []:
-            pdb.set_trace()
         main_log.debug(self['Id'] + ' Ouputs ' + str(outputs))
         return self.addMapperToResponse(outputs)
