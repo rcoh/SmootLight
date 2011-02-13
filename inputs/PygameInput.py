@@ -15,6 +15,10 @@ class PygameInput(Input):
     NB: If follow mouse is enabled, PygameInput will not return mouse and keypresses.  You can, however,
     instantiate other PygameInputs in the XML that will capture mouse and keypresses."""
     def sensingLoop(self):
+        if 'Scale' in self:
+            scale = self['Scale']
+        else:
+            scale = 1
         if self['FollowMouse']:
             self.respond({Strings.LOCATION: pygame.mouse.get_pos()})
             return
