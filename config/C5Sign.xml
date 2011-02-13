@@ -22,7 +22,7 @@
                 <Id>gaussmap</Id>
                 <CutoffDist>30</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>10</Width>
+                <Width>7</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -42,6 +42,14 @@
                 <Id>pygameclick</Id>
                 <RefreshInterval>10</RefreshInterval>
                 <Clicks>True</Clicks>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Args>
+                <Id>osc</Id>
+                <Port>1234</Port>
+                <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -73,6 +81,12 @@
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
+        <Behavior>
+            <Args>
+                <Id>touchosc</Id>
+            </Args>
+            <Class>behaviors.TouchOSC</Class>
+        </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Args>
@@ -80,6 +94,21 @@
                     <Val>(255,0,0)</Val>
                     <Val>(0,0,255)</Val>
                 </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>OSCTouchChase</Id>
+                <Inputs>
+                    <Id>osc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>touchosc</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="decay">
@@ -98,8 +127,8 @@
             <Class>behaviors.XYMove</Class>
             <Args>
                 <Id>xymove</Id>
-                <XStep>5</XStep>
-                <YStep>2</YStep>
+                <XStep>1</XStep>
+                <YStep>1</YStep>
             </Args>
         </Behavior>
         <Behavior>
@@ -108,7 +137,7 @@
                 <Id>xbounce</Id>
                 <Action>{val}*-1</Action>
                 <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;0 or {x}&gt;200</LocationRestriction>
+                <LocationRestriction>{x}&lt;2 or {x}&gt;48</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
@@ -117,7 +146,7 @@
                 <Id>ybounce</Id>
                 <Action>{val}*-1</Action>
                 <ParamName>YStep</ParamName>
-                <LocationRestriction>{y}&lt;0 or {y}&gt;100</LocationRestriction>
+                <LocationRestriction>{y}&lt;2 or {y}&gt;24</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
@@ -126,7 +155,7 @@
                 <Id>movebounce</Id>
                 <ChainedBehaviors>
                     <Id>xymove</Id>
-                    <Id>colorshift</Id>
+                    <!--Id>colorshift</Id-->
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
                 </ChainedBehaviors>

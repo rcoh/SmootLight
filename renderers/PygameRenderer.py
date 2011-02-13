@@ -18,8 +18,13 @@ class PygameRenderer(Renderer):
     def render(self, lightSystem, currentTime=timeops.time()):
         self.background.fill(Color(0,0,0))
         #print 'drawing color:',light.color
+        if 'Scale' in self:
+            scale = self['Scale']
+        else:
+            scale = 1
         for light in lightSystem:
-            pygame.draw.circle(self.background, light.state(currentTime), light.location, \
+            scaledLoc = [l*scale for l in light.location] 
+            pygame.draw.circle(self.background, light.state(currentTime), scaledLoc, \
                 light.radius)
 
         self.screen.blit(self.background, (0,0))
