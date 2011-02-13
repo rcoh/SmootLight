@@ -210,6 +210,7 @@
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
+                    <!--<Id>square</Id>-->
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
