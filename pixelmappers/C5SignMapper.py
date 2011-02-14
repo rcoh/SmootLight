@@ -1,6 +1,7 @@
 from operationscore.PixelMapper import *
 import util.Geo as Geo
 import sys
+import math
 class C5SignMapper(PixelMapper):
     """C5SignMapper is a modification to SimpleMapper which maps events to the
     nearest Pixel. In addtion, it also maps sign artifacts (letters, logo, etc)
@@ -99,7 +100,9 @@ class C5SignMapper(PixelMapper):
                 [eventLocation, signPart] = eventLocSplit
                 signParts = signPart.split('.')
                 pixelLocs = signPosition[signParts[0]][signParts[1]]
-                screen = [p for p in screen if (p.location in pixelLocs)]
+                screenPixels = [p for p in screen if (p.location in pixelLocs)]
+            else:
+                screenPixels = [p for p in screen]
                 
                 
             #{x}>5,{y}<k
@@ -111,7 +114,7 @@ class C5SignMapper(PixelMapper):
                 conditionLambdas = [eval('lambda pixel:'+condition) for condition in conditions]
             else:
                 conditionLambdas = []
-            for pixel in screen:
+            for pixel in screenPixels:
                 try:
                     pixelValid = True
                     for p in conditionLambdas:
@@ -121,6 +124,7 @@ class C5SignMapper(PixelMapper):
                     if pixelValid:
                         ret.append((pixel, 1))
                 except Exception as exp:
+                    import pdb; pdb.set_trace()
                     raise Exception('Bad event condition')
             return ret
 
