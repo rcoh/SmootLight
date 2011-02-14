@@ -2,11 +2,11 @@ from operationscore.Behavior import *
 class VerticalBar(Behavior):
 
     def processResponse(self, inputs, recurs):
-
         ret = []
+        inputs = list(inputs)
         for inputset in inputs:
             #import pdb; pdb.set_trace()
-            
+            inputset = dict(inputset) 
             if 'xLoc' not in inputset:
                 inputset['xLoc'] = inputset['Location'][0]
             xLoc = inputset['xLoc']
@@ -19,12 +19,5 @@ class VerticalBar(Behavior):
                 inputset['Location'] = condition 
 
             ret.append(inputset)
-
         return (ret, [])
 
-    def setLastOutput(self, output):
-
-        coutput = Behavior.deepCopyPacket(output)
-        for data in coutput:
-            data['Location'] = data['xLoc']
-        return coutput

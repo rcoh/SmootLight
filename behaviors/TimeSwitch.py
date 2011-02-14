@@ -10,15 +10,16 @@ class TimeSwitch(Behavior):
     """
     def behaviorInit(self):
         self.keyIndex = 0
-        self.currentBehaviorId = self['Behaviors'].keys()[self.keyIndex]
+        self.currentBehaviorId = self['TimeMap'].keys()[self.keyIndex]
         self.behaviorStart = clock.time()
 
     def processResponse(self, sensors, recurs):
-        if self.behaviorStart + self['Behaviors'][self.currentBehaviorId]*1000 <= clock.time():
+        if self.behaviorStart + self['TimeMap'][self.currentBehaviorId]*1000 <= clock.time():
             self.keyIndex += 1
-            self.keyIndex = self.keyIndex % len(self['Behaviors'])
-            self.currentBehaviorId = self['Behaviors'].keys()[self.keyIndex]
+            self.keyIndex = self.keyIndex % len(self['TimeMap'])
+            self.currentBehaviorId = self['TimeMap'].keys()[self.keyIndex]
             self.behaviorStart = clock.time()
             main_log.info('Switching behaviors')
-        return compReg.getComponent(self.currentBehaviorId).processResponse(sensors, recurs)
+        sensors = [s for s in sensors if s['InputId'] == self['InputMap'][self.currentBehaviorId]]
+        return compReg.getComponent(self.currentBehaviorId).immediateProcessInput(sensors, recurs)
         

@@ -8,7 +8,9 @@ class ContinuousLocationInput(Input):
     def inputInit(self):
         xvals = {}
         yvals = {}
+        compReg.getLock().acquire()
         xvals['left'], yvals['bottom'], xvals['right'], yvals['top'] = compReg.getComponent('Screen').getSize()
+        compReg.getLock().release()
         (xvals['center'], yvals['center']) = ((xvals['left']+xvals['right']) / 2, (yvals['top']+yvals['bottom']) / 2)
 
         self.location = (xvals[self['xloc']], yvals[self['yloc']])

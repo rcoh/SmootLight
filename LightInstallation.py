@@ -103,9 +103,6 @@ class LightInstallation(object):
         for component in components:
             cid = compReg.registerComponent(component)
             main_log.info(cid + ' registered')
-            compReg.registerComponent(component)
-            main_log.info(cid + ' registered')
-                
     def initializeComponent(self, config):
         components = []
         if config != None:
@@ -164,8 +161,8 @@ class LightInstallation(object):
         responses = {}
         responses['Screen'] = [] #responses to the screen
         for behavior in self.behaviors:
-            responses[behavior['Id']] = behavior.timeStep()
             if behavior['RenderToScreen'] == True: 
+                responses[behavior['Id']] = behavior.timeStep()
                 responses['Screen'] += responses[behavior['Id']]
         return responses['Screen']
 
@@ -184,6 +181,7 @@ class LightInstallation(object):
                 
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
+        #coming from.
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
         try:
             [compReg.getComponent(b).addInput(responseDict) for b in boundBehaviorIds]
