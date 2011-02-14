@@ -15,21 +15,27 @@ class TestSwitchBehavior(unittest.TestCase):
         compReg.registerComponent(self.behavior1)
         compReg.registerComponent(self.behavior2)
 
-        self.switchBehavior = SwitchBehavior({'Id': 'switch', '1': 'behavior1', '2': 'behavior2', 'DefaultBehavior': 'behavior1'})
+        self.switchBehavior = SwitchBehavior({'Id': 'switch', 'PrefixToBehavior': '{"@": "behavior1", "#": "behavior2"}', 'DefaultBehavior': 'behavior1'})
         compReg.registerComponent(self.switchBehavior)
 
     def tearDown(self):
         pass
 
     def test_switch_to_behavior1(self):
-        inputs = [{'Data': '1something', 'Location': 'someloc'}]
+        inputs = [{'Data': '@something', 'Location': 'someloc'}]
         returned = self.switchBehavior.processResponse(inputs, [])
         assert returned[0][0]['Location'] == 'someloc'
 
     def test_switch_to_behavior2(self):
-        inputs = [{'Data': '2something'}]
+        inputs = [{'Data': '#something'}]
         returned = self.switchBehavior.processResponse(inputs, [])
         assert returned[0] == []
+
+    def test_default_behavior(self):
+        inputs = [{'Data': 'something', 'Location': 'someloc'}]
+        returned = self.switchBehavior.processResponse(inputs, [])
+        assert returned[0][0]['Location'] == 'someloc'
+    
 
 if __name__ == '__main__':
     unittest.main()
