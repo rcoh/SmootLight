@@ -40,9 +40,9 @@
         <Renderer>
             <InheritsFrom>renderers/C5Renderer.xml</InheritsFrom>
         </Renderer>
-        <Renderer>
+        <!--Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
+        </Renderer-->
     </RendererConfiguration>
     <InputConfiguration>
         <!--InputElement>

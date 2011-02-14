@@ -14,6 +14,5 @@ class ContinuousLocationInput(Input):
         self.location = (xvals[self['xloc']], yvals[self['yloc']])
 
     def sensingLoop(self):
-        print (self.location)
         self.respond({Strings.LOCATION: self.location})
         
