@@ -9,8 +9,17 @@
         <InheritsFrom>layouts/C5SignLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
+        <!-- ****************************** -->
         <PixelMapper>
             <Class>pixelmappers.C5SignMapper</Class>
+            <Args>
+                <Id>c5signmapper</Id>
+                <CutoffDist>20</CutoffDist>
+            </Args>
+        </PixelMapper>
+        <!-- ****************************** -->
+        <PixelMapper>
+            <Class>pixelmappers.SimpleMapper</Class>
             <Args>
                 <Id>simplemap</Id>
                 <CutoffDist>20</CutoffDist>
@@ -36,14 +45,14 @@
         </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
-        <InputElement>
+        <!--InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
                 <Id>pygameclick</Id>
                 <RefreshInterval>10</RefreshInterval>
                 <Clicks>True</Clicks>
             </Args>
-        </InputElement>
+        </InputElement-->
         <InputElement>
             <Class>inputs.OSCInput</Class>
             <Args>
@@ -52,14 +61,14 @@
                 <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
-        <InputElement>
+        <!--InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
                 <Id>pygamekey</Id>
                 <RefreshInterval>10</RefreshInterval>
                 <Keyboard>True</Keyboard>
             </Args>
-        </InputElement>
+        </InputElement-->
         <InputElement>
             <Class>inputs.UDPInput</Class>
             <Args>
@@ -75,6 +84,17 @@
                 <RefreshInterval>1800</RefreshInterval>
             </Args>
         </InputElement>
+        <!-- ****************************** -->
+        <InputElement>
+            <Class>inputs.ContinuousLocationInput</Class>
+            <Args>
+                <Id>centerleft</Id>
+                <xloc>left</xloc>
+                <yloc>center</yloc>
+                <RefreshInterval>1800</RefreshInterval>
+            </Args>
+        </InputElement>
+        <!-- ****************************** -->
         <!--<InputElement>
             <Class>inputs.TCPInput</Class>
             <Args>
@@ -83,9 +103,9 @@
                 <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>-->
-        <InputElement Id="followmouse" RefreshInterval="10">
+        <!--InputElement Id="followmouse" RefreshInterval="10">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
-        </InputElement>
+        </InputElement-->
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior>
@@ -115,7 +135,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <Mapper>gaussmap</Mapper>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="decay">
@@ -124,12 +144,14 @@
         <Behavior Id="singleframe">
             <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
         </Behavior>
+        <!-- ****************************** -->
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
             <Args>
-                <Coefficient>.01</Coefficient>
+                <Coefficient>.001</Coefficient>
             </Args>
         </Behavior>
+        <!-- ****************************** -->
         <Behavior>
             <Class>behaviors.XYMove</Class>
             <Args>
@@ -164,7 +186,6 @@
                     <Id>xymove</Id>
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
-                    <Id>longrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -175,17 +196,6 @@
                 <ParamName>YStep</ParamName>
                 <ParamType>Sensor</ParamType>
                 <ParamOp>4*math.sin({x}/float(40))</ParamOp>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.TimeSwitch</Class>
-            <Args>
-                <Id>main</Id>
-                <Inputs>
-                    <Id>center</Id>
-                </Inputs>
-                <Behaviors>{'runcolordecay':10,'expandingcircles':10}</Behaviors>
-                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
        <Behavior>
@@ -206,16 +216,19 @@
                 <Width>20</Width>
             </Args>
         </Behavior>
-        <Behavior Id="recursivedecay" InitialResponseCount="80">
+        <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="longrecursivedecay" InitialResponseCount="400">
-            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+            <Args>
+                <InitialResponseCount>160</InitialResponseCount>
+            </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>runcolordecay</Id>
+                <Inputs>
+                    <Id>pygameclick</Id>
+                </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
@@ -320,15 +333,62 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>expandingcircles</Id>
+                <Id>expandingcirlces</Id>
+                <Inputs>
+                    <Id>centerleft</Id>
+                </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
-                    <Id>singleframe</Id>
+                    <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
+        <!-- ****************************** -->
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>incrVertBarLoc</Id>
+                <ParamName>xLoc</ParamName>
+                <ParamOp>{val}+1</ParamOp>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.VerticalBar</Class>
+            <Args>
+                <Id>vertBar</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>bar_move</Id>
+                <ChainedBehaviors>
+                    <Id>vertBar</Id>
+                    <Id>incrVertBarLoc</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>scanningbars</Id>
+                <Inputs>
+                    <Id>centerleft</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>slowdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'bar_move'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+        <!-- ****************************** -->
         <Behavior Id="running">
             <InheritsFrom>behaviors/RunningBehavior.xml</InheritsFrom>
         </Behavior>
