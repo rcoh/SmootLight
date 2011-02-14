@@ -115,7 +115,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <Mapper>gaussmap</Mapper>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="decay">
@@ -185,7 +185,7 @@
                     <Id>center</Id>
                 </Inputs>
                 <Behaviors>{'runcolordecay':10,'expandingcircles':10}</Behaviors>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
        <Behavior>
