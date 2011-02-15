@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{fullpage}
+\usepackage{graphicx}
 \begin{document}
     \title{Behaviors: An Introduction and Exercises}
     \author{Russell Cohen}
@@ -12,6 +13,9 @@
     terminals.  One gets released externally as output, and the other gets fed
     back to the behavior.  At their core, behaviors have nothing to do with
     pixels are light effects -- this is merely how we commonly use them.
+    \begin{center}
+    \includegraphics[width=4 in]{Behavior.jpg}
+    \end{center}
     \section{How do I write a behavior?}
     At the core of a behavior is its \texttt{ProcessResponse} method which
     tells a behavior what to get on input.  As you might expect, it has 2
@@ -20,7 +24,7 @@
     and outputs are all python dictionaries.  This allows us to have an
     arbitrary number of named parameters.  As sample input might look
     something like \texttt{{'Location':(20,20), 'Height':10}}.  When we
-    return a value, we return a tuple of (list<dict>,list<dict>).  Note that on a
+    return a value, we return a tuple of \texttt{(list<dict>,list<dict>)}.  Note that on a
     process response method you will actually be given a \textbf{List of
         dictionaries} and you should iterate over them. 
     \textbf{Important:} You should not directly modify the inputs!  Use
@@ -86,7 +90,7 @@
         connected together.  This allows us to build up many different behaviors
         from a library of simple pieces.  Let's look at how we actually
         accomplish this.
-
+        
         Behavior Chaining is accomplished through the behavior chain class.
         Here is an example of a behavior we declare (in XML) via a behavior
         chain:
@@ -134,10 +138,18 @@
         behavior, and stops the behavior after a certain number of iterations.
         Note that recursive hooks take data in via their \textbf{external input}
         port, and \textbf{not} their recursive port.
-
+        \begin{center} 
+        \includegraphics[width=4 in]{BehaviorwithRecursiveHook.jpg}
+        \end{center}
         Finally, we state that this behavior will indeed be rendered directly to
-        the screen.  We also specify which PixelMapper we want to use.
-        
+        the screen, by specifying:
+        \begin{center}\texttt{<RenderToScreen>True</RenderToScreen>} \end{center}
+        We also specify which PixelMapper we want to use (gaussmap):
+        \texttt{<Mapper>gaussmap</Map>}.  \verb gaussmap  is the id we assigned to the mapper when
+        we declared in the \verb PixelMappers  section of the xml.
+        \begin{center}
         Phew.  This isn't as complicated as it sounds.  I promise.
-
+        \end{center}
+        Browse around the behaviors to get an idea of what is possible and what has been done.  They
+        all live in the behaviors folder.  Enjoy!
         \end{document}
