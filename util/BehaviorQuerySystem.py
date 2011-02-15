@@ -7,6 +7,7 @@ def initBQS():
     initialized = True
 
 def addBehavior(behavior):
+    """Add a behavior to the behavior registry."""
     behaviorList.append(behavior)
 
 def query(predicateList):
@@ -36,4 +37,11 @@ def query(predicateList):
                 ret.append(output)
     return ret 
 
+def getDistLambda(loc, maxDist):
+    """Returns a lambda function that checks if for behaviors within maxDist of loc.  Can be passed
+    in as an arg to query."""
+    return lambda args:geo.dist(args['Location'], loc) <= maxDist
 
+def getBehaviorsNear(loc, maxdist):
+    """A premade method to do the common task of finding behavior near a location."""
+    return query(getDistLambda(loc, maxDist))
