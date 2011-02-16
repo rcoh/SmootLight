@@ -1,16 +1,70 @@
     <PixelConfiguration>
         <PixelStrip>
-            <Class>layouts.ZigzagLayout</Class>
+            <Class>layouts.SpecifiedLayout</Class>
             <Args>
                 <Id>strip1</Id>
-                <zigLength>10</zigLength>
-                <zigAxis>X</zigAxis>
-                <yDirection>1</yDirection>
-                <pixelToPixelSpacing>20</pixelToPixelSpacing>
-                <spacing>20</spacing> <!--we can space at any value less the
-                l2lspacing--> 
                 <numPixels>50</numPixels>
-                <originLocation>(0,0)</originLocation>
+                <Spacing>12</Spacing>
+                <pixelToPixelSpacing>12</pixelToPixelSpacing>
+                <originLocation>(2,2)</originLocation>
+                <Locations>
+                    <!--# Left strip-->
+                    <Loc>(2,8)</Loc>
+                    <Loc>(2,14)</Loc>
+                    <Loc>(2,20)</Loc>
+                    <!--# Top strip-->
+                    <Loc>(4, 22)</Loc>
+                    <Loc>(10,22)</Loc>
+                    <Loc>(16,22)</Loc>
+                    <Loc>(22,22)</Loc>
+                    <Loc>(27,22)</Loc>
+                    <Loc>(33,22)</Loc>
+                    <Loc>(39,22)</Loc>
+                    <Loc>(44,22)</Loc>
+                    <!--# Right strip-->
+                    <Loc>(45,20)</Loc>
+                    <Loc>(45,14)</Loc>
+                    <Loc>(45,8)</Loc>
+                    <Loc>(45,2)</Loc>
+                    <!--# Bottom strip-->
+                    <Loc>(44,2)</Loc>
+                    <Loc>(39,2)</Loc>
+                    <Loc>(34,2)</Loc>
+                    <Loc>(27,2)</Loc>
+                    <Loc>(22,2)</Loc>
+                    <Loc>(16,2)</Loc>
+                    <Loc>(10,2)</Loc>
+                    <Loc>(4,2)</Loc>
+                    <!--# Welcome to-->
+                    <Loc>(12,5)</Loc>
+                    <Loc>(13,5)</Loc>
+                    <Loc>(16,5)</Loc>
+                    <Loc>(18,5)</Loc>
+                    <Loc>(21,5)</Loc>
+                    <Loc>(23,5)</Loc>
+                    <Loc>(26,5)</Loc>
+                    <Loc>(27,5)</Loc>
+                    <Loc>(30,5)</Loc>
+                    <Loc>(34,5)</Loc>
+                    <Loc>(37,5)</Loc>
+                    <!--# C5 Logo-->
+                    <Loc>(31,12)</Loc>
+                    <Loc>(26,12)</Loc>
+                    <Loc>(24,10)</Loc>
+                    <Loc>(17,8)</Loc>
+                    <Loc>(21,10)</Loc>
+                    <!--# Conner 5-->
+                    <Loc>(19,17)</Loc>
+                    <Loc>(11,17)</Loc>
+                    <Loc>(6,17)</Loc>
+                    <Loc>(15,17)</Loc>
+                    <Loc>(22,17)</Loc>
+                    <Loc>(27,17)</Loc>
+                    <Loc>(33,16)</Loc>
+                    <Loc>(38,17)</Loc>
+                    <Loc>(42,17)</Loc>
+                    <Loc>(34,16)</Loc>
+              </Locations>
             </Args>
         </PixelStrip>
     </PixelConfiguration>

@@ -12,10 +12,9 @@ class SpecifiedLayout(PixelAssembler):
     You may put attributes on the Locs so that you don't get confused.
     """
 
-    def layoutInit(self):
+    def initLayout(self):
         self.lightNum = -1
 
     def layoutFunc(self, lastLocation):
         self.lightNum += 1
         return self['Locations'][self.lightNum]
-

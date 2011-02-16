@@ -79,7 +79,7 @@ class Screen:
             maxY = max(y, maxY)
         self.size = (0,0, maxX, maxY)
         self.sizeValid = True
-        return (0, 0, maxX, maxY) 
+        return (minX, minY, maxX, maxY) 
         
     #private
     def processResponse(self, responseInfo, currentTime=None): #we need to make a new dict for

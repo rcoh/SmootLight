@@ -1,11 +1,13 @@
 from operationscore.PixelMapper import *
 import util.Geo as Geo
+import math
 import sys
 class SimpleMapper(PixelMapper):
     """SimpleMapper is a PixelMapper which maps events to the nearest Pixel.  It also supports
     strings of the form:
-    {x}>5, {y}<10, {x}*{y}<{x}, etc. (Conditons, separated by commas.  and and or may also be
-    used)."""
+    {x}>5, {y}<10, {x}*{y}<{x}, etc. (Conditions, separated by commas.  Standard python syntax such
+    as and and or may also be
+    used).  You may use 'math.' functions such as math.sqrt, etc.  It also accepts lists of strings"""
     def mappingFunction(self, eventLocation, screen):
         if type(eventLocation) == type(tuple()):
             bestDist = sys.maxint 
@@ -24,10 +26,14 @@ class SimpleMapper(PixelMapper):
         else:
             #{x}>5,{y}<k
             ret = []
-            eventLocation = eventLocation.replace('{x}', 'pixel.location[0]')
-            eventLocation = eventLocation.replace('{y}', 'pixel.location[1]')
-            conditions = eventLocation.split(',')
+            if not isinstance(eventLocation, list):
+                eventLocation = eventLocation.replace('{x}', 'pixel.location[0]')
+                eventLocation = eventLocation.replace('{y}', 'pixel.location[1]')
+                conditions = eventLocation.split(',')
+            else:
+                conditions = eventLocation #TODO: check for lists of strings
             conditionLambdas = [eval('lambda pixel:'+condition) for condition in conditions]
+            
             for pixel in screen:
                 try:
                     pixelValid = True
@@ -38,6 +44,7 @@ class SimpleMapper(PixelMapper):
                     if pixelValid:
                         ret.append((pixel, 1))
                 except Exception as exp:
-                    raise Exception('Bad event condition')
+                    exp.message += 'Bad Event Condition'
+                    raise exp
             return ret
 
