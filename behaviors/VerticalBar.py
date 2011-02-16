@@ -5,7 +5,6 @@ class VerticalBar(Behavior):
         ret = []
         inputs = list(inputs)
         for inputset in inputs:
-            #import pdb; pdb.set_trace()
             inputset = dict(inputset) 
             if 'xLoc' not in inputset:
                 inputset['xLoc'] = inputset['Location'][0]

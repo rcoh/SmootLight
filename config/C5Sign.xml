@@ -208,7 +208,7 @@
                     <Id>centerleft</Id>
                     <Id>center</Id>
                 </Inputs>
-                <TimeMap>{'scanningbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
+                <TimeMap>{'scanningbars':0,'runcolordecay':10,'expandingcircles':10}</TimeMap>
                 <InputMap>{'scanningbars':'centerleft', 'runcolordecay':'center',\
                     'expandingcircles':'center'}</InputMap>
                 <RenderToScreen>True</RenderToScreen>
@@ -266,7 +266,7 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.Circle</Class>
+            <Class>behaviors.Oval</Class>
             <Args>
                 <Id>innercircle</Id>
                 <Radius>0</Radius>
@@ -274,7 +274,7 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.Circle</Class>
+            <Class>behaviors.Oval</Class>
             <Args>
                 <Id>outercircle</Id>
                 <Radius>3</Radius>

@@ -44,7 +44,7 @@ class SimpleMapper(PixelMapper):
                     if pixelValid:
                         ret.append((pixel, 1))
                 except Exception as exp:
-                    import pdb; pdb.set_trace()
-                    raise Exception('Bad event condition')
+                    exp.message += 'Bad Event Condition'
+                    raise exp
             return ret
 

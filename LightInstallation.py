@@ -181,7 +181,6 @@ class LightInstallation(object):
                 
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
-        #coming from.
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
         try:
             [compReg.getComponent(b).addInput(responseDict) for b in boundBehaviorIds]

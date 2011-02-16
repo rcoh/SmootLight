@@ -1,4 +1,3 @@
-import pdb
 import hashlib 
 from logger import main_log
 import thread
@@ -41,7 +40,7 @@ def registerComponent(component, cid=None):
             component['Id'] = cid 
             main_log.debug(cid + 'automatically assigned')
         if cid in Registry:
-            import pdb; pdb.set_trace()
+            main_log.warn(cid + 'overwritten.')
         Registry[cid] = component
     return cid
 
