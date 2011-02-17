@@ -1,4 +1,5 @@
 from xml.etree.ElementTree import *
+import re
 import sys
 import xml
 import pdb
@@ -25,8 +26,8 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             resolveDocumentInheritances(config.getroot())
             return config
     except Exception as inst:
-        main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
-        main_log.error(str(inst))
+        main_log.info('Error loading config file ' + fileName)#, inst) TODO: log exception too
+        main_log.info(str(inst))
         return None
 def getElement(el):
     """Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
@@ -88,7 +89,7 @@ def fileToDict(fileName):
             for line in f:
                 fileText += line.rstrip('\n').lstrip('\t') + ' ' 
     except IOError:
-        exception_log.exception('Failure reading ' + fileName)
+        main_log.info('Failure reading ' + fileName)
         return {}
     if fileText == '':
         return {}
@@ -97,7 +98,7 @@ def fileToDict(fileName):
         main_log.info(fileName + ' read and parsed')
         return resultDict
     except:
-        exception_log.info(fileName + ' is not a well formed python dict.  Parsing failed') 
+        main_log.exception(fileName + ' is not a well formed python dict.  Parsing failed') 
     return eval(fileText)
 
 def pullArgsFromItem(parentNode):
@@ -112,8 +113,20 @@ def pullArgsFromItem(parentNode):
     return args
 
 def attemptEval(val):
+    """Runs an eval if possible, or converts into a lambda expression if indicated.  Otherwise,
+    leaves as a string."""
     try:
-        val = eval(val)
+        if '${' in val and '}$' in val: #TODO: this could be a little cleaner
+            dictVal = re.sub("'\$\{(.+?)\}\$'", "b['\\1']", val) #replace expressions '${blah}$' with b['blah']
+            dictVal = re.sub("\$\{(.+?)\}\$", "a['\\1']", dictVal) #replace all expressions like {blah} with a['blah']
+            if "'${" and "}$'" in val: #nested lambda madness
+                lambdaVal = eval('lambda a: lambda b: ' + dictVal)
+            else:
+                lambdaVal = eval('lambda a:'+dictVal) #TODO: nested lambdas
+            return lambdaVal  #convert referential objects to lambda expressions which can be
+            #resolved dynamically.
+        else:
+            val = eval(val)
     except (NameError, SyntaxError):
         val = str(val)
     return val

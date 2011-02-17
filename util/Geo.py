@@ -2,8 +2,9 @@
 import math
 from bisect import *
 import random
-def pointWithinBoundingBox(point, bb): #this could be in 4 lines, but I'm lazy.
-    return sum([(point[i % 2] <= bb[i]) == (i>1) for i in range(4)]) == 4 
+def pointWithinBoundingBox(point, bb): 
+    """Returns whether or not a point (x,y) is within a bounding box (xmin, ymin, xmax, ymax)"""
+    return all([(point[i % 2] <= bb[i]) == (i>1) for i in range(4)])
 
 def addLocations(l1,l2):
     return tuple([l1[i]+l2[i] for i in range(len(l1))])
@@ -32,3 +33,10 @@ def windtrail(x,y,height,center,width):
     b=center
     c=width
     return a*((math.exp(-((x-b))/(c)))**2)*(math.exp(-((y))/(0.2*c)))**2
+
+class Location(object):
+    def __init__(self,x=0,y=0):
+        self.x = x
+        self.y = y
+    def __add__(self, b):
+        return Location(self.x+b.x, self.y+b.y)

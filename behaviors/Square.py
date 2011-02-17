@@ -7,6 +7,7 @@ class Square(Behavior):
 
     def processResponse(self, sensorInputs, recursiveInputs):
         for sensory in sensorInputs:#TODO: consider replicating the dict
+            sensory['CenterLoc'] = list(sensory['Location'])
             xLoc = sensory['Location'][0]
             yLoc = sensory['Location'][1]
             width = self['Width']
@@ -15,3 +16,9 @@ class Square(Behavior):
                 '{x}<'+str(xLoc+width)+',{x}>'+str(xLoc-width)+\
                 ',{y}<'+str(yLoc+width)+',{y}>'+str(yLoc-width)
         return (sensorInputs, recursiveInputs)
+
+    def setLastOutput(self, output):
+        coutput = Behavior.deepCopyPacket(output)
+        for data in coutput:
+            data['Location'] = data['CenterLoc']
+        return coutput

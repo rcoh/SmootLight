@@ -1,26 +1,37 @@
-import pdb
 import hashlib 
 from logger import main_log
+import thread
 #TODO: make component registry a singleton
 def initRegistry():
     #TODO: don't overwrite existing registry
     if not 'Registry' in globals():
         globals()['Registry'] = {}
-
+    makelock()
+        
+        
+def makelock():
+    global utilLock
+    utilLock = thread.allocate_lock()
 def clearRegistry():
     initRegistry()
 
 def removeComponent(cid):
-    globals()['Registry'].pop(cid)
+    global Registry
+    Registry.pop(cid)
 
+def getLock():
+    global utilLock
+    return utilLock
 def getComponent(cid):
-    return globals()['Registry'][cid]
+    global Registry
+    return Registry[cid]
 
 #Registry of all components of the light system
 #TODO: pick a graceful failure behavior and implement it
 def registerComponent(component, cid=None):
+    global Registry
     if cid != None:
-        globals()['Registry'][cid] = component
+        Registry[cid] = component
     else:
         try:
             cid = component['Id']
@@ -28,22 +39,24 @@ def registerComponent(component, cid=None):
             cid = getNewId() 
             component['Id'] = cid 
             main_log.debug(cid + 'automatically assigned')
-        globals()['Registry'][cid] = component
+        if cid in Registry:
+            main_log.warn(cid + 'overwritten.')
+        Registry[cid] = component
     return cid
 
 def verifyUniqueId(cid):
-    return not cid in globals()['Registry']
+    global Registry
+    return not cid in Registry
 
 def removeComponent(cid):
-    globals()['Registry'].pop(cid)
-
-def getComponent(cid):
-    return globals()['Registry'][cid]
+    global Registry
+    Registry.pop(cid)
 
 def getNewId():
-    trialKey = len(globals()['Registry'])
+    global Registry
+    trialKey = len(Registry)
     trialId = hashlib.md5(str(trialKey)).hexdigest()
-    while trialId in globals()['Registry']:
+    while trialId in Registry:
         trialKey += 1
         trialId = hashlib.md5(str(trialKey)).hexdigest()
     return trialId

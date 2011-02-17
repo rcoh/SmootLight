@@ -6,7 +6,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/C5SignLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -28,9 +28,6 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
@@ -108,7 +105,7 @@
                 <Id>xbounce</Id>
                 <Action>{val}*-1</Action>
                 <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
+                <LocationRestriction>{x}&lt;0 or {x}&gt;200</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
@@ -117,7 +114,7 @@
                 <Id>ybounce</Id>
                 <Action>{val}*-1</Action>
                 <ParamName>YStep</ParamName>
-                <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
+                <LocationRestriction>{y}&lt;0 or {y}&gt;100</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
@@ -153,7 +150,7 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.AllPixels</Class>
+            <Class>behaviors.Square</Class>
             <Args>
                 <Id>square</Id>
                 <Width>20</Width>
@@ -224,7 +221,7 @@
                     <Id>square</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior Id="running">

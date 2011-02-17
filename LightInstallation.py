@@ -7,6 +7,7 @@ import pdb, sys, time, thread
 import util.TimeOps as clock
 import util.Config as configGetter 
 import util.ComponentRegistry as compReg
+import util.BehaviorQuerySystem as bqs
 from logger import main_log
 #Python class to instantiate and drive a Screen through different patterns,
 #and effects.
@@ -27,7 +28,8 @@ class LightInstallation(object):
         self.screen = Screen()
         compReg.initRegistry()
         compReg.registerComponent(self.screen, 'Screen') #TODO: move to constants file
-        
+       
+        bqs.initBQS()   #initialize the behavior query system
         #read configs from xml
         config = configGetter.loadConfigFile(configFileName)
         
@@ -101,9 +103,6 @@ class LightInstallation(object):
         for component in components:
             cid = compReg.registerComponent(component)
             main_log.info(cid + ' registered')
-            compReg.registerComponent(component)
-            main_log.info(cid + ' registered')
-                
     def initializeComponent(self, config):
         components = []
         if config != None:
@@ -162,8 +161,8 @@ class LightInstallation(object):
         responses = {}
         responses['Screen'] = [] #responses to the screen
         for behavior in self.behaviors:
-            responses[behavior['Id']] = behavior.timeStep()
             if behavior['RenderToScreen'] == True: 
+                responses[behavior['Id']] = behavior.timeStep()
                 responses['Screen'] += responses[behavior['Id']]
         return responses['Screen']
 
@@ -171,6 +170,7 @@ class LightInstallation(object):
         self.behaviors = self.initializeComponent(behaviorConfig)
         for behavior in self.behaviors:
             self.addBehavior(behavior)
+            bqs.addBehavior(behavior)
             
     def addBehavior(self, behavior):
         """Does work needed to add a behavior: currently -- maps behavior inputs into the input behavior
