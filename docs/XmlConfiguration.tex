@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage{fullpage}
+\begin{document}
+    \title{XML in SmootLight: Configuration++}
+    \author{Russell Cohen}
+    \date{\today}
+    \maketitle
+    \section{Motivation}
+        Why use XML (or any non-code language for that matter) to configure code?  2 Reasons: 
+        \begin{itemize}
+            \item We would like small changes (like changing the color, speed, or type of behavior)
+            to be as quick as possible, and require modifying only 1 piece of code.
+            \item We would like these changes to be able to be made \emph{programmatically}
+            \item (Not applicable to python, but important in languages like Java or C): We want to
+            be able to make changes \textbf{without} having to recompile the source.
+        \end{itemize}
+        As you will see, however, XML in SmootLight goes beyond simple configuration.  XML in
+        SmootLight allows us to declare a LightSystem (an inherently non-declarative thing) in the
+        same way you might write a webpage in HTML.  We will refer to the XML system here-on-in as
+        `SmootConf'.  Without any further ado, lets start looking at
+        how this all works.
+    \section{Declaring a class in SmootConf}
+        The most common thing done is SmootConf is declaring a class -- Class declaration code will
+        get parsed by SmootLight at runtime and \emph{actually} \textbf{declare} your classes for
+        you, exactly how you describe them.  Classes are declared under a broader
+        \texttt{Configuration} tag which we will describe later.  Lets look at the declaration of
+        \texttt{PygameInput}, an input that takes data from a Pygame window.
+        \begin{verbatim}
+            <InputElement>
+                <Class>inputs.PygameInput</Class>
+                <Args>
+                    <Id>pygameclick</Id>
+                    <RefreshInterval>10</RefreshInterval>
+                    <Clicks>True</Clicks>
+                </Args>
+            </InputElement>
+        \end{verbatim}
+        The first attribute we see is the \texttt{Class} attribute.  This specifies what
+        fully-qualified Python class to this object should be an instance of.  In this case, it is
+        an instance of PygameInput, which lives in the inputs module/folder.  Next, we see the
+        \texttt{Args}.  The Args are where \emph{every} piece of configuration (except the actual
+        Class) goes.  Let me repeat that, becuase it is a common sticking point.  If you place
+        something in the configuration outside of the \texttt{Args} tag, it will not be read.
+        Period.
+
+        If you are familiar with the SmootLight system, you will know that many objects in
+        SmootLight behave like dictionaries -- you can use statements like
+        \texttt{Self['ParamName']} to access parameters.  If you have ever wondered where this
+        mystery dictionary is filled from, look no further -- it is here in the Args tag.  
+
+        Lets dig into the contents of the Arg tag.  First we see \texttt{Id}.  All components in the
+        SmootLight system are \emph{not} explicitly required to have an Id
+        specified.\footnote{Components declared without Id's will get a randomly assigned Id at
+        declaration time}
+        However, if you want to be able to reference this class in other places in the XML (which
+        we will look into later), you will need to specify and Id.  The other two parameters are
+        simply bits of configuration which will get passed to PygameInput when it gets instantiated.
+        
+    \section{The Structure of a SmootLight Configuration Document}
+        The individual class declarations are the `leaves' of a full configuration document that
+        gets interpreted by the parser.  In order for the parser to know what to do with them, it
+        also needs the branches.  The structure of these `branches' (tags) follow:
+        \begin{verbatim}
+            <LightInstallation>
+                <InstallationConfiguration>
+                    <Defaults />
+                </InstallationConfiguration>
+                <PixelConfiguration />
+                <PixelMapperConfiguration />
+                <RendererConfiguration />
+                <InputConfiguration />
+                <BehaviorConfiguration />
+            </LightInstallation>
+        \end{verbatim}
+        Under each of the tags indicated, place the classes that you want to instantiate in that
+        category.  Each category has a different child tag:
+        \begin{itemize}
+            \item PixelConfiguration: PixelStrip
+            \item PixelMapperConfiguration: PixelMapper
+            \item RendererConfiguration: Renderer
+            \item InputConfiguration: InputElement
+            \item BehaviorConfiguration: Behavior
+        \end{itemize}
+        Some further clarification on this: Recall in the previous section we inspected the
+        declaration of the Input element.  The input configuration for that system might have looked
+        like:
+        \begin{verbatim}
+            <InputConfiguration> 
+                <InputElement>
+                    <Class>inputs.PygameInput</Class>
+                    <Args>
+                        <Id>pygameclick</Id>
+                        <RefreshInterval>10</RefreshInterval>
+                        <Clicks>True</Clicks>
+                    </Args>
+                </InputElement>
+            </InputConfiguration>
+        \end{verbatim}
+\end{document}
