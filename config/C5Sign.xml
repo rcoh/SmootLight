@@ -208,7 +208,7 @@
                     <Id>centerleft</Id>
                     <Id>center</Id>
                 </Inputs>
-                <TimeMap>{'scanningbars':0,'runcolordecay':10,'expandingcircles':10}</TimeMap>
+                <TimeMap>{'scanningbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
                 <InputMap>{'scanningbars':'centerleft', 'runcolordecay':'center',\
                     'expandingcircles':'center'}</InputMap>
                 <RenderToScreen>True</RenderToScreen>

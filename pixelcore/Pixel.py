@@ -66,6 +66,8 @@ class Pixel:
                 deadEvents.append(eventObj)
         
         resultingColor = color.combineColors(colors)
+        #if colors:
+        #    resultingColor = [c / len(colors) for c in resultingColor]
         [self.events.remove(event) for event in deadEvents]
         resultingColor = [int(round(c)) for c in resultingColor]
         self.lastRender = tuple(resultingColor)
