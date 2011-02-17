@@ -1,6 +1,6 @@
 <!-- Demo of the flasher behavior.  -->
 <!-- Bubbles or fireflies move around and fade on and off  -->
-<!-- Jim Salem 1/28/11 jsalem@gmail.com -->
+<!-- Jim Salem 1/28/11 -->
 <!-- Movement is pretty wonky. -->
 
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->

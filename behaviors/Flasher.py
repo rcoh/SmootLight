@@ -4,7 +4,7 @@ import util.ColorOps as colorops
 import pdb
 class Flasher(Behavior):
     """Implements a pulsing/flashing behavior.
-     Jim Salem: jsalem@gmail.com
+     Jim Salem 
 
      Args:
        Factor - The speed of flashing. Must be b/w 0 and 1.  Default is .95
