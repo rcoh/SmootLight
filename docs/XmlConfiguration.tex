@@ -19,7 +19,7 @@
         same way you might write a webpage in HTML.  We will refer to the XML system here-on-in as
         `SmootConf'.  \textbf{The fastest way to get familiar with SmootConf is simply to look at
         the XML files in the configuration file.  However, if you want a more structured approach to
-        its feature and sublties this document should do the job.}  Without any further ado, lets start looking at
+        its feature and subtleties this document should do the job.}  Without any further ado, lets start looking at
         how this all works.
     \section{Declaring a class in SmootConf}
         The most common thing done is SmootConf is declaring a class -- Class declaration code will
@@ -98,4 +98,126 @@
                 </InputElement>
             </InputConfiguration>
         \end{verbatim}
+        \texttt{InputElement}s live under the broader \texttt{InputConfiguration} tag.  Thats all in
+        terms of basic configuration -- all other features are going to be specific to the
+        particular class you are declaring (and the class should specify those).  However, the
+        system also offers a lot of features to give you more power and flexibility, as well as
+        minimizing repeated XML.
+    \section{XML Inheritance}
+        SmootConf allows you have XML objects inherit from this other.  Think of this as an
+        X:Include crossed with OO style inheritance, if those are familiar concepts.  The most basic
+        tag of inheritance in SmootConf is the \texttt{InheritsFrom} tag.  Here is a quick example
+        of it in action:
+        \begin{verbatim}
+            <Renderer Scale="4">
+                <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+            </Renderer>
+        \end{verbatim}
+        
+        And the contents of \texttt{renderers/Pygame.xml}:
+        \begin{verbatim}
+            <Renderer>
+                <Class>renderers.PygameRenderer</Class>
+                <Args>
+                    <Id>pygamerender</Id>
+                    <displaySize>(1300,50)</displaySize>
+                </Args>
+            </Renderer>
+        \end{verbatim}
+
+        The \texttt{InheritsFrom} tag indicates to look in the XML File indicated, parse it, and
+        recursively merge its tags with the siblings of the \texttt{InheritsFrom} tag.  From a high
+        level, the algorithm works as follows:
+
+        \begin{itemize}
+            \item For every tag:
+            \item If the tag is in the inheriter, use that.  Otherwise, use the inherited tag.  
+            \item Recurse to children.
+        \end{itemize}
+        
+        SmootConf adds a bit of syntactic sugar that allows you override args in the args dict when
+        doing inheritance by simply specifying them as attributes of the parent.  The example below
+        comes from a pixel layout config:
+        \begin{verbatim}
+            <PixelConfiguration>
+                <PixelStrip Id="strip1.1" originLocation="(0,0)" Reverse="True">
+                    <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+                </PixelStrip>
+                <PixelStrip Id="strip1.2" originLocation="(200,0)">
+                    <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+                </PixelStrip>
+        \end{verbatim}
+        
+        The contents of \texttt{layouts/50PixelStrip.xml} are:
+        \begin{verbatim}
+            <PixelStrip>
+                <Class>layouts.LineLayout</Class>
+                <Args>
+                    <pixelToPixelSpacing>4</pixelToPixelSpacing>
+                    <spacing>4</spacing> 
+                    <numPixels>50</numPixels>
+                </Args>
+            </PixelStrip>
+        \end{verbatim}
+
+        A careful reading of the algorithm will reveal some behaviors which are not specified.  What if there are
+        multiple instances of identical sibling tags?  The answer is that this is not currently
+        supported.  It may be supported in the future.
+        
+        If you want your tags to be added to an inherited config without trying to merge, put them
+        in an \texttt{APPEND} tag like so:
+
+        \begin{verbatim}
+            <Behaviors>
+                <InheritsFrom>behaviors/StockBehaviors.xml</InheritsFrom>
+                <APPEND>
+                    <Beavhior>
+                        <InheritsFrom>behaviors/SomethingElse.xml</InerhitsFrom>
+                    </Behavior>
+                    <Behavior>
+                        <Class>blah.blah</Class>
+                        <Args>
+                        </Args>
+                    </Behavior>
+                </APPEND>
+            </Behaviors>
+        \end{verbatim}
+    \section{Variable Bindings}
+        SmootConf allows developers to reference other variables within the \texttt{<Args>} tag.  These
+        references are dynamic, and are bound for the lifetime of the object and will updated as
+        their bound values update.  Here is an example:
+        \begin{verbatim}
+            <Behavior>
+                <Class>behaviors.SomeClass</Class>
+                <Args>
+                    <Id>dimming</Id>
+                    <DecayCoefficient>${DecayTime}$*5</DecayCoefficient>
+                    <DecayTime>10</DecayTime>
+                </Args>
+            </Behavior>
+        \end{verbatim}
+        In this (fake) example, we bind the DecayCoefficient to the value of DecayTime, which allows us to
+        set decay in a reasonable unit, decoupled from the coefficient required by the behavior
+        itself.
+
+        Under the hood, this feature is done with lambda functions.  When you query arguments on the
+        object, the lambda gets resolved (look at \texttt{operationscore/SmootCoreObject.py} for the
+        implementation of this).  Because of this, we also have to ability to go 1 layer deeper.  
+
+        Let's say you wanted to operate on another dictionary -- say, the current behavior packet or
+        and args of another behavior.  By surrounding your variable in quotes, querying its value
+        with product a lambda function, which, when given another dictionary, will resolve the
+        value.
+        \begin{verbatim}
+            <Behavior>
+                <Class>behaviors.SomeClass</Class>
+                <Args>
+                    <Id>stayinbounds</Id>
+                    <MaxX>100</MaxX>
+                    <OutOfBounds>'${x}$' &lt; ${MaxX}$</OutOfBounds>
+                </Args>
+            </Behavior>
+        \end{verbatim}
+        If you call \texttt{self['OutOfBounds']}, and pass it a dictionary with a value at key
+        \texttt{x}, it will return a boolean stating whether or not \texttt{x > MaxX}. 
 \end{document}
