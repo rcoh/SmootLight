@@ -30,7 +30,7 @@ class SwitchBehavior(Behavior):
         if dataStr[0] in self.prefixDict:
             self.setBehavior(compReg.getComponent(self.prefixDict[dataStr[0]]))
             sInputs[-1]['Data'] = sInputs[-1]['Data'][1:] # remove prefix
-        return self.currBehavior.processResponse(sInputs, rInputs)
+        return self.currBehavior.immediateProcessInput(sInputs, rInputs)
     
     def setBehavior(self, behavior):
         # can be called by the outside to switch behavior.
