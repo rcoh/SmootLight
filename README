@@ -1,0 +1,14 @@
+#SmootLight
+SmootLight is a modular, scalable system for control interactive light
+installations.
+
+##Dependencies
+- Python 2.6 (2.7 should work, 3.x won't)
+[Optional]:
+    - PIL (For JPGInput)
+    - Pygame (for simulations)
+    - Liblo (for mobile phone input)
+
+##Usage
+Command line: `python LightInstallation.py config/Demo.xml`
+(or whichever config file you want)
