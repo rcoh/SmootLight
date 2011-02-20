@@ -52,6 +52,14 @@
             </Args>
         </InputElement>
         <InputElement>
+            <Class>inputs.InitialLocationInput</Class>
+            <Args>
+                <Id>centeronce</Id>
+                <xPos>0.5</xPos>
+                <yPos>0.5</yPos>
+            </Args>
+        </InputElement>
+        <InputElement>
             <Class>inputs.OSCInput</Class>
             <Args>
                 <Id>osc</Id>
@@ -130,6 +138,14 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
+        <Behavior Id="redcolor">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <ColorList>
+                    <Color>(255,0,0)</Color>
+                </ColorList>
+            </Args>
+        </Behavior>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
         </Behavior>
@@ -178,6 +194,13 @@
                 <Action>{val}*-1</Action>
                 <ParamName>YStep</ParamName>
                 <LocationRestriction>{y}&lt;2 or {y}&gt;24</LocationRestriction>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.LocationMask</Class>
+            <Args>
+                <Id>stripsonly</Id>
+                <Location>ts.all ls.all rs.all bs.all</Location>
             </Args>
         </Behavior>
         <Behavior>
@@ -307,6 +330,24 @@
                     <Id>incrouter</Id>
                     <Id>recursivedecay</Id>
                 </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>coloredframe</Id>
+                <Inputs>
+                    <Id>centeronce</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>redcolor</Id>
+                    <Id>square</Id>
+                    <Id>mover</Id>
+                    <Id>singleframe</Id>
+                    <Id>stripsonly</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'colorshift'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior>
