@@ -124,6 +124,7 @@
                     <Id>colorchange</Id>
                     <Id>mover</Id>
                     <Id>slowdecay</Id>
+                    <Id>wordsonly</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'bar_move'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
@@ -177,6 +178,13 @@
                 <Action>{val}*-1</Action>
                 <ParamName>YStep</ParamName>
                 <LocationRestriction>{y}&lt;2 or {y}&gt;24</LocationRestriction>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.LocationMask</Class>
+            <Args>
+                <Id>wordsonly</Id>
+                <Location>wt.all cl.all c5.all</Location>
             </Args>
         </Behavior>
         <Behavior>

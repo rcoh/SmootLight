@@ -98,8 +98,15 @@ class C5SignMapper(PixelMapper):
             eventLocSplit = eventLocation.split('@')
             if len(eventLocSplit) == 2:
                 [eventLocation, signPart] = eventLocSplit
-                signParts = signPart.split('.')
-                pixelLocs = signPosition[signParts[0]][signParts[1]]
+                signParts = signPart.split(' ')
+                #print "*******************"
+                #print signParts
+                pixelLocs = []
+                for part in signParts:
+                    if len(part) > 0:
+                        parts = part.split('.')
+                        pixelLocs.extend(self.signPosition[parts[0]][parts[1]])
+                #print pixelLocs
                 screenPixels = [p for p in screen if (p.location in pixelLocs)]
             else:
                 screenPixels = [p for p in screen]
