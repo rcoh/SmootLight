@@ -1,6 +1,9 @@
 from operationscore.PixelAssembler import *
+import numpy
+
 class SpecifiedLayout(PixelAssembler):
     """SpecifiedLayout is a class that allows precise specification of each individual LED.
+    originLocation is irrelevant for this layout.
     Configure with a <Locations> tag in the args dict as follows':
     <Args>
         <Locations>
@@ -11,10 +14,5 @@ class SpecifiedLayout(PixelAssembler):
     </Args>
     You may put attributes on the Locs so that you don't get confused.
     """
-
-    def initLayout(self):
-        self.lightNum = -1
-
-    def layoutFunc(self, lastLocation):
-        self.lightNum += 1
-        return self['Locations'][self.lightNum]
+    def layoutFunc(self):
+        return numpy.array(self['Locations'])
