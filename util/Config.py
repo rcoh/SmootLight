@@ -26,8 +26,8 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             resolveDocumentInheritances(config.getroot())
             return config
     except Exception as inst:
-        main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
-        main_log.error(str(inst))
+        main_log.info('Error loading config file ' + fileName)#, inst) TODO: log exception too
+        main_log.info(str(inst))
         return None
 def getElement(el):
     """Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns
@@ -89,7 +89,7 @@ def fileToDict(fileName):
             for line in f:
                 fileText += line.rstrip('\n').lstrip('\t') + ' ' 
     except IOError:
-        exception_log.exception('Failure reading ' + fileName)
+        main_log.info('Failure reading ' + fileName)
         return {}
     if fileText == '':
         return {}
@@ -98,7 +98,7 @@ def fileToDict(fileName):
         main_log.info(fileName + ' read and parsed')
         return resultDict
     except:
-        exception_log.info(fileName + ' is not a well formed python dict.  Parsing failed') 
+        main_log.exception(fileName + ' is not a well formed python dict.  Parsing failed') 
     return eval(fileText)
 
 def pullArgsFromItem(parentNode):

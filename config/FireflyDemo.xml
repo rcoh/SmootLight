@@ -1,6 +1,6 @@
 <!-- Demo of the flasher behavior.  -->
 <!-- Bubbles or fireflies move around and fade on and off  -->
-<!-- Jim Salem 1/28/11 jsalem@gmail.com -->
+<!-- Jim Salem 1/28/11 -->
 <!-- Movement is pretty wonky. -->
 
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
@@ -81,7 +81,7 @@
             <Class>behaviors.RestrictLocation</Class>
             <Args>
                 <Id>xbounce</Id>
-                <Action>{val}*-1</Action>
+                <Action>'{val}*-1'</Action>
                 <ParamName>XStep</ParamName>
                 <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
             </Args>
@@ -90,7 +90,7 @@
             <Class>behaviors.RestrictLocation</Class>
             <Args>
                 <Id>ybounce</Id>
-                <Action>{val}*-1</Action>
+                <Action>'{val}*-1'</Action>
                 <ParamName>YStep</ParamName>
                 <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
             </Args>
