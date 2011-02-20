@@ -2,7 +2,7 @@
 <LightInstallation>
     <InstallationConfiguration>
         <Defaults>
-            <PixelMapper>simplemap</PixelMapper>
+            <PixelMapper>gaussmap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
@@ -20,9 +20,9 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>4</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>7</Width>
+                <Width>1</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -43,12 +43,12 @@
         <APPEND><InputElement>
             <Class>inputs.ParametricLocationInput</Class>
             <Args>
-                <Id>centerleft</Id>
-                <xloc>left</xloc>
-                <yloc>center</yloc>
-                <xEquation>0</xEquation>
-                <yEquation>.5</yEquation>
-                <RefreshInterval>1800</RefreshInterval>
+                <Id>random_top</Id>
+                <xloc>center</xloc>
+                <yloc>top</yloc>
+                <xEquation>random.random()</xEquation>
+                <yEquation>0</yEquation>
+                <RefreshInterval>500</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -88,27 +88,33 @@
                 <Coefficient>.001</Coefficient>
             </Args>
         </Behavior>
+
+        <Behavior>
+            <Class>behaviors.XYMove</Class>
+            <Args>
+                <Id>xymove</Id>
+                <XStep>0</XStep>
+                <YStep>2</YStep>
+            </Args>
+        </Behavior>
+       
         <Behavior>
             <Class>behaviors.ModifyParam</Class>
             <Args>
-                <Id>incrVertBarLoc</Id>
-                <ParamName>xLoc</ParamName>
-                <ParamOp>{val}+1</ParamOp>
+               <Id>modifyY</Id>
+               <ParamType>Sensor</ParamType>
+               <ParamName>YStep</ParamName>
+               <ParamOp>{val}+.5</ParamOp>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.VerticalBar</Class>
-            <Args>
-                <Id>vertBar</Id>
-            </Args>
-        </Behavior>
+        
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>bar_move</Id>
+                <Id>point_move</Id>
                 <ChainedBehaviors>
-                    <Id>vertBar</Id>
-                    <Id>incrVertBarLoc</Id>
+                    <Id>xymove</Id>
+		    <Id>modifyY</Id>
                     <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
@@ -116,23 +122,20 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>scanningbars</Id>
+                <Id>falling_points</Id>
                 <Inputs>
-                    <Id>centerleft</Id>
+                    <Id>random_top</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
                     <Id>slowdecay</Id>
-                    <Id>wordsonly</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'bar_move'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RecursiveHooks>{'mover':'point_move'}</RecursiveHooks>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior Id="colorchange">
-            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-        </Behavior>
+
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
@@ -155,14 +158,6 @@
             <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
         </Behavior>
         <Behavior>
-            <Class>behaviors.XYMove</Class>
-            <Args>
-                <Id>xymove</Id>
-                <XStep>1</XStep>
-                <YStep>1</YStep>
-            </Args>
-        </Behavior>
-        <Behavior>
             <Class>behaviors.RestrictLocation</Class>
             <Args>
                 <Id>xbounce</Id>
@@ -178,13 +173,6 @@
                 <Action>{val}*-1</Action>
                 <ParamName>YStep</ParamName>
                 <LocationRestriction>{y}&lt;2 or {y}&gt;24</LocationRestriction>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.LocationMask</Class>
-            <Args>
-                <Id>wordsonly</Id>
-                <Location>wt.all cl.all c5.all</Location>
             </Args>
         </Behavior>
         <Behavior>
@@ -207,10 +195,10 @@
                     <Id>centerleft</Id>
                     <Id>center</Id>
                 </Inputs>
-                <TimeMap>{'scanningbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
-                <InputMap>{'scanningbars':'centerleft', 'runcolordecay':'center',\
-                    'expandingcircles':'center'}</InputMap>
-                <RenderToScreen>True</RenderToScreen>
+                <TimeMap>{'scanningbars':10}</TimeMap>
+                <InputMap>{'scanningbars':'centerleft'}
+                </InputMap>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
        <Behavior>
@@ -237,12 +225,21 @@
         <Behavior Id="longrecursivedecay" InitialResponseCount="80">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
-        <Behavior>
+        <Behavior Id="colorchange">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <ColorList>
+                    <Val>(0,0,255)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+
+	<Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>runcolordecay</Id>
                 <ChainedBehaviors>
-                    <Id>colorchange</Id>
+                    <Id>colorchanger</Id>
                     <Id>mover</Id>
                     <!--<Id>square</Id>-->
                     <Id>decay</Id>
@@ -256,28 +253,6 @@
             <Class>behaviors.ResponseMover</Class>
             <Args>
                 <Id>mover</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ColorShift</Class>
-            <Args>
-                <Id>colorshift</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Oval</Class>
-            <Args>
-                <Id>innercircle</Id>
-                <Radius>0</Radius>
-                <Outside>True</Outside>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Oval</Class>
-            <Args>
-                <Id>outercircle</Id>
-                <Radius>3</Radius>
-                <Combine>True</Combine>
             </Args>
         </Behavior>
         <Behavior>
