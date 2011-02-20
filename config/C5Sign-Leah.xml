@@ -48,7 +48,7 @@
                 <yloc>top</yloc>
                 <xEquation>random.random()</xEquation>
                 <yEquation>0</yEquation>
-                <RefreshInterval>500</RefreshInterval>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -94,7 +94,7 @@
             <Args>
                 <Id>xymove</Id>
                 <XStep>0</XStep>
-                <YStep>2</YStep>
+                <YStep>.5</YStep>
             </Args>
         </Behavior>
        
@@ -104,7 +104,7 @@
                <Id>modifyY</Id>
                <ParamType>Sensor</ParamType>
                <ParamName>YStep</ParamName>
-               <ParamOp>{val}+.5</ParamOp>
+               <ParamOp>{val}+.1</ParamOp>
             </Args>
         </Behavior>
         
