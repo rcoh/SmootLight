@@ -5,8 +5,8 @@ class SystemConfigMutator(Behavior):
     its input.  It requires the following parameters of its input dicts:
         'OperationType' -- the type of modification to perform.  Possible values:
             'Assign' -- Assign a parameter of a currently existing component
-            'Create' -- Create a new componenent
-            'Remove' -- Removes a componenent
+            'Create' -- Create a new componenent -- NOT SUPPORTED
+            'Remove' -- Removes a componenent -- NOT SUPPORTED
         'Callback' -- a function which will be called with the results of the mutation.
 
         If you are performing an 'Assign' you must define the following parameters:
@@ -18,7 +18,7 @@ class SystemConfigMutator(Behavior):
             'Class' -- the fully qualified python class defining the behavior.  EG:
                 behaviors.SystemConfigMutator
             'Args' -- The args dict for the class.
-
+    
         If you are performing a 'Remove' you must define the following parameters:
             'ComponentId' -- The Id of the component to remove.  
             WARNING: Make sure that the component you are removing is not referenced by other
@@ -40,9 +40,12 @@ class SystemConfigMutator(Behavior):
                     #TODO: consider adding lambda evaluation capabilities
                     compReg.getComponent(cid)[paramName] = newParamValue
                 elif packet['OperationType'] == 'Create':
+                    raise Exception('Add is not supported')
                     compFactory.create(packet['Class'], packet['Args'])
                 elif packet['OperationType'] == 'Remove':
+                    raise Exception('Remove not supported')
                     compReg.removeComponent(packet['ComponentId'])
             except:
                 import pdb; pdb.set_trace()
+        return ([],[])
 
