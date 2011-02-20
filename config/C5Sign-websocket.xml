@@ -1,0 +1,9 @@
+<LightInstallation>
+    <InheritsFrom>config/C5Sign.xml</InheritsFrom>
+    <RendererConfiguration>
+		<Renderer>
+    		<InheritsFrom>renderers/Websocket.xml</InheritsFrom>
+		</Renderer>
+    </RendererConfiguration>
+    <InputConfiguration> </InputConfiguration>
+</LightInstallation>
