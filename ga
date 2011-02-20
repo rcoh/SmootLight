@@ -1,1 +1,2 @@
 git add *.py */*.py *.xml */*.xml tests/*.py tests/testdata/* 
+git add docs/*.tex docs/*.pdf docs/*/*.tex docs/*/*.pdf

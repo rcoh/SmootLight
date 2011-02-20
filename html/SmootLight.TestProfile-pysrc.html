@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SmootLight.TestProfile</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SmootLight-module.html">Package&nbsp;SmootLight</a> ::
+        Module&nbsp;TestProfile
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SmootLight.TestProfile-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SmootLight.TestProfile-module.html">Module SmootLight.TestProfile</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">cProfile</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">struct</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">random</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">scipy</tt><tt class="py-op">.</tt><tt class="py-name">weave</tt> <tt class="py-keyword">as</tt> <tt class="py-name">weave</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">math</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-comment">#from LightInstallation import main</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable SmootLight.TestProfile.numiter=SmootLight.TestProfile-module.html#numiter"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-0', 'numiter', 'link-0');">numiter</a></tt> <tt class="py-op">=</tt> <tt class="py-number">1000000</tt> </tt>
+<a name="main1"></a><div id="main1-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="main1-toggle" onclick="return toggle('main1');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#main1">main1</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="main1-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="main1-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-1" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-1', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'abc'</tt> <tt class="py-op">==</tt> <tt class="py-string">'def'</tt><tt class="py-op">:</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'abc'</tt> <tt class="py-op">==</tt> <tt class="py-string">'abc'</tt><tt class="py-op">:</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"> </tt>
+<a name="main2"></a><div id="main2-def"><a name="L15"></a><tt class="py-lineno">15</tt> <a class="py-toggle" href="#" id="main2-toggle" onclick="return toggle('main2');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#main2">main2</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="main2-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="main2-expanded"><a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-2" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-2', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-number">1</tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-number">1</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt id="link-3" class="py-name" targets="Variable SmootLight.TestProfile.x=SmootLight.TestProfile-module.html#x"><a title="SmootLight.TestProfile.x" class="py-name" href="#" onclick="return doclink('link-3', 'x', 'link-3');">x</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-number">2</tt><tt class="py-op">,</tt><tt class="py-number">3</tt><tt class="py-op">]</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"><tt id="link-4" class="py-name" targets="Variable SmootLight.TestProfile.a=SmootLight.TestProfile-module.html#a"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-4', 'a', 'link-4');">a</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="abc1"></a><div id="abc1-def"><a name="L24"></a><tt class="py-lineno">24</tt> <a class="py-toggle" href="#" id="abc1-toggle" onclick="return toggle('abc1');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#abc1">abc1</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="abc1-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="abc1-expanded"><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-5" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-5', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt id="link-6" class="py-name"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-6', 'a', 'link-4');">a</a></tt> <tt class="py-op">=</tt> <tt class="py-name">min</tt><tt class="py-op">(</tt><tt class="py-number">4</tt><tt class="py-op">,</tt> <tt class="py-number">255</tt><tt class="py-op">)</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-name">b</tt> <tt class="py-op">=</tt> <tt class="py-name">min</tt><tt class="py-op">(</tt><tt class="py-number">257</tt><tt class="py-op">,</tt> <tt class="py-number">255</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"> </tt>
+<a name="abc2"></a><div id="abc2-def"><a name="L29"></a><tt class="py-lineno">29</tt> <a class="py-toggle" href="#" id="abc2-toggle" onclick="return toggle('abc2');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#abc2">abc2</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="abc2-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="abc2-expanded"><a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-7" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-7', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt id="link-8" class="py-name"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-8', 'a', 'link-4');">a</a></tt> <tt class="py-op">=</tt> <tt class="py-number">4</tt> <tt class="py-keyword">if</tt> <tt class="py-number">4</tt> <tt class="py-op">&lt;</tt> <tt class="py-number">255</tt> <tt class="py-keyword">else</tt> <tt class="py-number">255</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">b</tt> <tt class="py-op">=</tt> <tt class="py-number">257</tt> <tt class="py-keyword">if</tt> <tt class="py-number">257</tt> <tt class="py-op">&lt;</tt> <tt class="py-number">255</tt> <tt class="py-keyword">else</tt> <tt class="py-number">255</tt> </tt>
+</div><a name="strucpack"></a><div id="strucpack-def"><a name="L33"></a><tt class="py-lineno">33</tt> <a class="py-toggle" href="#" id="strucpack-toggle" onclick="return toggle('strucpack');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#strucpack">strucpack</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="strucpack-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="strucpack-expanded"><a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-9" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-9', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">        <tt class="py-name">b</tt> <tt class="py-op">=</tt> <tt class="py-name">struct</tt><tt class="py-op">.</tt><tt class="py-name">pack</tt><tt class="py-op">(</tt><tt class="py-string">'B'</tt><tt class="py-op">,</tt> <tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">randint</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">255</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="dictlookup"></a><div id="dictlookup-def"><a name="L36"></a><tt class="py-lineno">36</tt> <a class="py-toggle" href="#" id="dictlookup-toggle" onclick="return toggle('dictlookup');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#dictlookup">dictlookup</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="dictlookup-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="dictlookup-expanded"><a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-name">lookup</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">256</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-name">lookup</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">struct</tt><tt class="py-op">.</tt><tt class="py-name">pack</tt><tt class="py-op">(</tt><tt class="py-string">'B'</tt><tt class="py-op">,</tt> <tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">randint</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">255</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-10" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-10', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">        <tt class="py-name">b</tt> <tt class="py-op">=</tt> <tt class="py-name">lookup</tt><tt class="py-op">[</tt><tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">randint</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">255</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> </tt>
+</div><a name="dist1"></a><div id="dist1-def"><a name="L42"></a><tt class="py-lineno">42</tt> <a class="py-toggle" href="#" id="dist1-toggle" onclick="return toggle('dist1');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#dist1">dist1</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="dist1-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="dist1-expanded"><a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">    <tt class="py-name">l1</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-number">21.43</tt><tt class="py-op">,</tt> <tt class="py-number">5423.123</tt><tt class="py-op">]</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">    <tt class="py-name">l2</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-number">123</tt><tt class="py-op">,</tt> <tt class="py-number">12312345</tt><tt class="py-op">]</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-11" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-11', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">        <tt class="py-name">d</tt> <tt class="py-op">=</tt> <tt class="py-name">math</tt><tt class="py-op">.</tt><tt class="py-name">sqrt</tt><tt class="py-op">(</tt><tt class="py-name">sum</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-op">(</tt><tt class="py-name">l1</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">-</tt><tt class="py-name">l2</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">**</tt><tt class="py-number">2</tt> <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">l1</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="dist2"></a><div id="dist2-def"><a name="L47"></a><tt class="py-lineno">47</tt> <a class="py-toggle" href="#" id="dist2-toggle" onclick="return toggle('dist2');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#dist2">dist2</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="dist2-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="dist2-expanded"><a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">    <tt class="py-name">l1</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-number">21.43</tt><tt class="py-op">,</tt> <tt class="py-number">5423.123</tt><tt class="py-op">]</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">    <tt class="py-name">l2</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-number">123</tt><tt class="py-op">,</tt> <tt class="py-number">12312345</tt><tt class="py-op">]</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-12" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-12', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-name">d</tt> <tt class="py-op">=</tt> <tt class="py-name">math</tt><tt class="py-op">.</tt><tt class="py-name">sqrt</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-name">l1</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">-</tt><tt class="py-name">l2</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">**</tt><tt class="py-number">2</tt><tt class="py-op">+</tt><tt class="py-op">(</tt><tt class="py-name">l1</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">-</tt><tt class="py-name">l2</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">**</tt><tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+</div><a name="exptest"></a><div id="exptest-def"><a name="L52"></a><tt class="py-lineno">52</tt> <a class="py-toggle" href="#" id="exptest-toggle" onclick="return toggle('exptest');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#exptest">exptest</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="exptest-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="exptest-expanded"><a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt id="link-13" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-13', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">        <tt id="link-14" class="py-name"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-14', 'a', 'link-4');">a</a></tt> <tt class="py-op">=</tt> <tt class="py-name">math</tt><tt class="py-op">.</tt><tt class="py-name">exp</tt><tt class="py-op">(</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt id="link-15" class="py-name"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-15', 'a', 'link-4');">a</a></tt> </tt>
+</div><a name="expapprox"></a><div id="expapprox-def"><a name="L56"></a><tt class="py-lineno">56</tt> <a class="py-toggle" href="#" id="expapprox-toggle" onclick="return toggle('expapprox');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#expapprox">expapprox</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="expapprox-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="expapprox-expanded"><a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt id="link-16" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-16', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">        <tt id="link-17" class="py-name"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-17', 'a', 'link-4');">a</a></tt> <tt class="py-op">=</tt> <tt class="py-number">1</tt><tt class="py-op">+</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">+</tt><tt class="py-op">(</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">**</tt><tt class="py-number">2</tt><tt class="py-op">/</tt><tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt id="link-18" class="py-name"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-18', 'a', 'link-4');">a</a></tt> </tt>
+</div><a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line"> </tt>
+<a name="normal_python"></a><div id="normal_python-def"><a name="L61"></a><tt class="py-lineno">61</tt> <a class="py-toggle" href="#" id="normal_python-toggle" onclick="return toggle('normal_python');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#normal_python">normal_python</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="normal_python-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="normal_python-expanded"><a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-19" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-19', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">        <tt id="link-20" class="py-name"><a title="SmootLight.TestProfile.a" class="py-name" href="#" onclick="return doclink('link-20', 'a', 'link-4');">a</a></tt> <tt class="py-op">=</tt> <tt class="py-name">math</tt><tt class="py-op">.</tt><tt class="py-name">sqrt</tt><tt class="py-op">(</tt><tt class="py-number">3</tt> <tt class="py-op">+</tt> <tt class="py-number">4</tt> <tt class="py-op">+</tt> <tt class="py-number">5</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line"> </tt>
+<a name="weave_outloop"></a><div id="weave_outloop-def"><a name="L65"></a><tt class="py-lineno">65</tt> <a class="py-toggle" href="#" id="weave_outloop-toggle" onclick="return toggle('weave_outloop');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#weave_outloop">weave_outloop</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="weave_outloop-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="weave_outloop-expanded"><a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">    <tt class="py-name">code</tt> <tt class="py-op">=</tt> <tt class="py-string">"""</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line"><tt class="py-string">        float x = 0;</tt> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line"><tt class="py-string">        for (int i = 0;i &lt; numiter;i++) {</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line"><tt class="py-string">            x = sqrt(3 + 4 + 5);</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line"><tt class="py-string">        }</tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line"><tt class="py-string">    """</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">    <tt class="py-name">weave</tt><tt class="py-op">.</tt><tt class="py-name">inline</tt><tt class="py-op">(</tt><tt class="py-name">code</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-string">'numiter'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">     </tt>
+<a name="weave_inloop"></a><div id="weave_inloop-def"><a name="L74"></a><tt class="py-lineno">74</tt> <a class="py-toggle" href="#" id="weave_inloop-toggle" onclick="return toggle('weave_inloop');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.TestProfile-module.html#weave_inloop">weave_inloop</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="weave_inloop-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="weave_inloop-expanded"><a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">    <tt class="py-name">code</tt> <tt class="py-op">=</tt> <tt class="py-string">"""</tt> </tt>
+<a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line"><tt class="py-string">        x = sqrt(3 + 4 + 5);</tt> </tt>
+<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line"><tt class="py-string">    """</tt> </tt>
+<a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line">    <tt id="link-21" class="py-name"><a title="SmootLight.TestProfile.x" class="py-name" href="#" onclick="return doclink('link-21', 'x', 'link-3');">x</a></tt> <tt class="py-op">=</tt> <tt class="py-number">0.0</tt> </tt>
+<a name="L79"></a><tt class="py-lineno">79</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt id="link-22" class="py-name"><a title="SmootLight.TestProfile.numiter" class="py-name" href="#" onclick="return doclink('link-22', 'numiter', 'link-0');">numiter</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L80"></a><tt class="py-lineno">80</tt>  <tt class="py-line">        <tt class="py-name">weave</tt><tt class="py-op">.</tt><tt class="py-name">inline</tt><tt class="py-op">(</tt><tt class="py-name">code</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-string">'x'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line">         </tt>
+<a name="L82"></a><tt class="py-lineno">82</tt>  <tt class="py-line"><tt id="link-23" class="py-name" targets="Variable SmootLight.Profile.command=SmootLight.Profile-module.html#command,Variable SmootLight.TestProfile.command=SmootLight.TestProfile-module.html#command"><a title="SmootLight.Profile.command
+SmootLight.TestProfile.command" class="py-name" href="#" onclick="return doclink('link-23', 'command', 'link-23');">command</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"""normal_python()"""</tt> </tt>
+<a name="L83"></a><tt class="py-lineno">83</tt>  <tt class="py-line"><tt class="py-name">cProfile</tt><tt class="py-op">.</tt><tt class="py-name">runctx</tt><tt class="py-op">(</tt><tt id="link-24" class="py-name"><a title="SmootLight.Profile.command
+SmootLight.TestProfile.command" class="py-name" href="#" onclick="return doclink('link-24', 'command', 'link-23');">command</a></tt><tt class="py-op">,</tt> <tt class="py-name">globals</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">locals</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L84"></a><tt class="py-lineno">84</tt>  <tt class="py-line"> </tt>
+<a name="L85"></a><tt class="py-lineno">85</tt>  <tt class="py-line"><tt id="link-25" class="py-name"><a title="SmootLight.Profile.command
+SmootLight.TestProfile.command" class="py-name" href="#" onclick="return doclink('link-25', 'command', 'link-23');">command</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"""weave_outloop()"""</tt> </tt>
+<a name="L86"></a><tt class="py-lineno">86</tt>  <tt class="py-line"><tt class="py-name">cProfile</tt><tt class="py-op">.</tt><tt class="py-name">runctx</tt><tt class="py-op">(</tt><tt id="link-26" class="py-name"><a title="SmootLight.Profile.command
+SmootLight.TestProfile.command" class="py-name" href="#" onclick="return doclink('link-26', 'command', 'link-23');">command</a></tt><tt class="py-op">,</tt> <tt class="py-name">globals</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">locals</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L87"></a><tt class="py-lineno">87</tt>  <tt class="py-line"> </tt>
+<a name="L88"></a><tt class="py-lineno">88</tt>  <tt class="py-line"><tt id="link-27" class="py-name"><a title="SmootLight.Profile.command
+SmootLight.TestProfile.command" class="py-name" href="#" onclick="return doclink('link-27', 'command', 'link-23');">command</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"""weave_inloop()"""</tt> </tt>
+<a name="L89"></a><tt class="py-lineno">89</tt>  <tt class="py-line"><tt class="py-name">cProfile</tt><tt class="py-op">.</tt><tt class="py-name">runctx</tt><tt class="py-op">(</tt><tt id="link-28" class="py-name"><a title="SmootLight.Profile.command
+SmootLight.TestProfile.command" class="py-name" href="#" onclick="return doclink('link-28', 'command', 'link-23');">command</a></tt><tt class="py-op">,</tt> <tt class="py-name">globals</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">locals</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L90"></a><tt class="py-lineno">90</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 18 16:55:26 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

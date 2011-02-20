@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SmootLight.operationscore.SmootCoreObject</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SmootLight-module.html">Package&nbsp;SmootLight</a> ::
+        <a href="SmootLight.operationscore-module.html">Package&nbsp;operationscore</a> ::
+        Module&nbsp;SmootCoreObject
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SmootLight.operationscore.SmootCoreObject-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SmootLight.operationscore.SmootCoreObject-module.html">Module SmootLight.operationscore.SmootCoreObject</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">pdb</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">threading</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">thread</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Package SmootLight.util=SmootLight.util-module.html"><a title="SmootLight.util" class="py-name" href="#" onclick="return doclink('link-0', 'util', 'link-0');">util</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module SmootLight.util.Config=SmootLight.util.Config-module.html"><a title="SmootLight.util.Config" class="py-name" href="#" onclick="return doclink('link-1', 'Config', 'link-1');">Config</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">configGetter</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">types</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="SmootCoreObject"></a><div id="SmootCoreObject-def"><a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="SmootCoreObject-toggle" onclick="return toggle('SmootCoreObject');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html">SmootCoreObject</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="SmootCoreObject-expanded"><a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">    <tt class="py-docstring">"""SmootCoreObject is essentially a super-object class which grants us some niceties.  It allows</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring">    us to use objects as if they are dictionaries -- we use this to store their arguments</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring">    convienently -- note that querying for a parameter that does not exist will return None.  It</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring">    also offers some basic ThreadSafety."""</tt> </tt>
+<a name="SmootCoreObject.__init__"></a><div id="SmootCoreObject.__init__-def"><a name="L12"></a><tt class="py-lineno">12</tt> <a class="py-toggle" href="#" id="SmootCoreObject.__init__-toggle" onclick="return toggle('SmootCoreObject.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">argDict</tt><tt class="py-op">,</tt> <tt class="py-param">skipValidation</tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.__init__-expanded"><a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dieListeners</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Variable SmootLight.util.PacketComposition.argDict=SmootLight.util.PacketComposition-module.html#argDict"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-2', 'argDict', 'link-2');">argDict</a></tt> <tt class="py-op">=</tt> <tt id="link-3" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-3', 'argDict', 'link-2');">argDict</a></tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method SmootLight.operationscore.SmootCoreObject.SmootCoreObject.validateArgs()=SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#validateArgs"><a title="SmootLight.operationscore.SmootCoreObject.SmootCoreObject.validateArgs" class="py-name" href="#" onclick="return doclink('link-4', 'validateArgs', 'link-4');">validateArgs</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Method SmootLight.operationscore.SmootCoreObject.SmootCoreObject.className()=SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#className"><a title="SmootLight.operationscore.SmootCoreObject.SmootCoreObject.className" class="py-name" href="#" onclick="return doclink('link-5', 'className', 'link-5');">className</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">+</tt><tt class="py-string">'.params'</tt><tt class="py-op">)</tt>  </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lock</tt> <tt class="py-op">=</tt> <tt class="py-name">thread</tt><tt class="py-op">.</tt><tt class="py-name">allocate_lock</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">        <tt class="py-comment">#put everything into attributes for speed</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt id="link-6" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-6', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">            <tt class="py-name">setattr</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">,</tt> <tt class="py-name">key</tt><tt class="py-op">,</tt> <tt id="link-7" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-7', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Method SmootLight.operationscore.Behavior.Behavior.init()=SmootLight.operationscore.Behavior.Behavior-class.html#init,Method SmootLight.operationscore.Input.Input.init()=SmootLight.operationscore.Input.Input-class.html#init,Method SmootLight.operationscore.PixelAssembler.PixelAssembler.init()=SmootLight.operationscore.PixelAssembler.PixelAssembler-class.html#init,Method SmootLight.operationscore.PixelEvent.PixelEvent.init()=SmootLight.operationscore.PixelEvent.PixelEvent-class.html#init,Method SmootLight.operationscore.PixelMapper.PixelMapper.init()=SmootLight.operationscore.PixelMapper.PixelMapper-class.html#init,Method SmootLight.operationscore.Renderer.Renderer.init()=SmootLight.operationscore.Renderer.Renderer-class.html#init,Method SmootLight.operationscore.SmootCoreObject.SmootCoreObject.init()=SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#init"><a title="SmootLight.operationscore.Behavior.Behavior.init
+SmootLight.operationscore.Input.Input.init
+SmootLight.operationscore.PixelAssembler.PixelAssembler.init
+SmootLight.operationscore.PixelEvent.PixelEvent.init
+SmootLight.operationscore.PixelMapper.PixelMapper.init
+SmootLight.operationscore.Renderer.Renderer.init
+SmootLight.operationscore.SmootCoreObject.SmootCoreObject.init" class="py-name" href="#" onclick="return doclink('link-8', 'init', 'link-8');">init</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-comment">#call init of inheriting class</tt> </tt>
+</div><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">     </tt>
+<a name="SmootCoreObject.init"></a><div id="SmootCoreObject.init-def"><a name="L22"></a><tt class="py-lineno">22</tt> <a class="py-toggle" href="#" id="SmootCoreObject.init-toggle" onclick="return toggle('SmootCoreObject.init');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#init">init</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.init-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.init-expanded"><a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">        <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.acquireLock"></a><div id="SmootCoreObject.acquireLock-def"><a name="L25"></a><tt class="py-lineno">25</tt> <a class="py-toggle" href="#" id="SmootCoreObject.acquireLock-toggle" onclick="return toggle('SmootCoreObject.acquireLock');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#acquireLock">acquireLock</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.acquireLock-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.acquireLock-expanded"><a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lock</tt> <tt class="py-op">=</tt> <tt class="py-name">thread</tt><tt class="py-op">.</tt><tt class="py-name">allocate_lock</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-comment">#TODO: fix. -- investigate this, it should only have to be run once in the initialization.</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lock</tt><tt class="py-op">.</tt><tt class="py-name">acquire</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.releaseLock"></a><div id="SmootCoreObject.releaseLock-def"><a name="L29"></a><tt class="py-lineno">29</tt> <a class="py-toggle" href="#" id="SmootCoreObject.releaseLock-toggle" onclick="return toggle('SmootCoreObject.releaseLock');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#releaseLock">releaseLock</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.releaseLock-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.releaseLock-expanded"><a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lock</tt><tt class="py-op">.</tt><tt class="py-name">release</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.className"></a><div id="SmootCoreObject.className-def"><a name="L32"></a><tt class="py-lineno">32</tt> <a class="py-toggle" href="#" id="SmootCoreObject.className-toggle" onclick="return toggle('SmootCoreObject.className');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#className">className</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.className-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.className-expanded"><a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__class__</tt><tt class="py-op">.</tt><tt class="py-name">__name__</tt> </tt>
+</div><a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.__setitem__"></a><div id="SmootCoreObject.__setitem__-def"><a name="L35"></a><tt class="py-lineno">35</tt> <a class="py-toggle" href="#" id="SmootCoreObject.__setitem__-toggle" onclick="return toggle('SmootCoreObject.__setitem__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#__setitem__">__setitem__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">k</tt><tt class="py-op">,</tt> <tt class="py-param">item</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.__setitem__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.__setitem__-expanded"><a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-9', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-name">k</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">item</tt> </tt>
+</div><a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.__getitem__"></a><div id="SmootCoreObject.__getitem__-def"><a name="L38"></a><tt class="py-lineno">38</tt> <a class="py-toggle" href="#" id="SmootCoreObject.__getitem__-toggle" onclick="return toggle('SmootCoreObject.__getitem__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#__getitem__">__getitem__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">key</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.__getitem__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.__getitem__-expanded"><a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-10', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">            <tt class="py-name">item</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-11', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">,</tt> <tt class="py-name">types</tt><tt class="py-op">.</tt><tt class="py-name">FunctionType</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt class="py-name">item</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-12', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">)</tt> <tt class="py-comment">#resolve the lambda function, if it exists</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">            <tt class="py-comment">#elif isinstance(item, list): #if its a list of items</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">            <tt class="py-comment">#    pass #TODO: consider doing resolution of lambda funcs for items in lists</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt class="py-name">item</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">None</tt> </tt>
+</div><a name="SmootCoreObject.__contains__"></a><div id="SmootCoreObject.__contains__-def"><a name="L49"></a><tt class="py-lineno">49</tt> <a class="py-toggle" href="#" id="SmootCoreObject.__contains__-toggle" onclick="return toggle('SmootCoreObject.__contains__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#__contains__">__contains__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">item</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.__contains__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.__contains__-expanded"><a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-13', 'argDict', 'link-2');">argDict</a></tt> </tt>
+</div><a name="SmootCoreObject.__getiter__"></a><div id="SmootCoreObject.__getiter__-def"><a name="L51"></a><tt class="py-lineno">51</tt> <a class="py-toggle" href="#" id="SmootCoreObject.__getiter__-toggle" onclick="return toggle('SmootCoreObject.__getiter__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#__getiter__">__getiter__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.__getiter__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.__getiter__-expanded"><a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-14', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method SmootLight.operationscore.SmootCoreObject.SmootCoreObject.__getiter__()=SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#__getiter__"><a title="SmootLight.operationscore.SmootCoreObject.SmootCoreObject.__getiter__" class="py-name" href="#" onclick="return doclink('link-15', '__getiter__', 'link-15');">__getiter__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.validateArgs"></a><div id="SmootCoreObject.validateArgs-def"><a name="L54"></a><tt class="py-lineno">54</tt> <a class="py-toggle" href="#" id="SmootCoreObject.validateArgs-toggle" onclick="return toggle('SmootCoreObject.validateArgs');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#validateArgs">validateArgs</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">argFileName</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.validateArgs-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.validateArgs-expanded"><a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method SmootLight.operationscore.SmootCoreObject.SmootCoreObject.validateArgDict()=SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#validateArgDict"><a title="SmootLight.operationscore.SmootCoreObject.SmootCoreObject.validateArgDict" class="py-name" href="#" onclick="return doclink('link-16', 'validateArgDict', 'link-16');">validateArgDict</a></tt><tt class="py-op">(</tt><tt class="py-name">configGetter</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Function SmootLight.util.Config.loadParamRequirementDict()=SmootLight.util.Config-module.html#loadParamRequirementDict"><a title="SmootLight.util.Config.loadParamRequirementDict" class="py-name" href="#" onclick="return doclink('link-17', 'loadParamRequirementDict', 'link-17');">loadParamRequirementDict</a></tt><tt class="py-op">(</tt><tt class="py-name">argFileName</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-comment">#util</tt> </tt>
+</div><a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">        <tt class="py-comment">#caches for us, woo!</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.validateArgDict"></a><div id="SmootCoreObject.validateArgDict-def"><a name="L58"></a><tt class="py-lineno">58</tt> <a class="py-toggle" href="#" id="SmootCoreObject.validateArgDict-toggle" onclick="return toggle('SmootCoreObject.validateArgDict');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#validateArgDict">validateArgDict</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">validationDict</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.validateArgDict-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.validateArgDict-expanded"><a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">validationDict</tt><tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="SmootLight.util.PacketComposition.argDict" class="py-name" href="#" onclick="return doclink('link-18', 'argDict', 'link-2');">argDict</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt class="py-name">Exception</tt><tt class="py-op">(</tt><tt class="py-name">validationDict</tt><tt class="py-op">[</tt><tt class="py-name">item</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">     </tt>
+<a name="SmootCoreObject.addDieListener"></a><div id="SmootCoreObject.addDieListener-def"><a name="L63"></a><tt class="py-lineno">63</tt> <a class="py-toggle" href="#" id="SmootCoreObject.addDieListener-toggle" onclick="return toggle('SmootCoreObject.addDieListener');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#addDieListener">addDieListener</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">listener</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.addDieListener-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.addDieListener-expanded"><a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">listener</tt> <tt class="py-keyword">not</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dieListeners</tt><tt class="py-op">:</tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dieListeners</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">listener</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line"> </tt>
+<a name="SmootCoreObject.removeDieListener"></a><div id="SmootCoreObject.removeDieListener-def"><a name="L67"></a><tt class="py-lineno">67</tt> <a class="py-toggle" href="#" id="SmootCoreObject.removeDieListener-toggle" onclick="return toggle('SmootCoreObject.removeDieListener');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#removeDieListener">removeDieListener</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">listener</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.removeDieListener-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.removeDieListener-expanded"><a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">listener</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dieListeners</tt><tt class="py-op">:</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dieListeners</tt><tt class="py-op">.</tt><tt class="py-name">remove</tt><tt class="py-op">(</tt><tt class="py-name">listener</tt><tt class="py-op">)</tt>     </tt>
+</div><a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">         </tt>
+<a name="SmootCoreObject.die"></a><div id="SmootCoreObject.die-def"><a name="L71"></a><tt class="py-lineno">71</tt> <a class="py-toggle" href="#" id="SmootCoreObject.die-toggle" onclick="return toggle('SmootCoreObject.die');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.operationscore.SmootCoreObject.SmootCoreObject-class.html#die">die</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SmootCoreObject.die-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SmootCoreObject.die-expanded"><a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">listener</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dieListeners</tt><tt class="py-op">:</tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">            <tt class="py-name">listener</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Method SmootLight.LightInstallation.LightInstallation.handleDie()=SmootLight.LightInstallation.LightInstallation-class.html#handleDie"><a title="SmootLight.LightInstallation.LightInstallation.handleDie" class="py-name" href="#" onclick="return doclink('link-19', 'handleDie', 'link-19');">handleDie</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 18 16:55:27 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

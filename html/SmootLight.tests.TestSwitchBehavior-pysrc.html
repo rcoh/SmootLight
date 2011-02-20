@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SmootLight.tests.TestSwitchBehavior</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SmootLight-module.html">Package&nbsp;SmootLight</a> ::
+        <a href="SmootLight.tests-module.html">Package&nbsp;tests</a> ::
+        Module&nbsp;TestSwitchBehavior
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SmootLight.tests.TestSwitchBehavior-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SmootLight.tests.TestSwitchBehavior-module.html">Module SmootLight.tests.TestSwitchBehavior</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">unittest</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Package SmootLight.util=SmootLight.util-module.html"><a title="SmootLight.util" class="py-name" href="#" onclick="return doclink('link-0', 'util', 'link-0');">util</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module SmootLight.util.ComponentRegistry=SmootLight.util.ComponentRegistry-module.html"><a title="SmootLight.util.ComponentRegistry" class="py-name" href="#" onclick="return doclink('link-1', 'ComponentRegistry', 'link-1');">ComponentRegistry</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">compReg</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Package SmootLight.behaviors=SmootLight.behaviors-module.html"><a title="SmootLight.behaviors" class="py-name" href="#" onclick="return doclink('link-2', 'behaviors', 'link-2');">behaviors</a></tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Module SmootLight.behaviors.SwitchBehavior=SmootLight.behaviors.SwitchBehavior-module.html,Class SmootLight.behaviors.SwitchBehavior.SwitchBehavior=SmootLight.behaviors.SwitchBehavior.SwitchBehavior-class.html"><a title="SmootLight.behaviors.SwitchBehavior
+SmootLight.behaviors.SwitchBehavior.SwitchBehavior" class="py-name" href="#" onclick="return doclink('link-3', 'SwitchBehavior', 'link-3');">SwitchBehavior</a></tt> <tt class="py-keyword">import</tt> <tt id="link-4" class="py-name"><a title="SmootLight.behaviors.SwitchBehavior
+SmootLight.behaviors.SwitchBehavior.SwitchBehavior" class="py-name" href="#" onclick="return doclink('link-4', 'SwitchBehavior', 'link-3');">SwitchBehavior</a></tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name"><a title="SmootLight.behaviors" class="py-name" href="#" onclick="return doclink('link-5', 'behaviors', 'link-2');">behaviors</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Module SmootLight.behaviors.EchoBehavior=SmootLight.behaviors.EchoBehavior-module.html,Class SmootLight.behaviors.EchoBehavior.EchoBehavior=SmootLight.behaviors.EchoBehavior.EchoBehavior-class.html"><a title="SmootLight.behaviors.EchoBehavior
+SmootLight.behaviors.EchoBehavior.EchoBehavior" class="py-name" href="#" onclick="return doclink('link-6', 'EchoBehavior', 'link-6');">EchoBehavior</a></tt> <tt class="py-keyword">import</tt> <tt id="link-7" class="py-name"><a title="SmootLight.behaviors.EchoBehavior
+SmootLight.behaviors.EchoBehavior.EchoBehavior" class="py-name" href="#" onclick="return doclink('link-7', 'EchoBehavior', 'link-6');">EchoBehavior</a></tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-8" class="py-name"><a title="SmootLight.behaviors" class="py-name" href="#" onclick="return doclink('link-8', 'behaviors', 'link-2');">behaviors</a></tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Module SmootLight.behaviors.DebugBehavior=SmootLight.behaviors.DebugBehavior-module.html,Class SmootLight.behaviors.DebugBehavior.DebugBehavior=SmootLight.behaviors.DebugBehavior.DebugBehavior-class.html"><a title="SmootLight.behaviors.DebugBehavior
+SmootLight.behaviors.DebugBehavior.DebugBehavior" class="py-name" href="#" onclick="return doclink('link-9', 'DebugBehavior', 'link-9');">DebugBehavior</a></tt> <tt class="py-keyword">import</tt> <tt id="link-10" class="py-name"><a title="SmootLight.behaviors.DebugBehavior
+SmootLight.behaviors.DebugBehavior.DebugBehavior" class="py-name" href="#" onclick="return doclink('link-10', 'DebugBehavior', 'link-9');">DebugBehavior</a></tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="TestSwitchBehavior"></a><div id="TestSwitchBehavior-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="TestSwitchBehavior-toggle" onclick="return toggle('TestSwitchBehavior');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SmootLight.tests.TestSwitchBehavior.TestSwitchBehavior-class.html">TestSwitchBehavior</a><tt class="py-op">(</tt><tt class="py-base-class">unittest</tt><tt class="py-op">.</tt><tt class="py-base-class">TestCase</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TestSwitchBehavior-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="TestSwitchBehavior-expanded"><a name="TestSwitchBehavior.setUp"></a><div id="TestSwitchBehavior.setUp-def"><a name="L9"></a><tt class="py-lineno"> 9</tt> <a class="py-toggle" href="#" id="TestSwitchBehavior.setUp-toggle" onclick="return toggle('TestSwitchBehavior.setUp');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.tests.TestSwitchBehavior.TestSwitchBehavior-class.html#setUp">setUp</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TestSwitchBehavior.setUp-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TestSwitchBehavior.setUp-expanded"><a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">        <tt class="py-name">compReg</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Function SmootLight.util.ComponentRegistry.initRegistry()=SmootLight.util.ComponentRegistry-module.html#initRegistry"><a title="SmootLight.util.ComponentRegistry.initRegistry" class="py-name" href="#" onclick="return doclink('link-11', 'initRegistry', 'link-11');">initRegistry</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">        <tt class="py-comment"># add a test registry</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">behavior1</tt> <tt class="py-op">=</tt> <tt id="link-12" class="py-name"><a title="SmootLight.behaviors.EchoBehavior
+SmootLight.behaviors.EchoBehavior.EchoBehavior" class="py-name" href="#" onclick="return doclink('link-12', 'EchoBehavior', 'link-6');">EchoBehavior</a></tt><tt class="py-op">(</tt><tt class="py-op">{</tt><tt class="py-string">'Id'</tt><tt class="py-op">:</tt> <tt class="py-string">'behavior1'</tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">behavior2</tt> <tt class="py-op">=</tt> <tt id="link-13" class="py-name"><a title="SmootLight.behaviors.DebugBehavior
+SmootLight.behaviors.DebugBehavior.DebugBehavior" class="py-name" href="#" onclick="return doclink('link-13', 'DebugBehavior', 'link-9');">DebugBehavior</a></tt><tt class="py-op">(</tt><tt class="py-op">{</tt><tt class="py-string">'Id'</tt><tt class="py-op">:</tt> <tt class="py-string">'behavior2'</tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">        <tt class="py-name">compReg</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Function SmootLight.util.ComponentRegistry.registerComponent()=SmootLight.util.ComponentRegistry-module.html#registerComponent"><a title="SmootLight.util.ComponentRegistry.registerComponent" class="py-name" href="#" onclick="return doclink('link-14', 'registerComponent', 'link-14');">registerComponent</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">behavior1</tt><tt class="py-op">)</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">        <tt class="py-name">compReg</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name"><a title="SmootLight.util.ComponentRegistry.registerComponent" class="py-name" href="#" onclick="return doclink('link-15', 'registerComponent', 'link-14');">registerComponent</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">behavior2</tt><tt class="py-op">)</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">switchBehavior</tt> <tt class="py-op">=</tt> <tt id="link-16" class="py-name"><a title="SmootLight.behaviors.SwitchBehavior
+SmootLight.behaviors.SwitchBehavior.SwitchBehavior" class="py-name" href="#" onclick="return doclink('link-16', 'SwitchBehavior', 'link-3');">SwitchBehavior</a></tt><tt class="py-op">(</tt><tt class="py-op">{</tt><tt class="py-string">'Id'</tt><tt class="py-op">:</tt> <tt class="py-string">'switch'</tt><tt class="py-op">,</tt> <tt class="py-string">'PrefixToBehavior'</tt><tt class="py-op">:</tt> <tt class="py-string">'{"@": "behavior1", "#": "behavior2"}'</tt><tt class="py-op">,</tt> <tt class="py-string">'DefaultBehavior'</tt><tt class="py-op">:</tt> <tt class="py-string">'behavior1'</tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">        <tt class="py-name">compReg</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name"><a title="SmootLight.util.ComponentRegistry.registerComponent" class="py-name" href="#" onclick="return doclink('link-17', 'registerComponent', 'link-14');">registerComponent</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">switchBehavior</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt>
+<a name="TestSwitchBehavior.tearDown"></a><div id="TestSwitchBehavior.tearDown-def"><a name="L21"></a><tt class="py-lineno">21</tt> <a class="py-toggle" href="#" id="TestSwitchBehavior.tearDown-toggle" onclick="return toggle('TestSwitchBehavior.tearDown');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.tests.TestSwitchBehavior.TestSwitchBehavior-class.html#tearDown">tearDown</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TestSwitchBehavior.tearDown-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TestSwitchBehavior.tearDown-expanded"><a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"> </tt>
+<a name="TestSwitchBehavior.test_switch_to_behavior1"></a><div id="TestSwitchBehavior.test_switch_to_behavior1-def"><a name="L24"></a><tt class="py-lineno">24</tt> <a class="py-toggle" href="#" id="TestSwitchBehavior.test_switch_to_behavior1-toggle" onclick="return toggle('TestSwitchBehavior.test_switch_to_behavior1');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.tests.TestSwitchBehavior.TestSwitchBehavior-class.html#test_switch_to_behavior1">test_switch_to_behavior1</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TestSwitchBehavior.test_switch_to_behavior1-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TestSwitchBehavior.test_switch_to_behavior1-expanded"><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt id="link-18" class="py-name" targets="Package SmootLight.inputs=SmootLight.inputs-module.html"><a title="SmootLight.inputs" class="py-name" href="#" onclick="return doclink('link-18', 'inputs', 'link-18');">inputs</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">{</tt><tt class="py-string">'Data'</tt><tt class="py-op">:</tt> <tt class="py-string">'@something'</tt><tt class="py-op">,</tt> <tt class="py-string">'Location'</tt><tt class="py-op">:</tt> <tt class="py-string">'someloc'</tt><tt class="py-op">}</tt><tt class="py-op">]</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-name">returned</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">switchBehavior</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Method SmootLight.LightInstallation.LightInstallation.processResponse()=SmootLight.LightInstallation.LightInstallation-class.html#processResponse,Method SmootLight.behaviors.AddPixelEvent.AddPixelEvent.processResponse()=SmootLight.behaviors.AddPixelEvent.AddPixelEvent-class.html#processResponse,Method SmootLight.behaviors.AllPixels.AllPixels.processResponse()=SmootLight.behaviors.AllPixels.AllPixels-class.html#processResponse,Method SmootLight.behaviors.AllPixelsLeft.AllPixelsLeft.processResponse()=SmootLight.behaviors.AllPixelsLeft.AllPixelsLeft-class.html#processResponse,Method SmootLight.behaviors.BehaviorChain.BehaviorChain.processResponse()=SmootLight.behaviors.BehaviorChain.BehaviorChain-class.html#processResponse,Method SmootLight.behaviors.Circle.Circle.processResponse()=SmootLight.behaviors.Circle.Circle-class.html#processResponse,Method SmootLight.behaviors.ColorChangerBehavior.ColorChangerBehavior.processResponse()=SmootLight.behaviors.ColorChangerBehavior.ColorChangerBehavior-class.html#processResponse,Method SmootLight.behaviors.ColorShift.ColorShift.processResponse()=SmootLight.behaviors.ColorShift.ColorShift-class.html#processResponse,Method SmootLight.behaviors.ControllerOSC.ControllerOSC.processResponse()=SmootLight.behaviors.ControllerOSC.ControllerOSC-class.html#processResponse,Method SmootLight.behaviors.DebugBehavior.DebugBehavior.processResponse()=SmootLight.behaviors.DebugBehavior.DebugBehavior-class.html#processResponse,Method SmootLight.behaviors.DecayBehavior.DecayBehavior.processResponse()=SmootLight.behaviors.DecayBehavior.DecayBehavior-class.html#processResponse,Method SmootLight.behaviors.EchoBehavior.EchoBehavior.processResponse()=SmootLight.behaviors.EchoBehavior.EchoBehavior-class.html#processResponse,Method SmootLight.behaviors.Expand.Expand.processResponse()=SmootLight.behaviors.Expand.Expand-class.html#processResponse,Method SmootLight.behaviors.ExpandingColorZones.ExpandingColorZones.processResponse()=SmootLight.behaviors.ExpandingColorZones.ExpandingColorZones-class.html#processResponse,Method SmootLight.behaviors.Flasher.Flasher.processResponse()=SmootLight.behaviors.Flasher.Flasher-class.html#processResponse,Method SmootLight.behaviors.MITDoors.MITDoors.processResponse()=SmootLight.behaviors.MITDoors.MITDoors-class.html#processResponse,Method SmootLight.behaviors.MobileShakeBehavior.MobileShakeBehavior.processResponse()=SmootLight.behaviors.MobileShakeBehavior.MobileShakeBehavior-class.html#processResponse,Method SmootLight.behaviors.ModifyParam.ModifyParam.processResponse()=SmootLight.behaviors.ModifyParam.ModifyParam-class.html#processResponse,Method SmootLight.behaviors.ModulateColor.ColorShift.processResponse()=SmootLight.behaviors.ModulateColor.ColorShift-class.html#processResponse,Method SmootLight.behaviors.MoveBehavior.MoveBehavior.processResponse()=SmootLight.behaviors.MoveBehavior.MoveBehavior-class.html#processResponse,Method SmootLight.behaviors.MrmrSetColor.MrmrSetColor.processResponse()=SmootLight.behaviors.MrmrSetColor.MrmrSetColor-class.html#processResponse,Method SmootLight.behaviors.Oval.Oval.processResponse()=SmootLight.behaviors.Oval.Oval-class.html#processResponse,Method SmootLight.behaviors.RandomSetBrightColorBehavior.RandomSetBrightColorBehavior.processResponse()=SmootLight.behaviors.RandomSetBrightColorBehavior.RandomSetBrightColorBehavior-class.html#processResponse,Method SmootLight.behaviors.RandomWalk.RandomWalk.processResponse()=SmootLight.behaviors.RandomWalk.RandomWalk-class.html#processResponse,Method SmootLight.behaviors.RecursiveDecay.RecursiveDecay.processResponse()=SmootLight.behaviors.RecursiveDecay.RecursiveDecay-class.html#processResponse,Method SmootLight.behaviors.ResponseMover.ResponseMover.processResponse()=SmootLight.behaviors.ResponseMover.ResponseMover-class.html#processResponse,Method SmootLight.behaviors.RestrictLocation.RestrictLocation.processResponse()=SmootLight.behaviors.RestrictLocation.RestrictLocation-class.html#processResponse,Method SmootLight.behaviors.RiseFall.RiseFall.processResponse()=SmootLight.behaviors.RiseFall.RiseFall-class.html#processResponse,Method SmootLight.behaviors.RunningBehavior.RunningBehavior.processResponse()=SmootLight.behaviors.RunningBehavior.RunningBehavior-class.html#processResponse,Method SmootLight.behaviors.Sink.Sink.processResponse()=SmootLight.behaviors.Sink.Sink-class.html#processResponse,Method SmootLight.behaviors.SmootWind.SmootWind.processResponse()=SmootLight.behaviors.SmootWind.SmootWind-class.html#processResponse,Method SmootLight.behaviors.Square.Square.processResponse()=SmootLight.behaviors.Square.Square-class.html#processResponse,Method SmootLight.behaviors.SwitchBehavior.SwitchBehavior.processResponse()=SmootLight.behaviors.SwitchBehavior.SwitchBehavior-class.html#processResponse,Method SmootLight.behaviors.SynchTest.SynchTest.processResponse()=SmootLight.behaviors.SynchTest.SynchTest-class.html#processResponse,Method SmootLight.behaviors.TimeSwitch.TimeSwitch.processResponse()=SmootLight.behaviors.TimeSwitch.TimeSwitch-class.html#processResponse,Method SmootLight.behaviors.TimedDie.Timeout.processResponse()=SmootLight.behaviors.TimedDie.Timeout-class.html#processResponse,Method SmootLight.behaviors.Timeout.Timeout.processResponse()=SmootLight.behaviors.Timeout.Timeout-class.html#processResponse,Method SmootLight.behaviors.TouchOSC.TouchOSC.processResponse()=SmootLight.behaviors.TouchOSC.TouchOSC-class.html#processResponse,Method SmootLight.behaviors.VerticalBar.VerticalBar.processResponse()=SmootLight.behaviors.VerticalBar.VerticalBar-class.html#processResponse,Method SmootLight.behaviors.XYMove.XYMove.processResponse()=SmootLight.behaviors.XYMove.XYMove-class.html#processResponse,Method SmootLight.operationscore.Behavior.Behavior.processResponse()=SmootLight.operationscore.Behavior.Behavior-class.html#processResponse,Method SmootLight.pixelcore.Screen.Screen.processResponse()=SmootLight.pixelcore.Screen.Screen-class.html#processResponse"><a title="SmootLight.LightInstallation.LightInstallation.processResponse
+SmootLight.behaviors.AddPixelEvent.AddPixelEvent.processResponse
+SmootLight.behaviors.AllPixels.AllPixels.processResponse
+SmootLight.behaviors.AllPixelsLeft.AllPixelsLeft.processResponse
+SmootLight.behaviors.BehaviorChain.BehaviorChain.processResponse
+SmootLight.behaviors.Circle.Circle.processResponse
+SmootLight.behaviors.ColorChangerBehavior.ColorChangerBehavior.processResponse
+SmootLight.behaviors.ColorShift.ColorShift.processResponse
+SmootLight.behaviors.ControllerOSC.ControllerOSC.processResponse
+SmootLight.behaviors.DebugBehavior.DebugBehavior.processResponse
+SmootLight.behaviors.DecayBehavior.DecayBehavior.processResponse
+SmootLight.behaviors.EchoBehavior.EchoBehavior.processResponse
+SmootLight.behaviors.Expand.Expand.processResponse
+SmootLight.behaviors.ExpandingColorZones.ExpandingColorZones.processResponse
+SmootLight.behaviors.Flasher.Flasher.processResponse
+SmootLight.behaviors.MITDoors.MITDoors.processResponse
+SmootLight.behaviors.MobileShakeBehavior.MobileShakeBehavior.processResponse
+SmootLight.behaviors.ModifyParam.ModifyParam.processResponse
+SmootLight.behaviors.ModulateColor.ColorShift.processResponse
+SmootLight.behaviors.MoveBehavior.MoveBehavior.processResponse
+SmootLight.behaviors.MrmrSetColor.MrmrSetColor.processResponse
+SmootLight.behaviors.Oval.Oval.processResponse
+SmootLight.behaviors.RandomSetBrightColorBehavior.RandomSetBrightColorBehavior.processResponse
+SmootLight.behaviors.RandomWalk.RandomWalk.processResponse
+SmootLight.behaviors.RecursiveDecay.RecursiveDecay.processResponse
+SmootLight.behaviors.ResponseMover.ResponseMover.processResponse
+SmootLight.behaviors.RestrictLocation.RestrictLocation.processResponse
+SmootLight.behaviors.RiseFall.RiseFall.processResponse
+SmootLight.behaviors.RunningBehavior.RunningBehavior.processResponse
+SmootLight.behaviors.Sink.Sink.processResponse
+SmootLight.behaviors.SmootWind.SmootWind.processResponse
+SmootLight.behaviors.Square.Square.processResponse
+SmootLight.behaviors.SwitchBehavior.SwitchBehavior.processResponse
+SmootLight.behaviors.SynchTest.SynchTest.processResponse
+SmootLight.behaviors.TimeSwitch.TimeSwitch.processResponse
+SmootLight.behaviors.TimedDie.Timeout.processResponse
+SmootLight.behaviors.Timeout.Timeout.processResponse
+SmootLight.behaviors.TouchOSC.TouchOSC.processResponse
+SmootLight.behaviors.VerticalBar.VerticalBar.processResponse
+SmootLight.behaviors.XYMove.XYMove.processResponse
+SmootLight.operationscore.Behavior.Behavior.processResponse
+SmootLight.pixelcore.Screen.Screen.processResponse" class="py-name" href="#" onclick="return doclink('link-19', 'processResponse', 'link-19');">processResponse</a></tt><tt class="py-op">(</tt><tt id="link-20" class="py-name"><a title="SmootLight.inputs" class="py-name" href="#" onclick="return doclink('link-20', 'inputs', 'link-18');">inputs</a></tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-keyword">assert</tt> <tt class="py-name">returned</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-string">'Location'</tt><tt class="py-op">]</tt> <tt class="py-op">==</tt> <tt class="py-string">'someloc'</tt> </tt>
+</div><a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"> </tt>
+<a name="TestSwitchBehavior.test_switch_to_behavior2"></a><div id="TestSwitchBehavior.test_switch_to_behavior2-def"><a name="L29"></a><tt class="py-lineno">29</tt> <a class="py-toggle" href="#" id="TestSwitchBehavior.test_switch_to_behavior2-toggle" onclick="return toggle('TestSwitchBehavior.test_switch_to_behavior2');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.tests.TestSwitchBehavior.TestSwitchBehavior-class.html#test_switch_to_behavior2">test_switch_to_behavior2</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TestSwitchBehavior.test_switch_to_behavior2-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TestSwitchBehavior.test_switch_to_behavior2-expanded"><a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt id="link-21" class="py-name"><a title="SmootLight.inputs" class="py-name" href="#" onclick="return doclink('link-21', 'inputs', 'link-18');">inputs</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">{</tt><tt class="py-string">'Data'</tt><tt class="py-op">:</tt> <tt class="py-string">'#something'</tt><tt class="py-op">}</tt><tt class="py-op">]</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-name">returned</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">switchBehavior</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name"><a title="SmootLight.LightInstallation.LightInstallation.processResponse
+SmootLight.behaviors.AddPixelEvent.AddPixelEvent.processResponse
+SmootLight.behaviors.AllPixels.AllPixels.processResponse
+SmootLight.behaviors.AllPixelsLeft.AllPixelsLeft.processResponse
+SmootLight.behaviors.BehaviorChain.BehaviorChain.processResponse
+SmootLight.behaviors.Circle.Circle.processResponse
+SmootLight.behaviors.ColorChangerBehavior.ColorChangerBehavior.processResponse
+SmootLight.behaviors.ColorShift.ColorShift.processResponse
+SmootLight.behaviors.ControllerOSC.ControllerOSC.processResponse
+SmootLight.behaviors.DebugBehavior.DebugBehavior.processResponse
+SmootLight.behaviors.DecayBehavior.DecayBehavior.processResponse
+SmootLight.behaviors.EchoBehavior.EchoBehavior.processResponse
+SmootLight.behaviors.Expand.Expand.processResponse
+SmootLight.behaviors.ExpandingColorZones.ExpandingColorZones.processResponse
+SmootLight.behaviors.Flasher.Flasher.processResponse
+SmootLight.behaviors.MITDoors.MITDoors.processResponse
+SmootLight.behaviors.MobileShakeBehavior.MobileShakeBehavior.processResponse
+SmootLight.behaviors.ModifyParam.ModifyParam.processResponse
+SmootLight.behaviors.ModulateColor.ColorShift.processResponse
+SmootLight.behaviors.MoveBehavior.MoveBehavior.processResponse
+SmootLight.behaviors.MrmrSetColor.MrmrSetColor.processResponse
+SmootLight.behaviors.Oval.Oval.processResponse
+SmootLight.behaviors.RandomSetBrightColorBehavior.RandomSetBrightColorBehavior.processResponse
+SmootLight.behaviors.RandomWalk.RandomWalk.processResponse
+SmootLight.behaviors.RecursiveDecay.RecursiveDecay.processResponse
+SmootLight.behaviors.ResponseMover.ResponseMover.processResponse
+SmootLight.behaviors.RestrictLocation.RestrictLocation.processResponse
+SmootLight.behaviors.RiseFall.RiseFall.processResponse
+SmootLight.behaviors.RunningBehavior.RunningBehavior.processResponse
+SmootLight.behaviors.Sink.Sink.processResponse
+SmootLight.behaviors.SmootWind.SmootWind.processResponse
+SmootLight.behaviors.Square.Square.processResponse
+SmootLight.behaviors.SwitchBehavior.SwitchBehavior.processResponse
+SmootLight.behaviors.SynchTest.SynchTest.processResponse
+SmootLight.behaviors.TimeSwitch.TimeSwitch.processResponse
+SmootLight.behaviors.TimedDie.Timeout.processResponse
+SmootLight.behaviors.Timeout.Timeout.processResponse
+SmootLight.behaviors.TouchOSC.TouchOSC.processResponse
+SmootLight.behaviors.VerticalBar.VerticalBar.processResponse
+SmootLight.behaviors.XYMove.XYMove.processResponse
+SmootLight.operationscore.Behavior.Behavior.processResponse
+SmootLight.pixelcore.Screen.Screen.processResponse" class="py-name" href="#" onclick="return doclink('link-22', 'processResponse', 'link-19');">processResponse</a></tt><tt class="py-op">(</tt><tt id="link-23" class="py-name"><a title="SmootLight.inputs" class="py-name" href="#" onclick="return doclink('link-23', 'inputs', 'link-18');">inputs</a></tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-keyword">assert</tt> <tt class="py-name">returned</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">==</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"> </tt>
+<a name="TestSwitchBehavior.test_default_behavior"></a><div id="TestSwitchBehavior.test_default_behavior-def"><a name="L34"></a><tt class="py-lineno">34</tt> <a class="py-toggle" href="#" id="TestSwitchBehavior.test_default_behavior-toggle" onclick="return toggle('TestSwitchBehavior.test_default_behavior');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.tests.TestSwitchBehavior.TestSwitchBehavior-class.html#test_default_behavior">test_default_behavior</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TestSwitchBehavior.test_default_behavior-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TestSwitchBehavior.test_default_behavior-expanded"><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">        <tt id="link-24" class="py-name"><a title="SmootLight.inputs" class="py-name" href="#" onclick="return doclink('link-24', 'inputs', 'link-18');">inputs</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">{</tt><tt class="py-string">'Data'</tt><tt class="py-op">:</tt> <tt class="py-string">'something'</tt><tt class="py-op">,</tt> <tt class="py-string">'Location'</tt><tt class="py-op">:</tt> <tt class="py-string">'someloc'</tt><tt class="py-op">}</tt><tt class="py-op">]</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-name">returned</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">switchBehavior</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="SmootLight.LightInstallation.LightInstallation.processResponse
+SmootLight.behaviors.AddPixelEvent.AddPixelEvent.processResponse
+SmootLight.behaviors.AllPixels.AllPixels.processResponse
+SmootLight.behaviors.AllPixelsLeft.AllPixelsLeft.processResponse
+SmootLight.behaviors.BehaviorChain.BehaviorChain.processResponse
+SmootLight.behaviors.Circle.Circle.processResponse
+SmootLight.behaviors.ColorChangerBehavior.ColorChangerBehavior.processResponse
+SmootLight.behaviors.ColorShift.ColorShift.processResponse
+SmootLight.behaviors.ControllerOSC.ControllerOSC.processResponse
+SmootLight.behaviors.DebugBehavior.DebugBehavior.processResponse
+SmootLight.behaviors.DecayBehavior.DecayBehavior.processResponse
+SmootLight.behaviors.EchoBehavior.EchoBehavior.processResponse
+SmootLight.behaviors.Expand.Expand.processResponse
+SmootLight.behaviors.ExpandingColorZones.ExpandingColorZones.processResponse
+SmootLight.behaviors.Flasher.Flasher.processResponse
+SmootLight.behaviors.MITDoors.MITDoors.processResponse
+SmootLight.behaviors.MobileShakeBehavior.MobileShakeBehavior.processResponse
+SmootLight.behaviors.ModifyParam.ModifyParam.processResponse
+SmootLight.behaviors.ModulateColor.ColorShift.processResponse
+SmootLight.behaviors.MoveBehavior.MoveBehavior.processResponse
+SmootLight.behaviors.MrmrSetColor.MrmrSetColor.processResponse
+SmootLight.behaviors.Oval.Oval.processResponse
+SmootLight.behaviors.RandomSetBrightColorBehavior.RandomSetBrightColorBehavior.processResponse
+SmootLight.behaviors.RandomWalk.RandomWalk.processResponse
+SmootLight.behaviors.RecursiveDecay.RecursiveDecay.processResponse
+SmootLight.behaviors.ResponseMover.ResponseMover.processResponse
+SmootLight.behaviors.RestrictLocation.RestrictLocation.processResponse
+SmootLight.behaviors.RiseFall.RiseFall.processResponse
+SmootLight.behaviors.RunningBehavior.RunningBehavior.processResponse
+SmootLight.behaviors.Sink.Sink.processResponse
+SmootLight.behaviors.SmootWind.SmootWind.processResponse
+SmootLight.behaviors.Square.Square.processResponse
+SmootLight.behaviors.SwitchBehavior.SwitchBehavior.processResponse
+SmootLight.behaviors.SynchTest.SynchTest.processResponse
+SmootLight.behaviors.TimeSwitch.TimeSwitch.processResponse
+SmootLight.behaviors.TimedDie.Timeout.processResponse
+SmootLight.behaviors.Timeout.Timeout.processResponse
+SmootLight.behaviors.TouchOSC.TouchOSC.processResponse
+SmootLight.behaviors.VerticalBar.VerticalBar.processResponse
+SmootLight.behaviors.XYMove.XYMove.processResponse
+SmootLight.operationscore.Behavior.Behavior.processResponse
+SmootLight.pixelcore.Screen.Screen.processResponse" class="py-name" href="#" onclick="return doclink('link-25', 'processResponse', 'link-19');">processResponse</a></tt><tt class="py-op">(</tt><tt id="link-26" class="py-name"><a title="SmootLight.inputs" class="py-name" href="#" onclick="return doclink('link-26', 'inputs', 'link-18');">inputs</a></tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">assert</tt> <tt class="py-name">returned</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-string">'Location'</tt><tt class="py-op">]</tt> <tt class="py-op">==</tt> <tt class="py-string">'someloc'</tt> </tt>
+</div></div><a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">     </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line"> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">__name__</tt> <tt class="py-op">==</tt> <tt class="py-string">'__main__'</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">    <tt class="py-name">unittest</tt><tt class="py-op">.</tt><tt id="link-27" class="py-name" targets="Function SmootLight.LightInstallation.main()=SmootLight.LightInstallation-module.html#main"><a title="SmootLight.LightInstallation.main" class="py-name" href="#" onclick="return doclink('link-27', 'main', 'link-27');">main</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 18 16:55:27 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
