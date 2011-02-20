@@ -3,8 +3,13 @@ import util.ComponentRegistry as compReg
 import util.Strings as Strings
 from operationscore.Input import *
 class ParametricLocationInput(Input):
-    '''Continuously returns one of nine positions on the screen as specified by the xloc
-    and yloc arguments, which can take values 'min', 'max', and 'center'. '''
+    """Takes three arguments: xEquation, yEquation, and useClock where
+        xEquation and yEquation is a parametric equation in t and returns
+        a value from 0 to 1, where 0 represents top/left and 1 represents
+        bottom/right of the lightscreen. useClock is a boolean that 
+        specifies if the behavior should compute t based on the system
+        clock (value True) or should just increment t every time the
+        input is called."""
 
     def clockTick(self):
         return clock.time() - clock.t

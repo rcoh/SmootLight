@@ -35,20 +35,19 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
+        <APPEND><Renderer>
             <InheritsFrom>renderers/C5Renderer.xml</InheritsFrom>
-        </Renderer>
-        <Renderer Scale="5">
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
+        </Renderer></APPEND>
     </RendererConfiguration>
     <InputConfiguration>
-        <InputElement>
-            <Class>inputs.ContinuousLocationInput</Class>
+        <APPEND><InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
             <Args>
                 <Id>centerleft</Id>
                 <xloc>left</xloc>
                 <yloc>center</yloc>
+                <xEquation>0</xEquation>
+                <yEquation>.5</yEquation>
                 <RefreshInterval>1800</RefreshInterval>
             </Args>
         </InputElement>
@@ -58,14 +57,6 @@
                 <Id>osc</Id>
                 <Port>1234</Port>
                 <RefreshInterval>10</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygamekey</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Keyboard>True</Keyboard>
             </Args>
         </InputElement>
         <InputElement>
@@ -82,7 +73,7 @@
                 <Id>center</Id>
                 <RefreshInterval>700</RefreshInterval>
             </Args>
-        </InputElement>
+        </InputElement></APPEND>
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior>

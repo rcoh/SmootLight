@@ -1,0 +1,18 @@
+<LightInstallation>
+    <RendererConfiguration>
+        <Renderer Scale="5">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+    <InputConfiguration>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args>
+                <Id>pygamekey</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <Keyboard>True</Keyboard>
+            </Args>
+        </InputElement>
+    </InputConfiguration>
+    <InheritsFrom>config/C5Sign.xml</InheritsFrom>
+</LightInstallation>

@@ -1,0 +1,5 @@
+<LightInstallation>
+    <InheritsFrom>config/C5Sign.xml</InheritsFrom>
+    <RendererConfiguration> </RendererConfiguration>
+    <InputConfiguration> </InputConfiguration>
+</LightInstallation>
