@@ -94,6 +94,10 @@ class WebsocketRenderer(Renderer):
         for light in lightSystem:
             loc = light.location
             c = light.state(currentTime)
+            
+            if c == (0,0,0):
+                continue
+            
             cs = 'rgb('+str(c[0])+','+str(c[1])+','+str(c[2])+')'
             
             json_frame.append((loc, cs))
