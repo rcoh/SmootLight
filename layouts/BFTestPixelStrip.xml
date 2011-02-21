@@ -1,0 +1,8 @@
+<PixelStrip>
+    <Class>layouts.LineLayout</Class>
+    <Args>
+        <pixelToPixelSpacing>15</pixelToPixelSpacing>
+        <spacing>15</spacing> 
+        <numPixels>50</numPixels>
+    </Args>
+</PixelStrip>
