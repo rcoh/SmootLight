@@ -1,8 +1,38 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
+
+<!-- WHERE TO PUT YOUR CODE:
+
+I've divided the InputConfiguation and BehaviorConfiguration into 2 big
+sections: animation-specific and common. When writing behaviors and inputs,
+please adhere to the following convention, in the interest if keeping this
+increasingly huge file coherent:
+
+When creating a new animation:
+    Make a new comment (begin and end tags, both) section under the behavior 
+    and input tags in the animation-specific area, and put any 
+    behaviors/inputs you write under there. When you're finished, add the
+    appropriate behavior/input to the main TimeSwitch at the end of this file.
+
+When creating a new behavior:
+    Write the new behavior within the comment bookends. If you think the
+    behavior is general enough that many other animations will use it, then
+    you may instead put it under the common area, under the appropriate section
+
+When creating a new input:
+    Same logic as when creating a new behavior
+
+When using an old input/behavior:
+    If the input/behavior is in the respective Configuration's common area,
+    then you're fine. If it is currently located in another animation's
+    animation-specific section, then move it into the appropriate common
+    section.
+
+-->
+
 <LightInstallation>
     <InstallationConfiguration>
         <Defaults>
-            <PixelMapper>simplemap</PixelMapper>
+            <PixelMapper>c5signmap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
@@ -10,7 +40,7 @@
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
-            <Class>pixelmappers.C5SignMapper</Class>
+            <Class>pixelmappers.SimpleMapper</Class>
             <Args>
                 <Id>simplemap</Id>
                 <CutoffDist>20</CutoffDist>
@@ -29,7 +59,7 @@
         <PixelMapper>
             <Class>pixelmappers.C5SignMapper</Class>
             <Args>
-                <Id>c5signmapper</Id>
+                <Id>c5signmap</Id>
                 <CutoffDist>20</CutoffDist>
             </Args>
         </PixelMapper>
@@ -41,20 +71,7 @@
     </RendererConfiguration>
     <InputConfiguration>
         <APPEND>
-        <!-- ********* ScanningBars Input *********** -->
-        <InputElement>
-            <Class>inputs.ParametricLocationInput</Class>
-            <Doc>Inputs center-left every 1800 millis</Doc>
-            <Args>
-                <Id>centerleft</Id>
-                <xloc>left</xloc>
-                <yloc>center</yloc>
-                <xEquation>0</xEquation>
-                <yEquation>.5</yEquation>
-                <RefreshInterval>1200</RefreshInterval>
-            </Args>
-        </InputElement>
-        <!-- ********* End ScanningBars Input *********** -->
+        <!-- ********* Common Inputs *********** -->
         <InputElement>
             <Class>inputs.InitialLocationInput</Class>
             <Doc>Inputs the center point once</Doc>
@@ -72,6 +89,23 @@
                 <RefreshInterval>700</RefreshInterval>
             </Args>
         </InputElement>
+        <!-- ********* End Common Inputs *********** -->
+
+
+        <!-- ********* ScanningBars Input *********** -->
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Doc>Inputs center-left every 1800 millis</Doc>
+            <Args>
+                <Id>centerleft</Id>
+                <xloc>left</xloc>
+                <yloc>center</yloc>
+                <xEquation>0</xEquation>
+                <yEquation>.5</yEquation>
+                <RefreshInterval>1200</RefreshInterval>
+            </Args>
+        </InputElement>
+        <!-- ********* End ScanningBars Input *********** -->
         <!-- ********* Rain Input *********** -->
         <InputElement>
             <Class>inputs.ParametricLocationInput</Class>
@@ -84,7 +118,7 @@
             </Args>
         </InputElement>
         <!-- ********* End Rain Input *********** -->
-        <!-- ********* Unused Sign Inputs ********* -->
+        <!-- ********* OSC Input *********** -->
         <InputElement>
             <Class>inputs.OSCInput</Class>
             <Doc>PHONE INPUT!</Doc>
@@ -94,6 +128,9 @@
                 <RefreshInterval>10</RefreshInterval>
             </Args>
         </InputElement>
+        <!-- ********* End OSC Input *********** -->
+
+        <!-- ********* Unused Sign Inputs ********* -->
         <InputElement>
             <Class>inputs.UDPInput</Class>
             <Doc>UDP input</Doc>
@@ -103,15 +140,16 @@
                 <RefreshInterval>50</RefreshInterval>
             </Args>
         </InputElement>
+        <!-- ********* End Unused Sign Inputs ********* -->
         </APPEND>
     </InputConfiguration>
     <BehaviorConfiguration>
-        <Behavior>
-            <Args>
-                <Id>touchosc</Id>
-            </Args>
-            <Class>behaviors.TouchOSC</Class>
-        </Behavior>
+
+
+
+<!-- **************** Common Behaviors ********* -->
+
+
         <!-- ******** Decays ********* -->
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
@@ -137,6 +175,10 @@
         </Behavior>
         <Behavior Id="recursivedecay" InitialResponseCount="50">
             <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="shortrecursivedecay" InitialResponseCount="25">
+            <Doc>short recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="longrecursivedecay" InitialResponseCount="100">
@@ -251,6 +293,10 @@
         </Behavior>
         <!-- ******** End Location Mask Behaviors ********* -->
 
+
+<!-- **************** Animation-specific Behaviors ********* -->
+
+
         <!-- ******** Rain Behaviors ********* -->
         <Behavior>
             <Class>behaviors.ModifyParam</Class>
@@ -270,7 +316,7 @@
                 <ChainedBehaviors>
                     <Id>rain_xymove</Id>
                     <Id>rain_modifyY</Id>
-                    <Id>recursivedecay</Id>
+                    <Id>shortrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -282,9 +328,12 @@
                 <ChainedBehaviors>
                     <Id>greencolor</Id>
                     <Id>mover</Id>
-                    <Id>meddecay</Id>
+                    <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'point_move'}</RecursiveHooks>
+                <Mapper>
+                    <Id>gaussmap</Id>
+                </Mapper>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -485,6 +534,12 @@
         <!-- ******** End Expanding Circle Behaviors ********* -->
         <!-- ******** OSC Behaviors ********* -->
         <Behavior>
+            <Args>
+                <Id>touchosc</Id>
+            </Args>
+            <Class>behaviors.TouchOSC</Class>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Doc>Creates a large colored circle at the location specified by osc</Doc>
             <Args>
@@ -501,6 +556,7 @@
             </Args>
         </Behavior>
         <!-- ******** End OSC Behaviors ********* -->
+
         <!-- ******** Other Behaviors ********* -->
        <Behavior>
             <Class>behaviors.DebugBehavior</Class>
@@ -514,6 +570,11 @@
             </Args>
         </Behavior>
         <!-- ******** End Other Behaviors ********* -->
+
+
+<!-- **************** Main Execution Behaviors ********* -->
+
+
         <!-- ******** MAIN BEHAVIOR DECK ********* -->
         <Behavior>
             <Class>behaviors.TimeSwitch</Class>
