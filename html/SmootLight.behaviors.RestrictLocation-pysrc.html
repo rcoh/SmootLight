@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SmootLight.behaviors.RestrictLocation</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SmootLight-module.html">Package&nbsp;SmootLight</a> ::
+        <a href="SmootLight.behaviors-module.html">Package&nbsp;behaviors</a> ::
+        Module&nbsp;RestrictLocation
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SmootLight.behaviors.RestrictLocation-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SmootLight.behaviors.RestrictLocation-module.html">Module SmootLight.behaviors.RestrictLocation</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Package SmootLight.operationscore=SmootLight.operationscore-module.html"><a title="SmootLight.operationscore" class="py-name" href="#" onclick="return doclink('link-0', 'operationscore', 'link-0');">operationscore</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module SmootLight.operationscore.Behavior=SmootLight.operationscore.Behavior-module.html,Class SmootLight.operationscore.Behavior.Behavior=SmootLight.operationscore.Behavior.Behavior-class.html"><a title="SmootLight.operationscore.Behavior
+SmootLight.operationscore.Behavior.Behavior" class="py-name" href="#" onclick="return doclink('link-1', 'Behavior', 'link-1');">Behavior</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Package SmootLight.util=SmootLight.util-module.html"><a title="SmootLight.util" class="py-name" href="#" onclick="return doclink('link-2', 'util', 'link-2');">util</a></tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Module SmootLight.util.ComponentRegistry=SmootLight.util.ComponentRegistry-module.html"><a title="SmootLight.util.ComponentRegistry" class="py-name" href="#" onclick="return doclink('link-3', 'ComponentRegistry', 'link-3');">ComponentRegistry</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">compReg</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name" targets="Package SmootLight.behaviors=SmootLight.behaviors-module.html"><a title="SmootLight.behaviors" class="py-name" href="#" onclick="return doclink('link-4', 'behaviors', 'link-4');">behaviors</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module SmootLight.behaviors.ModifyParam=SmootLight.behaviors.ModifyParam-module.html,Class SmootLight.behaviors.ModifyParam.ModifyParam=SmootLight.behaviors.ModifyParam.ModifyParam-class.html"><a title="SmootLight.behaviors.ModifyParam
+SmootLight.behaviors.ModifyParam.ModifyParam" class="py-name" href="#" onclick="return doclink('link-5', 'ModifyParam', 'link-5');">ModifyParam</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-6" class="py-name"><a title="SmootLight.util" class="py-name" href="#" onclick="return doclink('link-6', 'util', 'link-2');">util</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Module SmootLight.util.Geo=SmootLight.util.Geo-module.html"><a title="SmootLight.util.Geo" class="py-name" href="#" onclick="return doclink('link-7', 'Geo', 'link-7');">Geo</a></tt> <tt class="py-keyword">as</tt> <tt id="link-8" class="py-name"><a title="SmootLight.util.Geo" class="py-name" href="#" onclick="return doclink('link-8', 'Geo', 'link-7');">Geo</a></tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-9" class="py-name"><a title="SmootLight.util" class="py-name" href="#" onclick="return doclink('link-9', 'util', 'link-2');">util</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Module SmootLight.util.Strings=SmootLight.util.Strings-module.html"><a title="SmootLight.util.Strings" class="py-name" href="#" onclick="return doclink('link-10', 'Strings', 'link-10');">Strings</a></tt> <tt class="py-keyword">as</tt> <tt id="link-11" class="py-name"><a title="SmootLight.util.Strings" class="py-name" href="#" onclick="return doclink('link-11', 'Strings', 'link-10');">Strings</a></tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">random</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">pdb</tt> </tt>
+<a name="RestrictLocation"></a><div id="RestrictLocation-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="RestrictLocation-toggle" onclick="return toggle('RestrictLocation');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SmootLight.behaviors.RestrictLocation.RestrictLocation-class.html">RestrictLocation</a><tt class="py-op">(</tt><tt class="py-base-class">Behavior</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RestrictLocation-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="RestrictLocation-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-docstring">"""RestrictLocation is a Behavior which does an action -- A ModifyParam, actually, when a certain</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring">    location based condition is met.  It takes arguments as follows:</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">    &lt;Action&gt; -- Operation to perform, using ModifyParam syntax.  Use {val} to reference the variable</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-docstring">    specified by ParamName.</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-docstring">    &lt;ParamName&gt; -- the name of the parameter to modify.</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-docstring">    &lt;LocationRestriction&gt; -- either a tuple of (xmin,ymin,xmax,ymax) or a python-correct conditional.  Use {x} and</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">    {y} to reference x and y.  Use &amp;lt; and &amp;gt; to get &lt; and &gt; in XML.  EG:</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">    &lt;LocationRestriction&gt;{x}&amp;lt;0 or {x}&amp;gt;800&lt;/LocationRestriction&gt;"""</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"> </tt>
+<a name="RestrictLocation.behaviorInit"></a><div id="RestrictLocation.behaviorInit-def"><a name="L19"></a><tt class="py-lineno">19</tt> <a class="py-toggle" href="#" id="RestrictLocation.behaviorInit-toggle" onclick="return toggle('RestrictLocation.behaviorInit');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.behaviors.RestrictLocation.RestrictLocation-class.html#behaviorInit">behaviorInit</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RestrictLocation.behaviorInit-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="RestrictLocation.behaviorInit-expanded"><a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">        <tt class="py-name">action</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">[</tt><tt class="py-string">'Action'</tt><tt class="py-op">]</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">        <tt class="py-name">modifyParamArgs</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">'ParamType'</tt><tt class="py-op">:</tt> <tt class="py-string">'Sensor'</tt><tt class="py-op">,</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">                <tt class="py-string">'ParamName'</tt><tt class="py-op">:</tt><tt class="py-name">self</tt><tt class="py-op">[</tt><tt class="py-string">'ParamName'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt><tt class="py-string">'ParamOp'</tt><tt class="py-op">:</tt><tt class="py-name">self</tt><tt class="py-op">[</tt><tt class="py-string">'Action'</tt><tt class="py-op">]</tt><tt class="py-op">}</tt>  </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">[</tt><tt class="py-string">'LocationRestriction'</tt><tt class="py-op">]</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">paramModifier</tt> <tt class="py-op">=</tt> <tt id="link-12" class="py-name"><a title="SmootLight.behaviors.ModifyParam
+SmootLight.behaviors.ModifyParam.ModifyParam" class="py-name" href="#" onclick="return doclink('link-12', 'ModifyParam', 'link-5');">ModifyParam</a></tt><tt class="py-op">(</tt><tt class="py-name">modifyParamArgs</tt><tt class="py-op">)</tt>  </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt><tt class="py-op">,</tt> <tt class="py-name">str</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt><tt class="py-op">.</tt><tt class="py-name">replace</tt><tt class="py-op">(</tt><tt class="py-string">'{x}'</tt><tt class="py-op">,</tt> <tt class="py-string">'l[0]'</tt><tt class="py-op">)</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt><tt class="py-op">.</tt><tt class="py-name">replace</tt><tt class="py-op">(</tt><tt class="py-string">'{y}'</tt><tt class="py-op">,</tt> <tt class="py-string">'l[1]'</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locEval</tt> <tt class="py-op">=</tt> <tt class="py-name">eval</tt><tt class="py-op">(</tt><tt class="py-string">'lambda l:'</tt><tt class="py-op">+</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt><tt class="py-op">)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt><tt class="py-op">,</tt> <tt class="py-name">tuple</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locBounds</tt><tt class="py-op">)</tt> <tt class="py-op">!=</tt> <tt class="py-number">4</tt><tt class="py-op">:</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt class="py-name">Exception</tt><tt class="py-op">(</tt><tt class="py-string">'Must be in form (xmin,yin,xmax,ymax)'</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locEval</tt> <tt class="py-op">=</tt> <tt class="py-keyword">lambda</tt> <tt class="py-name">l</tt><tt class="py-op">:</tt><tt id="link-13" class="py-name"><a title="SmootLight.util.Geo" class="py-name" href="#" onclick="return doclink('link-13', 'Geo', 'link-7');">Geo</a></tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Function SmootLight.util.Geo.pointWithinBoundingBox()=SmootLight.util.Geo-module.html#pointWithinBoundingBox"><a title="SmootLight.util.Geo.pointWithinBoundingBox" class="py-name" href="#" onclick="return doclink('link-14', 'pointWithinBoundingBox', 'link-14');">pointWithinBoundingBox</a></tt><tt class="py-op">(</tt><tt class="py-name">l</tt><tt class="py-op">,</tt>\ </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">                        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">LocBounds</tt><tt class="py-op">)</tt> </tt>
+</div><a name="RestrictLocation.processResponse"></a><div id="RestrictLocation.processResponse-def"><a name="L35"></a><tt class="py-lineno">35</tt> <a class="py-toggle" href="#" id="RestrictLocation.processResponse-toggle" onclick="return toggle('RestrictLocation.processResponse');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.behaviors.RestrictLocation.RestrictLocation-class.html#processResponse">processResponse</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">sensorInputs</tt><tt class="py-op">,</tt> <tt class="py-param">recursiveInputs</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RestrictLocation.processResponse-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="RestrictLocation.processResponse-expanded"><a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-name">ret</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">data</tt> <tt class="py-keyword">in</tt> <tt class="py-name">sensorInputs</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">locEval</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">[</tt><tt class="py-string">'Location'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">                <tt class="py-op">(</tt><tt class="py-name">dataOut</tt><tt class="py-op">,</tt> <tt class="py-name">recur</tt><tt class="py-op">)</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">paramModifier</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method SmootLight.operationscore.Behavior.Behavior.immediateProcessInput()=SmootLight.operationscore.Behavior.Behavior-class.html#immediateProcessInput"><a title="SmootLight.operationscore.Behavior.Behavior.immediateProcessInput" class="py-name" href="#" onclick="return doclink('link-15', 'immediateProcessInput', 'link-15');">immediateProcessInput</a></tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-name">data</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">                <tt class="py-comment">#behaviors expect lists ^[]</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">                <tt class="py-name">ret</tt> <tt class="py-op">+=</tt> <tt class="py-name">dataOut</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">                <tt class="py-name">ret</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt class="py-name">ret</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 18 16:55:27 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

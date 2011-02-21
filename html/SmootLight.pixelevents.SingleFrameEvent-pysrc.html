@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SmootLight.pixelevents.SingleFrameEvent</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SmootLight-module.html">Package&nbsp;SmootLight</a> ::
+        <a href="SmootLight.pixelevents-module.html">Package&nbsp;pixelevents</a> ::
+        Module&nbsp;SingleFrameEvent
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SmootLight.pixelevents.SingleFrameEvent-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SmootLight.pixelevents.SingleFrameEvent-module.html">Module SmootLight.pixelevents.SingleFrameEvent</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Package SmootLight.operationscore=SmootLight.operationscore-module.html"><a title="SmootLight.operationscore" class="py-name" href="#" onclick="return doclink('link-0', 'operationscore', 'link-0');">operationscore</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module SmootLight.operationscore.PixelEvent=SmootLight.operationscore.PixelEvent-module.html,Class SmootLight.operationscore.PixelEvent.PixelEvent=SmootLight.operationscore.PixelEvent.PixelEvent-class.html"><a title="SmootLight.operationscore.PixelEvent
+SmootLight.operationscore.PixelEvent.PixelEvent" class="py-name" href="#" onclick="return doclink('link-1', 'PixelEvent', 'link-1');">PixelEvent</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="SingleFrameEvent"></a><div id="SingleFrameEvent-def"><a name="L2"></a><tt class="py-lineno"> 2</tt> <a class="py-toggle" href="#" id="SingleFrameEvent-toggle" onclick="return toggle('SingleFrameEvent');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SmootLight.pixelevents.SingleFrameEvent.SingleFrameEvent-class.html">SingleFrameEvent</a><tt class="py-op">(</tt><tt class="py-base-class">PixelEvent</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SingleFrameEvent-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="SingleFrameEvent-expanded"><a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line">    <tt class="py-docstring">"""SingleFrameEvent is a PixelEvent that will only render for the first frame on which it is</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring">    queried"""</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="SingleFrameEvent.initEvent"></a><div id="SingleFrameEvent.initEvent-def"><a name="L6"></a><tt class="py-lineno"> 6</tt> <a class="py-toggle" href="#" id="SingleFrameEvent.initEvent-toggle" onclick="return toggle('SingleFrameEvent.initEvent');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelevents.SingleFrameEvent.SingleFrameEvent-class.html#initEvent">initEvent</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SingleFrameEvent.initEvent-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SingleFrameEvent.initEvent-expanded"><a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">timeState</tt> <tt class="py-op">=</tt> <tt class="py-op">-</tt><tt class="py-number">1</tt>  </tt>
+</div><a name="SingleFrameEvent.state"></a><div id="SingleFrameEvent.state-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="SingleFrameEvent.state-toggle" onclick="return toggle('SingleFrameEvent.state');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelevents.SingleFrameEvent.SingleFrameEvent-class.html#state">state</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">timeDelay</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SingleFrameEvent.state-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="SingleFrameEvent.state-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">timeState</tt> <tt class="py-op">==</tt> <tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">timeState</tt> <tt class="py-op">=</tt> <tt class="py-name">timeDelay</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">timeState</tt> <tt class="py-op">==</tt> <tt class="py-name">timeDelay</tt><tt class="py-op">:</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Class SmootLight.util.ColorOps.Color=SmootLight.util.ColorOps.Color-class.html"><a title="SmootLight.util.ColorOps.Color" class="py-name" href="#" onclick="return doclink('link-2', 'Color', 'link-2');">Color</a></tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">None</tt> </tt>
+</div></div><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 18 16:55:27 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

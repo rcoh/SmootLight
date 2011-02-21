@@ -19,7 +19,7 @@ class Screen:
         self.pixelStrips = []
         self.xSortedPixels = []
         self.xPixelLocs = []
-        sizeValid = False 
+        self.sizeValid = False 
         self.pixelsSorted = False 
     
     def addStrip(self, strip):

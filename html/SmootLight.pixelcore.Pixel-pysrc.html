@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SmootLight.pixelcore.Pixel</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SmootLight-module.html">Package&nbsp;SmootLight</a> ::
+        <a href="SmootLight.pixelcore-module.html">Package&nbsp;pixelcore</a> ::
+        Module&nbsp;Pixel
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SmootLight.pixelcore.Pixel-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SmootLight.pixelcore.Pixel-module.html">Module SmootLight.pixelcore.Pixel</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Package SmootLight.util=SmootLight.util-module.html"><a title="SmootLight.util" class="py-name" href="#" onclick="return doclink('link-0', 'util', 'link-0');">util</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module SmootLight.util.ColorOps=SmootLight.util.ColorOps-module.html"><a title="SmootLight.util.ColorOps" class="py-name" href="#" onclick="return doclink('link-1', 'ColorOps', 'link-1');">ColorOps</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">color</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Package SmootLight.logger=SmootLight.logger-module.html"><a title="SmootLight.logger" class="py-name" href="#" onclick="return doclink('link-2', 'logger', 'link-2');">logger</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Variable SmootLight.behaviors.AllPixels.main_log=SmootLight.behaviors.AllPixels-module.html#main_log,Variable SmootLight.behaviors.AllPixelsLeft.main_log=SmootLight.behaviors.AllPixelsLeft-module.html#main_log,Variable SmootLight.behaviors.Circle.main_log=SmootLight.behaviors.Circle-module.html#main_log,Variable SmootLight.behaviors.ColorChangerBehavior.main_log=SmootLight.behaviors.ColorChangerBehavior-module.html#main_log,Variable SmootLight.behaviors.ColorShift.main_log=SmootLight.behaviors.ColorShift-module.html#main_log,Variable SmootLight.behaviors.DecayBehavior.main_log=SmootLight.behaviors.DecayBehavior-module.html#main_log,Variable SmootLight.behaviors.EchoBehavior.main_log=SmootLight.behaviors.EchoBehavior-module.html#main_log,Variable SmootLight.behaviors.Expand.main_log=SmootLight.behaviors.Expand-module.html#main_log,Variable SmootLight.behaviors.Flasher.main_log=SmootLight.behaviors.Flasher-module.html#main_log,Variable SmootLight.behaviors.MITDoors.main_log=SmootLight.behaviors.MITDoors-module.html#main_log,Variable SmootLight.behaviors.MobileShakeBehavior.main_log=SmootLight.behaviors.MobileShakeBehavior-module.html#main_log,Variable SmootLight.behaviors.ModifyParam.main_log=SmootLight.behaviors.ModifyParam-module.html#main_log,Variable SmootLight.behaviors.ModulateColor.main_log=SmootLight.behaviors.ModulateColor-module.html#main_log,Variable SmootLight.behaviors.MoveBehavior.main_log=SmootLight.behaviors.MoveBehavior-module.html#main_log,Variable SmootLight.behaviors.Oval.main_log=SmootLight.behaviors.Oval-module.html#main_log,Variable SmootLight.behaviors.RandomSetBrightColorBehavior.main_log=SmootLight.behaviors.RandomSetBrightColorBehavior-module.html#main_log,Variable SmootLight.behaviors.RandomWalk.main_log=SmootLight.behaviors.RandomWalk-module.html#main_log,Variable SmootLight.behaviors.RecursiveDecay.main_log=SmootLight.behaviors.RecursiveDecay-module.html#main_log,Variable SmootLight.behaviors.ResponseMover.main_log=SmootLight.behaviors.ResponseMover-module.html#main_log,Variable SmootLight.behaviors.RestrictLocation.main_log=SmootLight.behaviors.RestrictLocation-module.html#main_log,Variable SmootLight.behaviors.RiseFall.main_log=SmootLight.behaviors.RiseFall-module.html#main_log,Variable SmootLight.behaviors.RunningBehavior.main_log=SmootLight.behaviors.RunningBehavior-module.html#main_log,Variable SmootLight.behaviors.Sink.main_log=SmootLight.behaviors.Sink-module.html#main_log,Variable SmootLight.behaviors.SmootWind.main_log=SmootLight.behaviors.SmootWind-module.html#main_log,Variable SmootLight.behaviors.Square.main_log=SmootLight.behaviors.Square-module.html#main_log,Variable SmootLight.behaviors.SwitchBehavior.main_log=SmootLight.behaviors.SwitchBehavior-module.html#main_log,Variable SmootLight.behaviors.SynchTest.main_log=SmootLight.behaviors.SynchTest-module.html#main_log,Variable SmootLight.behaviors.TimedDie.main_log=SmootLight.behaviors.TimedDie-module.html#main_log,Variable SmootLight.behaviors.Timeout.main_log=SmootLight.behaviors.Timeout-module.html#main_log,Variable SmootLight.behaviors.VerticalBar.main_log=SmootLight.behaviors.VerticalBar-module.html#main_log,Variable SmootLight.behaviors.XYMove.main_log=SmootLight.behaviors.XYMove-module.html#main_log,Variable SmootLight.inputs.ContinuousCenterInput.main_log=SmootLight.inputs.ContinuousCenterInput-module.html#main_log,Variable SmootLight.inputs.ContinuousLocationInput.main_log=SmootLight.inputs.ContinuousLocationInput-module.html#main_log,Variable SmootLight.inputs.HTMLInput.main_log=SmootLight.inputs.HTMLInput-module.html#main_log,Variable SmootLight.inputs.PygameInput.main_log=SmootLight.inputs.PygameInput-module.html#main_log,Variable SmootLight.inputs.RandomLocs.main_log=SmootLight.inputs.RandomLocs-module.html#main_log,Variable SmootLight.inputs.UDPInput.main_log=SmootLight.inputs.UDPInput-module.html#main_log,Variable SmootLight.logger.Logger.main_log=SmootLight.logger.Logger-module.html#main_log,Variable SmootLight.pixelcore.PixelStrip.main_log=SmootLight.pixelcore.PixelStrip-module.html#main_log,Variable SmootLight.pixelmappers.C5SignMapper.main_log=SmootLight.pixelmappers.C5SignMapper-module.html#main_log,Variable SmootLight.pixelmappers.GaussianMapper.main_log=SmootLight.pixelmappers.GaussianMapper-module.html#main_log,Variable SmootLight.pixelmappers.SimpleMapper.main_log=SmootLight.pixelmappers.SimpleMapper-module.html#main_log,Variable SmootLight.pixelmappers.WindGaussianMapper.main_log=SmootLight.pixelmappers.WindGaussianMapper-module.html#main_log,Variable SmootLight.tests.TestBQS'.main_log=SmootLight.tests.TestBQS%27-module.html#main_log"><a title="SmootLight.behaviors.AllPixels.main_log
+SmootLight.behaviors.AllPixelsLeft.main_log
+SmootLight.behaviors.Circle.main_log
+SmootLight.behaviors.ColorChangerBehavior.main_log
+SmootLight.behaviors.ColorShift.main_log
+SmootLight.behaviors.DecayBehavior.main_log
+SmootLight.behaviors.EchoBehavior.main_log
+SmootLight.behaviors.Expand.main_log
+SmootLight.behaviors.Flasher.main_log
+SmootLight.behaviors.MITDoors.main_log
+SmootLight.behaviors.MobileShakeBehavior.main_log
+SmootLight.behaviors.ModifyParam.main_log
+SmootLight.behaviors.ModulateColor.main_log
+SmootLight.behaviors.MoveBehavior.main_log
+SmootLight.behaviors.Oval.main_log
+SmootLight.behaviors.RandomSetBrightColorBehavior.main_log
+SmootLight.behaviors.RandomWalk.main_log
+SmootLight.behaviors.RecursiveDecay.main_log
+SmootLight.behaviors.ResponseMover.main_log
+SmootLight.behaviors.RestrictLocation.main_log
+SmootLight.behaviors.RiseFall.main_log
+SmootLight.behaviors.RunningBehavior.main_log
+SmootLight.behaviors.Sink.main_log
+SmootLight.behaviors.SmootWind.main_log
+SmootLight.behaviors.Square.main_log
+SmootLight.behaviors.SwitchBehavior.main_log
+SmootLight.behaviors.SynchTest.main_log
+SmootLight.behaviors.TimedDie.main_log
+SmootLight.behaviors.Timeout.main_log
+SmootLight.behaviors.VerticalBar.main_log
+SmootLight.behaviors.XYMove.main_log
+SmootLight.inputs.ContinuousCenterInput.main_log
+SmootLight.inputs.ContinuousLocationInput.main_log
+SmootLight.inputs.HTMLInput.main_log
+SmootLight.inputs.PygameInput.main_log
+SmootLight.inputs.RandomLocs.main_log
+SmootLight.inputs.UDPInput.main_log
+SmootLight.logger.Logger.main_log
+SmootLight.pixelcore.PixelStrip.main_log
+SmootLight.pixelmappers.C5SignMapper.main_log
+SmootLight.pixelmappers.GaussianMapper.main_log
+SmootLight.pixelmappers.SimpleMapper.main_log
+SmootLight.pixelmappers.WindGaussianMapper.main_log
+SmootLight.tests.TestBQS'.main_log" class="py-name" href="#" onclick="return doclink('link-3', 'main_log', 'link-3');">main_log</a></tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">pdb</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name" targets="Package SmootLight.pixelevents=SmootLight.pixelevents-module.html"><a title="SmootLight.pixelevents" class="py-name" href="#" onclick="return doclink('link-4', 'pixelevents', 'link-4');">pixelevents</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module SmootLight.pixelevents.StepEvent=SmootLight.pixelevents.StepEvent-module.html,Class SmootLight.pixelevents.StepEvent.StepEvent=SmootLight.pixelevents.StepEvent.StepEvent-class.html"><a title="SmootLight.pixelevents.StepEvent
+SmootLight.pixelevents.StepEvent.StepEvent" class="py-name" href="#" onclick="return doclink('link-5', 'StepEvent', 'link-5');">StepEvent</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-6" class="py-name"><a title="SmootLight.util" class="py-name" href="#" onclick="return doclink('link-6', 'util', 'link-0');">util</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Module SmootLight.util.TimeOps=SmootLight.util.TimeOps-module.html"><a title="SmootLight.util.TimeOps" class="py-name" href="#" onclick="return doclink('link-7', 'TimeOps', 'link-7');">TimeOps</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">timeops</tt> </tt>
+<a name="Pixel"></a><div id="Pixel-def"><a name="L6"></a><tt class="py-lineno"> 6</tt> <a class="py-toggle" href="#" id="Pixel-toggle" onclick="return toggle('Pixel');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html">Pixel</a><tt class="py-op">:</tt> </tt>
+</div><div id="Pixel-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Pixel-expanded"><a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line">    <tt class="py-docstring">"""Pixel keeps a queue of events (PixelEvent objects) (actually a dictionary</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">    keyed by event time).  Every time is state is</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring">    requested, it processes all the members of its queue.  If a member returns none,</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring">    it is removed from the queue.  Otherwise, its value added to the Pixels color</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring">    weighted by z-index.  To get the current color of the pixel, call the state method."""</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Variable SmootLight.pixelcore.Pixel.Pixel.radius=SmootLight.pixelcore.Pixel.Pixel-class.html#radius"><a title="SmootLight.pixelcore.Pixel.Pixel.radius" class="py-name" href="#" onclick="return doclink('link-8', 'radius', 'link-8');">radius</a></tt> <tt class="py-op">=</tt> <tt class="py-number">2</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt id="link-9" class="py-name" targets="Variable SmootLight.pixelcore.Pixel.Pixel.timeOff=SmootLight.pixelcore.Pixel.Pixel-class.html#timeOff"><a title="SmootLight.pixelcore.Pixel.Pixel.timeOff" class="py-name" href="#" onclick="return doclink('link-9', 'timeOff', 'link-9');">timeOff</a></tt> <tt class="py-op">=</tt> <tt class="py-op">-</tt><tt class="py-number">1</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">     </tt>
+<a name="Pixel.__init__"></a><div id="Pixel.__init__-def"><a name="L16"></a><tt class="py-lineno">16</tt> <a class="py-toggle" href="#" id="Pixel.__init__-toggle" onclick="return toggle('Pixel.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">location</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Pixel.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Pixel.__init__-expanded"><a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">location</tt> <tt class="py-op">=</tt> <tt class="py-name">location</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">events</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lastRenderTime</tt> <tt class="py-op">=</tt> <tt class="py-name">timeops</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Function SmootLight.util.TimeOps.time()=SmootLight.util.TimeOps-module.html#time"><a title="SmootLight.util.TimeOps.time" class="py-name" href="#" onclick="return doclink('link-10', 'time', 'link-10');">time</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lastRender</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">)</tt>  </tt>
+</div><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">         </tt>
+<a name="Pixel.turnOn"></a><div id="Pixel.turnOn-def"><a name="L22"></a><tt class="py-lineno">22</tt> <a class="py-toggle" href="#" id="Pixel.turnOn-toggle" onclick="return toggle('Pixel.turnOn');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html#turnOn">turnOn</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Pixel.turnOn-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Pixel.turnOn-expanded"><a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Method SmootLight.pixelcore.Pixel.Pixel.turnOnFor()=SmootLight.pixelcore.Pixel.Pixel-class.html#turnOnFor"><a title="SmootLight.pixelcore.Pixel.Pixel.turnOnFor" class="py-name" href="#" onclick="return doclink('link-11', 'turnOnFor', 'link-11');">turnOnFor</a></tt><tt class="py-op">(</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">         </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-comment">#Turn the light white for 'time' ms.  Really only meant for testing.  Use</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">    <tt class="py-comment">#processInput instead.  Also, you shouldn't use this anyway.  You should be</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-comment">#using the input method on the screen!</tt> </tt>
+<a name="Pixel.turnOnFor"></a><div id="Pixel.turnOnFor-def"><a name="L28"></a><tt class="py-lineno">28</tt> <a class="py-toggle" href="#" id="Pixel.turnOnFor-toggle" onclick="return toggle('Pixel.turnOnFor');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html#turnOnFor">turnOnFor</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">time</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Pixel.turnOnFor-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Pixel.turnOnFor-expanded"><a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt class="py-name">event</tt> <tt class="py-op">=</tt> <tt id="link-12" class="py-name"><a title="SmootLight.pixelevents.StepEvent
+SmootLight.pixelevents.StepEvent.StepEvent" class="py-name" href="#" onclick="return doclink('link-12', 'StepEvent', 'link-5');">StepEvent</a></tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Static Method SmootLight.pixelevents.DecayEvent.DecayEvent.generate()=SmootLight.pixelevents.DecayEvent.DecayEvent-class.html#generate,Static Method SmootLight.pixelevents.StepEvent.StepEvent.generate()=SmootLight.pixelevents.StepEvent.StepEvent-class.html#generate"><a title="SmootLight.pixelevents.DecayEvent.DecayEvent.generate
+SmootLight.pixelevents.StepEvent.StepEvent.generate" class="py-name" href="#" onclick="return doclink('link-13', 'generate', 'link-13');">generate</a></tt><tt class="py-op">(</tt><tt id="link-14" class="py-name"><a title="SmootLight.util.TimeOps.time" class="py-name" href="#" onclick="return doclink('link-14', 'time', 'link-10');">time</a></tt><tt class="py-op">,</tt> <tt class="py-op">(</tt><tt class="py-number">255</tt><tt class="py-op">,</tt><tt class="py-number">255</tt><tt class="py-op">,</tt><tt class="py-number">255</tt><tt class="py-op">)</tt><tt class="py-op">)</tt>  </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method SmootLight.pixelcore.Pixel.Pixel.processInput()=SmootLight.pixelcore.Pixel.Pixel-class.html#processInput"><a title="SmootLight.pixelcore.Pixel.Pixel.processInput" class="py-name" href="#" onclick="return doclink('link-15', 'processInput', 'link-15');">processInput</a></tt><tt class="py-op">(</tt><tt class="py-name">event</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">         </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt class="py-comment">#Add a pixelEvent to the list of active events</tt> </tt>
+<a name="Pixel.processInput"></a><div id="Pixel.processInput-def"><a name="L33"></a><tt class="py-lineno">33</tt> <a class="py-toggle" href="#" id="Pixel.processInput-toggle" onclick="return toggle('Pixel.processInput');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html#processInput">processInput</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">pixelEvent</tt><tt class="py-op">,</tt><tt class="py-param">zindex</tt><tt class="py-op">,</tt> <tt class="py-param">scale</tt><tt class="py-op">=</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-param">currentTime</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> <tt class="py-comment">#consider migrating arg to dict</tt> </tt>
+</div><a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">currentTime</tt> <tt class="py-op">==</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">            <tt class="py-name">currentTime</tt> <tt class="py-op">=</tt> <tt class="py-name">timeops</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="SmootLight.util.TimeOps.time" class="py-name" href="#" onclick="return doclink('link-16', 'time', 'link-10');">time</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">events</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-name">currentTime</tt><tt class="py-op">,</tt> <tt class="py-name">zindex</tt><tt class="py-op">,</tt> <tt id="link-17" class="py-name" targets="Method SmootLight.operationscore.PixelEvent.PixelEvent.scale()=SmootLight.operationscore.PixelEvent.PixelEvent-class.html#scale"><a title="SmootLight.operationscore.PixelEvent.PixelEvent.scale" class="py-name" href="#" onclick="return doclink('link-17', 'scale', 'link-17');">scale</a></tt><tt class="py-op">,</tt> <tt class="py-name">pixelEvent</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-comment">#TODO: clean this up, maybe? </tt> </tt>
+</div><a name="Pixel.clearAllEvents"></a><div id="Pixel.clearAllEvents-def"><a name="L37"></a><tt class="py-lineno">37</tt> <a class="py-toggle" href="#" id="Pixel.clearAllEvents-toggle" onclick="return toggle('Pixel.clearAllEvents');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html#clearAllEvents">clearAllEvents</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Pixel.clearAllEvents-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Pixel.clearAllEvents-expanded"><a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">events</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt>  </tt>
+</div><a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">         </tt>
+<a name="Pixel.state"></a><div id="Pixel.state-def"><a name="L40"></a><tt class="py-lineno">40</tt> <a class="py-toggle" href="#" id="Pixel.state-toggle" onclick="return toggle('Pixel.state');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html#state">state</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">currentTime</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt>  </tt>
+</div><a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">        <tt class="py-docstring">"""Combines all PixelEvents currently active and computes the current color of</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"><tt class="py-docstring">        the pixel."""</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">currentTime</tt> <tt class="py-op">==</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">            <tt class="py-name">currentTime</tt> <tt class="py-op">=</tt> <tt class="py-name">timeops</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="SmootLight.util.TimeOps.time" class="py-name" href="#" onclick="return doclink('link-18', 'time', 'link-10');">time</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">currentTime</tt><tt class="py-op">-</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lastRenderTime</tt> <tt class="py-op">&lt;</tt> <tt class="py-number">5</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lastRender</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">events</tt> <tt class="py-op">==</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lastRenderTime</tt> <tt class="py-op">=</tt> <tt class="py-name">currentTime</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-name">deadEvents</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-name">resultingColor</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">        <tt class="py-name">colors</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">eventObj</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">events</tt><tt class="py-op">:</tt> <tt class="py-comment">#TODO: right color weighting code</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">events</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">50</tt><tt class="py-op">:</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">                <tt id="link-19" class="py-name"><a title="SmootLight.behaviors.AllPixels.main_log
+SmootLight.behaviors.AllPixelsLeft.main_log
+SmootLight.behaviors.Circle.main_log
+SmootLight.behaviors.ColorChangerBehavior.main_log
+SmootLight.behaviors.ColorShift.main_log
+SmootLight.behaviors.DecayBehavior.main_log
+SmootLight.behaviors.EchoBehavior.main_log
+SmootLight.behaviors.Expand.main_log
+SmootLight.behaviors.Flasher.main_log
+SmootLight.behaviors.MITDoors.main_log
+SmootLight.behaviors.MobileShakeBehavior.main_log
+SmootLight.behaviors.ModifyParam.main_log
+SmootLight.behaviors.ModulateColor.main_log
+SmootLight.behaviors.MoveBehavior.main_log
+SmootLight.behaviors.Oval.main_log
+SmootLight.behaviors.RandomSetBrightColorBehavior.main_log
+SmootLight.behaviors.RandomWalk.main_log
+SmootLight.behaviors.RecursiveDecay.main_log
+SmootLight.behaviors.ResponseMover.main_log
+SmootLight.behaviors.RestrictLocation.main_log
+SmootLight.behaviors.RiseFall.main_log
+SmootLight.behaviors.RunningBehavior.main_log
+SmootLight.behaviors.Sink.main_log
+SmootLight.behaviors.SmootWind.main_log
+SmootLight.behaviors.Square.main_log
+SmootLight.behaviors.SwitchBehavior.main_log
+SmootLight.behaviors.SynchTest.main_log
+SmootLight.behaviors.TimedDie.main_log
+SmootLight.behaviors.Timeout.main_log
+SmootLight.behaviors.VerticalBar.main_log
+SmootLight.behaviors.XYMove.main_log
+SmootLight.inputs.ContinuousCenterInput.main_log
+SmootLight.inputs.ContinuousLocationInput.main_log
+SmootLight.inputs.HTMLInput.main_log
+SmootLight.inputs.PygameInput.main_log
+SmootLight.inputs.RandomLocs.main_log
+SmootLight.inputs.UDPInput.main_log
+SmootLight.logger.Logger.main_log
+SmootLight.pixelcore.PixelStrip.main_log
+SmootLight.pixelmappers.C5SignMapper.main_log
+SmootLight.pixelmappers.GaussianMapper.main_log
+SmootLight.pixelmappers.SimpleMapper.main_log
+SmootLight.pixelmappers.WindGaussianMapper.main_log
+SmootLight.tests.TestBQS'.main_log" class="py-name" href="#" onclick="return doclink('link-19', 'main_log', 'link-3');">main_log</a></tt><tt class="py-op">.</tt><tt class="py-name">error</tt><tt class="py-op">(</tt><tt class="py-string">'High pixel event count!  Investigate!'</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">            <tt class="py-name">eventTime</tt><tt class="py-op">,</tt> <tt class="py-name">zindex</tt><tt class="py-op">,</tt> <tt id="link-20" class="py-name"><a title="SmootLight.operationscore.PixelEvent.PixelEvent.scale" class="py-name" href="#" onclick="return doclink('link-20', 'scale', 'link-17');">scale</a></tt><tt class="py-op">,</tt> <tt class="py-name">pixelEvent</tt> <tt class="py-op">=</tt> <tt class="py-name">eventObj</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">            <tt class="py-name">eventResult</tt> <tt class="py-op">=</tt> <tt class="py-name">pixelEvent</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Method SmootLight.operationscore.PixelEvent.PixelEvent.state()=SmootLight.operationscore.PixelEvent.PixelEvent-class.html#state,Method SmootLight.pixelcore.Pixel.Pixel.state()=SmootLight.pixelcore.Pixel.Pixel-class.html#state,Method SmootLight.pixelevents.DecayEvent.DecayEvent.state()=SmootLight.pixelevents.DecayEvent.DecayEvent-class.html#state,Method SmootLight.pixelevents.SingleFrameEvent.SingleFrameEvent.state()=SmootLight.pixelevents.SingleFrameEvent.SingleFrameEvent-class.html#state,Method SmootLight.pixelevents.StepEvent.StepEvent.state()=SmootLight.pixelevents.StepEvent.StepEvent-class.html#state,Method SmootLight.pixelevents.SynchTestEvent.SynchTestEvent.state()=SmootLight.pixelevents.SynchTestEvent.SynchTestEvent-class.html#state"><a title="SmootLight.operationscore.PixelEvent.PixelEvent.state
+SmootLight.pixelcore.Pixel.Pixel.state
+SmootLight.pixelevents.DecayEvent.DecayEvent.state
+SmootLight.pixelevents.SingleFrameEvent.SingleFrameEvent.state
+SmootLight.pixelevents.StepEvent.StepEvent.state
+SmootLight.pixelevents.SynchTestEvent.SynchTestEvent.state" class="py-name" href="#" onclick="return doclink('link-21', 'state', 'link-21');">state</a></tt><tt class="py-op">(</tt><tt class="py-name">currentTime</tt><tt class="py-op">-</tt><tt class="py-name">eventTime</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">eventResult</tt> <tt class="py-op">!=</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">                <tt class="py-name">scaledEvent</tt> <tt class="py-op">=</tt> <tt class="py-name">color</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name" targets="Function SmootLight.util.ColorOps.multiplyColor()=SmootLight.util.ColorOps-module.html#multiplyColor"><a title="SmootLight.util.ColorOps.multiplyColor" class="py-name" href="#" onclick="return doclink('link-22', 'multiplyColor', 'link-22');">multiplyColor</a></tt><tt class="py-op">(</tt><tt class="py-name">eventResult</tt><tt class="py-op">,</tt><tt id="link-23" class="py-name"><a title="SmootLight.operationscore.PixelEvent.PixelEvent.scale" class="py-name" href="#" onclick="return doclink('link-23', 'scale', 'link-17');">scale</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-op">(</tt><tt class="py-name">scaledEvent</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-name">scaledEvent</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-name">scaledEvent</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">&lt;</tt> <tt class="py-number">5</tt><tt class="py-op">:</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">                    <tt class="py-keyword">pass</tt> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">                    <tt class="py-comment">#deadEvents.append(eventObj)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">                    <tt class="py-name">colors</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">scaledEvent</tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">                <tt class="py-name">deadEvents</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">eventObj</tt><tt class="py-op">)</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">         </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">        <tt class="py-name">resultingColor</tt> <tt class="py-op">=</tt> <tt class="py-name">color</tt><tt class="py-op">.</tt><tt id="link-24" class="py-name" targets="Function SmootLight.util.ColorOps.combineColors()=SmootLight.util.ColorOps-module.html#combineColors"><a title="SmootLight.util.ColorOps.combineColors" class="py-name" href="#" onclick="return doclink('link-24', 'combineColors', 'link-24');">combineColors</a></tt><tt class="py-op">(</tt><tt class="py-name">colors</tt><tt class="py-op">)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">        <tt class="py-op">[</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">events</tt><tt class="py-op">.</tt><tt class="py-name">remove</tt><tt class="py-op">(</tt><tt class="py-name">event</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">event</tt> <tt class="py-keyword">in</tt> <tt class="py-name">deadEvents</tt><tt class="py-op">]</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">        <tt class="py-name">resultingColor</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-name">int</tt><tt class="py-op">(</tt><tt class="py-name">round</tt><tt class="py-op">(</tt><tt class="py-name">c</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">c</tt> <tt class="py-keyword">in</tt> <tt class="py-name">resultingColor</tt><tt class="py-op">]</tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lastRender</tt> <tt class="py-op">=</tt> <tt class="py-name">tuple</tt><tt class="py-op">(</tt><tt class="py-name">resultingColor</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lastRenderTime</tt> <tt class="py-op">=</tt> <tt class="py-name">currentTime</tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">tuple</tt><tt class="py-op">(</tt><tt class="py-name">resultingColor</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">         </tt>
+<a name="Pixel.__str__"></a><div id="Pixel.__str__-def"><a name="L75"></a><tt class="py-lineno">75</tt> <a class="py-toggle" href="#" id="Pixel.__str__-toggle" onclick="return toggle('Pixel.__str__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SmootLight.pixelcore.Pixel.Pixel-class.html#__str__">__str__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Pixel.__str__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Pixel.__str__-expanded"><a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">'Loc: '</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">location</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SmootLight-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 18 16:55:26 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

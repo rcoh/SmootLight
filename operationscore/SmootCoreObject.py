@@ -8,7 +8,8 @@ class SmootCoreObject(object):
     """SmootCoreObject is essentially a super-object class which grants us some niceties.  It allows
     us to use objects as if they are dictionaries -- we use this to store their arguments
     convienently -- note that querying for a parameter that does not exist will return None.  It
-    also offers some basic ThreadSafety."""
+    also offers some basic ThreadSafety.  Soon, it will allow us to serialize objects directly to
+    XML."""
     def __init__(self, argDict, skipValidation = False):
         self.dieListeners = []
         self.argDict = argDict
