@@ -5,5 +5,14 @@
     		<InheritsFrom>renderers/Websocket.xml</InheritsFrom>
 		</Renderer>
     </RendererConfiguration>
-    <InputConfiguration> </InputConfiguration>
+    <InputConfiguration>
+    	<InputElement>
+            <Class>inputs.WebInput</Class>
+            <Args>
+                <Id>webinput</Id>
+				<Hostname>localhost</Hostname>
+				<Port>8080</Port>
+            </Args>
+        </InputElement>
+    </InputConfiguration>
 </LightInstallation>

@@ -4,7 +4,7 @@
         <Id>websocketrenderer</Id>
         <Hostname>localhost</Hostname>
 		<Page>web/smootlight.html</Page>
-		<SourcePort>8081</SourcePort>
 		<Port>8000</Port>
+		<SourcePort>8080</SourcePort>
     </Args>
 </Renderer>
