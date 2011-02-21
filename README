@@ -8,6 +8,7 @@ installations.
     - PIL (For JPGInput)
     - Pygame (for simulations)
     - Liblo (for mobile phone input)
+    - Web.py (for web interface)
 
 ##Usage
 Command line: `python LightInstallation.py config/Demo.xml`

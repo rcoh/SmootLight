@@ -36,7 +36,7 @@
     </PixelMapperConfiguration>
     <RendererConfiguration>
         <Renderer Scale="5">
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+            <InheritsFrom>renderers/Websocket.xml</InheritsFrom>
         </Renderer>
         <Renderer>
             <InheritsFrom>renderers/C5Renderer.xml</InheritsFrom>
@@ -47,7 +47,7 @@
             <Class>inputs.JPGInput</Class>
             <Args>
                 <Id>jpg</Id>
-                <RefreshInterval>5000</RefreshInterval>
+                <RefreshInterval>500</RefreshInterval>
                 <Directory>../../C5SignImages</Directory>
             </Args>
         </InputElement>
@@ -64,14 +64,30 @@
         <Behavior>
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
             <Args>
-                <Class>pixelevents.FadeIn</Class>
-                <Id>image</Id>
+                <Class>pixelevents.SingleFrameEvent</Class>
+                <Id>singleframe</Id>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinput</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>images</Id>
                 <Inputs>
                     <Id>jpg</Id>
                 </Inputs>
-                <Coefficient>.0005</Coefficient>
+                <ChainedBehaviors>
+                    <Id>singleframe</Id>
+                    <Id>lastinput</Id>
+                </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
     </BehaviorConfiguration>

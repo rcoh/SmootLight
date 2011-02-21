@@ -102,6 +102,8 @@ class LightInstallation(object):
     def registerComponents(self, components):
         for component in components:
             cid = compReg.registerComponent(component)
+            if cid == None:
+                pdb.set_trace()
             main_log.info(cid + ' registered')
     def initializeComponent(self, config):
         components = []

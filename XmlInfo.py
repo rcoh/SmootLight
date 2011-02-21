@@ -37,8 +37,13 @@ def loadFile(args):
             className = None
             if cidEl != None:
                 cid = cidEl.text
-            if docEl != None:
+            if docEl != None and args != None:
+                argDict = config.pullArgsFromItem(obj)
                 doc = docEl.text
+                try:
+                    doc = doc % argDict
+                except:
+                    doc = docEl.text 
             if classEl != None:
                 className = classEl.text
                 print '\t%(id)s : %(class)s\n\t\t%(doc)s\n' % {'id':cid, 'doc':doc,

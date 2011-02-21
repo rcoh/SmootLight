@@ -20,11 +20,10 @@ class JPGInput(Input):
                 xScale = sWidth/float(w)
                 yScale = sHeight/float(h)
                 pixels = []
-                for x in range(w):
-                   for y in range(h):
+                for x in range(0,w,5):
+                   for y in range(0,h,5):
                        rgb = im.getpixel((x,y))
-                       pixels.append({'Location':(x*xScale+minX,minY+y*yScale),'Color':rgb})
-
+                       pixels.append({'Location':(int(x*xScale+minX),int(minY+y*yScale)),'Color':rgb})
                 self.images.append(pixels)
 
     def sensingLoop(self):

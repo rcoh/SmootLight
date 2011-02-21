@@ -8,7 +8,11 @@ class PygameRenderer(Renderer):
 
     def initRenderer(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((1300,500))
+        if not 'Size' in self:
+            size = (400,400)
+        else:
+            size = self['Size']
+        self.screen = pygame.display.set_mode(size)
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
         self.background.fill(Color(0,0,0))
@@ -25,7 +29,7 @@ class PygameRenderer(Renderer):
         for light in lightSystem:
             scaledLoc = [l*scale for l in light.location] 
             pygame.draw.circle(self.background, light.state(currentTime), scaledLoc, \
-                self['Scale'])
+                scale)
 
         self.screen.blit(self.background, (0,0))
         pygame.display.flip()
