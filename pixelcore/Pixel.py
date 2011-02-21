@@ -42,8 +42,6 @@ class Pixel:
         the pixel."""
         if currentTime == None:
             currentTime = timeops.time()
-        if currentTime-self.lastRenderTime < 5:
-            return self.lastRender
         if self.events == []:
             self.lastRenderTime = currentTime
             return (0,0,0)
@@ -64,11 +62,12 @@ class Pixel:
                     colors.append(scaledEvent)
             else:
                 deadEvents.append(eventObj)
-        
+#        if deadEvents:
+#            pdb.set_trace()
         resultingColor = color.combineColors(colors)
-        #if colors:
-        #    resultingColor = [c / len(colors) for c in resultingColor]
         [self.events.remove(event) for event in deadEvents]
+#        if self.events:
+#            pdb.set_trace()
         resultingColor = [int(round(c)) for c in resultingColor]
         self.lastRender = tuple(resultingColor)
         self.lastRenderTime = currentTime
