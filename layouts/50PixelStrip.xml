@@ -2,7 +2,7 @@
     <Class>layouts.LineLayout</Class>
     <Args>
         <pixelToPixelSpacing>4</pixelToPixelSpacing>
-        <spacing>4</spacing> 
+        <step>(4,0)</step> 
         <numPixels>50</numPixels>
     </Args>
 </PixelStrip>

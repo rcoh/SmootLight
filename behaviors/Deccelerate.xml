@@ -4,6 +4,6 @@
     <Args>
         <ParamType>Sensor</ParamType>
         <ParamName>StepSize</ParamName>
-        <ParamOp>{val}*.98</ParamOp>
+        <ParamOp>'{val}*.98'</ParamOp>
     </Args>
 </Behavior>

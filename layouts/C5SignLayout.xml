@@ -6,9 +6,9 @@
                 <numPixels>50</numPixels>
                 <Spacing>12</Spacing>
                 <pixelToPixelSpacing>12</pixelToPixelSpacing>
-                <originLocation>(2,2)</originLocation>
                 <Locations>
                     <!--# Left strip-->
+		    <Loc>(2,2)</Loc>
                     <Loc>(2,8)</Loc>
                     <Loc>(2,14)</Loc>
                     <Loc>(2,20)</Loc>

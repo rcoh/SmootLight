@@ -4,7 +4,6 @@ import pdb
 class PixelAssembler(SmootCoreObject):
     def init(self):
         self.validateArgs('PixelAssembler.params')
-        self.initLayout()
     def layoutFunc(self):
         raise NotImplementedError # subclass must do this
     def getPixelLocations(self): #returns a complete list of locations of Pixels
