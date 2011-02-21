@@ -20,9 +20,9 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>4</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>7</Width>
+                <Width>1</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -49,7 +49,7 @@
                 <yloc>center</yloc>
                 <xEquation>0</xEquation>
                 <yEquation>.5</yEquation>
-                <RefreshInterval>1800</RefreshInterval>
+                <RefreshInterval>1200</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -59,6 +59,16 @@
                 <Id>centeronce</Id>
                 <xPos>0.5</xPos>
                 <yPos>0.5</yPos>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Doc>spawns a pixel event somewhere at the top of the screen</Doc>
+            <Args>
+                <Id>random_top</Id>
+                <xEquation>random.random()</xEquation>
+                <yEquation>0</yEquation>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -100,6 +110,70 @@
             <Doc>Decays the pixel brightness with coeff of .001</Doc>
             <Args>
                 <Coefficient>.001</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="raindecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decays the pixel brightness with coeff of .003</Doc>
+            <Args>
+                <Coefficient>.003</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs blue</Doc>
+            <Args>
+                <Id>bluecolor</Id>
+                <ColorList>
+                    <Val>(0,0,255)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.XYMove</Class>
+            <Doc>move rain down .5</Doc>
+            <Args>
+                <Id>rain_xymove</Id>
+                <XStep>0</XStep>
+                <YStep>.5</YStep>
+            </Args>
+        </Behavior>
+       
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Doc>move y by .1</Doc>
+            <Args>
+               <Id>rain_modifyY</Id>
+               <ParamType>Sensor</ParamType>
+               <ParamName>YStep</ParamName>
+               <ParamOp>{val}+.1</ParamOp>
+            </Args>
+        </Behavior>
+        
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>increment the rain</Doc>
+            <Args>
+                <Id>point_move</Id>
+                <ChainedBehaviors>
+                    <Id>rain_xymove</Id>
+                    <Id>rain_modifyY</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>main rain behavior loop</Doc>
+            <Args>
+                <Id>falling_points</Id>
+                <ChainedBehaviors>
+                    <Id>bluecolor</Id>
+                    <Id>mover</Id>
+                    <Id>raindecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'point_move'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior>
@@ -251,9 +325,10 @@
                 <Inputs>
                     <Id>centerleft</Id>
                     <Id>center</Id>
+                    <Id>random_top</Id>
                 </Inputs>
-                <TimeMap>{'framedbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
-                <InputMap>{'framedbars':'centerleft', 'runcolordecay':'center',\
+                <TimeMap>{'falling_points':10,'framedbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
+                <InputMap>{'falling_points':'random_top','framedbars':'centerleft', 'runcolordecay':'center',\
                     'expandingcircles':'center'}</InputMap>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
