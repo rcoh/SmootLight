@@ -48,7 +48,7 @@
                 <yloc>top</yloc>
                 <xEquation>random.random()</xEquation>
                 <yEquation>0</yEquation>
-                <RefreshInterval>500</RefreshInterval>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -105,9 +105,8 @@
                <ParamType>Sensor</ParamType>
                <ParamName>YStep</ParamName>
                <ParamOp>{val}+.1</ParamOp>
-           </Args>
+            </Args>
         </Behavior>
-        
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>

@@ -6,7 +6,6 @@ class SingleFrameEvent(PixelEvent):
     def initEvent(self):
         self.timeState = -1 
     def state(self, timeDelay):
-        print timeDelay
         if self.timeState == -1:
             self.timeState = timeDelay
         if self.timeState == timeDelay:

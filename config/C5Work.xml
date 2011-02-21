@@ -47,7 +47,7 @@
             <Class>inputs.JPGInput</Class>
             <Args>
                 <Id>jpg</Id>
-                <RefreshInterval>2000</RefreshInterval>
+                <RefreshInterval>500</RefreshInterval>
                 <Directory>../../C5SignImages</Directory>
             </Args>
         </InputElement>

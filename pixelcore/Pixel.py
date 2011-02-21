@@ -57,17 +57,12 @@ class Pixel:
                 scaledEvent = color.multiplyColor(eventResult,scale)
                 if (scaledEvent[0] + scaledEvent[1] + scaledEvent[2]) < 5:
                     pass
-                    #deadEvents.append(eventObj)
                 else:
                     colors.append(scaledEvent)
             else:
                 deadEvents.append(eventObj)
-#        if deadEvents:
-#            pdb.set_trace()
         resultingColor = color.combineColors(colors)
         [self.events.remove(event) for event in deadEvents]
-#        if self.events:
-#            pdb.set_trace()
         resultingColor = [int(round(c)) for c in resultingColor]
         self.lastRender = tuple(resultingColor)
         self.lastRenderTime = currentTime
