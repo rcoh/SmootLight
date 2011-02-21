@@ -14,6 +14,7 @@ class Input(ThreadedSmootCoreObject):
         if not 'RefreshInterval' in self.argDict:
             self.argDict['RefreshInterval'] = 500 
         self.parentScope = self.argDict['parentScope']
+        self.done = False
         self.inputInit()
         
     def respond(self, eventDict):
@@ -44,6 +45,8 @@ class Input(ThreadedSmootCoreObject):
             self.acquireLock()
             self.sensingLoop()
             self.releaseLock()
+            if self.done:
+                break
             
     def sensingLoop(self):
         pass

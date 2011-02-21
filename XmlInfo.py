@@ -24,7 +24,7 @@ def loadFile(args):
     confRoot = config.loadConfigFile(fileName).getroot()
     for tag in parentTags: 
         subTree = confRoot.find(tag)
-        print tag + ':'
+        print tag + ':\n'
         nodesWithArgs = search.parental_tree_search(subTree,'.getchildren()', ".tag=='Args'")
         nodesWithDocs = search.parental_tree_search(subTree,'.getchildren()', ".tag=='Doc'")
         for obj in nodesWithArgs:
@@ -41,7 +41,7 @@ def loadFile(args):
                 doc = docEl.text
             if classEl != None:
                 className = classEl.text
-                print '\tComponent %(id)s - Doc: %(doc)s - Class: %(class)s' % {'id':cid, 'doc':doc,
+                print '\t%(id)s : %(class)s\n\t\t%(doc)s\n' % {'id':cid, 'doc':doc,
                                                                                 'class':className}
 if __name__ == "__main__":
     loadFile(sys.argv)
