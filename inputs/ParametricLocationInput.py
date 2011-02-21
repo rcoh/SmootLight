@@ -1,6 +1,7 @@
 import util.TimeOps as clock
 import util.ComponentRegistry as compReg
 import util.Strings as Strings
+import random
 from operationscore.Input import *
 class ParametricLocationInput(Input):
     """Takes three arguments: xEquation, yEquation, and useClock where
