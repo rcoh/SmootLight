@@ -20,9 +20,9 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>4</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>7</Width>
+                <Width>1</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -40,19 +40,24 @@
         </Renderer></APPEND>
     </RendererConfiguration>
     <InputConfiguration>
-        <APPEND><InputElement>
+        <APPEND>
+        <!-- ********* ScanningBars Input *********** -->
+        <InputElement>
             <Class>inputs.ParametricLocationInput</Class>
+            <Doc>Inputs center-left every 1800 millis</Doc>
             <Args>
                 <Id>centerleft</Id>
                 <xloc>left</xloc>
                 <yloc>center</yloc>
                 <xEquation>0</xEquation>
                 <yEquation>.5</yEquation>
-                <RefreshInterval>1800</RefreshInterval>
+                <RefreshInterval>1200</RefreshInterval>
             </Args>
         </InputElement>
+        <!-- ********* End ScanningBars Input *********** -->
         <InputElement>
             <Class>inputs.InitialLocationInput</Class>
+            <Doc>Inputs the center point once</Doc>
             <Args>
                 <Id>centeronce</Id>
                 <xPos>0.5</xPos>
@@ -60,7 +65,29 @@
             </Args>
         </InputElement>
         <InputElement>
+            <Class>inputs.ContinuousCenterInput</Class>
+            <Doc>Returns center location every 700 milis</Doc>
+            <Args>
+                <Id>center</Id>
+                <RefreshInterval>700</RefreshInterval>
+            </Args>
+        </InputElement>
+        <!-- ********* Rain Input *********** -->
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Doc>spawns a pixel event somewhere at the top of the screen</Doc>
+            <Args>
+                <Id>random_top</Id>
+                <xEquation>random.random()</xEquation>
+                <yEquation>0</yEquation>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <!-- ********* End Rain Input *********** -->
+        <!-- ********* Unused Sign Inputs ********* -->
+        <InputElement>
             <Class>inputs.OSCInput</Class>
+            <Doc>PHONE INPUT!</Doc>
             <Args>
                 <Id>osc</Id>
                 <Port>1234</Port>
@@ -69,19 +96,14 @@
         </InputElement>
         <InputElement>
             <Class>inputs.UDPInput</Class>
+            <Doc>UDP input</Doc>
             <Args>
                 <Id>udp</Id>
                 <Port>3344</Port>
                 <RefreshInterval>50</RefreshInterval>
             </Args>
         </InputElement>
-        <InputElement>
-            <Class>inputs.ContinuousCenterInput</Class>
-            <Args>
-                <Id>center</Id>
-                <RefreshInterval>700</RefreshInterval>
-            </Args>
-        </InputElement></APPEND>
+        </APPEND>
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior>
@@ -90,14 +112,187 @@
             </Args>
             <Class>behaviors.TouchOSC</Class>
         </Behavior>
+        <!-- ******** Decays ********* -->
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decays the pixel brightness with coeff of .001</Doc>
             <Args>
                 <Coefficient>.001</Coefficient>
             </Args>
         </Behavior>
+        <Behavior Id="meddecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decays the pixel brightness with coeff of .003</Doc>
+            <Args>
+                <Coefficient>.003</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="decay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decay a pixel event over several frames</Doc>
+        </Behavior>
+        <Behavior Id="singleframe">
+            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+            <Doc>Render a pixel event for a single frame</Doc>
+        </Behavior>
+        <Behavior Id="recursivedecay" InitialResponseCount="50">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="longrecursivedecay" InitialResponseCount="100">
+            <Doc>long recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <!-- ******** End Decays ********* -->
+        <!-- ******** Colors ********* -->
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs green</Doc>
+            <Args>
+                <Id>greencolor</Id>
+                <ColorList>
+                    <Val>(0,255,0)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs blue</Doc>
+            <Args>
+                <Id>bluecolor</Id>
+                <ColorList>
+                    <Val>(0,0,255)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>Inputs color red</Doc>
+            <Args>
+                <Id>redcolor</Id>
+                <ColorList>
+                    <Color>(255,0,0)</Color>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior Id="colorchange">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>Inputs a random color</Doc>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.XYMove</Class>
+            <Doc>move rain down .5</Doc>
+            <Args>
+                <Id>rain_xymove</Id>
+                <XStep>0</XStep>
+                <YStep>.5</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Doc>cycles through hue</Doc>
+            <Args>
+                <Id>colorshift</Id>
+            </Args>
+        </Behavior>
+        <!-- ******** End Colors ********* -->
+        <!-- ******** Chaining Behaviors ********* -->
+        <Behavior>
+            <Class>behaviors.ResponseMover</Class>
+            <Doc>moves specified objects in designated chain</Doc>
+            <Args>
+                <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RunFinite</Class>
+            <Doc>Only allows the first input through; drops all subsequent</Doc>
+            <Args>
+                <Id>runonce</Id>
+                <Iterations>1</Iterations>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Doc>main framedbars behavior chain - combines interior and exterior behavior chains</Doc>
+            <Args>
+                <Id>framedbars</Id>
+                <BehaviorList>
+                    <Id>coloredframe</Id>
+                    <Id>scanningbars</Id>
+                </BehaviorList>
+            </Args>
+        </Behavior>
+        <!-- ******** End Chaining Behaviors ********* -->
+        <!-- ******** Location Mask Behaviors ********* -->
+        <Behavior>
+            <Class>behaviors.LocationMask</Class>
+            <Doc>Restrict pixels to only border lights</Doc>
+            <Args>
+                <Id>stripsonly</Id>
+                <Location>ts.all ls.all rs.all bs.all</Location>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.LocationMask</Class>
+            <Doc>Restrict pixels to only interior lights</Doc>
+            <Args>
+                <Id>wordsonly</Id>
+                <Location>wt.all cl.all c5.all</Location>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.AllPixels</Class>
+            <Doc>All pixels are lit</Doc>
+            <Args>
+                <Id>square</Id>
+                <Width>20</Width>
+            </Args>
+        </Behavior>
+        <!-- ******** End Location Mask Behaviors ********* -->
+
+        <!-- ******** Rain Behaviors ********* -->
         <Behavior>
             <Class>behaviors.ModifyParam</Class>
+            <Doc>move y by .1</Doc>
+            <Args>
+               <Id>rain_modifyY</Id>
+               <ParamType>Sensor</ParamType>
+               <ParamName>YStep</ParamName>
+               <ParamOp>{val}+.1</ParamOp>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>increment the rain</Doc>
+            <Args>
+                <Id>point_move</Id>
+                <ChainedBehaviors>
+                    <Id>rain_xymove</Id>
+                    <Id>rain_modifyY</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>main rain behavior loop</Doc>
+            <Args>
+                <Id>falling_points</Id>
+                <ChainedBehaviors>
+                    <Id>greencolor</Id>
+                    <Id>mover</Id>
+                    <Id>meddecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'point_move'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <!-- ******** End Rain Behaviors ********* -->
+        <!-- ******** Vertical Bar Behaviors ********* -->
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Doc>increment the x-value by 1</Doc>
             <Args>
                 <Id>incrVertBarLoc</Id>
                 <ParamName>xLoc</ParamName>
@@ -106,12 +301,14 @@
         </Behavior>
         <Behavior>
             <Class>behaviors.VerticalBar</Class>
+            <Doc>Creates a vertical bar with input's x-position</Doc>
             <Args>
                 <Id>vertBar</Id>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
+            <Doc>draws and increments a vertical bar</Doc>
             <Args>
                 <Id>bar_move</Id>
                 <ChainedBehaviors>
@@ -123,6 +320,7 @@
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
+            <Doc>main behavior for scanning left vertical bars</Doc>
             <Args>
                 <Id>scanningbars</Id>
                 <Inputs>
@@ -138,209 +336,9 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-        <Behavior Id="redcolor">
-            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-            <Args>
-                <ColorList>
-                    <Color>(255,0,0)</Color>
-                </ColorList>
-            </Args>
-        </Behavior>
-        <Behavior Id="colorchange">
-            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-        </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>OSCTouchChase</Id>
-                <Inputs>
-                    <Id>osc</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>touchosc</Id>
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <Mapper>gaussmap</Mapper>
-                <RenderToScreen>False</RenderToScreen>
-            </Args>
-        </Behavior>
-        <Behavior Id="decay">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="singleframe">
-            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.XYMove</Class>
-            <Args>
-                <Id>xymove</Id>
-                <XStep>1</XStep>
-                <YStep>1</YStep>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
-            <Args>
-                <Id>xbounce</Id>
-                <Action>{val}*-1</Action>
-                <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;2 or {x}&gt;48</LocationRestriction>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
-            <Args>
-                <Id>ybounce</Id>
-                <Action>{val}*-1</Action>
-                <ParamName>YStep</ParamName>
-                <LocationRestriction>{y}&lt;2 or {y}&gt;24</LocationRestriction>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.LocationMask</Class>
-            <Args>
-                <Id>stripsonly</Id>
-                <Location>ts.all ls.all rs.all bs.all</Location>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.LocationMask</Class>
-            <Args>
-                <Id>wordsonly</Id>
-                <Location>wt.all cl.all c5.all</Location>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>movebounce</Id>
-                <ChainedBehaviors>
-                    <Id>xymove</Id>
-                    <Id>ybounce</Id>
-                    <Id>xbounce</Id>
-                    <Id>longrecursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.TimeSwitch</Class>
-            <Args>
-                <Id>main</Id>
-                <Inputs>
-                    <Id>centerleft</Id>
-                    <Id>center</Id>
-                </Inputs>
-                <TimeMap>{'framedbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
-                <InputMap>{'framedbars':'centerleft', 'runcolordecay':'center',\
-                    'expandingcircles':'center'}</InputMap>
-                <RenderToScreen>True</RenderToScreen>
-            </Args>
-        </Behavior>
-       <Behavior>
-            <Class>behaviors.DebugBehavior</Class>
-            <Args>
-                <Id>debug</Id>
-                <z-index>0</z-index>
-                <Inputs>
-                    <Id>pygamekey</Id>
-                    <Id>udp</Id>
-                </Inputs>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.AllPixels</Class>
-            <Args>
-                <Id>square</Id>
-                <Width>20</Width>
-            </Args>
-        </Behavior>
-        <Behavior Id="recursivedecay" InitialResponseCount="50">
-            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="longrecursivedecay" InitialResponseCount="80">
-            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>runcolordecay</Id>
-                <ChainedBehaviors>
-                    <Id>colorchange</Id>
-                    <Id>mover</Id>
-                    <!--<Id>square</Id>-->
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ResponseMover</Class>
-            <Args>
-                <Id>mover</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ColorShift</Class>
-            <Args>
-                <Id>colorshift</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Oval</Class>
-            <Args>
-                <Id>innercircle</Id>
-                <Radius>0</Radius>
-                <Outside>True</Outside>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Oval</Class>
-            <Args>
-                <Id>outercircle</Id>
-                <Radius>3</Radius>
-                <Combine>True</Combine>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>incrinner</Id>
-                <ParamOp>{val}+.6</ParamOp>
-                <ParamName>innercircleRadius</ParamName>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>incrouter</Id>
-                <ParamOp>{val}+.6</ParamOp>
-                <ParamName>outercircleRadius</ParamName>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>circle_expand</Id>
-                <ChainedBehaviors>
-                    <Id>innercircle</Id>
-                    <Id>outercircle</Id>
-                    <Id>incrinner</Id>
-                    <Id>incrouter</Id>
-                    <Id>recursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RunFinite</Class>
-            <Args>
-                <Id>runonce</Id>
-                <Iterations>1</Iterations>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
+            <Doc>scanning vertical bars in interior of sign</Doc>
             <Args>
                 <Id>coloredframe</Id>
                 <!--Inputs>
@@ -358,18 +356,121 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
+        <!-- ******** End Vertical Bar Behaviors ********* -->
+        <!-- ******** Bouncing Ball Behaviors ********* -->
         <Behavior>
-            <Class>behaviors.SplitBehavior</Class>
+            <Class>behaviors.XYMove</Class>
+            <Doc>Move the location of an event by vector [0,1]</Doc>
             <Args>
-                <Id>framedbars</Id>
-                <BehaviorList>
-                    <Id>coloredframe</Id>
-                    <Id>scanningbars</Id>
-                </BehaviorList>
+                <Id>xymove</Id>
+                <XStep>1</XStep>
+                <YStep>1</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RestrictLocation</Class>
+            <Doc>Bound ball's x-values</Doc>
+            <Args>
+                <Id>xbounce</Id>
+                <Action>{val}*-1</Action>
+                <ParamName>XStep</ParamName>
+                <LocationRestriction>{x}&lt;2 or {x}&gt;48</LocationRestriction>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RestrictLocation</Class>
+            <Doc>Bound ball's y-values</Doc>
+            <Args>
+                <Id>ybounce</Id>
+                <Action>{val}*-1</Action>
+                <ParamName>YStep</ParamName>
+                <LocationRestriction>{y}&lt;2 or {y}&gt;24</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
+            <Doc>increment and bounce ball</Doc>
+            <Args>
+                <Id>movebounce</Id>
+                <ChainedBehaviors>
+                    <Id>xymove</Id>
+                    <Id>ybounce</Id>
+                    <Id>xbounce</Id>
+                    <Id>longrecursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>Bouncing Ball behavior chaining</Doc>
+            <Args>
+                <Id>runcolordecay</Id>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <!--<Id>square</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <!-- ******** End Bouncing Ball Behaviors ********* -->
+        <!-- ******** Expanding Circle Behaviors ********* -->
+        <Behavior>
+            <Class>behaviors.Oval</Class>
+            <Doc>defines the inner border of ring</Doc>
+            <Args>
+                <Id>innercircle</Id>
+                <Radius>0</Radius>
+                <Outside>True</Outside>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Oval</Class>
+            <Doc>defines the outer border of ring</Doc>
+            <Args>
+                <Id>outercircle</Id>
+                <Radius>3</Radius>
+                <Combine>True</Combine>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Doc>increments the inner border of ring</Doc>
+            <Args>
+                <Id>incrinner</Id>
+                <ParamOp>{val}+.6</ParamOp>
+                <ParamName>innercircleRadius</ParamName>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Doc>increments the outer border of ring</Doc>
+            <Args>
+                <Id>incrouter</Id>
+                <ParamOp>{val}+.6</ParamOp>
+                <ParamName>outercircleRadius</ParamName>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>draws and increments an expanding ring</Doc>
+            <Args>
+                <Id>circle_expand</Id>
+                <ChainedBehaviors>
+                    <Id>innercircle</Id>
+                    <Id>outercircle</Id>
+                    <Id>incrinner</Id>
+                    <Id>incrouter</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>expanding circles form the center of the screen</Doc>
             <Args>
                 <Id>expandingcircles</Id>
                 <ChainedBehaviors>
@@ -381,5 +482,55 @@
                 <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
             </Args>
         </Behavior>
+        <!-- ******** End Expanding Circle Behaviors ********* -->
+        <!-- ******** OSC Behaviors ********* -->
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>Creates a large colored circle at the location specified by osc</Doc>
+            <Args>
+                <Id>OSCTouchChase</Id>
+                <Inputs>
+                    <Id>osc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>touchosc</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <!-- ******** End OSC Behaviors ********* -->
+        <!-- ******** Other Behaviors ********* -->
+       <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Args>
+                <Id>debug</Id>
+                <z-index>0</z-index>
+                <Inputs>
+                    <Id>pygamekey</Id>
+                    <Id>udp</Id>
+                </Inputs>
+            </Args>
+        </Behavior>
+        <!-- ******** End Other Behaviors ********* -->
+        <!-- ******** MAIN BEHAVIOR DECK ********* -->
+        <Behavior>
+            <Class>behaviors.TimeSwitch</Class>
+            <Doc>MAIN: holds primary deck of behaviors to cycle through</Doc>
+            <Args>
+                <Id>main</Id>
+                <Inputs>
+                    <Id>centerleft</Id>
+                    <Id>center</Id>
+                    <Id>random_top</Id>
+                </Inputs>
+                <TimeMap>{'falling_points':10,'framedbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
+                <InputMap>{'falling_points':'random_top','framedbars':'centerleft', 'runcolordecay':'center',\
+                    'expandingcircles':'center'}</InputMap>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+        <!-- ******** END MAIN BEHAVIOR DECK ********* -->
     </BehaviorConfiguration>
 </LightInstallation>
