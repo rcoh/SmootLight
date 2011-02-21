@@ -42,8 +42,6 @@ class Pixel:
         the pixel."""
         if currentTime == None:
             currentTime = timeops.time()
-        if currentTime-self.lastRenderTime < 5:
-            return self.lastRender
         if self.events == []:
             self.lastRenderTime = currentTime
             return (0,0,0)
@@ -59,15 +57,11 @@ class Pixel:
                 scaledEvent = color.multiplyColor(eventResult,scale)
                 if (scaledEvent[0] + scaledEvent[1] + scaledEvent[2]) < 5:
                     pass
-                    #deadEvents.append(eventObj)
                 else:
                     colors.append(scaledEvent)
             else:
                 deadEvents.append(eventObj)
-        
         resultingColor = color.combineColors(colors)
-        #if colors:
-        #    resultingColor = [c / len(colors) for c in resultingColor]
         [self.events.remove(event) for event in deadEvents]
         resultingColor = [int(round(c)) for c in resultingColor]
         self.lastRender = tuple(resultingColor)

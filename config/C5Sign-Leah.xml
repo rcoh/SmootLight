@@ -107,7 +107,6 @@
                <ParamOp>{val}+.1</ParamOp>
             </Args>
         </Behavior>
-        
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
