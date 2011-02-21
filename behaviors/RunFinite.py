@@ -10,7 +10,8 @@ class RunFinite(Behavior):
 
     def processResponse(self, inp, state):
 
-        if state:
+        print "runfinite ", str(inp), ",", str(state)
+        if state != []:
             iterations = state
         else:
             iterations = self['Iterations']
@@ -20,6 +21,8 @@ class RunFinite(Behavior):
         else:
             out = []
 
-        iterations -= 1
-        
+        if inp:
+            iterations -= 1
+
+        print "  -->", str(iterations), ",", str(out)
         return (out, iterations)
