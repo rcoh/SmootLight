@@ -230,8 +230,8 @@
                     <Id>centerleft</Id>
                     <Id>center</Id>
                 </Inputs>
-                <TimeMap>{'scanningbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
-                <InputMap>{'scanningbars':'centerleft', 'runcolordecay':'center',\
+                <TimeMap>{'framedbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
+                <InputMap>{'framedbars':'centerleft', 'runcolordecay':'center',\
                     'expandingcircles':'center'}</InputMap>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
@@ -333,13 +333,21 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.RunFinite</Class>
+            <Args>
+                <Id>runonce</Id>
+                <Iterations>1</Iterations>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>coloredframe</Id>
-                <Inputs>
+                <!--Inputs>
                     <Id>centeronce</Id>
-                </Inputs>
+                </Inputs-->
                 <ChainedBehaviors>
+                    <Id>runonce</Id>
                     <Id>redcolor</Id>
                     <Id>square</Id>
                     <Id>mover</Id>
@@ -347,7 +355,17 @@
                     <Id>stripsonly</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorshift'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>framedbars</Id>
+                <BehaviorList>
+                    <Id>coloredframe</Id>
+                    <Id>scanningbars</Id>
+                </BehaviorList>
             </Args>
         </Behavior>
         <Behavior>
