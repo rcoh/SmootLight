@@ -44,7 +44,7 @@
         <!-- ********* ScanningBars Input *********** -->
         <InputElement>
             <Class>inputs.ParametricLocationInput</Class>
-            <Doc>Inputs center-left every 1800 millis</Doc>
+            <Doc>Inputs center-left every %(RefreshInterval)s millis</Doc>
             <Args>
                 <Id>centerleft</Id>
                 <xloc>left</xloc>
