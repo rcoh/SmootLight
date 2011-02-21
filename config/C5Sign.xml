@@ -331,9 +331,7 @@ When using an old input/behavior:
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'point_move'}</RecursiveHooks>
-                <Mapper>
-                    <Id>gaussmap</Id>
-                </Mapper>
+                <Mapper>gaussmap</Mapper>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -462,7 +460,6 @@ When using an old input/behavior:
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
         <!-- ******** End Bouncing Ball Behaviors ********* -->
