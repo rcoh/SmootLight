@@ -95,11 +95,19 @@ When using an old input/behavior:
         <!-- ********* ScanningBars Input *********** -->
         <InputElement>
             <Class>inputs.ParametricLocationInput</Class>
+            <Doc>Inputs center-right every 1800 millis</Doc>
+            <Args>
+                <Id>centerright</Id>
+                <xEquation>1</xEquation>
+                <yEquation>.5</yEquation>
+                <RefreshInterval>1200</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
             <Doc>Inputs center-left every 1800 millis</Doc>
             <Args>
                 <Id>centerleft</Id>
-                <xloc>left</xloc>
-                <yloc>center</yloc>
                 <xEquation>0</xEquation>
                 <yEquation>.5</yEquation>
                 <RefreshInterval>1200</RefreshInterval>
@@ -254,17 +262,6 @@ When using an old input/behavior:
                 <Iterations>1</Iterations>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.SplitBehavior</Class>
-            <Doc>main framedbars behavior chain - combines interior and exterior behavior chains</Doc>
-            <Args>
-                <Id>framedbars</Id>
-                <BehaviorList>
-                    <Id>coloredframe</Id>
-                    <Id>scanningbars</Id>
-                </BehaviorList>
-            </Args>
-        </Behavior>
         <!-- ******** End Chaining Behaviors ********* -->
         <!-- ******** Location Mask Behaviors ********* -->
         <Behavior>
@@ -349,6 +346,15 @@ When using an old input/behavior:
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Doc>decrement the x-value by 1</Doc>
+            <Args>
+                <Id>decrVertBarLoc</Id>
+                <ParamName>xLoc</ParamName>
+                <ParamOp>{val}-1</ParamOp>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.VerticalBar</Class>
             <Doc>Creates a vertical bar with input's x-position</Doc>
             <Args>
@@ -359,7 +365,7 @@ When using an old input/behavior:
             <Class>behaviors.BehaviorChain</Class>
             <Doc>draws and increments a vertical bar</Doc>
             <Args>
-                <Id>bar_move</Id>
+                <Id>bar_incr</Id>
                 <ChainedBehaviors>
                     <Id>vertBar</Id>
                     <Id>incrVertBarLoc</Id>
@@ -369,9 +375,21 @@ When using an old input/behavior:
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
-            <Doc>main behavior for scanning left vertical bars</Doc>
+            <Doc>draws and decrements a vertical bar</Doc>
             <Args>
-                <Id>scanningbars</Id>
+                <Id>bar_decr</Id>
+                <ChainedBehaviors>
+                    <Id>vertBar</Id>
+                    <Id>decrVertBarLoc</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>behavior for scanning left vertical bars</Doc>
+            <Args>
+                <Id>scanningbarsright</Id>
                 <Inputs>
                     <Id>centerleft</Id>
                 </Inputs>
@@ -379,15 +397,33 @@ When using an old input/behavior:
                     <Id>colorchange</Id>
                     <Id>mover</Id>
                     <Id>slowdecay</Id>
-                    <Id>wordsonly</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'bar_move'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'bar_incr'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
-            <Doc>scanning vertical bars in interior of sign</Doc>
+            <Doc>behavior for scanning right vertical bars</Doc>
+            <Args>
+                <Id>scanningbarsleft</Id>
+                <Inputs>
+                    <Id>centerright</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>slowdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'bar_decr'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <!-- ******** End Vertical Bar Behaviors ********* -->
+        <!-- ******** Colored Frame Behaviors ********* -->
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>cycling color hues, all pixels</Doc>
             <Args>
                 <Id>coloredframe</Id>
                 <!--Inputs>
@@ -399,13 +435,77 @@ When using an old input/behavior:
                     <Id>square</Id>
                     <Id>mover</Id>
                     <Id>singleframe</Id>
-                    <Id>stripsonly</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorshift'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-        <!-- ******** End Vertical Bar Behaviors ********* -->
+        <!-- ******** End Colored Frame Behaviors ********* -->
+        <!-- ******** Segmented Screen Behaviors ********* -->
+        <Behavior>
+            <Class>behaviors.TimeSwitch</Class>
+            <Doc>Deck for interior light animations</Doc>
+            <Args>
+                <Id>interiorswitch</Id>
+                <!--Inputs>
+                    <Id>centerleft</Id>
+                    <Id>centerright</Id>
+                    <Id>center</Id>
+                </Inputs-->
+                <TimeMap>{'scanningbarsleft':4,'scanningbarsright':4,'coloredframe':5}</TimeMap>
+                <InputMap>{'scanningbarsleft':'centerright','scanningbarsright':'centerleft','coloredframe':'center'}</InputMap>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.TimeSwitch</Class>
+            <Doc>Deck for exterior light animations</Doc>
+            <Args>
+                <Id>exteriorswitch</Id>
+                <!--Inputs>
+                    <Id>centerleft</Id>
+                    <Id>centerright</Id>
+                    <Id>center</Id>
+                </Inputs-->
+                <TimeMap>{'scanningbarsright':5,'coloredframe':7,'scanningbarsleft':5}</TimeMap>
+                <InputMap>{'scanningbarsleft':'centerright','scanningbarsright':'centerleft','coloredframe':'center'}</InputMap>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>interior light animations, masked</Doc>
+            <Args>
+                <Id>screeninterior</Id>
+                <ChainedBehaviors>
+                    <Id>interiorswitch</Id>
+                    <Id>wordsonly</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>exterior light animations, masked</Doc>
+            <Args>
+                <Id>screenexterior</Id>
+                <ChainedBehaviors>
+                    <Id>exteriorswitch</Id>
+                    <Id>stripsonly</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Doc>main segmented screen behavior - combines interior and exterior behavior chains</Doc>
+            <Args>
+                <Id>segmentedscreen</Id>
+                <BehaviorList>
+                    <Id>screeninterior</Id>
+                    <Id>screenexterior</Id>
+                </BehaviorList>
+            </Args>
+        </Behavior>
+        <!-- ******** End Segmented Screen Behaviors ********* -->
         <!-- ******** Bouncing Ball Behaviors ********* -->
         <Behavior>
             <Class>behaviors.XYMove</Class>
@@ -583,11 +683,12 @@ When using an old input/behavior:
                 <Id>main</Id>
                 <Inputs>
                     <Id>centerleft</Id>
+                    <Id>centerright</Id>
                     <Id>center</Id>
                     <Id>random_top</Id>
                 </Inputs>
-                <TimeMap>{'falling_points':10,'framedbars':10,'runcolordecay':10,'expandingcircles':10}</TimeMap>
-                <InputMap>{'falling_points':'random_top','framedbars':'centerleft', 'runcolordecay':'center',\
+                <TimeMap>{'falling_points':10,'segmentedscreen':30,'runcolordecay':10,'expandingcircles':10}</TimeMap>
+                <InputMap>{'falling_points':'random_top','segmentedscreen':['centerright','center','centerleft'], 'runcolordecay':'center',\
                     'expandingcircles':'center'}</InputMap>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
