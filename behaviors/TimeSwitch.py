@@ -21,7 +21,5 @@ class TimeSwitch(Behavior):
             self.behaviorStart = clock.time()
             main_log.info('Switching behaviors')
         sensors = [s for s in sensors if s['InputId'] == self['InputMap'][self.currentBehaviorId]]
-#        if sensors:
-#            import pdb; pdb.set_trace()
         return compReg.getComponent(self.currentBehaviorId).immediateProcessInput(sensors, recurs)
         

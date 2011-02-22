@@ -177,7 +177,7 @@ When using an old input/behavior:
             <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
-        <Behavior Id="shortrecursivedecay" InitialResponseCount="25">
+        <Behavior Id="shortrecursivedecay" InitialResponseCount="100">
             <Doc>short recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
@@ -227,7 +227,7 @@ When using an old input/behavior:
             <Args>
                 <Id>rain_xymove</Id>
                 <XStep>0</XStep>
-                <YStep>.5</YStep>
+                <YStep>0</YStep>
             </Args>
         </Behavior>
         <Behavior>
@@ -305,7 +305,7 @@ When using an old input/behavior:
                <Id>rain_modifyY</Id>
                <ParamType>Sensor</ParamType>
                <ParamName>YStep</ParamName>
-               <ParamOp>{val}+.1</ParamOp>
+               <ParamOp>{val}+.01</ParamOp>
             </Args>
         </Behavior>
         <Behavior>

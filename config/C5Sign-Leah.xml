@@ -82,6 +82,24 @@
             </Args>
             <Class>behaviors.TouchOSC</Class>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>holiday</Id>
+                <ChainedBehaviors>
+                    <Id>c5holiday</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>c5signmapper</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.C5Holiday</Class>
+            <Args>
+                <Id>c5holiday</Id>
+            </Args>
+        </Behavior>
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
             <Args>
@@ -131,7 +149,7 @@
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'point_move'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
 
