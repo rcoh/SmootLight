@@ -1,0 +1,10 @@
+<Renderer>
+    <Class>renderers.WebsocketRenderer</Class>
+    <Args>
+        <Id>websocketrenderer</Id>
+        <Hostname>localhost</Hostname>
+		<Page>web/smootlight.html</Page>
+		<Port>8000</Port>
+		<SourcePort>8080</SourcePort>
+    </Args>
+</Renderer>
