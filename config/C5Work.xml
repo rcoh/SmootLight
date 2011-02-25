@@ -6,7 +6,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/C5SignLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -35,20 +35,28 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer Scale="5">
-            <InheritsFrom>renderers/Websocket.xml</InheritsFrom>
+        <Renderer Scale="1" Size="(1000,1000)">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
-        <Renderer>
+        <!--Renderer>
             <InheritsFrom>renderers/C5Renderer.xml</InheritsFrom>
-        </Renderer>
+        </Renderer-->
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.JPGInput</Class>
             <Args>
                 <Id>jpg</Id>
-                <RefreshInterval>500</RefreshInterval>
-                <Directory>../../C5SignImages</Directory>
+                <RefreshInterval>100</RefreshInterval>
+                <Directory>../../C5SignImages/clouds</Directory>
+            </Args>
+        </InputElement>
+    	<InputElement>
+            <Class>inputs.WebInput</Class>
+            <Args>
+                <Id>webinput</Id>
+				<Hostname>localhost</Hostname>
+				<Port>8080</Port>
             </Args>
         </InputElement>
         <InputElement>
@@ -67,13 +75,18 @@
                 <Class>pixelevents.SingleFrameEvent</Class>
                 <Id>singleframe</Id>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.LastInput</Class>
             <Args>
                 <Id>lastinput</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ImageToPixels</Class>
+            <Args>
+                <Id>imageproc</Id>
             </Args>
         </Behavior>
         <Behavior>
@@ -84,6 +97,7 @@
                     <Id>jpg</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>imageproc</Id>
                     <Id>singleframe</Id>
                     <Id>lastinput</Id>
                 </ChainedBehaviors>
