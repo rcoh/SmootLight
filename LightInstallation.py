@@ -103,7 +103,7 @@ class LightInstallation(object):
         for component in components:
             cid = compReg.registerComponent(component)
             if cid == None:
-                pdb.set_trace()
+                raise Exception('Null component Id.  ComponentRegistry not fuctioning as expected.')
             main_log.info(cid + ' registered')
     def initializeComponent(self, config):
         components = []

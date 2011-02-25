@@ -3,13 +3,14 @@ import util.TimeOps as timeops
 import pygame
 from pygame.locals import *
 import pdb
+import util.ComponentRegistry as compReg 
 class PygameRenderer(Renderer):
     """PygameRenderer is a renderer which renders the LightSystem to a pygame display"""
 
     def initRenderer(self):
         pygame.init()
         if not 'Size' in self:
-            size = (400,400)
+            size = compReg.getComponent('Screen').getSize()[1:] #maxX and maxY 
         else:
             size = self['Size']
         self.screen = pygame.display.set_mode(size)
