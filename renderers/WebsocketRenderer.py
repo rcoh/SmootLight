@@ -1,15 +1,24 @@
 from operationscore.Renderer import *
 import util.TimeOps as timeops
 import util.ComponentRegistry as compReg
-import threading, socket, re, struct, hashlib, json, webbrowser
+import threading, socket, re, struct, hashlib, json
 
 class WebsocketRenderer(Renderer):
-    """Renders frame data over a websocket."""
+    """Renders frame data over a websocket.
+        Specify: Hostname -- the hostname of the webserver providing the containing page
+        Page: Static page to serve (if using builtin webserver)
+        SourcePort: Port from which static page is serverd
+        Port: Websocket listen port
+    """
     
     def initRenderer(self):
         self.hostname = self.argDict['Hostname']
-        self.orig_port = int(self.argDict['SourcePort'])
         self.port = int(self.argDict['Port'])
+        
+        if 'SourcePort' in self.argDict:
+            self.orig_port = int(self.argDict['SourcePort'])
+        else:
+            self.orig_port = compReg.getComponent('Webserver').getPort()
         
         self.clients = []
         self.clients_lock = threading.Lock()
@@ -22,28 +31,7 @@ class WebsocketRenderer(Renderer):
         self.connection_thread = threading.Thread(target=self.handle_connections)
         self.connection_thread.daemon = True
         self.connection_thread.start()
-        
-        self.serve_thread = threading.Thread(target=self.serve_page)
-        self.serve_thread.daemon = True
-        self.serve_thread.start()
-        
-        webbrowser.open('http://'+self.hostname+':'+str(self.orig_port))
-    
-    def serve_page(self):
-        page = open(self.argDict['Page']).read()
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(('', self.orig_port))
-        sock.listen(1)
-        
-        while True:
-            client, addr = sock.accept()
-            req = client.recv(4096)
-            client.send('HTTP/1.0 200 Found\r\n')
-            client.send('Content-type: text/html\r\n\r\n')
-            client.send(page)
-            client.close()
-    
+            
     def handle_connections(self):
         while True:
             client, addr = self.sock.accept()
@@ -94,6 +82,10 @@ class WebsocketRenderer(Renderer):
         for light in lightSystem:
             loc = light.location
             c = light.state(currentTime)
+            
+            if c == (0,0,0):
+                continue
+            
             cs = 'rgb('+str(c[0])+','+str(c[1])+','+str(c[2])+')'
             
             json_frame.append((loc, cs))

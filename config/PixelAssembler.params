@@ -1,6 +1,4 @@
 {'pixelToPixelSpacing':'pixelToPixel spacing not defined in argDict.  This is the
 length of wire between 2 adjacent LEDs.  Common values are 4 or 12.
 Specified in config XML.', 'numPixels': 'numPixels not defined in
-argDict.  Common value: 50.', 'originLocation':'originLocation not
-defined in argDict.  Values should be a string in the form (x,y).  This
-should be specified in the config XML.'}
+argDict.  Common value: 50.'}

@@ -102,7 +102,7 @@
             <Args>
                 <Id>incrVertBarLoc</Id>
                 <ParamName>xLoc</ParamName>
-                <ParamOp>{val}+1</ParamOp>
+                <ParamOp>'{val}+1'</ParamOp>
             </Args>
         </Behavior>
         <Behavior>
@@ -174,7 +174,7 @@
             <Class>behaviors.RestrictLocation</Class>
             <Args>
                 <Id>xbounce</Id>
-                <Action>{val}*-1</Action>
+                <Action>'{val}*-1'</Action>
                 <ParamName>XStep</ParamName>
                 <LocationRestriction>{x}&lt;2 or {x}&gt;48</LocationRestriction>
             </Args>
@@ -183,7 +183,7 @@
             <Class>behaviors.RestrictLocation</Class>
             <Args>
                 <Id>ybounce</Id>
-                <Action>{val}*-1</Action>
+                <Action>'{val}*-1'</Action>
                 <ParamName>YStep</ParamName>
                 <LocationRestriction>{y}&lt;2 or {y}&gt;24</LocationRestriction>
             </Args>
@@ -285,7 +285,7 @@
             <Class>behaviors.ModifyParam</Class>
             <Args>
                 <Id>incrinner</Id>
-                <ParamOp>{val}+.6</ParamOp>
+                <ParamOp>'{val}+.6'</ParamOp>
                 <ParamName>innercircleRadius</ParamName>
             </Args>
         </Behavior>
@@ -293,7 +293,7 @@
             <Class>behaviors.ModifyParam</Class>
             <Args>
                 <Id>incrouter</Id>
-                <ParamOp>{val}+.6</ParamOp>
+                <ParamOp>'{val}+.6'</ParamOp>
                 <ParamName>outercircleRadius</ParamName>
             </Args>
         </Behavior>

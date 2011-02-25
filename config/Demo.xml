@@ -106,7 +106,7 @@
             <Class>behaviors.RestrictLocation</Class>
             <Args>
                 <Id>xbounce</Id>
-                <Action>{val}*-1</Action>
+                <Action>'{val}*-1'</Action>
                 <ParamName>XStep</ParamName>
                 <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
             </Args>
@@ -115,7 +115,7 @@
             <Class>behaviors.RestrictLocation</Class>
             <Args>
                 <Id>ybounce</Id>
-                <Action>{val}*-1</Action>
+                <Action>'{val}*-1'</Action>
                 <ParamName>YStep</ParamName>
                 <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
             </Args>
