@@ -33,9 +33,8 @@ def registerComponent(component, cid=None):
     if cid != None:
         Registry[cid] = component
     else:
-        try:
-            cid = component['Id']
-        except KeyError:
+        cid = component['Id']
+        if cid == None:
             cid = getNewId() 
             component['Id'] = cid 
             main_log.debug(cid + 'automatically assigned')

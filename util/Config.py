@@ -26,8 +26,9 @@ def loadConfigFile(fileName): #TODO: error handling etc.
             resolveDocumentInheritances(config.getroot())
             return config
     except Exception as inst:
-        main_log.info('Error loading config file ' + fileName)#, inst) TODO: log exception too
-        main_log.info(str(inst))
+        if '.xml' in fileName:
+            main_log.error('Error loading config file ' + fileName)#, inst) TODO: log exception too
+            main_log.error(str(inst))
         return None
 def getElement(el):
     """Takes an Element or an ElementTree.  If it is a tree, it returns its root.  Otherwise, just returns

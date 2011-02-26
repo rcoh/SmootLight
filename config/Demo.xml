@@ -32,7 +32,7 @@
             <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
         </Renderer>
         <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+            <InheritsFrom>renderers/Websocket.xml</InheritsFrom>
         </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
