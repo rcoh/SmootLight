@@ -87,12 +87,12 @@ class WebsocketRenderer(Renderer):
                 continue
             
             cs = 'rgb('+str(c[0])+','+str(c[1])+','+str(c[2])+')'
-            
+            loc = map(int, loc) 
             json_frame.append((loc, cs))
         
         size = compReg.getComponent('Screen').getSize()
         
-        json_data = json.dumps(dict(status='ok', size=size, frame=json_frame))
+        json_data = json.dumps(dict(status='ok', size=map(int, size), frame=json_frame))
         self.client_push(json_data)
         
     def client_push(self, data):

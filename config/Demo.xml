@@ -20,7 +20,7 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>20</CutoffDist>
                 <MinWeight>0.1</MinWeight>
                 <Width>10</Width>
                 <Height>1</Height>
@@ -29,10 +29,7 @@
     </PixelMapperConfiguration>
     <RendererConfiguration>
         <Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
-        <Renderer>
-            <InheritsFrom>renderers/Websocket.xml</InheritsFrom>
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
@@ -60,14 +57,6 @@
                 <RefreshInterval>50</RefreshInterval>
             </Args>
         </InputElement>
-        <!--<InputElement>
-            <Class>inputs.TCPInput</Class>
-            <Args>
-                <Id>tcp</Id>
-                <Port>20120</Port>
-                <RefreshInterval>10</RefreshInterval>
-            </Args>
-        </InputElement>-->
         <InputElement Id="followmouse" RefreshInterval="1000">
             <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
