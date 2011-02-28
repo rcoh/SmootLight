@@ -1,0 +1,7 @@
+<Behavior>
+    <Class>behaviors.AddPixelEvent</Class>
+    <Args>
+        <Class>pixelevents.StepEvent</Class>
+        <LightTime>4500</LightTime>
+    </Args>
+</Behavior>

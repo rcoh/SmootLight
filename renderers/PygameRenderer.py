@@ -3,12 +3,18 @@ import util.TimeOps as timeops
 import pygame
 from pygame.locals import *
 import pdb
+import util.ComponentRegistry as compReg 
 class PygameRenderer(Renderer):
     """PygameRenderer is a renderer which renders the LightSystem to a pygame display"""
 
     def initRenderer(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((1300,500))
+        if not 'Size' in self:
+            size = (1000, 200) 
+            print size
+        else:
+            size = self['Size']
+        self.screen = pygame.display.set_mode(size)
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
         self.background.fill(Color(0,0,0))
@@ -25,7 +31,7 @@ class PygameRenderer(Renderer):
         for light in lightSystem:
             scaledLoc = [l*scale for l in light.location] 
             pygame.draw.circle(self.background, light.state(currentTime), scaledLoc, \
-                5)
+                scale)
 
         self.screen.blit(self.background, (0,0))
         pygame.display.flip()

@@ -77,7 +77,7 @@ class Screen:
 
             minY = min(y, minY)
             maxY = max(y, maxY)
-        self.size = (0,0, maxX, maxY)
+        self.size = (minX,minY, maxX, maxY)
         self.sizeValid = True
         return (minX, minY, maxX, maxY) 
         

@@ -102,6 +102,8 @@ class LightInstallation(object):
     def registerComponents(self, components):
         for component in components:
             cid = compReg.registerComponent(component)
+            if cid == None:
+                raise Exception('Null component Id.  ComponentRegistry not fuctioning as expected.')
             main_log.info(cid + ' registered')
     def initializeComponent(self, config):
         components = []
@@ -182,8 +184,11 @@ class LightInstallation(object):
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
         boundBehaviorIds = self.inputBehaviorRegistry[inputId]
+        if not isinstance(responseDict, list):
+            responseDict = [responseDict]
         try:
-            [compReg.getComponent(b).addInput(responseDict) for b in boundBehaviorIds]
+            for r in responseDict:
+                [compReg.getComponent(b).addInput(r) for b in boundBehaviorIds]
         except:
             pass
             #Behavior run before loading.  Not a big deal.

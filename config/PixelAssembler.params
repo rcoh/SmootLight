@@ -1,4 +1,0 @@
-{'pixelToPixelSpacing':'pixelToPixel spacing not defined in argDict.  This is the
-length of wire between 2 adjacent LEDs.  Common values are 4 or 12.
-Specified in config XML.', 'numPixels': 'numPixels not defined in
-argDict.  Common value: 50.'}
