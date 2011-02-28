@@ -3,24 +3,24 @@ import util.TimeOps as clock
 import util.ComponentRegistry as compReg
 import util.Strings as Strings
 from operationscore.Input import *
-class OneCenterInput(Input):
+class OneHorizontalInput(Input):
     def inputInit(self):
-	self.isRun = False
+	self.barCount = 0
         compReg.getLock().acquire()
-        minX,minY,maxX,maxY = compReg.getComponent('Screen').getSize()
+        self.minX, self.minY, self.maxX, self.maxY = compReg.getComponent('Screen').getSize()
         compReg.getLock().release()
-        self.center = ((minX+maxX) / 2, (minY+maxY) / 2)
     def sensingLoop(self):
-        self.respond({Strings.LOCATION: self.center})
-	self.isRun = True
+	time.sleep(0.02)
+        self.respond({Strings.LOCATION: (self.barCount,0)})
+	self.barCount += 1
     def run(self):
-	time.sleep(1)
+	time.sleep(0.1)
         while 1:
             try:
                 die = self.parentAlive()
             except:
                 break
-	    while not self.isRun:
+	    while self.barCount < self.maxX/3:
 	        self.acquireLock()
 	        self.sensingLoop()
         	self.releaseLock()

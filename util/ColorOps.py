@@ -4,6 +4,9 @@ from util.TimeOps import Stopwatch
 def randomColor():
     return [random.randint(0,255) for i in range(3)]
 
+def cycleColor(index, increments):
+    return floatToIntColor(list(colorsys.hsv_to_rgb(index/float(increments), 0.75, 1)))
+
 def chooseRandomColor(colorList):
     """Given a list of colors, pick one at random"""
     return random.choice(colorList)
@@ -12,8 +15,6 @@ def safeColor(c):
     c[0] = c[0] if c[0] < 255 else 255
     c[1] = c[1] if c[1] < 255 else 255
     c[2] = c[2] if c[2] < 255 else 255
-
-    
     return c
 
 def combineColors(colors):
