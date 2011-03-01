@@ -11,7 +11,6 @@ class OneHorizontalInput(Input):
     def sensingLoop(self):
 	time.sleep(0.5)
 	if not self.done:
-	    print "SDF"
  	    response = []
  	    for i in xrange(self.maxX):
 		response.append({Strings.LOCATION: (i,0)})
