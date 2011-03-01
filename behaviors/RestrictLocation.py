@@ -25,6 +25,9 @@ class RestrictLocation(Behavior):
         if isinstance(self.locBounds, str):
             self.locBounds = self.locBounds.replace('{x}', 'l[0]')
             self.locBounds = self.locBounds.replace('{y}', 'l[1]')
+            #TODO: add variables from screen minx max x,etc.
+            #sMinX,mMinY,sMaxX,sMaxY = 
+            self.locBounds = self.locBounds
             self.locEval = eval('lambda l:'+self.locBounds)
         elif isinstance(self.locBounds, tuple):
             if len(self.locBounds) != 4:

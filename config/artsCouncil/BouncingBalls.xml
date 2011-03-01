@@ -1,13 +1,10 @@
-<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+    <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
-            <PixelMapper>gaussmap</PixelMapper>
+            <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
-    <PixelConfiguration>
-        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
-    </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -20,27 +17,14 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>20</CutoffDist>
+                <CutoffDist>15</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>10</Width>
+                <Width>7</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
-    </RendererConfiguration>
     <InputConfiguration>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygameclick</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
-            </Args>
-        </InputElement>
         <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
@@ -50,15 +34,11 @@
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.UDPInput</Class>
+            <Class>inputs.RandomLocs</Class>
             <Args>
-                <Id>udp</Id>
-                <Port>3344</Port>
-                <RefreshInterval>50</RefreshInterval>
+                <Id>randomLoc</Id>
+                <RefreshInterval>1000</RefreshInterval>
             </Args>
-        </InputElement>
-        <InputElement Id="followmouse" RefreshInterval="1000">
-            <InheritsFrom>inputs/MouseFollower.xml</InheritsFrom>
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
@@ -97,7 +77,7 @@
                 <Id>xbounce</Id>
                 <Action>'{val}*-1'</Action>
                 <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
+                <LocationRestriction>{x}&lt;10 or {x}&gt;200</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
@@ -106,7 +86,7 @@
                 <Id>ybounce</Id>
                 <Action>'{val}*-1'</Action>
                 <ParamName>YStep</ParamName>
-                <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
+                <LocationRestriction>{y}&lt;10 or {y}&gt;50</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
@@ -118,8 +98,12 @@
                     <Id>colorshift</Id>
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
+                    <Id>dimcolor</Id>
                 </ChainedBehaviors>
             </Args>
+        </Behavior>
+        <Behavior Id="dimcolor">
+            <InheritsFrom>behaviors/DimColor.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.ModifyParam</Class>
@@ -136,8 +120,7 @@
                 <Id>debug</Id>
                 <z-index>0</z-index>
                 <Inputs>
-                    <Id>pygamekey</Id>
-                    <Id>udp</Id>
+                    <Id>randomLoc</Id>
                 </Inputs>
             </Args>
         </Behavior>
@@ -159,7 +142,7 @@
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>pygameclick</Id>
+                    <Id>randomLoc</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>

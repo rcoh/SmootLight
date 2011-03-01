@@ -53,7 +53,7 @@ def compositeXMLTrees(parentTree, overridingTree):
     #first, lets figure out what tags we have in the override tree:
     tagCollection = [el.tag for el in overrideItems] #we can speed this up with a dict if necessary
     for item in parentItems:
-        if not item.tag in tagCollection: #no override 
+        if not item.tag in tagCollection or 'Append' in item.attrib: #no override 
             overridingTree.insert(-1, item) #insert the new item at the end
         else:
             #do we merge or replace?
