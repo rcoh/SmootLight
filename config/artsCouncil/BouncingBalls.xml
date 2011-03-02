@@ -37,7 +37,7 @@
             <Class>inputs.RandomLocs</Class>
             <Args>
                 <Id>randomLoc</Id>
-                <RefreshInterval>1000</RefreshInterval>
+                <RefreshInterval>5000</RefreshInterval>
             </Args>
         </InputElement>
     </InputConfiguration>
@@ -67,7 +67,7 @@
             <Class>behaviors.XYMove</Class>
             <Args>
                 <Id>xymove</Id>
-                <XStep>0</XStep>
+                <XStep>.5</XStep>
                 <YStep>2</YStep>
             </Args>
         </Behavior>
