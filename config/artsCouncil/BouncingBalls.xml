@@ -20,7 +20,7 @@
                 <CutoffDist>15</CutoffDist>
                 <MinWeight>0.1</MinWeight>
                 <Width>7</Width>
-                <Height>1</Height>
+                <Height>10</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
@@ -67,7 +67,7 @@
             <Class>behaviors.XYMove</Class>
             <Args>
                 <Id>xymove</Id>
-                <XStep>5</XStep>
+                <XStep>0</XStep>
                 <YStep>2</YStep>
             </Args>
         </Behavior>
@@ -99,6 +99,7 @@
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
                     <Id>dimcolor</Id>
+                    <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -134,7 +135,7 @@
         <Behavior Id="recursivedecay">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
             <Args>
-                <InitialResponseCount>80</InitialResponseCount>
+                <InitialResponseCount>200</InitialResponseCount>
             </Args>
         </Behavior>
         <Behavior>

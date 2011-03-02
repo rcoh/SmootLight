@@ -2,7 +2,7 @@
 <LightInstallation>
     <InstallationConfiguration>
         <Defaults>
-            <PixelMapper>gaussmap</PixelMapper>
+            <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>

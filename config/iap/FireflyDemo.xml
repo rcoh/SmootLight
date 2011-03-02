@@ -11,7 +11,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -28,13 +28,13 @@
                 <CutoffDist>30</CutoffDist>
                 <MinWeight>0.1</MinWeight>
                 <Width>10</Width>
-                <Height>1</Height>
+                <Height>1.5</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
         <Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
+            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
         </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>

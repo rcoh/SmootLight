@@ -5,6 +5,7 @@
                 <Id>strip1</Id>
                 <originLocation>(10,20)</originLocation>
                 <Orientation>Down</Orientation>
+                <numPixels>50</numPixels>
             </Args>
         </PixelStrip>
         <PixelStrip>
@@ -13,6 +14,7 @@
                 <Id>strip2</Id>
                 <originLocation>(10,30)</originLocation>
                 <Orientation>Up</Orientation>
+                <numPixels>50</numPixels>
             </Args>
         </PixelStrip>
         <PixelStrip>
@@ -21,6 +23,7 @@
                 <Id>strip3</Id>
                 <originLocation>(10,40)</originLocation>
                 <Orientation>Down</Orientation>
+                <numPixels>50</numPixels>
             </Args>
         </PixelStrip>
         <PixelStrip>
@@ -29,6 +32,7 @@
                 <Id>strip4</Id>
                 <originLocation>(10,50)</originLocation>
                 <Orientation>Up</Orientation>
+                <numPixels>50</numPixels>
             </Args>
         </PixelStrip>
 </PixelConfiguration>
