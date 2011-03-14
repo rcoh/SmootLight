@@ -7,5 +7,10 @@ class ResponseMover(Behavior):
     modulates the location."""
 
     def processResponse(self, sensorInputs, recursiveInputs):
-        return (recursiveInputs, recursiveInputs+sensorInputs)
+        a = (recursiveInputs, recursiveInputs+self.addUID(sensorInputs))
+        return a
+    def addUID(self, inputs):
+        for i in inputs:
+            i['UniqueResponseIdentifier'] = compReg.getNewId()
+        return inputs
     

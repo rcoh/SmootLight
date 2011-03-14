@@ -20,7 +20,7 @@ class Behavior(SmootCoreObject):
         self.recursiveResponseQueue = []
         self.sensorResponseQueue = []
         self.outGoingQueue = []
-        self.lastState = None
+        self.lastState = [] 
         self.behaviorInit()
     
     def behaviorInit(self):
@@ -42,8 +42,8 @@ class Behavior(SmootCoreObject):
     def immediateProcessInput(self, sensorInputs, recursiveInputs=[]): 
             (outputs,recursions) = self.processResponse(sensorInputs, \
                     recursiveInputs)
+            self.setLastOutput(outputs)
             return self.addMapperToResponse((outputs,recursions))
-
     def addInputs(self, sensorInputs):
         if type(sensorInputs) == type([]):
             [self.addInput(sensorInput) for sensorInput in sensorInputs]
@@ -70,6 +70,7 @@ class Behavior(SmootCoreObject):
         ensure that you call Behavior.deepCopyPacket on the packet before hand to avoid inadvertent
         down-stream modifications.  Look at Square.py for an example of this."""
         self.lastState = Behavior.deepCopyPacket(output)
+        self.lastState['BehaviorId'] = self['Id']
     
     def addMapperToResponse(self, responses):
         if self['Mapper'] != None:
