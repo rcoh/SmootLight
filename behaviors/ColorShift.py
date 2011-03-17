@@ -8,9 +8,9 @@ class ColorShift(Behavior):
             #if not 'HSV' in data:
             colors = [d/255.0 for d in data['Color']]
             data['HSV'] = list(colorsys.rgb_to_hsv(*colors))
-            if not self['increment']:
-                self['increment'] = 0.005
-            data['HSV'][0] += self['increment']
+            if not self['Increment']:
+                self['Increment'] = 0.005
+            data['HSV'][0] += self['Increment']
             if data['HSV'][0] >= 1:
                 data['HSV'][0] = 0
             colors = colorsys.hsv_to_rgb(*data['HSV'])
