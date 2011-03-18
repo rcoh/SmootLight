@@ -68,7 +68,7 @@
             <Args>
                 <Id>setbrightcolor</Id>
             </Args>
-        </Behavior>
+        </Behavior> 
         <Behavior Id="decay" Coefficient=".001">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
@@ -88,6 +88,12 @@
                 <Action>'{val}*-1'</Action>
                 <ParamName>YStep</ParamName>
                 <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.VerticalBar</Class>
+            <Args>
+                <Id>vbar</Id>
             </Args>
         </Behavior>
 	<Behavior>
@@ -126,11 +132,12 @@
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
                     <Id>mover</Id>
+                    <Id>vbar</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <Mapper>simplemap</Mapper>
             </Args>
         </Behavior>
         <Behavior>

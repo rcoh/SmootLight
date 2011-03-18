@@ -70,7 +70,9 @@ class Behavior(SmootCoreObject):
         ensure that you call Behavior.deepCopyPacket on the packet before hand to avoid inadvertent
         down-stream modifications.  Look at Square.py for an example of this."""
         self.lastState = Behavior.deepCopyPacket(output)
-        self.lastState['BehaviorId'] = self['Id']
+        for resp in self.lastState:
+            resp['BehaviorId'] = self['Id']
+
     
     def addMapperToResponse(self, responses):
         if self['Mapper'] != None:

@@ -38,7 +38,7 @@ def query(predicateList):
                     if not predicateList[i](output):
                         validOutput = False
                         break
-                except KeyError:
+                except Exception:
                     validOutput = False
             if validOutput:
                 ret.append(output)
@@ -54,5 +54,10 @@ def getBehaviorsNear(loc, maxdist):
     return query(getDistLambda(loc, maxdist))
 
 def getDifferentUIDLambda(uri):
-    #return lambda args:args['UniqueResponseIdentifier']!=sensor['UniqueResponseIdentifier']
     return lambda args:args['UniqueResponseIdentifier']!=uri
+
+def getBehaviorId(behaviorid):
+    return query(getBehaviorIdLambda(behaviorid))
+
+def getBehaviorIdLambda(behaviorid):
+    return lambda args:args['BehaviorId']==behaviorid

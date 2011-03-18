@@ -13,9 +13,13 @@ class XYMoveBounce(Behavior):
         ret = []
         for sensory in sensor:
             opsensory = dict(sensory)
-            self.insertStepIfMissing(opsensory)
-            results = bqs.query([bqs.getDistLambda(opsensory['Location'], 19),\
-                bqs.getDifferentUIDLambda(opsensory['UniqueResponseIdentifier'])])
+            self.insertStepIfMissing(opsensory) 
+            #TODO: update 19 to be a configurable variable
+            results = bqs.query([
+                bqs.getBehaviorIdLambda(self['Id']),\
+                bqs.getDifferentUIDLambda(opsensory['UniqueResponseIdentifier']),\
+                bqs.getDistLambda(opsensory['Location'], 19)
+            ])
             if results:
                 print len(results)
                 opsensory['XStep'] = -opsensory['XStep']
