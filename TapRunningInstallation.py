@@ -48,12 +48,14 @@ class MenuTree(object):
            (integer) - select number 
            q - go back / quit
            
-           e - edit
+           e - edit 
            c - create
            d - delete
            """
      
      COMMANDS = {'a':'Objects','b':'Behaviors','p':'Behaviors'}
+     commandDict = {'OperationArg':None}
+     componentList = None
      
      def __init__(self, connection, msg =''):
         self.connection = connection
@@ -61,6 +63,7 @@ class MenuTree(object):
         
         
      def executeSelection(self,command):
+#        self.commandDict['CurrentCommand'] = command
         
         cl = command.lower()
         if cl.isdigit():
@@ -77,20 +80,39 @@ class MenuTree(object):
         elif cl in ["a","b", "p"]:
             print "Getting {}, please wait...".format(self.COMMANDS[cl])
             
-            resp = self.connection.sendMsg(json.dumps({"OperationType":"Get"+self.COMMANDS[cl]}))  
+            self.commandDict['OperationType'] = 'Get'
+            self.commandDict['OperationDetail'] = self.COMMANDS[cl]
+            
+            
+            cs = command.split(' ')
+            if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
+                self.commandDict['OperationArg'] = self.componentList[int(cs[1])] 
+            else:
+                self.commandDict['OperationArg'] = None
+            
+            print self.commandDict
+            resp = self.connection.sendMsg(json.dumps(self.commandDict))  
+            if resp == "":
+                print "No response. Is server running?"
+                return 0
             try: 
                 resp = json.loads(resp)   
             except:       
                 print "response? <",resp, ">" 
                 return 0
                 
-            self.componentList = resp
             
-            print "Available %s:\n"%self.COMMANDS[cl]
             
-            for n in range(len(resp)):
-                print "{:4} {:10}".format(n,resp[n])   
+            if self.commandDict['OperationArg']  == None:
                 
+                self.componentList = resp
+                
+                print "Available %s:\n"%self.COMMANDS[cl]
+                
+                for n in range(len(resp)):
+                    print "{:4} {:10}".format(n,resp[n])   
+            else:
+                print "name: ",resp
         elif cl in ["h","?"]: 
             print self.__doc__
 

@@ -1,5 +1,7 @@
 from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
+import json
+
 class SystemConfigMutator(Behavior):
     """SystemConfigMutator is a behavior which modifies the configuration of the system according to
     its input.  It requires the following parameters of its input dicts:
@@ -33,7 +35,26 @@ class SystemConfigMutator(Behavior):
             try:
                 if not 'OperationType' in packet:
                     packet['OperationType'] = 'Assign'
-                if packet['OperationType'] == 'Assign':
+                
+                if packet['OperationType'] == 'Get':
+                    cb = packet['Callback']
+                    detail = packet['OperationDetail']
+                    
+                    if packet.has_key('OperationArg') and packet['OperationArg'] != None:
+                        arg = packet['OperationArg']
+                        if compReg.Registry.has_key(arg):
+                            reply = str(compReg.getComponent(arg))
+                        else:
+                            reply = "null"
+                    else:
+                        
+                        if detail == 'Objects':
+                            reply = compReg.Registry.keys()
+                        elif detail == 'Behaviors':
+                            reply = [x[0] for x in compReg.Registry.items() if issubclass(type(x[1]),Behavior)]
+                    cb(json.dumps(reply))
+                 
+                elif packet['OperationType'] == 'Assign':
                     cid = packet['ComponentId']
                     paramName = packet['ParamName']
                     newParamValue = packet['Value'] 
@@ -45,7 +66,8 @@ class SystemConfigMutator(Behavior):
                 elif packet['OperationType'] == 'Remove':
                     raise Exception('Remove not supported')
                     compReg.removeComponent(packet['ComponentId'])
-            except:
+            except Exception, e:
+                print str(e)
                 import pdb; pdb.set_trace()
         return ([],[])
 
