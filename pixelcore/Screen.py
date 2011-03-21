@@ -2,52 +2,47 @@ from pixelcore.Pixel import *
 from pixelcore.PixelStrip import *
 from operationscore.PixelEvent import *
 from operationscore.PixelMapper import *
-import util.Search as Search
 import util.ComponentRegistry as compReg
 import util.Strings as Strings
 import util.TimeOps as timeops
 import itertools
-import sys
 import pdb
+import numpy
 from logger import main_log
+import time
+
+class DummyPixelStrip: # to be removed as soon as the rest of the code allows
+    def __init__(self, pixels, argDict):
+        self.pixels = pixels
+        self.argDict = argDict
+    def __iter__(self):
+        return iter(self.pixels)
+
 class Screen:
     """Class representing a collection of Pixels grouped into PixelStrips.  Needs a
-    PixelMapper, currently set via setMapper by may be migrated into the argDict."""
+    PixelMapper, currently set via setMapper but may be migrated into the argDict."""
     
     def __init__(self):
         self.responseQueue = []
         self.pixelStrips = []
-        self.xSortedPixels = []
-        self.xPixelLocs = []
-        self.sizeValid = False 
-        self.pixelsSorted = False 
     
-    def addStrip(self, strip):
-        self.pixelStrips.append(strip)
-        self.sizeValid = False #keep track of whether or not our screen size has
-        self.pixelsSorted = False
-        #been invalidated by adding more pixels
-        
+    def initStrips(self, layouts):
+        stripLocs = [l.layoutFunc() for l in layouts]
+        pixels = [map(Pixel, s) for s in stripLocs]
+        for p, l in zip(pixels, layouts):
+            self.pixelStrips.append(DummyPixelStrip(p, l.argDict))
+        self.locs = numpy.concatenate(stripLocs) # locs is an n-by-2 array of all pixel locations
+        self.pixels = numpy.concatenate(pixels)
+        self.size = [f(self.locs[:,xy]) for f in (min,max) for xy in (0,1)] # (minX, minY, maxX, maxY)
+    
     def pixelsInRange(self, minX, maxX):
-        """Returns (pixelIndex, pixel).  Does a binary search.  Sorts first if neccesary."""
-        if not self.pixelsSorted:
-            self.computeXSortedPixels()
-        minIndex = Search.find_ge(self.xPixelLocs, minX) 
-        maxIndex = Search.find_le(self.xPixelLocs, maxX)+1
-        return self.xSortedPixels[minIndex:maxIndex]
-        
-    def computeXSortedPixels(self):
-        self.xSortedPixels = []
-        for pixel in self:
-            self.xSortedPixels.append((pixel.location[0], pixel))
-        self.xSortedPixels.sort()
-        self.xPixelLocs = [p[0] for p in self.xSortedPixels]
-        self.pixelsSorted = True 
+        """Returns (pixelIndex, pixel)."""
+        index = (minX <= self.locs[:,0]) & (self.locs[:,0] <= maxX)
+        return itertools.izip(self.locs[index,0], self.pixels[index])
     
-    def __iter__(self): #the iterator of all our pixel strips chained togther
-        return itertools.chain(*[strip.__iter__() for strip in \
-            self.pixelStrips]) #the * operator breaks the list into args 
-            
+    def __iter__(self): # iterator over all pixels
+        return iter(self.pixels)
+    
     #SUBVERTING DESIGN FOR EFFICIENCY 1/24/11, RCOH -- It would be cleaner to store the time on the responses
     #themselves, however, it is faster to just pass it in.
     def timeStep(self, currentTime=None):
@@ -64,22 +59,9 @@ class Screen:
     def respond(self, responseInfo):
         self.responseQueue.append(responseInfo)
         
+    # depricated: just use self.size
     def getSize(self):
-        """Returns the size of the screen in the form: (minx, miny, maxx, maxy)"""
-        if self.sizeValid:
-            return self.size
-        (minX, minY, maxX, maxY) = (sys.maxint,sys.maxint,-sys.maxint,-sys.maxint)
-        for light in self:
-            (x,y) = light.location
-            
-            minX = min(x, minX)
-            maxX = max(x, maxX)
-
-            minY = min(y, minY)
-            maxY = max(y, maxY)
-        self.size = (minX,minY, maxX, maxY)
-        self.sizeValid = True
-        return (minX, minY, maxX, maxY) 
+        return self.size
         
     #private
     def processResponse(self, responseInfo, currentTime=None): #we need to make a new dict for

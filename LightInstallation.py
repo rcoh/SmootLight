@@ -82,12 +82,8 @@ class LightInstallation(object):
         
     def initializeScreen(self, layoutConfig):
         pixelAssemblers = self.initializeComponent(layoutConfig)
-        [self.addPixelStrip(l) for l in pixelAssemblers]
-        
-    def addPixelStrip(self, layoutEngine):
-        pixelStrip = PixelStrip(layoutEngine)
-        self.screen.addStrip(pixelStrip)
-        
+        self.screen.initStrips(pixelAssemblers)
+    
     def initializeInputs(self, inputConfig):
         inputs = self.initializeComponent(inputConfig)
         self.inputs = inputs
