@@ -92,8 +92,8 @@ class LightInstallation(object):
         inputs = self.initializeComponent(inputConfig)
         self.inputs = inputs
         for inputClass in inputs:
-            inputClass.start()
             self.inputBehaviorRegistry[inputClass['Id']] = [] #Bound behaviors will be added to this
+            inputClass.start()
             #list
             
     def initializeRenderers(self, rendererConfig):

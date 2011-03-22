@@ -21,7 +21,10 @@ class AddPixelEvent(Behavior):
         ret = []
         for sensory in sensors:
             outDict = {}
-            outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
+            try:
+                outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
+            except :
+                import pdb; pdb.set_trace()
             settingsDict = dict(self.argDict)
             settingsDict['Color'] = sensory['Color']
             outDict['PixelEvent'] = self.eventGenerator(settingsDict)
