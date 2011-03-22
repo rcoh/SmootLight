@@ -1,5 +1,4 @@
-from pixelcore.Pixel import * 
-from pixelcore.PixelStrip import *
+from pixelcore.Pixel import *
 from operationscore.PixelEvent import *
 from operationscore.PixelMapper import *
 import util.ComponentRegistry as compReg
@@ -8,6 +7,7 @@ import util.TimeOps as timeops
 import itertools
 import pdb
 import numpy
+from scipy.spatial import KDTree
 from logger import main_log
 import time
 
@@ -19,8 +19,7 @@ class DummyPixelStrip: # to be removed as soon as the rest of the code allows
         return iter(self.pixels)
 
 class Screen:
-    """Class representing a collection of Pixels grouped into PixelStrips.  Needs a
-    PixelMapper, currently set via setMapper but may be migrated into the argDict."""
+    """Class representing a collection of Pixels grouped into PixelStrips."""
     
     def __init__(self):
         self.responseQueue = []
@@ -32,6 +31,7 @@ class Screen:
         for p, l in zip(pixels, layouts):
             self.pixelStrips.append(DummyPixelStrip(p, l.argDict))
         self.locs = numpy.concatenate(stripLocs) # locs is an n-by-2 array of all pixel locations
+        self.tree = KDTree(self.locs) # super-fast nearest neighbor lookups
         self.pixels = numpy.concatenate(pixels)
         self.size = [f(self.locs[:,xy]) for f in (min,max) for xy in (0,1)] # (minX, minY, maxX, maxY)
     
@@ -45,11 +45,9 @@ class Screen:
     
     #SUBVERTING DESIGN FOR EFFICIENCY 1/24/11, RCOH -- It would be cleaner to store the time on the responses
     #themselves, however, it is faster to just pass it in.
-    def timeStep(self, currentTime=None):
+    def timeStep(self, currentTime):
         """Increments time -- This processes all queued responses, adding that to a queue that will
         be processed on the next time step."""
-        if currentTime == None:
-            currentTime = timeops.time()
         tempQueue = list(self.responseQueue)
         self.responseQueue = []
         for response in tempQueue:
@@ -64,10 +62,8 @@ class Screen:
         return self.size
         
     #private
-    def processResponse(self, responseInfo, currentTime=None): #we need to make a new dict for
+    def processResponse(self, responseInfo, currentTime): #we need to make a new dict for
         #each to prevent interference
-        if currentTime == None:
-            currentTime = timeops.time()
         if type(responseInfo) != type(dict()):
             pass
         if 'Mapper' in responseInfo:
