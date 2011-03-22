@@ -2,17 +2,12 @@ from operationscore.PixelMapper import *
 import util.Geo as Geo
 import math
 class WindGaussianMapper(PixelMapper):
-    def mappingFunction(self, eventLocation, screen):
-        returnPixels = [] #TODO: consider preallocation and trimming
-        [x,y] = eventLocation
-        potentialPixels = screen.pixelsInRange(x-self.CutoffDist, x)
-        for (xloc,pixel) in screen.pixelsInRange(x-self.CutoffDist, x):
-            pixelDistx = math.fabs(pixel.location[0] - x)
-            pixelDisty = math.fabs(pixel.location[1] - y)
-            if pixelDistx < self.CutoffDist:
-		if pixelDisty < 30:
-	                w = Geo.windtrail(pixelDistx, pixelDisty, self.Height, 0, self.Width)
-	                if w > self.MinWeight:
-        	            returnPixels.append((pixel, w))
-
-        return returnPixels
+    def mappingFunction(self, loc, screen):
+        h, w, d = self.Height, self.Width, self.CutoffDist
+        temp = screen.tree.query(loc, k=None, distance_upper_bound=d)
+        dists, indices = array(temp[0]), array(temp[1])
+        x, y = screen.locs[indices] - loc
+        weights = h * exp(-square(x/w)/2) * square(exp(-y/w/.2))
+        valid = weights > self.MinWeight
+        return zip(indices[valid], weights[valid])
+    

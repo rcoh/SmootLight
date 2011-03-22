@@ -11,12 +11,12 @@ class DiffuserMapper(PixelMapper):
             except:
                 raise (NotImplementedError,
                        'DiffuserMapper was given undiffused pixels')
-            for pixel in strip:
-                offset = eventLocation - pixel.location
+            for i, p in zip(strip.indices, strip.pixels):
+                offset = eventLocation - p.location
                 dist, height = array(offset * matrix(basis)**-1)[0]
                 if abs(dist) < .5:
                     if self['RevLen'] <= height <= 0:
-                        result.append((pixel, 1 + height/self['RevLen']))
+                        result.append((i, 1 + height/self['RevLen']))
                     elif 0 <= height <= self['FwdLen']:
-                        result.append((pixel, 1 - height/self['FwdLen']))
+                        result.append((i, 1 - height/self['FwdLen']))
         return result

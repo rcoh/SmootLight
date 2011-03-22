@@ -1,5 +1,7 @@
 from operationscore.PixelMapper import *
 import util.Geo as Geo
+from numpy import exp, square, array
+
 class GaussianMapper(PixelMapper):
     """GaussianMapper is a PixelMapper which weights pixels around an event proportional to a
     gaussian surface.  Specify:
@@ -8,17 +10,10 @@ class GaussianMapper(PixelMapper):
     <MinWeight> -- the minimum weight event that can be returned
     <CutoffDist> -- the maximum radius considered
     """
-
-    def mappingFunction(self, eventLocation, screen):
-        returnPixels = [] 
-        [x,y] = eventLocation
-        potentialPixels = screen.pixelsInRange(x-self.CutoffDist, \
-                x+self.CutoffDist)
-        for (x,pixel) in screen.pixelsInRange(x-self.CutoffDist, \
-                x+self.CutoffDist):
-            pixelDist = Geo.dist(pixel.location, eventLocation)
-            if pixelDist < self.CutoffDist:
-                w = Geo.gaussian(pixelDist, self.Height, 0, self.Width)
-                if w > self.MinWeight:
-                    returnPixels.append((pixel, w))
-        return returnPixels
+    def mappingFunction(self, loc, screen):
+        h, w, d = self.Height, self.Width, self.CutoffDist
+        temp = screen.tree.query(loc, k=None, distance_upper_bound=d)
+        dists, indices = array(temp[0]), array(temp[1])
+        weights = h * exp(-square(dists/w)/2)
+        valid = weights > self.MinWeight
+        return zip(indices[valid], weights[valid])

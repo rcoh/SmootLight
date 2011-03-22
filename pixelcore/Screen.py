@@ -3,8 +3,6 @@ from operationscore.PixelEvent import *
 from operationscore.PixelMapper import *
 import util.ComponentRegistry as compReg
 import util.Strings as Strings
-import util.TimeOps as timeops
-import itertools
 import pdb
 import numpy
 from scipy.spatial import KDTree
@@ -12,7 +10,8 @@ from logger import main_log
 import time
 
 class DummyPixelStrip: # to be removed as soon as the rest of the code allows
-    def __init__(self, pixels, argDict):
+    def __init__(self, indices, pixels, argDict):
+        self.indices = indices
         self.pixels = pixels
         self.argDict = argDict
     def __iter__(self):
@@ -28,18 +27,18 @@ class Screen:
     def initStrips(self, layouts):
         stripLocs = [l.layoutFunc() for l in layouts]
         pixels = [map(Pixel, s) for s in stripLocs]
+        index = 0
         for p, l in zip(pixels, layouts):
-            self.pixelStrips.append(DummyPixelStrip(p, l.argDict))
+            self.pixelStrips.append(DummyPixelStrip(range(index, index+len(p)), p, l.argDict))
+            index += len(p)
         self.locs = numpy.concatenate(stripLocs) # locs is an n-by-2 array of all pixel locations
         self.tree = KDTree(self.locs) # super-fast nearest neighbor lookups
+        self.size = [min(self.locs[:,0]), min(self.locs[:,1]),
+                     max(self.locs[:,0]), max(self.locs[:,1])]
         self.pixels = numpy.concatenate(pixels)
-        self.size = [f(self.locs[:,xy]) for f in (min,max) for xy in (0,1)] # (minX, minY, maxX, maxY)
     
-    def pixelsInRange(self, minX, maxX):
-        """Returns (pixelIndex, pixel)."""
-        index = (minX <= self.locs[:,0]) & (self.locs[:,0] <= maxX)
-        return itertools.izip(self.locs[index,0], self.pixels[index])
-    
+    def __len__(self):
+        return len(self.locs)
     def __iter__(self): # iterator over all pixels
         return iter(self.pixels)
     
@@ -52,7 +51,7 @@ class Screen:
         self.responseQueue = []
         for response in tempQueue:
             self.processResponse(response, currentTime)
-        
+    
     #public
     def respond(self, responseInfo):
         self.responseQueue.append(responseInfo)
@@ -70,9 +69,8 @@ class Screen:
             mapper = compReg.getComponent(responseInfo['Mapper']) 
         else:
             mapper = compReg.getComponent(Strings.DEFAULT_MAPPER)
-        pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
-        main_log.debug('Screen processing response.  ' + str(len(pixelWeightList)) + ' events\
-generated')
+        weights = mapper.mapEvent(responseInfo['Location'], self)
+        main_log.debug('Screen processing response.  {0} events generated.'.format(len(weights)))
         PixelEvent.addPixelEventIfMissing(responseInfo)
-        for (pixel, weight) in pixelWeightList: 
-            pixel.processInput(responseInfo['PixelEvent'], 0,weight, currentTime) #TODO: z-index
+        for (index, weight) in weights:
+            self.pixels[index].processInput(responseInfo['PixelEvent'], 0,weight, currentTime) #TODO: z-index
