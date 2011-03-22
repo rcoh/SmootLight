@@ -22,7 +22,7 @@ class RunningBehavior(Behavior):
             (outDict['StepSize']*outDict['Dir'],0))
             
             if not Geo.pointWithinBoundingBox(outDict['Location'], \
-                compReg.getComponent('Screen').getSize()):
+                compReg.getComponent('Screen').size):
                     outDict['Dir'] *= -1
             ret.append(outDict)
         ret += newResponses

@@ -9,7 +9,7 @@ class ContinuousLocationInput(Input):
         xvals = {}
         yvals = {}
         compReg.getLock().acquire()
-        xvals['left'], yvals['bottom'], xvals['right'], yvals['top'] = compReg.getComponent('Screen').getSize()
+        xvals['left'], yvals['bottom'], xvals['right'], yvals['top'] = compReg.getComponent('Screen').size
         compReg.getLock().release()
         (xvals['center'], yvals['center']) = ((xvals['left']+xvals['right']) / 2, (yvals['top']+yvals['bottom']) / 2)
 

@@ -25,7 +25,7 @@ class TouchOSC(Behavior):
                 self.v = data['Value'][0]
             elif data['Path'] == '/1/xy':
                 val=data['Value']
-                ssize = compReg.getComponent('Screen').getSize()[-2:] #896 x 310
+                ssize = compReg.getComponent('Screen').size[-2:] #896 x 310
                 self.xy = (val[1]*ssize[0], (1.0-val[0])*ssize[1])
             else:
                 main_log.error('Sensor Inputs: ' + str(sensorInputs))

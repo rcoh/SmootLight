@@ -8,7 +8,7 @@ class ImageToPixels(Behavior):
             dataPacket = sensors[0]
             screen = compReg.getComponent('Screen')
             im = dataPacket['Image'] 
-            minX,minY,maxX,maxY = compReg.getComponent('Screen').getSize()
+            minX,minY,maxX,maxY = compReg.getComponent('Screen').size
             sWidth = maxX-minX
             sHeight = maxY-minY
             (imageWidth,imageHeight)=im.size
