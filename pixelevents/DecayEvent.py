@@ -2,6 +2,8 @@ from operationscore.PixelEvent import *
 import math
 from util.ColorOps import * 
 import util.Geo as Geo
+from numpy import array, exp
+
 class DecayEvent(PixelEvent):
     """DecayEvent is a pixel event that can decay either Exponentially or Proportionally.  Specify:
     <DecayType> -- Exponential or Proportional
@@ -20,10 +22,16 @@ class DecayEvent(PixelEvent):
         if self.decayType == 1:
             decay = Geo.approxexp(timeDelay*-1*self.coefficient)
         if self.decayType == 2:
-            decay = self.coefficient / timeDelay
+            decay = self.coefficient / timeDelay # I don't think this does what you want...
         color = multiplyColor(self.color, decay)
         return color if (color[0] + color[1] + color[2]) > 5 else None
-        
+    
+    def coeffs(self):
+        if self.decayType == 1: # exp
+            return array([1., exp(-self.coefficient/30), 0.])
+        else:
+            return array([1., 0., -self.coefficient/30])
+    
     @staticmethod
     def generate(decayType, coefficient, color):
         args = {'DecayType': decayType, 'Coefficient':coefficient, 'Color':color}

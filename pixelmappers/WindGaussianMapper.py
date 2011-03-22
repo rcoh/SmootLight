@@ -1,6 +1,6 @@
 from operationscore.PixelMapper import *
-import util.Geo as Geo
-import math
+from numpy import exp, square, array
+
 class WindGaussianMapper(PixelMapper):
     def mappingFunction(self, loc, screen):
         h, w, d = self.Height, self.Width, self.CutoffDist

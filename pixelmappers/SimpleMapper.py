@@ -1,7 +1,6 @@
 from operationscore.PixelMapper import *
-import util.Geo as Geo
 import math
-import sys
+
 class SimpleMapper(PixelMapper):
     """SimpleMapper is a PixelMapper which maps events to the nearest Pixel.  It also supports
     strings of the form:

@@ -31,8 +31,6 @@ class Pixel:
         
     #Add a pixelEvent to the list of active events
     def processInput(self,pixelEvent,zindex, scale=1,currentTime=None): #consider migrating arg to dict
-        if currentTime == None:
-            currentTime = timeops.time()
         self.events.append((currentTime, zindex, scale, pixelEvent)) #TODO: clean this up, maybe? 
     def clearAllEvents(self):
         self.events = [] 

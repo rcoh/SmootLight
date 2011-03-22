@@ -1,5 +1,4 @@
 from operationscore.PixelMapper import *
-import util.Geo as Geo
 from numpy import exp, square, array
 
 class GaussianMapper(PixelMapper):
