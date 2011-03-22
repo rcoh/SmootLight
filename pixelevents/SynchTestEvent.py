@@ -1,15 +1,12 @@
 from operationscore.PixelEvent import *
+from numpy import array
+
 class SynchTestEvent(PixelEvent):
     """SynchTestEvent is an event to test the synchronization of the power supplies"""
     def initEvent(self):
-        self.eventstate = 0 
-        self.cachedDelay = 0
-    def state(self, timeDelay):
-        if timeDelay != self.cachedDelay:
-            self.eventstate += 1 
-            self.cachedDelay = timeDelay
-        color = [0]*3
-        color[self.eventstate % 3] = 150
-        if self.eventstate > 500:
-            self.eventstate = 0
-        return color
+        self.eventstate = 0
+        self.colors = ([200,0,0],[0,200,0],[0,0,200])
+    def coeffs():
+        self.Color = self.colors[self.eventstate]
+        self.eventstate = (self.eventstate + 1) % 3
+        return (array([1.,0.,0.]), self)

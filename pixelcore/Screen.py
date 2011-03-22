@@ -44,8 +44,7 @@ class Screen:
         self.size = [min(self.locs[:,0]), min(self.locs[:,1]),
                      max(self.locs[:,0]), max(self.locs[:,1])]
         self.state = numpy.zeros((3, len(self), 3), dtype='float') # p[n] = c1*p[n-1] + c2
-        self.pixels = map(Pixel, self.locs)
-        # self.pixels = [DummyPixel(self, i) for i in range(len(self))]
+        self.pixels = [DummyPixel(self, i) for i in range(len(self))]
     
     def __len__(self):
         return len(self.locs)
@@ -82,7 +81,8 @@ class Screen:
         weights = mapper.mapEvent(responseInfo['Location'], self)
         main_log.debug('Screen processing response.  {0} events generated.'.format(len(weights)))
         PixelEvent.addPixelEventIfMissing(responseInfo)
-        coeffs = responseInfo['PixelEvent'].coeffs()[:, None] * responseInfo['PixelEvent'].Color/255.
+        coeffs, newEvent = responseInfo['PixelEvent'].coeffs()
+        arr = coeffs[:, None] * responseInfo['PixelEvent'].Color/255
         for (index, weight) in weights:
-            self.pixels[index].processInput(responseInfo['PixelEvent'], 0,weight, currentTime)
-            self.state[:,index] = coeffs * weight
+            self.state[:,index] = arr * weight
+        return newEvent

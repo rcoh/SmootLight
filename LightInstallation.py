@@ -147,8 +147,7 @@ class LightInstallation(object):
             [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
             sleepTime = max(0,refreshInterval-loopElapsed)
-            main_log.debug('Loop complete in ' + str(loopElapsed) + 'ms.  Sleeping for ' +\
-                str(sleepTime))
+            main_log.debug('Loop complete in {0} ms.  Sleeping for {1} ms.'.format(loopElapsed, sleepTime))
             self.timer.stop()
             if sleepTime > 0:
                 time.sleep(sleepTime/1000)

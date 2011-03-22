@@ -16,21 +16,12 @@ class DecayEvent(PixelEvent):
         else:
             self.decayType = 2
         self.color = self.Color   
-        
-    #SUBVERTING DESIGN FOR THE SAKE OF EFFICIENCY -- RUSSELL COHEN (2011-01-03-23:18)    
-    def state(self,timeDelay):
-        if self.decayType == 1:
-            decay = Geo.approxexp(timeDelay*-1*self.coefficient)
-        if self.decayType == 2:
-            decay = self.coefficient / timeDelay # I don't think this does what you want...
-        color = multiplyColor(self.color, decay)
-        return color if (color[0] + color[1] + color[2]) > 5 else None
     
     def coeffs(self):
         if self.decayType == 1: # exp
-            return array([1., exp(-self.coefficient/30), 0.])
+            return (array([1., exp(-self.coefficient/30), 0.]), None)
         else:
-            return array([1., 0., -self.coefficient/30])
+            return (array([1., 0., -self.coefficient/30]), None)
     
     @staticmethod
     def generate(decayType, coefficient, color):
