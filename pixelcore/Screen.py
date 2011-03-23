@@ -28,8 +28,6 @@ class Screen:
     
     def __len__(self):
         return len(self.locs)
-    def __getitem__(self, index):
-        return self.locs[index], self.state[0, index]
     def __iter__(self): # iterator over all pixels
         return izip(self.locs, self.state[0])
     
@@ -39,12 +37,13 @@ class Screen:
         newQueue = []
         self.state[0] *= self.state[1] # Process existing state
         self.state[0] += self.state[2] # Process existing state
+        self.state *= 0 < self.state[0] # Zero out dead events
         for responseInfo in self.responseQueue:
             result = self.processResponse(responseInfo, currentTime)
             if result: newQueue.append(result)
         numpy.minimum(self.state[0], 1, self.state[0]) # Limit maximum
         numpy.maximum(self.state[0], 0, self.state[0]) # Limit minumum
-        self.responseQueue = newQueue
+        self.responseQueue = newQueue # BROKEN
 
     #public
     def respond(self, responseInfo):
@@ -60,4 +59,4 @@ class Screen:
         arr = coeffs[:, None] * responseInfo['PixelEvent'].Color/255
         for (index, weight) in weights:
             self.state[:,index] = arr * weight
-        return newEvent
+        return newEvent # BROKEN

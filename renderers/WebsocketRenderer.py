@@ -80,10 +80,11 @@ class WebsocketRenderer(Renderer):
         json_frame = []
         
         for loc, c in lightSystem:
-            if all(c == 0):
+            if all(c < 0.05):
                 continue
-            cs = 'rgb({0},{1},{2})'.format(*c)
-            json_frame.append((map(int,loc), cs*255))
+            cs = 'rgb({0},{1},{2})'.format(*map(int, c*255))
+            print(cs)
+            json_frame.append((map(int, loc), cs))
         
         size = compReg.getComponent('Screen').size
         
