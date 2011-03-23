@@ -1,0 +1,59 @@
+<LightInstallation>
+    <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>gaussmap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>gaussmap</Id>
+                <CutoffDist>15</CutoffDist>
+                <MinWeight>0.1</MinWeight>
+                <Width>7</Width>
+                <Height>1</Height>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+    <InputConfiguration>
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Doc>PHONE INPUT!</Doc>
+            <Args>
+                <Id>osc</Id>
+                <Port>1234</Port>
+                <RefreshInterval>10</RefreshInterval>
+            </Args>
+        </InputElement>
+    </InputConfiguration>
+    <BehaviorConfiguration>
+        <Behavior Id="decay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decay a pixel event over several frames</Doc>
+        </Behavior>
+        <Behavior>
+            <Args>
+                <Id>touchosc</Id>
+            </Args>
+            <Class>behaviors.TouchOSC</Class>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>Creates a large colored circle at the location specified by osc</Doc>
+            <Args>
+                <Id>OSCTouchChase</Id>
+                <Inputs>
+                    <Id>osc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>touchosc</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+    </BehaviorConfiguration>
+</LightInstallation>

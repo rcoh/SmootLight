@@ -12,5 +12,5 @@ class RandomLocs(Input):
     def sensingLoop(self): #TODO: move to params
         currentTime = clock.time()
         if currentTime - self['LastEvent'] > 200+500*random.random():
-            self.respond({Strings.LOCATION: Geo.randomLoc((200,200))})
+            self.respond({Strings.LOCATION: Geo.randomLoc((200,50))})
             self['LastEvent'] = currentTime

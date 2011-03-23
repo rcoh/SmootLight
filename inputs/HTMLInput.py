@@ -19,11 +19,13 @@ class HTMLInput(Input):
 
     def sensingLoop(self):
         self.getHTML()
-        self.dataList = []
+        self.dataDict = {}
         
         pattern = re.compile(self.regex)
         matchObj = pattern.search(self.html)        
-        self.dataList = matchObj.groups()
-
-        self.respond(self.dataList)
+        dataList = matchObj.groups()
+        self.dataDict['WindSpeed'] = dataList[0]
+        self.dataDict['WindDir'] = dataList[1]
+        
+        self.respond(self.dataDict)
 	

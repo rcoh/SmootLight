@@ -20,6 +20,7 @@ class PixelEvent(SmootCoreObject):
         pass
     @staticmethod 
     def addPixelEventIfMissing(responseDict):
+	from pixelevents.StepEvent import *
         if not 'PixelEvent' in responseDict:
             if 'Color' in responseDict:
                 color = responseDict['Color']
