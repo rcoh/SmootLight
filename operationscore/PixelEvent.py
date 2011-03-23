@@ -2,7 +2,6 @@
 which should return a color, or None if the response is complete.  Consider
 requiring a generate event."""
 from operationscore.SmootCoreObject import *
-from pixelevents.StepEvent import *
 import util.ColorOps as color
 class PixelEvent(SmootCoreObject):
     def init(self):
@@ -26,5 +25,6 @@ class PixelEvent(SmootCoreObject):
                 color = responseDict['Color']
             else:
                 raise Exception('Need Color.  Probably')
+            from pixelevents.StepEvent import StepEvent
             responseDict['PixelEvent'] = StepEvent.generate(300, color)
         

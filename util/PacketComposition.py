@@ -9,11 +9,8 @@ argDict = {'flags': 0, 'startcode': 0x0fff, 'pad':0}
 
 def composePixelStripData(pixelStrip,currentTime=timeops.time()):
     packet = bytearray()
-    for light in pixelStrip:
-        color = light.state(currentTime)
-        for channel in color: #skip the last value, its an
-            #alpha value
-            packet.append(struct.pack('B', channel))
+    for value in pixelStrip.ravel():
+        packet.append(struct.pack('B', value))
     return packet
 #    packet = [0]*len(pixelStrip.pixels)*3 #preallocate for speed
 #    for i in range(len(pixelStrip.pixels)): 

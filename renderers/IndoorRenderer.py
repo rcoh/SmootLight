@@ -8,8 +8,7 @@ class IndoorRenderer(Renderer):
     """IndoorRenderer is a renderer for a specific Light System"""
 
     def initRenderer(self):
-        self.stripLocations = {} #Dict that stores info necessary to render to
-        #strips
+        self.stripLocations = {} #Dict that stores info necessary to render to strips
         self.sockets = {} #dict of (IP)->Socket
         #a strip
         powerSupplies = self.argDict['PowerSupply']
@@ -19,22 +18,18 @@ class IndoorRenderer(Renderer):
             ip = powerSupply['IP']
             stripsInPowerSupply = powerSupply['PortMapping']
             for stripId in stripsInPowerSupply:
-                self.stripLocations[stripId] = (ip, \
-                        stripsInPowerSupply[stripId])
+                self.stripLocations[stripId] = (ip, stripsInPowerSupply[stripId])
         self.broadSocket = network.getBroadcastSocket(6038) 
     def render(self, lightSystem, currentTime=timeops.time()): 
-        #try:
-            for pixelStrip in lightSystem.pixelStrips:
+        try:
+            for pixelStrip in lightSystem.strips:
                 stripId = pixelStrip.argDict['Id']
                 (ip, port) = self.stripLocations[stripId] 
                 if not ip in self.sockets: #do we have a socket to this
                     #strip? if not, spin off a new one
                     self.sockets[ip] = network.getConnectedSocket(ip,sock_port)
-                packet = composer.composePixelStripPacket(pixelStrip, port, currentTime) 
+                packet = composer.composePixelStripPacket(pixelStrip.values, port, currentTime) 
                 self.sockets[ip].send(packet, 0x00)
-            
             synchPacket = composer.composeSynchPacket()
             #pdb.set_trace()
             #self.broadSocket.sendto(synchPacket, ('10.0.32.255', 6038))
-            
-

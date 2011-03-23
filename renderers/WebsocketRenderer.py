@@ -79,16 +79,11 @@ class WebsocketRenderer(Renderer):
     def render(self, lightSystem, currentTime=timeops.time()):
         json_frame = []
         
-        for light in lightSystem:
-            loc = light.location
-            c = light.state(currentTime)
-            
-            if c == (0,0,0):
+        for loc, c in lightSystem:
+            if all(c == 0):
                 continue
-            
-            cs = 'rgb('+str(c[0])+','+str(c[1])+','+str(c[2])+')'
-            loc = map(int, loc) 
-            json_frame.append((loc, cs))
+            cs = 'rgb({0},{1},{2})'.format(*c)
+            json_frame.append((map(int,loc), cs*255))
         
         size = compReg.getComponent('Screen').size
         
