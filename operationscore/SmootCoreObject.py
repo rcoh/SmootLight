@@ -24,7 +24,6 @@ class SmootCoreObject(object):
         pass
         
     def acquireLock(self):
-        self.lock = thread.allocate_lock() #TODO: fix. -- investigate this, it should only have to be run once in the initialization.
         self.lock.acquire()
         
     def releaseLock(self):

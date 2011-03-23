@@ -45,9 +45,9 @@ class Input(ThreadedSmootCoreObject):
                 die = self.parentAlive()
             except:
                 break
-            #self.acquireLock()
+            self.acquireLock()
             self.sensingLoop()
-            #self.releaseLock()
+            self.releaseLock()
             #print self['Id'], self.argDict['RefreshInterval']
             time.sleep(self.argDict['RefreshInterval']/float(1000))
             if self.done:

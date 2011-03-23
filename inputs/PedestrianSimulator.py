@@ -26,6 +26,9 @@ class PedestrianSimulator(Input):
                                             'RefreshInterval':500, 'Location':x})
             x += self['SensorSpacing']
             self.sensors.append(sensor)
+
+        print 'max sensor x', x
+        print 'maxx', self['MaxX']
     def initPedestrians(self,numPeds, vel, maxX):
         for i in xrange(numPeds):
             if random.random() > .5:
@@ -50,3 +53,10 @@ class PedestrianSimulator(Input):
     def movePedestrians(self, dt):
         for ped in self.peds:
             ped['Loc'] += ped['Vel'] * dt/1000
+            #Bounce pedestrians that turn
+            if ped['Loc'] < 0:
+                ped['Vel'] = -ped['Vel']
+                ped['Loc'] = 0
+            if ped['Loc'] > self['MaxX']:
+                ped['Vel'] = -ped['Vel']
+                ped['Loc'] = self['MaxX'] 

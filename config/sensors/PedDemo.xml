@@ -29,9 +29,9 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
+        <!--Renderer>
             <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
+        </Renderer-->
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
