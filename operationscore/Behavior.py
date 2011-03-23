@@ -20,8 +20,8 @@ class Behavior(SmootCoreObject):
         self.recursiveResponseQueue = []
         self.sensorResponseQueue = []
         self.outGoingQueue = []
-        self.lastState = None
-        self.behaviorInit()
+        # to make this class more state-machine-like:
+        self.lastState = self.behaviorInit()
     
     def behaviorInit(self):
         pass
@@ -85,11 +85,15 @@ class Behavior(SmootCoreObject):
                             main_log.error('Here')
                     return responses
         return responses
+
+    def clearInputs(self):
+        self.sensorResponseQueue = []
+
     
     def timeStep(self): #TODO: type checking.  clean this up
         (outputs, recursions) = self.processResponse(self.sensorResponseQueue, \
                 self.recursiveResponseQueue)
-        self.sensorResponseQueue = []
+        self.clearInputs()
         self.recursiveResponseQueue = recursions 
         self.setLastOutput(outputs)
         main_log.debug(self['Id'] + ' Ouputs ' + str(outputs))
