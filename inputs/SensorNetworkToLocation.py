@@ -1,7 +1,7 @@
 """SensorNetworkToLocation converts data from a sensor network in terms of ids into their actual
 locations.
 Params:
-<SensorId> -- the cid of the component generating raw sensor data -- Note that this component may
+<SensorNetworkId> -- the cid of the component generating raw sensor data -- Note that this component may
 need to be below that component in the XML
 <SensorSpacing> -- sensors location = int(id)*SensorSpacing 
 
@@ -14,6 +14,7 @@ to the response which it infers from the SensorId field.
 from operationscore.Input import *
 import util.ComponentRegistry as compReg
 import thread
+from logger import main_log
 class SensorNetworkToLocation(Input):
     def inputInit(self):
         self.lock = thread.allocate_lock()
@@ -22,7 +23,7 @@ class SensorNetworkToLocation(Input):
     def makeListener(self):
         try:
             compReg.getLock().acquire()
-            compReg.getComponent(self['SensorId']).addListener(self)
+            compReg.getComponent(self['SensorNetworkId']).addListener(self)
             compReg.getLock().release()
             return True
         except Exception as ex:

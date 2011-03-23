@@ -1,4 +1,3 @@
-
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
     <InstallationConfiguration>
@@ -60,7 +59,7 @@
             <Class>inputs.SensorNetworkToLocation</Class>
             <Args>
                 <Id>netloc</Id>
-                <SensorId>pedsim</SensorId>
+                <SensorNetworkId>pedsim</SensorNetworkId>
                 <SensorSpacing>48</SensorSpacing>
             </Args>
         </InputElement>
