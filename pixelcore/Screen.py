@@ -1,17 +1,20 @@
-from operationscore.PixelEvent import *
-from operationscore.PixelMapper import *
+from operationscore.PixelEvent import PixelEvent, addPixelEventIfMissing
+from operationscore.PixelMapper import PixelMapper
 from util import Strings, ComponentRegistry
 import numpy
 from scipy.spatial import KDTree
 from logger import main_log
 from itertools import izip
+from heapq import *
 
 class Screen:
     """Class representing a collection of Pixels grouped into PixelStrips."""
     
     def __init__(self):
         self.responseQueue = []
+        self.eventHeap = [] # stores items in the format (nextTime, lastTime, event, weights)
         self.pixelStrips = []
+        self.lastTime = 0
     
     def initStrips(self, stripLayouts):
         self.strips = stripLayouts # to do: turn layout into a hybrid pixelstrip-ish object
@@ -19,7 +22,7 @@ class Screen:
         self.tree = KDTree(self.locs) # super-fast nearest neighbor lookups
         self.size = [min(self.locs[:,0]), min(self.locs[:,1]),
                      max(self.locs[:,0]), max(self.locs[:,1])]
-        self.state = numpy.zeros((3, len(self), 3), dtype='float') # p[n] = c1*p[n-1] + c2
+        self.state = numpy.zeros((3, len(self), 3), dtype='float') # quadratic
         # still need access to pixel strips for diffuser and power supply information
         indices = numpy.cumsum([0] + [s.numPixels for s in self.strips])
         for strip, i1, i2 in zip(self.strips, indices[:-1], indices[1:]):
@@ -32,18 +35,17 @@ class Screen:
         return izip(self.locs, self.state[0])
     
     def timeStep(self, currentTime):
-        """Increments time -- This processes all queued responses, adding that to a queue that will
-        be processed on the next time step."""
-        newQueue = []
-        self.state[0] *= self.state[1] # Process existing state
-        self.state[0] += self.state[2] # Process existing state
-        self.state *= 0 < self.state[0] # Zero out dead events
-        for responseInfo in self.responseQueue:
-            result = self.processResponse(responseInfo, currentTime)
-            if result: newQueue.append(result)
+        """Increments time -- This processes all queued responses and
+        events."""
+        t, self.lastTime = currentTime - self.lastTime, self.lastTime
+        # Shift the cubic by t
+        self.state[0] += t * (self.state[1] + t * self.state[2])
+        self.state[1] += t * 2 * self.state[2]
+        while self.responseQueue:
+            self.processResponse(self.responseQueue.pop(0), currentTime)
+        self.processEvents(currentTime)
         numpy.minimum(self.state[0], 1, self.state[0]) # Limit maximum
         numpy.maximum(self.state[0], 0, self.state[0]) # Limit minumum
-        self.responseQueue = newQueue # BROKEN
 
     #public
     def respond(self, responseInfo):
@@ -53,10 +55,14 @@ class Screen:
     def processResponse(self, responseInfo, currentTime):
         mapper = ComponentRegistry.getComponent(responseInfo.get('Mapper', Strings.DEFAULT_MAPPER))
         weights = mapper.mapEvent(responseInfo['Location'], self)
-        main_log.debug('Screen processing response.  {0} events generated.'.format(len(weights)))
-        PixelEvent.addPixelEventIfMissing(responseInfo)
-        coeffs, newEvent = responseInfo['PixelEvent'].coeffs()
-        arr = coeffs[:, None] * responseInfo['PixelEvent'].Color/255
-        for (index, weight) in weights:
-            self.state[:,index] = arr * weight
-        return newEvent # BROKEN
+        main_log.debug('Screen processing response.  Event generated.')
+        addPixelEventIfMissing(responseInfo)
+        heappush(self.eventHeap, (currentTime, responseInfo['PixelEvent'], weights))
+    def processEvents(self, currentTime):
+        while self.eventHeap and self.eventHeap[0][0] <= currentTime:
+            oldTime, startTime, event, weights = heappop(self.eventHeap)
+            coeffs, time = event.changeInState(currentTime-startTime)
+            for index, weight in weights:
+                self.state[:,index] += weight * coeffs
+            if time: # if the event wants to run again
+                heappush(self.eventHeap, (startTime+time, startTime, event, weights))

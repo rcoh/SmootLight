@@ -10,8 +10,7 @@ class PygameRenderer(Renderer):
     def initRenderer(self):
         pygame.init()
         if not 'Size' in self:
-            size = (1000, 200) 
-            print size
+            size = (1000, 200)
         else:
             size = self['Size']
         self.screen = pygame.display.set_mode(size)

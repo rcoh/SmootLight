@@ -17,13 +17,13 @@ class DecayEvent(PixelEvent):
             self.decayType = 2
         self.color = self.Color   
     
-    def coeffs(self):
-        if self.decayType == 1: # exp
-            return (array([1., exp(-self.coefficient/30), 0.]), None)
-        else:
-            return (array([1., 0., -self.coefficient/30]), None)
+    def state(self, time):
+        # todo: exponential
+        if time == 0: return [1, -self.coefficient, 0], 1./self.coefficient
+        else: return None
     
     @staticmethod
     def generate(decayType, coefficient, color):
         args = {'DecayType': decayType, 'Coefficient':coefficient, 'Color':color}
         return DecayEvent(args)
+    
