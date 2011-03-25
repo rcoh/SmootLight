@@ -3,12 +3,12 @@ which should return a color, or None if the response is complete.  Consider
 requiring a generate event."""
 from operationscore.SmootCoreObject import *
 import util.ColorOps as color
-import numpy
+from numpy import array, zeros
 
 class PixelEvent(SmootCoreObject):
     def init(self):
         self.validateArgs('PixelEvent.params')
-        self.coeffs = numpy.zeros(3)
+        self.coeffs = zeros(3)
         self.initEvent()
     def initEvent(self):
         pass
@@ -31,9 +31,9 @@ class PixelEvent(SmootCoreObject):
         raise NotImplementedError
     def changeInState(self, time):
         # Automatically provided to subclasses.
-        coeffs, timeDelay = self.state(time) or (0, None)
+        coeffs, timeDelay = self.state(time) or (zeros(3), None)
         (c,b,a), self.coeffs = coeffs - self.coeffs, coeffs
-        shiftedCoeffs = [c+time*(b+time*a), b+2*time*a, a]
+        shiftedCoeffs = array([c+time*(b+time*a), b+2*time*a, a])
         return shiftedCoeffs, timeDelay
 
 def addPixelEventIfMissing(responseDict):

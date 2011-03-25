@@ -27,6 +27,7 @@ class Screen:
         for strip, i1, i2 in zip(self.strips, indices[:-1], indices[1:]):
             strip.indices = range(i1, i2) # for iteration by strip-aware mappers
             strip.values = self.state[0, i1:i2] # for quick access by hardware renderer
+        print self.locs[562]
     
     def __len__(self):
         return len(self.locs)
@@ -36,10 +37,12 @@ class Screen:
     def timeStep(self, currentTime):
         """Increments time -- This processes all queued responses and
         events."""
-        t, self.lastTime = currentTime - self.lastTime, self.lastTime
+        t, self.lastTime = currentTime - self.lastTime, currentTime
         # Shift the cubic by t
-        self.state[0] += t * (self.state[1] + t * self.state[2])
+        print('{0:2} {1:2}'.format(*numpy.sum(self.state[0:2,70], -1)))
+        self.state[0] += t * (self.state[1,0] + t * self.state[2,0])
         self.state[1] += t * 2 * self.state[2]
+        print('{0:2} {1:2}'.format(*numpy.sum(self.state[0:2,70], -1)))
         while self.responseQueue:
             self.processResponse(self.responseQueue.pop(0), currentTime)
         self.processEvents(currentTime)
@@ -56,12 +59,12 @@ class Screen:
         weights = mapper.mapEvent(responseInfo['Location'], self)
         main_log.debug('Screen processing response.  Event generated.')
         addPixelEventIfMissing(responseInfo)
-        heappush(self.eventHeap, (currentTime, responseInfo['PixelEvent'], weights))
+        heappush(self.eventHeap, (currentTime, currentTime, responseInfo['PixelEvent'], weights))
     def processEvents(self, currentTime):
         while self.eventHeap and self.eventHeap[0][0] <= currentTime:
             oldTime, startTime, event, weights = heappop(self.eventHeap)
             coeffs, time = event.changeInState(currentTime-startTime)
             for index, weight in weights:
-                self.state[:,index] += weight * coeffs
+                self.state[:,index] += (weight * coeffs)[:,None] * event.Color/255
             if time: # if the event wants to run again
                 heappush(self.eventHeap, (startTime+time, startTime, event, weights))
