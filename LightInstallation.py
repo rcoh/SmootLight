@@ -177,16 +177,18 @@ class LightInstallation(object):
                 
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
-        boundBehaviorIds = self.inputBehaviorRegistry[inputId]
-        if not isinstance(responseDict, list):
-            responseDict = [responseDict]
         try:
-            for r in responseDict:
-                [compReg.getComponent(b).addInput(r) for b in boundBehaviorIds]
+            boundBehaviorIds = self.inputBehaviorRegistry[inputId]
+            if not isinstance(responseDict, list):
+                responseDict = [responseDict]
+            try:
+                for r in responseDict:
+                    [compReg.getComponent(b).addInput(r) for b in boundBehaviorIds]
+            except:
+                pass
+                #Behavior run before loading.  Not a big deal.
         except:
-            pass
-            #Behavior run before loading.  Not a big deal.
-            
+            print 'missing input' 
     def handleDie(self, caller):
         self.dieNow = True
             

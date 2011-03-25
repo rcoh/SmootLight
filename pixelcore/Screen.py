@@ -15,7 +15,6 @@ class Screen:
         self.eventHeap = [] # stores items in the format (nextTime, lastTime, event, weights)
         self.pixelStrips = []
         self.lastTime = 0
-    
     def initStrips(self, stripLayouts):
         self.strips = stripLayouts # to do: turn layout into a hybrid pixelstrip-ish object
         self.locs = numpy.concatenate([s.layoutFunc() for s in self.strips])
