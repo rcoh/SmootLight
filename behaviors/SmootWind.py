@@ -22,9 +22,9 @@ class SmootWind(Behavior):
         for sensory in sensorInputs:
             print sensory
             # input[0] is windspeed, [1] is dir
-	    if 0 in sensory and 1 in sensory:
-		    windSpeed = sensory[0]
-		    windDir = sensory[1]
+	    if 'WindSpeed' in sensory and 'WindDir' in sensory:
+		    windSpeed = sensory['WindSpeed']
+		    windDir = sensory['WindDir']
 		    #print self.mapper.argDict
 		    self.mapper.argDict['Width'] = self.mapper.argDict['Width']+float(windSpeed)*2+20
 		    self.xFor.argDict['ParamOp'] = self.xFor.argDict['ParamOp']+float(windSpeed)*3+10*random.random(); 

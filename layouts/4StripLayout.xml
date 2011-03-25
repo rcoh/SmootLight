@@ -1,0 +1,14 @@
+<PixelConfiguration>
+    <PixelStrip Id="strip1.1" originLocation="(0,0)">
+        <InheritsFrom>layouts/BFTestPixelStrip.xml</InheritsFrom>
+    </PixelStrip>
+    <PixelStrip Id="strip2.1" originLocation="(0,22)">
+        <InheritsFrom>layouts/BFTestPixelStrip.xml</InheritsFrom>
+    </PixelStrip>
+    <PixelStrip Id="strip3.1" originLocation="(0,28)">
+        <InheritsFrom>layouts/BFTestPixelStrip.xml</InheritsFrom>
+    </PixelStrip>
+    <PixelStrip Id="strip4.1" originLocation="(0,50)">
+        <InheritsFrom>layouts/BFTestPixelStrip.xml</InheritsFrom>
+    </PixelStrip>
+</PixelConfiguration>

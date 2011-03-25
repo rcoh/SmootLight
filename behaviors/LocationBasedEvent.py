@@ -4,9 +4,8 @@ from behaviors.ModifyParam import *
 import util.Geo as Geo
 import util.Strings as Strings
 import random
-import pdb
-class RestrictLocation(Behavior):
-    """RestrictLocation is a Behavior which does an action -- A ModifyParam, actually, when a certain
+class LocationBasedEvent(Behavior):
+    """LocationBasedEvent is a Behavior which does an action -- A ModifyParam, actually, when a certain
     location based condition is met.  It takes arguments as follows:
 
     <Action> -- Operation to perform, using ModifyParam syntax.  Use {val} to reference the variable
@@ -22,9 +21,12 @@ class RestrictLocation(Behavior):
                 'ParamName':self['ParamName'],'ParamOp':self['Action']} 
         self.locBounds = self['LocationRestriction']
         self.paramModifier = ModifyParam(modifyParamArgs) 
+        xmin,ymin,xmax,ymax = compReg.getComponent('Screen').getSize()
+        replacementDict = {'{x}':'l[0]','{y}':'l[1]', '{xmin}':str(xmin), '{xmax}':str(xmax),
+                           '{ymin}':str(ymin),'{ymax}':str(ymax)}
         if isinstance(self.locBounds, str):
-            self.locBounds = self.locBounds.replace('{x}', 'l[0]')
-            self.locBounds = self.locBounds.replace('{y}', 'l[1]')
+            for key in replacementDict:
+                self.locBounds = self.locBounds.replace(key, replacementDict[key])
             self.locEval = eval('lambda l:'+self.locBounds)
         elif isinstance(self.locBounds, tuple):
             if len(self.locBounds) != 4:

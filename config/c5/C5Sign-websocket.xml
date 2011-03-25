@@ -1,0 +1,18 @@
+<LightInstallation>
+    <InheritsFrom>config/C5Sign.xml</InheritsFrom>
+    <RendererConfiguration>
+		<Renderer>
+    		<InheritsFrom>renderers/Websocket.xml</InheritsFrom>
+		</Renderer>
+    </RendererConfiguration>
+    <InputConfiguration>
+    	<InputElement>
+            <Class>inputs.WebInput</Class>
+            <Args>
+                <Id>webinput</Id>
+				<Hostname>localhost</Hostname>
+				<Port>8080</Port>
+            </Args>
+        </InputElement>
+    </InputConfiguration>
+</LightInstallation>

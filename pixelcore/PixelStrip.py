@@ -9,7 +9,7 @@ class PixelStrip:
     
     def __init__(self, layoutEngine):
         self.initStrip(layoutEngine)
-        self.argDict = layoutEngine.getStripArgs()
+        self.argDict = layoutEngine.argDict
     
     def initStrip(self, layoutEngine):
         pixelLocations = layoutEngine.getPixelLocations()

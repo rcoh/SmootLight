@@ -23,14 +23,15 @@ class SwitchBehavior(Behavior):
         self.defaultBehavior = compReg.getComponent(self['DefaultBehavior'])
         self.prefixDict = json.loads(self['PrefixToBehavior'])
         self.currBehavior = None
-        self.setBehavior(self.defaultBehavior)
+        self.setBehavior(self.defaultBehavior) # init. set currBehavior to be the default one.
         
     def processResponse(self, sInputs, rInputs):
         dataStr = sInputs[-1]['Data']
         if dataStr[0] in self.prefixDict:
             self.setBehavior(compReg.getComponent(self.prefixDict[dataStr[0]]))
             sInputs[-1]['Data'] = sInputs[-1]['Data'][1:] # remove prefix
-        return self.currBehavior.processResponse(sInputs, rInputs)
+        return self.currBehavior.immediateProcessInput(sInputs, rInputs)
     
     def setBehavior(self, behavior):
+        # can be called by the outside to switch behavior.
         self.currBehavior = behavior
