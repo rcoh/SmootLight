@@ -31,5 +31,3 @@ class IndoorRenderer(Renderer):
                 packet = composer.composePixelStripPacket(pixelStrip.values, port, currentTime) 
                 self.sockets[ip].send(packet, 0x00)
             synchPacket = composer.composeSynchPacket()
-            #pdb.set_trace()
-            #self.broadSocket.sendto(synchPacket, ('10.0.32.255', 6038))

@@ -12,7 +12,8 @@ class Screen:
     def __init__(self):
         self.responseQueue = []
         self.pixelStrips = []
-    
+    def getSize(self):
+        return self.size
     def initStrips(self, stripLayouts):
         self.strips = stripLayouts # to do: turn layout into a hybrid pixelstrip-ish object
         self.locs = numpy.concatenate([s.layoutFunc() for s in self.strips])
