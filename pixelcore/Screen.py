@@ -27,7 +27,6 @@ class Screen:
         for strip, i1, i2 in zip(self.strips, indices[:-1], indices[1:]):
             strip.indices = range(i1, i2) # for iteration by strip-aware mappers
             strip.values = self.state[0, i1:i2] # for quick access by hardware renderer
-        print self.locs[562]
     
     def __len__(self):
         return len(self.locs)
@@ -38,17 +37,13 @@ class Screen:
         """Increments time -- This processes all queued responses and
         events."""
         t, self.lastTime = currentTime - self.lastTime, currentTime
-        # Shift the cubic by t
-        print('{0:2} {1:2}'.format(*numpy.sum(self.state[0:2,70], -1)))
-        self.state[0] += t * (self.state[1,0] + t * self.state[2,0])
+        # Shift the quadratic by t
+        self.state[0] += t * (self.state[1] + t * self.state[2])
         self.state[1] += t * 2 * self.state[2]
-        print('{0:2} {1:2}'.format(*numpy.sum(self.state[0:2,70], -1)))
         while self.responseQueue:
             self.processResponse(self.responseQueue.pop(0), currentTime)
         self.processEvents(currentTime)
-        numpy.minimum(self.state[0], 1, self.state[0]) # Limit maximum
-        numpy.maximum(self.state[0], 0, self.state[0]) # Limit minumum
-
+    
     #public
     def respond(self, responseInfo):
         self.responseQueue.append(responseInfo)
@@ -63,8 +58,9 @@ class Screen:
     def processEvents(self, currentTime):
         while self.eventHeap and self.eventHeap[0][0] <= currentTime:
             oldTime, startTime, event, weights = heappop(self.eventHeap)
+            mw = max([w[1] for w in weights])
             coeffs, time = event.changeInState(currentTime-startTime)
             for index, weight in weights:
-                self.state[:,index] += (weight * coeffs)[:,None] * event.Color/255
+                self.state[:,index] += (weight * coeffs)[:,None] * event.Color
             if time: # if the event wants to run again
                 heappush(self.eventHeap, (startTime+time, startTime, event, weights))

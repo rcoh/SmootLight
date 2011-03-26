@@ -3,7 +3,9 @@ import util.TimeOps as timeops
 import pygame
 from pygame.locals import *
 import pdb
-import util.ComponentRegistry as compReg 
+import util.ComponentRegistry as compReg
+from numpy import maximum,minimum
+
 class PygameRenderer(Renderer):
     """PygameRenderer is a renderer which renders the LightSystem to a pygame display"""
     
@@ -27,7 +29,7 @@ class PygameRenderer(Renderer):
         else:
             scale = 1
         for loc, value in lightSystem:
-            pygame.draw.circle(self.background, value*255, loc*scale, scale)
+            pygame.draw.circle(self.background, minimum(maximum(value,0),255), loc*scale, scale)
         self.screen.blit(self.background, (0,0))
         pygame.display.flip()
         self.stopwatch.stop()

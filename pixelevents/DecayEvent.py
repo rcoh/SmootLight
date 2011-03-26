@@ -19,7 +19,7 @@ class DecayEvent(PixelEvent):
     
     def state(self, time):
         # todo: exponential
-        if time == 0: return [1, -self.coefficient, 0], self.coefficient
+        if time == 0: return [1, -self.coefficient, 0], 1./self.coefficient
         else: return None
     
     @staticmethod
