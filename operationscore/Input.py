@@ -14,18 +14,21 @@ class Input(ThreadedSmootCoreObject):
         if not 'RefreshInterval' in self.argDict:
             self.argDict['RefreshInterval'] = 500 
         self.parentScope = self.argDict['parentScope']
+        self.listeners = [self.parentScope]
         self.done = False
         self.inputInit()
-        
+    def addListener(self,l):
+        self.listeners.append(l)
     def respond(self, eventDict):
         if isinstance(eventDict, list):
             for d in eventDict:
                 d['InputId'] = self['Id']
         else:
             eventDict['InputId'] = self['Id']
-        self.parentScope.lock.acquire()
-        self.parentScope.processResponse(self.argDict, eventDict)
-        self.parentScope.lock.release()
+        for l in self.listeners:
+            l.lock.acquire()
+            l.processResponse(self.argDict, eventDict)
+            l.lock.release()
         time.sleep(.001)
         
     def parentAlive(self):
@@ -37,6 +40,7 @@ class Input(ThreadedSmootCoreObject):
             
     def run(self):
         while 1:
+            #print self['Id'], 'topofloop'
             try:
                 die = self.parentAlive()
             except:
@@ -44,8 +48,10 @@ class Input(ThreadedSmootCoreObject):
             self.acquireLock()
             self.sensingLoop()
             self.releaseLock()
+            #print self['Id'], self.argDict['RefreshInterval']
             time.sleep(self.argDict['RefreshInterval']/float(1000))
             if self.done:
+                print 'breaking'
                 break
             
     def sensingLoop(self):

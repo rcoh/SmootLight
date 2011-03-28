@@ -67,26 +67,26 @@
             <Class>behaviors.XYMove</Class>
             <Args>
                 <Id>xymove</Id>
-                <XStep>.5</XStep>
+                <XStep>4</XStep>
                 <YStep>2</YStep>
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
+            <Class>behaviors.LocationBasedEvent</Class>
             <Args>
                 <Id>xbounce</Id>
                 <Action>'{val}*-1'</Action>
                 <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;10 or {x}&gt;200</LocationRestriction>
+                <LocationRestriction>{x}&lt;{xmin} or {x}&gt;{xmax}</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
+            <Class>behaviors.LocationBasedEvent</Class>
             <Args>
                 <Id>ybounce</Id>
                 <Action>'{val}*-1'</Action>
                 <ParamName>YStep</ParamName>
-                <LocationRestriction>{y}&lt;10 or {y}&gt;50</LocationRestriction>
+                <LocationRestriction>{y}&lt;{ymin} or {y}&gt;{ymax}</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
