@@ -3,7 +3,8 @@ class Bar(Behavior):
 
     """Generalization of the Vertical Bar Behavior, takes Slope for an
     args and then will draw a line with that slope through every point
-    given to Bar."""
+    given to Bar. Set Combine to true of this is not the first Behavior
+    to add a condition onto the system"""
 
     def behaviorInit (self):
         
