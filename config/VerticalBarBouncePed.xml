@@ -82,13 +82,17 @@
     </InputConfiguration>
 
     <BehaviorConfiguration>
+        <Behavior Id="recursivedecay" InitialResponseCount="10">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
         <Behavior>
             <Class>behaviors.RandomSetBrightColorBehavior</Class>
             <Args>
                 <Id>setbrightcolor</Id>
             </Args>
         </Behavior> 
-        <Behavior Id="decay" Coefficient=".001">
+        <Behavior Id="decay" Coefficient=".005">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
         <Behavior>
@@ -130,6 +134,7 @@
                     <Id>moveright</Id>
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
+                    <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
