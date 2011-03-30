@@ -60,16 +60,39 @@
                 <RefreshInterval>50</RefreshInterval>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.PedestrianSimulator</Class>
+            <Args>
+                <Id>pedsim</Id>
+                <MaxX>300</MaxX>
+                <Velocity>40</Velocity>
+                <NumSensors>40</NumSensors>
+                <SensorSpacing>48</SensorSpacing>
+                <NumPeds>1</NumPeds>
+            </Args>
+        </InputElement>
+         <InputElement>
+            <Class>inputs.SensorNetworkToLocation</Class>
+            <Args>
+                <Id>netloc</Id>
+                <SensorNetworkId>pedsim</SensorNetworkId>
+                <SensorSpacing>48</SensorSpacing>
+            </Args>
+        </InputElement>
     </InputConfiguration>
 
     <BehaviorConfiguration>
+        <Behavior Id="recursivedecay" InitialResponseCount="10">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
         <Behavior>
             <Class>behaviors.RandomSetBrightColorBehavior</Class>
             <Args>
                 <Id>setbrightcolor</Id>
             </Args>
         </Behavior>
-        <Behavior Id="decay" Coefficient=".01">
+        <Behavior Id="decay" Coefficient=".0025">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
         <Behavior>
@@ -105,6 +128,7 @@
                     <Id>moveright</Id>
                     <Id>ybounce</Id>
                     <Id>xbounce</Id>
+                    <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -121,6 +145,7 @@
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
+                    <Id>netloc</Id>
                     <Id>pygameclick</Id>
                 </Inputs>
                 <ChainedBehaviors>
