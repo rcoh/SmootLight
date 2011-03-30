@@ -4,6 +4,19 @@ import liblo, sys
 
 # create server, listening on port 1234
 
+def foo_bar_callback(path, args):
+    i, f = args
+    print "received message '%s' with arguments '%d' and '%f'" % (path, i, f)
+
+def foo_baz_callback(path, args, types, src, data):
+    print "received message '%s'" % path
+    print "blob contains %d bytes, user data was '%s'" % (len(args[0]), data)
+
+def fallback(path, args, types, src):
+    print "got unknown message '%s' from '%s'" % (path, src.get_url())
+    for a, t in zip(args, types):
+        print "argument of type '%s': %s" % (t, a)
+
 if __name__ == "__main__":
     try:
         server = liblo.Server(1234)
@@ -24,15 +37,3 @@ if __name__ == "__main__":
 # loop and dispatch messages every 100ms
 while True:
     server.recv(100)
-def foo_bar_callback(path, args):
-    i, f = args
-    print "received message '%s' with arguments '%d' and '%f'" % (path, i, f)
-
-def foo_baz_callback(path, args, types, src, data):
-    print "received message '%s'" % path
-    print "blob contains %d bytes, user data was '%s'" % (len(args[0]), data)
-
-def fallback(path, args, types, src):
-    print "got unknown message '%s' from '%s'" % (path, src.get_url())
-    for a, t in zip(args, types):
-        print "argument of type '%s': %s" % (t, a)

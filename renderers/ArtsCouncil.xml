@@ -1,0 +1,15 @@
+<Renderer>
+    <Class>renderers.IndoorRenderer</Class>
+    <Args>
+        <Id>indoorRenderer</Id>
+        <!--Insert IP Addresses as necessary -->
+        <PowerSupply>
+            <IP>10.32.0.19</IP>
+            <PortMapping>{'strip1':1, 'strip2':2}</PortMapping>
+        </PowerSupply>
+        <PowerSupply>
+            <IP>10.32.0.20</IP>
+            <PortMapping>{'strip3':1, 'strip4':2}</PortMapping>
+        </PowerSupply>
+    </Args>
+</Renderer>
