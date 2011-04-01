@@ -29,7 +29,7 @@ def generateStripXml(section):
     stripStr = ''
     stripStr += '<PixelStrip>\n' + \
                 tab(1) + '<Class>layouts.LineLayout</Class>\n' + \
-                tab(1) + '<Args>\n' + \
+                tab(1) + '<Args OverrideBehavior="Merge">\n' + \
                 tab(2) + toXmlArgNode('pixelToPixelSpacing', section['PixelSpacing']) + '\n' + \
                 tab(2) + toXmlArgNode( 'step', (section['PixelSpacing'], 0) ) + '\n' + \
                 tab(2) + toXmlArgNode('numPixels', section['NumPixels']) + '\n' + \
@@ -38,7 +38,7 @@ def generateStripXml(section):
     #print stripStr
     return stripStr
 
-def generateLayoutXml(sections, reverseStrips):
+def generateLayoutXml(sections, reverseStrips, rowToDiffuser):
     # Generate layout xml like the following
     """
     <PixelConfiguration>
@@ -56,14 +56,14 @@ def generateLayoutXml(sections, reverseStrips):
     locCounter = [0,0]
     
     for section in sections:
-        layoutStr += genSectionLayoutStr(section, idCounter, locCounter, reverseStrips) + '\n'
+        layoutStr += genSectionLayoutStr(section, idCounter, locCounter, reverseStrips, rowToDiffuser) + '\n'
         idCounter += section['NumRows'] * section['NumStrips']
     
     layoutStr += '</PixelConfiguration>'
     print layoutStr
     return layoutStr
 
-def genSectionLayoutStr(section, idCounter, locCounter, reverseStrips):
+def genSectionLayoutStr(section, idCounter, locCounter, reverseStrips, rowToDiffuser):
     """
     -- SECTION INFO
     'Id': id, 'NumPixels': numPixels, 'PixelSpacing': pixelSpacing,
@@ -81,6 +81,9 @@ def genSectionLayoutStr(section, idCounter, locCounter, reverseStrips):
         sectionLayoutStr += tab(1)+'<PixelStrip ' + \
                             'Id="'+str(i) + '"'
 
+        # Arg:diffuser
+        sectionLayoutStr += ' diffuser="' + str(rowToDiffuser[rowCounter]) + '"'
+
         # Arg:originLocation
         sectionLayoutStr += ' originLocation="('+ str(xLoc)+','+str(yLoc) +')"'
         if rowCounter == section['NumRows']:
@@ -92,11 +95,12 @@ def genSectionLayoutStr(section, idCounter, locCounter, reverseStrips):
         else:
             yLoc = (i%section['NumRows']) * section['RowSpacing']
             rowCounter += 1            
-
+        
         # Arg:Reverse
         if i in reverseStrips:
             sectionLayoutStr += ' Reverse="True"'
-        
+
+
         sectionLayoutStr += '>\n'
         sectionLayoutStr += tab(2)+'<InheritsFrom>layouts/10kLayout/' + section['Id']+'Strip.xml' + '</InheritsFrom>\n'
         sectionLayoutStr += tab(1)+'</PixelStrip>\n'
@@ -138,9 +142,9 @@ sections.append( makeSection('Section4', 50, 12, 4, 144, 7) )
 # smaller test
 """
 sections.append( makeSection('Section1', 20, 4, 4, 48, 1) )
-sections.append( makeSection('Section2', 20, 9, 4, 108, 1) )
-sections.append( makeSection('Section3', 20, 10, 4, 120, 1) )
-sections.append( makeSection('Section4', 20, 12, 4, 144, 1) )
+sections.append( makeSection('Section2', 20, 9, 4, 48, 1) )
+sections.append( makeSection('Section3', 20, 10, 4, 48, 1) )
+sections.append( makeSection('Section4', 20, 12, 4, 48, 1) )
 """
 #print sections
 
@@ -160,6 +164,8 @@ reverseStrips += range(13, 17) +\
                  range(181, 185)
 #print reverseStrips
 
+rowToDiffuser = {1: '(0, -1)', 2: '(0, 1)', 3: '(0, -1)', 4: '(0, 1)'}
+
 
 # ---------------
 # GENERATION
@@ -169,5 +175,5 @@ dir = 'layouts/10kLayout/'
 for section in sections:
     writeToFile( generateStripXml(section), dir + section['Id']+'Strip.xml' )
 
-writeToFile( generateLayoutXml(sections, reverseStrips), dir + '10kLayout.xml' )
+writeToFile( generateLayoutXml(sections, reverseStrips, rowToDiffuser), dir + '10kLayout.xml' )
 
