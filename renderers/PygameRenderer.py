@@ -29,7 +29,7 @@ class PygameRenderer(Renderer):
         else:
             scale = 1
         for loc, value in lightSystem:
-            pygame.draw.circle(self.background, minimum(maximum(value,0),255), loc*scale, scale)
+            pygame.draw.circle(self.background, value, loc*scale, scale)
         self.screen.blit(self.background, (0,0))
         pygame.display.flip()
         self.stopwatch.stop()

@@ -22,16 +22,17 @@ class Screen:
         self.size = [min(self.locs[:,0]), min(self.locs[:,1]),
                      max(self.locs[:,0]), max(self.locs[:,1])]
         self.state = numpy.zeros((3, len(self), 3), dtype='float') # quadratic
+        self.pixels = numpy.zeros((len(self), 3), dtype='ubyte')
         # still need access to pixel strips for diffuser and power supply information
         indices = numpy.cumsum([0] + [s.numPixels for s in self.strips])
         for strip, i1, i2 in zip(self.strips, indices[:-1], indices[1:]):
             strip.indices = range(i1, i2) # for iteration by strip-aware mappers
-            strip.values = self.state[0, i1:i2] # for quick access by hardware renderer
+            strip.values = self.pixels[i1:i2] # for quick access by hardware renderer
     
     def __len__(self):
         return len(self.locs)
     def __iter__(self): # iterator over all pixels
-        return izip(self.locs, self.state[0])
+        return izip(self.locs, self.pixels)
     
     def timeStep(self, currentTime):
         """Increments time -- This processes all queued responses and
@@ -43,6 +44,7 @@ class Screen:
         while self.responseQueue:
             self.processResponse(self.responseQueue.pop(0), currentTime)
         self.processEvents(currentTime)
+        self.pixels += 1 # = numpy.minimum(255, numpy.maximum(0, self.state[0]))
     
     #public
     def respond(self, responseInfo):

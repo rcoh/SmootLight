@@ -82,7 +82,7 @@ class WebsocketRenderer(Renderer):
         for (loc, c) in lightSystem:
             if all(c < 0.05):
                 continue
-            cs = 'rgb({0},{1},{2})'.format(*map(int, c))
+            cs = 'rgb({0},{1},{2})'.format(c)
             json_frame[i] = (map(int, loc), cs)
             i += 1
 
