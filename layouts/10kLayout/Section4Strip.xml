@@ -3,6 +3,6 @@
   <Args OverrideBehavior="Merge">
     <pixelToPixelSpacing>12</pixelToPixelSpacing>
     <step>(12, 0)</step>
-    <numPixels>20</numPixels>
+    <numPixels>50</numPixels>
   </Args>
 </PixelStrip>

@@ -134,17 +134,17 @@ makeSection(id, numPixels, pixelSpacing, numRows, rowSpacing, numStrips):
 sections = []
 # 10k layout info
 
-sections.append( makeSection('Section1', 50, 4, 4, 48, 23) )
-sections.append( makeSection('Section2', 50, 9, 4, 108, 8) )
-sections.append( makeSection('Section3', 50, 10, 4, 120, 10) )
-sections.append( makeSection('Section4', 50, 12, 4, 144, 7) )
+sections.append( makeSection('Section1', 50, 4, 4, 12, 23) )
+sections.append( makeSection('Section2', 50, 9, 4, 12, 8) )
+sections.append( makeSection('Section3', 50, 10, 4, 12, 10) )
+sections.append( makeSection('Section4', 50, 12, 4, 12, 7) )
 
 # smaller test
 """
-sections.append( makeSection('Section1', 20, 4, 4, 48, 1) )
-sections.append( makeSection('Section2', 20, 9, 4, 48, 1) )
-sections.append( makeSection('Section3', 20, 10, 4, 48, 1) )
-sections.append( makeSection('Section4', 20, 12, 4, 48, 1) )
+sections.append( makeSection('Section1', 20, 4, 4, 12, 1) )
+sections.append( makeSection('Section2', 20, 9, 4, 12, 1) )
+sections.append( makeSection('Section3', 20, 10, 4, 12, 1) )
+sections.append( makeSection('Section4', 20, 12, 4, 12, 1) )
 """
 #print sections
 
@@ -164,7 +164,7 @@ reverseStrips += range(13, 17) +\
                  range(181, 185)
 #print reverseStrips
 
-rowToDiffuser = {1: '(0, -1)', 2: '(0, 1)', 3: '(0, -1)', 4: '(0, 1)'}
+rowToDiffuser = {1: '(0, -12)', 2: '(0, 12)', 3: '(0, -12)', 4: '(0, 12)'}
 
 
 # ---------------
