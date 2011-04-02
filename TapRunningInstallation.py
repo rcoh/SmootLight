@@ -20,7 +20,6 @@ class TapConnection(object):
 
     def sendMsg(self,outData):
 
-
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
        # s.bind((self.host, self.port+1))
         
@@ -41,7 +40,7 @@ class TapConnection(object):
         pass
 
 class MenuTree(object):
-     """ TapRunning - maintains state for a running LightInstallation 
+    """ TapRunning - maintains state for a running LightInstallation 
          commands: 
            a - print all objects
            p - print all behaviors
@@ -53,76 +52,115 @@ class MenuTree(object):
            d - delete
            """
      
-     COMMANDS = {'a':'Objects','b':'Behaviors','p':'Behaviors'}
-     commandDict = {'OperationArg':None}
-     componentList = None
+    COMMANDS = {'a':'Objects','b':'Behaviors','p':'Behaviors'}
+    commandDict = {'OperationArg':None}
+    componentList = None
      
-     def __init__(self, connection, msg =''):
+    def __init__(self, connection, msg =''):
         self.connection = connection
         self.nextAction = None
+        self.currentObject = None
         
         
-     def executeSelection(self,command):
+    def executeSelection(self,command):
 #        self.commandDict['CurrentCommand'] = command
         
-        cl = command.lower()
+        cl = command.strip().lower()
         if cl.isdigit():
             if self.nextAction != None:
                 self.nextAction(int(cl))
             else:
                 print "Got #{} but don't know what to do with it. Try 'h'".format(cl)
             return 0
+            
     
-        cl = cl[0]
-        
+        cs = cl.split(' ')
+        cl = cs[0]
+         
         if cl in ["q","x"]:
             return -1
         elif cl in ["a","b", "p"]:
+            self.nextAction = lambda x: self.sendCommandInt(cl,x)
             print "Getting {}, please wait...".format(self.COMMANDS[cl])
             
-            self.commandDict['OperationType'] = 'Get'
-            self.commandDict['OperationDetail'] = self.COMMANDS[cl]
-            
-            
-            cs = command.split(' ')
             if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
-                self.commandDict['OperationArg'] = self.componentList[int(cs[1])] 
+                self.sendCommandInt(self.COMMANDS[cl],int(cs[1]))
             else:
                 self.commandDict['OperationArg'] = None
-            
-            print self.commandDict
-            resp = self.connection.sendMsg(json.dumps(self.commandDict))  
-            if resp == "":
-                print "No response. Is server running?"
-                return 0
-            try: 
-                resp = json.loads(resp)   
-            except:       
-                print "response? <",resp, ">" 
-                return 0
-                
-            
-            
-            if self.commandDict['OperationArg']  == None:
-                
-                self.componentList = resp
-                
-                print "Available %s:\n"%self.COMMANDS[cl]
-                
-                for n in range(len(resp)):
-                    print "{:4} {:10}".format(n,resp[n])   
+                self.sendCommand(self.COMMANDS[cl])
+        elif cl in ["e"]:
+            if len(cs) > 1 and cs[1].isdigit():
+                print "do some prompting to figure out what needs to be changed"
             else:
-                print "name: ",resp
+                
+                print "edit what?"
+                if self.currentObject == None:
+                    return
+                co=self.currentObject.replace('}','').replace('{','').split(',')
+                co = [i for i in co if i.find(': <') == -1]
+                for n in range(len(co)):
+                    print n, ": ", co[n].strip()
+                    
+                i = raw_input("> ")
+                #argDict=eval('{%s}'%','.join(co))
+                if i.isdigit() and int(i) < len(co):
+                    selection = map(unicode.strip,co[int(i)].split(':'))
+                    value = raw_input("set "+ selection[0]+ " to: >" )
+                    print "setting ", selection[0]," to '",value,"'"                
+                
         elif cl in ["h","?"]: 
             print self.__doc__
+            self.nextAction = None
+        elif cl in ["c","d"]:
+            print "unimplemented"
+        else:
+            if cl != "":
+                print "syntax error, use 'h' for help"
 
         return 0
         
-     def showMenu(self):
+    def showMenu(self):
         pass
-     def acceptInput(self):
+    def acceptInput(self):
         pass
-
+        
+    def sendCommandInt(self,command,index):
+        if len(self.componentList)-1 < index:
+            print "No element with that index."
+        else:
+            self.commandDict['OperationArg'] = self.componentList[index] 
+            self.sendCommand(command)
+        
+         
+    def sendCommand(self, command):
+        self.commandDict['OperationType'] = 'Read'
+        self.commandDict['OperationDetail'] = command
+        
+        print self.commandDict
+        
+        resp = self.connection.sendMsg(json.dumps(self.commandDict))  
+        if resp == "":
+            print "No response. Is server running?"
+            return 0
+        try: 
+            resp = json.loads(resp)   
+        except:       
+            print "couldn't parse response- not json? <",resp, ">" 
+            return 0
+        
+        if self.commandDict['OperationArg']  == None:
+            
+            self.componentList = resp
+            
+            print "Available %s:\n"%command
+            
+            for n in range(len(resp)):
+                print "{:4} {:10}".format(n,resp[n])   
+        else:
+            self.currentObject = resp
+            for r in resp.split(','):
+                print r
+            
 class TapRunningInstallation(object):
     """ This is the main class responsible for console IO """
     def __init__(self):
