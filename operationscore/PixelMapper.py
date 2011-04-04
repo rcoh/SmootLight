@@ -18,6 +18,7 @@ class PixelMapper(SmootCoreObject):
             self.cachehits += 1
             return self.mem[eventLocation]
         else:
+	    # TODO: RETURN MAPPING FUNCTION DIRECTLY INSTEAD OF THE CACHED DATA
             self.mem[eventLocation] = self.mappingFunction(eventLocation, screen)
             return self.mem[eventLocation]
     #Takes a Screen and returns a list of tuples

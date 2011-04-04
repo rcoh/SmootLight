@@ -4,6 +4,7 @@ Params:
 <SensorNetworkId> -- the cid of the component generating raw sensor data -- Note that this component may
 need to be below that component in the XML
 <SensorSpacing> -- sensors location = int(id)*SensorSpacing 
+<Y> -- the Y location specified by the user
 
 SensorNetworkToLocation takes packets with field <SensorId>int</SensorId>.  It adds a <Location> tag
 to the response which it infers from the SensorId field.
@@ -35,7 +36,7 @@ class SensorNetworkToLocation(Input):
         if not self.boundToInput:
             self.boundToInput = self.makeListener()
         for r in self.responses:
-            r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], 100)
+            r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], self['Y'])
         if self.responses:
             self.respond(self.responses)
         self.responses = []

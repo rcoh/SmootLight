@@ -1,0 +1,582 @@
+<PixelConfiguration>
+  <PixelStrip Id="1" diffuser="(0, -12)" originLocation="(0,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="2" diffuser="(0, 12)" originLocation="(0,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="3" diffuser="(0, -12)" originLocation="(0,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="4" diffuser="(0, 12)" originLocation="(0,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="5" diffuser="(0, -12)" originLocation="(200,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="6" diffuser="(0, 12)" originLocation="(200,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="7" diffuser="(0, -12)" originLocation="(200,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="8" diffuser="(0, 12)" originLocation="(200,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="9" diffuser="(0, -12)" originLocation="(400,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="10" diffuser="(0, 12)" originLocation="(400,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="11" diffuser="(0, -12)" originLocation="(400,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="12" diffuser="(0, 12)" originLocation="(400,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="13" diffuser="(0, -12)" originLocation="(600,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="14" diffuser="(0, 12)" originLocation="(600,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="15" diffuser="(0, -12)" originLocation="(600,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="16" diffuser="(0, 12)" originLocation="(600,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="17" diffuser="(0, -12)" originLocation="(800,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="18" diffuser="(0, 12)" originLocation="(800,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="19" diffuser="(0, -12)" originLocation="(800,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="20" diffuser="(0, 12)" originLocation="(800,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="21" diffuser="(0, -12)" originLocation="(1000,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="22" diffuser="(0, 12)" originLocation="(1000,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="23" diffuser="(0, -12)" originLocation="(1000,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="24" diffuser="(0, 12)" originLocation="(1000,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="25" diffuser="(0, -12)" originLocation="(1200,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="26" diffuser="(0, 12)" originLocation="(1200,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="27" diffuser="(0, -12)" originLocation="(1200,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="28" diffuser="(0, 12)" originLocation="(1200,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="29" diffuser="(0, -12)" originLocation="(1400,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="30" diffuser="(0, 12)" originLocation="(1400,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="31" diffuser="(0, -12)" originLocation="(1400,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="32" diffuser="(0, 12)" originLocation="(1400,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="33" diffuser="(0, -12)" originLocation="(1600,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="34" diffuser="(0, 12)" originLocation="(1600,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="35" diffuser="(0, -12)" originLocation="(1600,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="36" diffuser="(0, 12)" originLocation="(1600,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="37" diffuser="(0, -12)" originLocation="(1800,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="38" diffuser="(0, 12)" originLocation="(1800,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="39" diffuser="(0, -12)" originLocation="(1800,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="40" diffuser="(0, 12)" originLocation="(1800,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="41" diffuser="(0, -12)" originLocation="(2000,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="42" diffuser="(0, 12)" originLocation="(2000,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="43" diffuser="(0, -12)" originLocation="(2000,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="44" diffuser="(0, 12)" originLocation="(2000,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="45" diffuser="(0, -12)" originLocation="(2200,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="46" diffuser="(0, 12)" originLocation="(2200,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="47" diffuser="(0, -12)" originLocation="(2200,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="48" diffuser="(0, 12)" originLocation="(2200,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="49" diffuser="(0, -12)" originLocation="(2400,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="50" diffuser="(0, 12)" originLocation="(2400,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="51" diffuser="(0, -12)" originLocation="(2400,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="52" diffuser="(0, 12)" originLocation="(2400,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="53" diffuser="(0, -12)" originLocation="(2600,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="54" diffuser="(0, 12)" originLocation="(2600,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="55" diffuser="(0, -12)" originLocation="(2600,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="56" diffuser="(0, 12)" originLocation="(2600,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="57" diffuser="(0, -12)" originLocation="(2800,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="58" diffuser="(0, 12)" originLocation="(2800,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="59" diffuser="(0, -12)" originLocation="(2800,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="60" diffuser="(0, 12)" originLocation="(2800,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="61" diffuser="(0, -12)" originLocation="(3000,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="62" diffuser="(0, 12)" originLocation="(3000,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="63" diffuser="(0, -12)" originLocation="(3000,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="64" diffuser="(0, 12)" originLocation="(3000,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="65" diffuser="(0, -12)" originLocation="(3200,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="66" diffuser="(0, 12)" originLocation="(3200,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="67" diffuser="(0, -12)" originLocation="(3200,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="68" diffuser="(0, 12)" originLocation="(3200,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="69" diffuser="(0, -12)" originLocation="(3400,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="70" diffuser="(0, 12)" originLocation="(3400,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="71" diffuser="(0, -12)" originLocation="(3400,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="72" diffuser="(0, 12)" originLocation="(3400,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="73" diffuser="(0, -12)" originLocation="(3600,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="74" diffuser="(0, 12)" originLocation="(3600,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="75" diffuser="(0, -12)" originLocation="(3600,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="76" diffuser="(0, 12)" originLocation="(3600,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="77" diffuser="(0, -12)" originLocation="(3800,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="78" diffuser="(0, 12)" originLocation="(3800,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="79" diffuser="(0, -12)" originLocation="(3800,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="80" diffuser="(0, 12)" originLocation="(3800,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="81" diffuser="(0, -12)" originLocation="(4000,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="82" diffuser="(0, 12)" originLocation="(4000,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="83" diffuser="(0, -12)" originLocation="(4000,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="84" diffuser="(0, 12)" originLocation="(4000,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="85" diffuser="(0, -12)" originLocation="(4200,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="86" diffuser="(0, 12)" originLocation="(4200,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="87" diffuser="(0, -12)" originLocation="(4200,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="88" diffuser="(0, 12)" originLocation="(4200,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="89" diffuser="(0, -12)" originLocation="(4400,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="90" diffuser="(0, 12)" originLocation="(4400,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="91" diffuser="(0, -12)" originLocation="(4400,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="92" diffuser="(0, 12)" originLocation="(4400,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+
+  <PixelStrip Id="93" diffuser="(0, -12)" originLocation="(4600,0)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="94" diffuser="(0, 12)" originLocation="(4600,12)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="95" diffuser="(0, -12)" originLocation="(4600,24)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="96" diffuser="(0, 12)" originLocation="(4600,36)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="97" diffuser="(0, -12)" originLocation="(5050,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="98" diffuser="(0, 12)" originLocation="(5050,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="99" diffuser="(0, -12)" originLocation="(5050,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="100" diffuser="(0, 12)" originLocation="(5050,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="101" diffuser="(0, -12)" originLocation="(5500,0)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="102" diffuser="(0, 12)" originLocation="(5500,12)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="103" diffuser="(0, -12)" originLocation="(5500,24)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="104" diffuser="(0, 12)" originLocation="(5500,36)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="105" diffuser="(0, -12)" originLocation="(5950,0)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="106" diffuser="(0, 12)" originLocation="(5950,12)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="107" diffuser="(0, -12)" originLocation="(5950,24)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="108" diffuser="(0, 12)" originLocation="(5950,36)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="109" diffuser="(0, -12)" originLocation="(6400,0)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="110" diffuser="(0, 12)" originLocation="(6400,12)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="111" diffuser="(0, -12)" originLocation="(6400,24)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="112" diffuser="(0, 12)" originLocation="(6400,36)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="113" diffuser="(0, -12)" originLocation="(6850,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="114" diffuser="(0, 12)" originLocation="(6850,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="115" diffuser="(0, -12)" originLocation="(6850,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="116" diffuser="(0, 12)" originLocation="(6850,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="117" diffuser="(0, -12)" originLocation="(7300,0)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="118" diffuser="(0, 12)" originLocation="(7300,12)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="119" diffuser="(0, -12)" originLocation="(7300,24)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="120" diffuser="(0, 12)" originLocation="(7300,36)">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="121" diffuser="(0, -12)" originLocation="(7750,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="122" diffuser="(0, 12)" originLocation="(7750,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="123" diffuser="(0, -12)" originLocation="(7750,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="124" diffuser="(0, 12)" originLocation="(7750,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section2Strip.xml</InheritsFrom>
+  </PixelStrip>
+
+  <PixelStrip Id="125" diffuser="(0, -12)" originLocation="(8200,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="126" diffuser="(0, 12)" originLocation="(8200,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="127" diffuser="(0, -12)" originLocation="(8200,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="128" diffuser="(0, 12)" originLocation="(8200,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="129" diffuser="(0, -12)" originLocation="(8700,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="130" diffuser="(0, 12)" originLocation="(8700,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="131" diffuser="(0, -12)" originLocation="(8700,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="132" diffuser="(0, 12)" originLocation="(8700,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="133" diffuser="(0, -12)" originLocation="(9200,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="134" diffuser="(0, 12)" originLocation="(9200,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="135" diffuser="(0, -12)" originLocation="(9200,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="136" diffuser="(0, 12)" originLocation="(9200,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="137" diffuser="(0, -12)" originLocation="(9700,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="138" diffuser="(0, 12)" originLocation="(9700,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="139" diffuser="(0, -12)" originLocation="(9700,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="140" diffuser="(0, 12)" originLocation="(9700,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="141" diffuser="(0, -12)" originLocation="(10200,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="142" diffuser="(0, 12)" originLocation="(10200,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="143" diffuser="(0, -12)" originLocation="(10200,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="144" diffuser="(0, 12)" originLocation="(10200,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="145" diffuser="(0, -12)" originLocation="(10700,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="146" diffuser="(0, 12)" originLocation="(10700,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="147" diffuser="(0, -12)" originLocation="(10700,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="148" diffuser="(0, 12)" originLocation="(10700,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="149" diffuser="(0, -12)" originLocation="(11200,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="150" diffuser="(0, 12)" originLocation="(11200,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="151" diffuser="(0, -12)" originLocation="(11200,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="152" diffuser="(0, 12)" originLocation="(11200,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="153" diffuser="(0, -12)" originLocation="(11700,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="154" diffuser="(0, 12)" originLocation="(11700,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="155" diffuser="(0, -12)" originLocation="(11700,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="156" diffuser="(0, 12)" originLocation="(11700,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="157" diffuser="(0, -12)" originLocation="(12200,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="158" diffuser="(0, 12)" originLocation="(12200,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="159" diffuser="(0, -12)" originLocation="(12200,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="160" diffuser="(0, 12)" originLocation="(12200,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="161" diffuser="(0, -12)" originLocation="(12700,0)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="162" diffuser="(0, 12)" originLocation="(12700,12)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="163" diffuser="(0, -12)" originLocation="(12700,24)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="164" diffuser="(0, 12)" originLocation="(12700,36)">
+    <InheritsFrom>layouts/10kLayout/Section3Strip.xml</InheritsFrom>
+  </PixelStrip>
+
+  <PixelStrip Id="165" diffuser="(0, -12)" originLocation="(13200,0)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="166" diffuser="(0, 12)" originLocation="(13200,12)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="167" diffuser="(0, -12)" originLocation="(13200,24)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="168" diffuser="(0, 12)" originLocation="(13200,36)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="169" diffuser="(0, -12)" originLocation="(13800,0)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="170" diffuser="(0, 12)" originLocation="(13800,12)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="171" diffuser="(0, -12)" originLocation="(13800,24)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="172" diffuser="(0, 12)" originLocation="(13800,36)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="173" diffuser="(0, -12)" originLocation="(14400,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="174" diffuser="(0, 12)" originLocation="(14400,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="175" diffuser="(0, -12)" originLocation="(14400,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="176" diffuser="(0, 12)" originLocation="(14400,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="177" diffuser="(0, -12)" originLocation="(15000,0)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="178" diffuser="(0, 12)" originLocation="(15000,12)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="179" diffuser="(0, -12)" originLocation="(15000,24)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="180" diffuser="(0, 12)" originLocation="(15000,36)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="181" diffuser="(0, -12)" originLocation="(15600,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="182" diffuser="(0, 12)" originLocation="(15600,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="183" diffuser="(0, -12)" originLocation="(15600,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="184" diffuser="(0, 12)" originLocation="(15600,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="185" diffuser="(0, -12)" originLocation="(16200,0)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="186" diffuser="(0, 12)" originLocation="(16200,12)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="187" diffuser="(0, -12)" originLocation="(16200,24)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="188" diffuser="(0, 12)" originLocation="(16200,36)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="189" diffuser="(0, -12)" originLocation="(16800,0)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="190" diffuser="(0, 12)" originLocation="(16800,12)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="191" diffuser="(0, -12)" originLocation="(16800,24)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="192" diffuser="(0, 12)" originLocation="(16800,36)">
+    <InheritsFrom>layouts/10kLayout/Section4Strip.xml</InheritsFrom>
+  </PixelStrip>
+
+</PixelConfiguration>

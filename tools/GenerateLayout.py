@@ -131,21 +131,19 @@ def writeToFile(xmlStr, destFile):
 """
 makeSection(id, numPixels, pixelSpacing, numRows, rowSpacing, numStrips):
 """
-sections = []
 # 10k layout info
-
+sections = []
 sections.append( makeSection('Section1', 50, 4, 4, 12, 23) )
 sections.append( makeSection('Section2', 50, 9, 4, 12, 8) )
 sections.append( makeSection('Section3', 50, 10, 4, 12, 10) )
 sections.append( makeSection('Section4', 50, 12, 4, 12, 7) )
-
 # smaller test
-"""
-sections.append( makeSection('Section1', 20, 4, 4, 12, 1) )
-sections.append( makeSection('Section2', 20, 9, 4, 12, 1) )
-sections.append( makeSection('Section3', 20, 10, 4, 12, 1) )
-sections.append( makeSection('Section4', 20, 12, 4, 12, 1) )
-"""
+testSections = []
+testSections.append( makeSection('Section1', 20, 4, 4, 12, 1) )
+testSections.append( makeSection('Section2', 20, 9, 4, 12, 1) )
+testSections.append( makeSection('Section3', 20, 10, 4, 12, 1) )
+testSections.append( makeSection('Section4', 20, 12, 4, 12, 1) )
+
 #print sections
 
 reverseStrips = []
@@ -172,8 +170,14 @@ rowToDiffuser = {1: '(0, -12)', 2: '(0, 12)', 3: '(0, -12)', 4: '(0, 12)'}
 # ---------------
 dir = 'layouts/10kLayout/'
 
+# 10k Layout
 for section in sections:
     writeToFile( generateStripXml(section), dir + section['Id']+'Strip.xml' )
 
 writeToFile( generateLayoutXml(sections, reverseStrips, rowToDiffuser), dir + '10kLayout.xml' )
 
+# Smaller test
+for section in sections:
+    writeToFile( generateStripXml(section), dir + 'test' + section['Id']+'Strip.xml' )
+
+writeToFile( generateLayoutXml(sections, reverseStrips, rowToDiffuser), dir + 'test10kLayout.xml' )
