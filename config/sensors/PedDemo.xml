@@ -40,11 +40,11 @@
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>300</MaxX>
+                <MaxX>800</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
-                <NumPeds>2</NumPeds>
+                <NumPeds>1</NumPeds>
             </Args>
         </InputElement>
         <InputElement>
@@ -61,6 +61,13 @@
                 <Id>netloc</Id>
                 <SensorNetworkId>pedsim</SensorNetworkId>
                 <SensorSpacing>48</SensorSpacing>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.DirectionalPedestrians</Class>
+            <Args>
+                <Id>dirped</Id>
+                <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
     </InputConfiguration>
@@ -85,8 +92,9 @@
             <Args>
                 <Id>debug</Id>
                 <Inputs>
+                    <Id>dirped</Id>
                 </Inputs>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
         <Behavior>
