@@ -93,20 +93,30 @@ class MenuTree(object):
                 print "do some prompting to figure out what needs to be changed"
             else:
                 
-                print "edit what?"
                 if self.currentObject == None:
                     return
-                co=self.currentObject.replace('}','').replace('{','').split(',')
+                co=self.currentObject.rstrip('}').lstrip('{').split(',')
                 co = [i for i in co if i.find(': <') == -1]
                 for n in range(len(co)):
                     print n, ": ", co[n].strip()
-                    
+            
+                print "edit what?"    
                 i = raw_input("> ")
-                #argDict=eval('{%s}'%','.join(co))
+                
+                #argDict=eval('{%s}'%','.join(co))                
                 if i.isdigit() and int(i) < len(co):
                     selection = map(unicode.strip,co[int(i)].split(':'))
-                    value = raw_input("set "+ selection[0]+ " to: >" )
-                    print "setting ", selection[0]," to '",value,"'"                
+                    value = raw_input("set "+ selection[0]+ " to: " )
+                    
+                    print "setting ", selection[0]," to '",value,"'"      
+                    self.commandDict['OperationType'] = 'Update'
+                    self.commandDict['ComponentId'] = filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
+                    self.commandDict['Value'] = value
+                    self.commandDict['ParamName'] = selection[0].strip("'")
+                    resp = self.connection.sendMsg(json.dumps(self.commandDict)) 
+                    print resp
+                    self.commandDict = {'OperationArg':None}
+                    
                 
         elif cl in ["h","?"]: 
             print self.__doc__
@@ -140,7 +150,7 @@ class MenuTree(object):
         
         resp = self.connection.sendMsg(json.dumps(self.commandDict))  
         if resp == "":
-            print "No response. Is server running?"
+            print "No response. Is server running? Is SystemConfigMutator Behavior and tap input in the configuration?"
             return 0
         try: 
             resp = json.loads(resp)   
