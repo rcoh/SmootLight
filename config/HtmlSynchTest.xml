@@ -1,0 +1,34 @@
+<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
+<LightInstallation>
+    <InheritsFrom>config/HtmlBase.xml</InheritsFrom>
+
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>simplemap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+
+    <PixelConfiguration>
+        <InheritsFrom>layouts/BasicSixStrip.xml</InheritsFrom>
+    </PixelConfiguration>
+
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <InheritsFrom>pixelmappers/SimpleMapper.xml</InheritsFrom>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+
+    <InputConfiguration>
+    </InputConfiguration>
+
+    <BehaviorConfiguration>
+        <Behavior>
+            <Class>behaviors.SynchTest</Class>
+            <Args>
+                <Id>synch</Id>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+    </BehaviorConfiguration>
+
+</LightInstallation>

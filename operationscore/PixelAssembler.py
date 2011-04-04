@@ -15,5 +15,3 @@ class PixelAssembler(SmootCoreObject):
                                 + 'Illegal distance is between {0} and {1}'
                                 .format(pixel1, pixel2))
         return locations[::-1] if self['Reverse'] else locations
-    def getStripArgs(self): #TODO: triage and remove
-        return self.argDict
