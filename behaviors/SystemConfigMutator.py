@@ -1,7 +1,7 @@
 from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
 import json
-
+from behaviors import LocationBasedEvent
 class SystemConfigMutator(Behavior):
     """SystemConfigMutator is a behavior which performs CRUD operations on the configuration of 
     the system according to its input.  It requires the following parameters of its input dicts:
@@ -69,7 +69,10 @@ class SystemConfigMutator(Behavior):
                     paramName = packet['ParamName']
                     newParamValue = packet['Value'] 
                     #TODO: consider adding lambda evaluation capabilities
-                    compReg.getComponent(cid)[paramName] = newParamValue
+                    currentObject=compReg.getComponent(cid)
+                    currentObject[paramName] = newParamValue
+                    if type(currentObject) is LocationBasedEvent.LocationBasedEvent:
+                        currentObject.recalc()
                 elif packet['OperationType'] == 'Destroy':
                     raise Exception('Destroy not supported')
                     compReg.removeComponent(packet['ComponentId'])
