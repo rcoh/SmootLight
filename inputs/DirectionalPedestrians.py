@@ -2,6 +2,7 @@ from operationscore.Input import *
 import util.ComponentRegistry as compReg
 import thread
 from logger import main_log
+import util.TimeOps as timeOps
 import sys
 import time
 class DirectionalPedestrians(Input):
@@ -25,9 +26,10 @@ class DirectionalPedestrians(Input):
             self.boundToInput = self.makeListener()
         newCache = []
         for r in self.responses:
-            bestMatch = self.findClosest(self.cached, r['Location'][0]) 
+            bestMatch,t = self.findClosest(self.cached, r['Location'][0]) 
             r['Direction'] =  r['Location'][0]-bestMatch
-            newCache.append(r['Location'][0]) 
+            r['Velocity'] = r['Direction']/(timeOps.time()-t)*1000
+            newCache.append((r['Location'][0], r['Responding'])) 
 
         self.cached += newCache
         self.respond(self.responses)
@@ -37,14 +39,16 @@ class DirectionalPedestrians(Input):
         #TODO: numpyify
         bestMatch = None
         bestDist = sys.maxint
+        bestTime = None
         if cache == []:
-            return location 
-        for x in cache:
+            return location,1 
+        for x,t in cache:
             if bestMatch == None or abs(x-location)<bestDist:
                 bestDist = abs(x-location)
                 bestMatch = x
-        cache.remove(bestMatch)
-        return bestMatch
+                bestTime = t 
+        cache.remove((bestMatch,bestTime))
+        return bestMatch,t
 
     def processResponse(self, sensorDict, eventDict):
         self.responses += eventDict
