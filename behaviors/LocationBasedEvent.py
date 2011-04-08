@@ -27,7 +27,6 @@ class LocationBasedEvent(Behavior):
         if isinstance(self.locBounds, str):
             for key in replacementDict:
                 self.locBounds = self.locBounds.replace(key, replacementDict[key])
-            pdb.set_trace()
             self.locEval = eval('lambda l:'+self.locBounds)
         elif isinstance(self.locBounds, tuple):
             if len(self.locBounds) != 4:
