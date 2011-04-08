@@ -70,9 +70,10 @@
             </Args>
         </Behavior>
        <Behavior>
-            <Class>behaviors.VerticalBar</Class>
+            <Class>behaviors.Bar</Class>
             <Args>
                 <Id>vbar</Id>
+                <Slope>None</Slope>
             </Args>
         </Behavior>
        <Behavior>
