@@ -80,7 +80,7 @@
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
-		<Increment>0.7</Increment>
+		<!--Increment>0.7</Increment-->
             </Args>
         </Behavior>
         <Behavior>

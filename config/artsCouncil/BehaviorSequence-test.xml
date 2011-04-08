@@ -79,7 +79,7 @@
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
-		<Increment>0.7</Increment>
+		<Increment>0.07</Increment>
             </Args>
         </Behavior>
         <Behavior>
@@ -151,8 +151,8 @@
             <Class>behaviors.Flicker</Class>
             <Args>
                 <Id>flicker</Id>
-                <AllProb>.8</AllProb>
-                <Prob>1</Prob>
+                <AllProb>1</AllProb>
+                <Prob>.8</Prob>
             </Args>
         </Behavior>
         <Behavior>
@@ -161,11 +161,11 @@
                 <Id>sequence</Id>
                 <Sequence>
                     <Behavior>
-                        <Id>shiftall</Id>
-                        <Timeout>20</Timeout>
+                        <Id>sparkle</Id>
+                        <Timeout>5</Timeout>
                     </Behavior>
                     <Behavior>
-                        <Id>sparkle</Id>
+                        <Id>shiftall</Id>
                         <Timeout>10</Timeout>
                     </Behavior>
                 </Sequence>
