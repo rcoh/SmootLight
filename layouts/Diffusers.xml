@@ -1,0 +1,18 @@
+<PixelConfiguration>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>bottom</Id>
+                <originLocation>(0, 0)</originLocation>
+		<diffuser>(0, 12)</diffuser>
+            </Args>
+        </PixelStrip>
+        <PixelStrip>
+            <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
+            <Args OverrideBehavior="Merge">
+                <Id>top</Id>
+                <originLocation>(0, 12)</originLocation>
+		<diffuser>(0, -12)</diffuser>
+            </Args>
+        </PixelStrip>
+</PixelConfiguration>
