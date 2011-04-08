@@ -1,16 +1,16 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
-	<InheritsFrom>config/HTMLBase.xml</InheritsFrom>
+    <InheritsFrom>config/HtmlBase.xml</InheritsFrom>
     <InputConfiguration>
-		<APPEND>
-	    	<InputElement>
-	            <Class>inputs.RandomLocs</Class>
-	            <Args>
-	                <Id>randomLoc</Id>
-	            </Args>
-	        </InputElement>
-		</APPEND>
-	</InputConfiguration>   
+      <APPEND>
+    	<InputElement>
+	  <Class>inputs.RandomLocs</Class>
+	  <Args>
+	    <Id>randomLoc</Id>
+	  </Args>
+	 </InputElement>
+      </APPEND>
+    </InputConfiguration>   
 
     <InstallationConfiguration>
         <Defaults>
