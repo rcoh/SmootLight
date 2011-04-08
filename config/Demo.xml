@@ -92,7 +92,7 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
+            <Class>behaviors.LocationBasedEvent</Class>
             <Args>
                 <Id>xbounce</Id>
                 <Action>'{val}*-1'</Action>
@@ -101,7 +101,7 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
+            <Class>behaviors.LocationBasedEvent</Class>
             <Args>
                 <Id>ybounce</Id>
                 <Action>'{val}*-1'</Action>

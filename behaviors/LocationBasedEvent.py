@@ -34,6 +34,22 @@ class LocationBasedEvent(Behavior):
             else:
                 self.locEval = lambda l:Geo.pointWithinBoundingBox(l,\
                         self.LocBounds)
+    def recalc(self):
+        self.locBounds = self['LocationRestriction']
+        xmin,ymin,xmax,ymax = compReg.getComponent('Screen').getSize()
+        replacementDict = {'{x}':'l[0]','{y}':'l[1]', '{xmin}':str(xmin), '{xmax}':str(xmax),
+                           '{ymin}':str(ymin),'{ymax}':str(ymax)}
+        if isinstance(self.locBounds, str) or isinstance(self.locBounds, unicode):
+            for key in replacementDict:
+                self.locBounds = self.locBounds.replace(key, replacementDict[key])
+            self.locEval = eval('lambda l:'+self.locBounds)
+        elif isinstance(self.locBounds, tuple):
+            if len(self.locBounds) != 4:
+                raise Exception('Must be in form (xmin,yin,xmax,ymax)')
+            else:
+                self.locEval = lambda l:Geo.pointWithinBoundingBox(l,\
+                        self.LocBounds)
+
     def processResponse(self, sensorInputs, recursiveInputs):
         ret = []
         for data in sensorInputs:
