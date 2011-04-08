@@ -51,7 +51,10 @@ class SensorNetworkToLocation(Input):
             self.responses = tempResponses
 
         for r in self.responses:
-            r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], self['Y'])
+            if self['Y']:
+                r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], self['Y'])
+            else:
+                r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], 25)
         if self.responses:
             self.respond(self.responses)
         self.responses = []

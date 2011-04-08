@@ -5,7 +5,7 @@ class ColorShift(Behavior):
     def processResponse(self, sensor, recurs):
         ret = []
         for data in sensor:
-            #if not 'HSV' in data:
+           #if not 'HSV' in data:
             colors = [d/255.0 for d in data['Color']]
             data['HSV'] = list(colorsys.rgb_to_hsv(*colors))
             if not self['Increment']:
