@@ -6,7 +6,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -28,9 +28,9 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <!--Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer-->
+        <Renderer>
+            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
@@ -43,8 +43,16 @@
                 <MaxX>800</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
-                <SensorSpacing>48</SensorSpacing>
+                <SensorSpacing>36</SensorSpacing>
                 <NumPeds>1</NumPeds>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -59,8 +67,10 @@
             <Class>inputs.SensorNetworkToLocation</Class>
             <Args>
                 <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
+                <SensorNetworkId>udp</SensorNetworkId>
                 <SensorSpacing>48</SensorSpacing>
+                <Mode>SensorNetwork</Mode>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -72,23 +82,10 @@
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
-        <Behavior Id="recursivedecay" InitialResponseCount="30">
-            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
-            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
-        </Behavior>
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
             <Args>
-                <Coefficient>.003</Coefficient>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>dimcolor</Id>
-                <ParamType>Sensor</ParamType>
-                <ParamName>Color</ParamName>
-                <ParamOp>'[chan*.97 for chan in {val}]'</ParamOp>
+                <Coefficient>.001</Coefficient>
             </Args>
         </Behavior>
         
@@ -105,52 +102,9 @@
             <Args>
                 <Id>debug</Id>
                 <Inputs>
-                    <Id>dirped</Id>
+                    <Id>udp</Id>
                 </Inputs>
                 <RenderToScreen>True</RenderToScreen>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ResponseMover</Class>
-            <Args>
-                <Id>mover</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Oval</Class>
-            <Args>
-                <Id>circle</Id>
-                <Radius>0</Radius>
-                <Outline>True</Outline>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ColorShift</Class>
-            <Doc>cycles through hue</Doc>
-            <Args>
-                <Id>colorshift</Id>
-                <Increment>.04</Increment>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>inccircle</Id>
-                <ParamOp>'{val}+1'</ParamOp>
-                <ParamName>circleRadius</ParamName>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Doc>draws and increments an expanding ring</Doc>
-            <Args>
-                <Id>circle_expand</Id>
-                <ChainedBehaviors>
-                    <Id>circle</Id>
-                    <Id>inccircle</Id>
-                    <Id>dimcolor</Id>
-                    <Id>recursivedecay</Id>
-                </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
@@ -163,13 +117,10 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>colorchange</Id>
-                    <Id>mover</Id>
-                    <Id>colorshift</Id>
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>simplemap</Mapper>
+                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
     </BehaviorConfiguration>

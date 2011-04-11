@@ -2,6 +2,7 @@
         <PixelStrip>
             <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
             <Args OverrideBehavior="Merge">
+                <Reverse>True</Reverse>
                 <Id>strip1</Id>
                 <originLocation>(10,20)</originLocation>
                 <Orientation>Down</Orientation>
@@ -11,6 +12,7 @@
         <PixelStrip>
             <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
             <Args OverrideBehavior="Merge">
+                <Reverse>True</Reverse>
                 <Id>strip2</Id>
                 <originLocation>(10,30)</originLocation>
                 <Orientation>Up</Orientation>
@@ -20,6 +22,7 @@
         <PixelStrip>
             <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
             <Args OverrideBehavior="Merge">
+                <Reverse>True</Reverse>
                 <Id>strip3</Id>
                 <originLocation>(10,40)</originLocation>
                 <Orientation>Down</Orientation>
@@ -29,6 +32,7 @@
         <PixelStrip>
             <InheritsFrom>layouts/50PixelStrip.xml</InheritsFrom>
             <Args OverrideBehavior="Merge">
+                <Reverse>True</Reverse>
                 <Id>strip4</Id>
                 <originLocation>(10,50)</originLocation>
                 <Orientation>Up</Orientation>
