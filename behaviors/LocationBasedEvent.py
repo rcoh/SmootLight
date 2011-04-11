@@ -21,7 +21,7 @@ class LocationBasedEvent(Behavior):
                 'ParamName':self['ParamName'],'ParamOp':self['Action']} 
         self.locBounds = self['LocationRestriction']
         self.paramModifier = ModifyParam(modifyParamArgs) 
-        xmin,ymin,xmax,ymax = compReg.getComponent('Screen').getSize()
+        xmin,ymin,xmax,ymax = compReg.getComponent('Screen').size
         replacementDict = {'{x}':'l[0]','{y}':'l[1]', '{xmin}':str(xmin), '{xmax}':str(xmax),
                            '{ymin}':str(ymin),'{ymax}':str(ymax)}
         if isinstance(self.locBounds, str):
@@ -36,7 +36,7 @@ class LocationBasedEvent(Behavior):
                         self.LocBounds)
     def recalc(self):
         self.locBounds = self['LocationRestriction']
-        xmin,ymin,xmax,ymax = compReg.getComponent('Screen').getSize()
+        xmin,ymin,xmax,ymax = compReg.getComponent('Screen').size
         replacementDict = {'{x}':'l[0]','{y}':'l[1]', '{xmin}':str(xmin), '{xmax}':str(xmax),
                            '{ymin}':str(ymin),'{ymax}':str(ymax)}
         if isinstance(self.locBounds, str) or isinstance(self.locBounds, unicode):
