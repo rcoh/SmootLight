@@ -5,6 +5,8 @@ Params:
 need to be below that component in the XML
 <SensorSpacing> -- sensors location = int(id)*SensorSpacing 
 <Y> -- the Y location specified by the user
+<Mode> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
+PedestrianSimulator.  Set to SensorNetwork to take data from UDP input.
 SensorNetworkToLocation takes packets with field <SensorId>int</SensorId>.  It adds a <Location> tag
 to the response which it infers from the SensorId field.
 
@@ -36,7 +38,8 @@ class SensorNetworkToLocation(Input):
         output = []
         for i,val in enumerate(packet):
             if val == '1':
-                output.append({'SensorId':sensorId*len(packet)+i, 'Responding':timeOps.time()})
+                print 'responding:',i
+                output.append({'SensorId':int(sensorId)*len(packet)+i, 'Responding':timeOps.time()})
                 
         return output
     def sensingLoop(self):
@@ -46,18 +49,18 @@ class SensorNetworkToLocation(Input):
         if self['Mode'] == 'SensorNetwork':
             tempResponses = []
             for r in self.responses:
-                tempResponses += self.parseSensorPacket(s) 
+                tempResponses += self.parseSensorPacket(r['data'])
 
             self.responses = tempResponses
-
         for r in self.responses:
             if self['Y']:
                 r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], self['Y'])
             else:
-                r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], 25)
+                r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
+
         if self.responses:
             self.respond(self.responses)
         self.responses = []
 
     def processResponse(self, sensorDict, eventDict):
-        self.responses += eventDict
+        self.responses.append(eventDict)

@@ -28,7 +28,7 @@ class DirectionalPedestrians(Input):
         for r in self.responses:
             bestMatch,t = self.findClosest(self.cached, r['Location'][0]) 
             r['Direction'] =  r['Location'][0]-bestMatch
-            r['Velocity'] = r['Direction']/(timeOps.time()-t)*1000
+            r['Velocity'] = r['Direction']/(timeOps.time()-t)
             newCache.append((r['Location'][0], r['Responding'])) 
 
         self.cached += newCache
