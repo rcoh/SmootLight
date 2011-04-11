@@ -22,6 +22,7 @@ class Behavior(SmootCoreObject):
         self.outGoingQueue = []
         # to make this class more state-machine-like:
         self.lastState = self.behaviorInit()
+        self.inputPause = False
     
     def behaviorInit(self):
         pass
@@ -35,7 +36,8 @@ class Behavior(SmootCoreObject):
         raise Exception('ProcessResponse not defined!')
     
     def addInput(self, sensorInput):
-        self.sensorResponseQueue.append(sensorInput)
+        if not self.inputPause:
+            self.sensorResponseQueue.append(sensorInput)
     
     #used for behavior chaining
     
@@ -101,3 +103,10 @@ class Behavior(SmootCoreObject):
         self.setLastOutput(outputs)
         main_log.debug(self['Id'] + ' Ouputs ' + str(outputs))
         return self.addMapperToResponse(outputs)
+
+    def pauseInputs(self):
+        print "paused input for " + self['Id']
+        self.inputPause = True
+    def resumeInputs(self):
+        print "resumed input for " + self['Id']
+        self.inputPause = False

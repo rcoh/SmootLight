@@ -5,21 +5,19 @@ from logger import main_log
 
 class BehaviorSequence(Behavior):
     """BehaviorSequence takes a set of Behaviors as arguements and will
-    display them in one after another. Takes the following arguments:
+    display them one after another. Takes the following arguments:
     <Args>
         <Id>...</Id>
-        <Inputs> # List of all inputs to be routed to sequenced behaviors
-            <Id>...</Id>
-            ...
-        </Inputs>
         <Sequence>
             <Behavior> # Sequence of definition is sequence of display
                 <Id>...</Id>
                 <Timeout>...</Timeout> # in seconds
-                <Inputs> # List of inputs that should route to this behavior
-                    <Id>...</Id>
-                    ...
-                </Inputs>
+                <OnChange>[ None | Pause | Restart ]</OnChange>
+                # During the time in which this behavior is not active, what
+                # should be going on?
+                # Pause: No inputs will be added to it's queue when inactive
+                # Restart: Behavior restarts
+                # None: Behavior will keep State and will accrue inputs
             </Behavior>
             ...
         </Sequence>
@@ -47,12 +45,28 @@ class BehaviorSequence(Behavior):
         print "   ", behavior
         self.behavior = behavior['Id']
         self.endTime = clock.time() + behavior['Timeout'] * 1000
+        self.onChange = behavior['OnChange']
+
+    def stopBehavior (self):
+        if self.onChange == 'Pause':
+            compReg.getComponent(self.behavior).pauseInputs()
+
+    def startBehavior (self):
+        if self.onChange == 'Pause':
+            compReg.getComponent(self.behavior).resumeInputs()
+        elif self.onChange == 'Restart':
+            compReg.getCompenent(self.behavior).init()
 
     def processResponse (self, sensors, state):
 
         if self.behavior == None:
             return ([], [self.behaviorComplete])
         
+        if state == []: # if processResponse has never been run
+            for behavior in self['Sequence']:
+                if behavior['OnChange'] == 'Pause':
+                    compReg.getComponent(behavior['Id']).pauseInputs()
+
         outputs = compReg.getComponent(self.behavior).timeStep()
 
         loadNext = False
@@ -63,13 +77,14 @@ class BehaviorSequence(Behavior):
         if self.endTime <= clock.time() or loadNext == True:
 
             try:
+                self.stopBehavior()
                 self.loadNextBehavior()
-                #compReg.getComponent(self.behavior).clearInputs()
+                self.startBehavior()
             except StopIteration:
                 if self['Repeat']:
                     self.behaviorInit()
-                    #compReg.getComponent(self.behavior).clearInputs()
+                    self.startBehavior()
                 else:
                     self.behavior = None
 
-        return (outputs, state)
+        return (outputs, [True])
