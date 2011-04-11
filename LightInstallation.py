@@ -179,16 +179,19 @@ class LightInstallation(object):
         inputId = inputDict['Id']
         try:
             boundBehaviorIds = self.inputBehaviorRegistry[inputId]
-            if not isinstance(responseDict, list):
-                responseDict = [responseDict]
-            try:
-                for r in responseDict:
-                    [compReg.getComponent(b).addInput(r) for b in boundBehaviorIds]
-            except:
-                pass
-                #Behavior run before loading.  Not a big deal.
+        except KeyError:
+            print "missing input"
+            return
+            
+        if not isinstance(responseDict, list):
+            responseDict = [responseDict]
+        try:
+            for r in responseDict:
+                [compReg.getComponent(b).addInput(r) for b in boundBehaviorIds]
         except:
-            print 'missing input' 
+            pass
+            #Behavior run before loading.  Not a big deal.
+            
     def handleDie(self, caller):
         self.dieNow = True
             
