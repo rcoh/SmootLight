@@ -8,7 +8,7 @@ import pdb, sys, time, thread
 #import util.Config as configGetter 
 #import util.ComponentRegistry as compReg
 #import util.BehaviorQuerySystem as bqs
-import json
+import json, re
 
 class TapConnection(object):
     """ This class handles connection to server """
@@ -60,7 +60,7 @@ class MenuTree(object):
         self.connection = connection
         self.nextAction = None
         self.currentObject = None
-        
+        self.lastAction = None
         
     def executeSelection(self,command):
 #        self.commandDict['CurrentCommand'] = command
@@ -82,20 +82,30 @@ class MenuTree(object):
         elif cl in ["a","b", "p"]:
             self.nextAction = lambda x: self.sendCommandInt(cl,x)
             print "Getting {}, please wait...".format(self.COMMANDS[cl])
-            
+            self.lastAction = self.COMMANDS[cl]
             if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
-                self.sendCommandInt(self.COMMANDS[cl],int(cs[1]))
+                self.sendCommandInt(self.lastAction,int(cs[1]))
             else:
+                self.currentObject = None
+                
                 self.commandDict['OperationArg'] = None
-                self.sendCommand(self.COMMANDS[cl])
+                self.sendCommand(self.lastAction)
         elif cl in ["e"]:
             if len(cs) > 1 and cs[1].isdigit():
-                print "do some prompting to figure out what needs to be changed"
-            else:
+                # if digit known, call command to get details of object first,  invisible mode
+                self.sendCommandInt(self.lastAction, int(cs[1]), True)
+                #print "do some prompting to figure out what needs to be changed"
+            if 1:
                 
                 if self.currentObject == None:
+                    print "Need to specify which object."
                     return
-                co=self.currentObject.rstrip('}').lstrip('{').split(',')
+                co=self.currentObject.rstrip('}').lstrip('{')
+                
+                # split on commas unless inside square brackets
+                co = re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', co)
+                
+                
                 co = [i for i in co if i.find(': <') == -1]
                 for n in range(len(co)):
                     print n, ": ", co[n].strip()
@@ -121,6 +131,7 @@ class MenuTree(object):
         elif cl in ["h","?"]: 
             print self.__doc__
             self.nextAction = None
+            self.lastAction = None
         elif cl in ["c","d"]:
             print "unimplemented"
         else:
@@ -134,19 +145,22 @@ class MenuTree(object):
     def acceptInput(self):
         pass
         
-    def sendCommandInt(self,command,index):
-        if len(self.componentList)-1 < index:
+    def sendCommandInt(self,command,index, is_quiet=False):
+        if self.componentList == None:
+            print "Specify whether you're talking about all objects or just behaviors (a/b)."
+        elif len(self.componentList)-1 < index:
             print "No element with that index."
         else:
             self.commandDict['OperationArg'] = self.componentList[index] 
-            self.sendCommand(command)
+            self.sendCommand(command, is_quiet)
         
          
-    def sendCommand(self, command):
+    def sendCommand(self, command, is_quiet=False):
         self.commandDict['OperationType'] = 'Read'
         self.commandDict['OperationDetail'] = command
         
-        print self.commandDict
+        if not(is_quiet):
+            print self.commandDict
         
         resp = self.connection.sendMsg(json.dumps(self.commandDict))  
         if resp == "":
@@ -168,8 +182,9 @@ class MenuTree(object):
                 print "{:4} {:10}".format(n,resp[n])   
         else:
             self.currentObject = resp
-            for r in resp.split(','):
-                print r
+            if not(is_quiet):
+                for r in resp.split(','):
+                    print r
             
 class TapRunningInstallation(object):
     """ This is the main class responsible for console IO """
