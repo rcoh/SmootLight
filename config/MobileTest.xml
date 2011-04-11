@@ -29,9 +29,6 @@
     </PixelMapperConfiguration>
     <RendererConfiguration>
         <Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
-        <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
     </RendererConfiguration>
@@ -113,6 +110,8 @@
                 <Id>move1</Id>
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
+		<XBound>200</XBound>
+		<YBound>200</YBound>
             </Args>
         </Behavior>
         <Behavior>
@@ -121,6 +120,8 @@
                 <Id>move2</Id>
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
+		<XBound>200</XBound>
+		<YBound>200</YBound>
             </Args>
         </Behavior>
         <Behavior>
@@ -129,6 +130,8 @@
                 <Id>move3</Id>
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
+		<XBound>200</XBound>
+		<YBound>200</YBound>
             </Args>
         </Behavior>
         <Behavior>
@@ -137,6 +140,8 @@
                 <Id>move4</Id>
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
+		<XBound>200</XBound>
+		<YBound>200</YBound>
             </Args>
         </Behavior>
 	<Behavior>
@@ -155,7 +160,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>move1</Id>
-		    <!--<Id>mobileshake</Id>-->
+		    <Id>mobileshake</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
 		<RenderToScreen>True</RenderToScreen>		
@@ -171,7 +176,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>move2</Id>
-		    <!--<Id>mobileshake</Id>-->
+		    <Id>mobileshake</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
 		<RenderToScreen>True</RenderToScreen>		
@@ -187,7 +192,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>move3</Id>
-		    <!--<Id>mobileshake</Id>-->
+		    <Id>mobileshake</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
 		<RenderToScreen>True</RenderToScreen>		
@@ -203,25 +208,11 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>move4</Id>
-		    <!--<Id>mobileshake</Id>-->
+		    <Id>mobileshake</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
 		<RenderToScreen>True</RenderToScreen>		
                 <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-	<!--BOOM BEHAVIOR-->
-        <Behavior>
-            <Class>behaviors.Boom</Class>
-            <Args>
-                <Id>boom</Id>
-                <Inputs>
-		  <Id>randomLoc</Id>
-		  <Id>decay</Id>
-		</Inputs>
-		<MaxRadius>50</MaxRadius>
-		<StepSize>10</StepSize>
-		<RenderToScreen>True</RenderToScreen>		
             </Args>
         </Behavior>
     </BehaviorConfiguration>

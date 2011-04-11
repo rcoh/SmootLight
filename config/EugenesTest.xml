@@ -30,9 +30,9 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap1</Id>
-                <CutoffDist>40</CutoffDist>
+                <CutoffDist>30</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>20</Width>
+                <Width>10</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -182,7 +182,7 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
-		    <!--<Id>momapper</Id>-->
+		    <Id>momapper</Id>
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>True</RenderToScreen>
