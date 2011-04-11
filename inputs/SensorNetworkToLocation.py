@@ -63,4 +63,7 @@ class SensorNetworkToLocation(Input):
         self.responses = []
 
     def processResponse(self, sensorDict, eventDict):
-        self.responses.append(eventDict)
+        if(isinstance(eventDict, list)):
+            self.responses += eventDict
+        else:
+            self.responses.append(eventDict)
