@@ -64,7 +64,8 @@ class BehaviorSequence(Behavior):
         
         if state == []: # if processResponse has never been run
             for behavior in self['Sequence']:
-                if behavior['OnChange'] == 'Pause':
+                if behavior['OnChange'] == 'Pause' \
+                        and behavior['Id'] != self.behavior:
                     compReg.getComponent(behavior['Id']).pauseInputs()
 
         outputs = compReg.getComponent(self.behavior).timeStep()
