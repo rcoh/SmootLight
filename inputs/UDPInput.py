@@ -14,10 +14,12 @@ class UDPInput(Input):
         self.sock.bind((HOST, PORT))
     def sensingLoop(self):
         (data,address) = self.sock.recvfrom(1024)
-        if not self['Mode'] or self['Mode'] == 'Raw':
-            dataDict = {'data':data, 'address':address}
-        else:
-            dataDict = json.loads(data)
-            dataDict['Address'] = address
-        self.respond(dataDict)
+        while data:
+            if not self['Mode'] or self['Mode'] == 'Raw':
+                dataDict = {'data':data, 'address':address}
+            else:
+                dataDict = json.loads(data)
+                dataDict['Address'] = address
+            self.respond(dataDict)
+            (data,address) = self.sock.recvfrom(1024)
              
