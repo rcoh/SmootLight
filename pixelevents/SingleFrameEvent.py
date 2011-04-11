@@ -4,5 +4,6 @@ from numpy import array
 class SingleFrameEvent(PixelEvent):
     """SingleFrameEvent is a PixelEvent that will only render for the first frame on which it is
     queried"""
-    def coeffs(self):
-        return array([1., 0., 0.])
+    def state(self, time):
+        if time == 0: return [1, 0, 0], 1 # wait 1 ms
+        else: return None
