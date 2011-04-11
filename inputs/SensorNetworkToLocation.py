@@ -4,8 +4,13 @@ Params:
 <SensorNetworkId> -- the cid of the component generating raw sensor data -- Note that this component may
 need to be below that component in the XML
 <SensorSpacing> -- sensors location = int(id)*SensorSpacing 
+<<<<<<< HEAD
 <Y> -- the Y location specified by the user
 
+=======
+<Mode> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
+PedestrianSimulator.  Set to SensorNetwork to take data from UDP input.
+>>>>>>> 0c80f07db08bbe06f365f22a7f89519e4e05f1d9
 SensorNetworkToLocation takes packets with field <SensorId>int</SensorId>.  It adds a <Location> tag
 to the response which it infers from the SensorId field.
 
@@ -16,6 +21,7 @@ from operationscore.Input import *
 import util.ComponentRegistry as compReg
 import thread
 from logger import main_log
+import util.TimeOps as timeOps
 class SensorNetworkToLocation(Input):
     def inputInit(self):
         self.lock = thread.allocate_lock()
@@ -30,15 +36,34 @@ class SensorNetworkToLocation(Input):
         except Exception as ex:
             compReg.getLock().release()
             return False
-    
+    def parseSensorPacket(self, s):
+        sensorId, packetData = s.split(':')
+        packet = packetData.split('|')
+        output = []
+        for i,val in enumerate(packet):
+            if val == '1':
+                print 'responding:',i
+                output.append({'SensorId':int(sensorId)*len(packet)+i, 'Responding':timeOps.time()})
+                
+        return output
     def sensingLoop(self):
         #TODO: Lock on self.responses
         if not self.boundToInput:
             self.boundToInput = self.makeListener()
+        if self['Mode'] == 'SensorNetwork':
+            tempResponses = []
+            for r in self.responses:
+                tempResponses += self.parseSensorPacket(r['data'])
+
+            self.responses = tempResponses
         for r in self.responses:
             r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], self['Y'])
         if self.responses:
             self.respond(self.responses)
         self.responses = []
+
     def processResponse(self, sensorDict, eventDict):
-        self.responses += eventDict
+        if(isinstance(eventDict, list)):
+            self.responses += eventDict
+        else:
+            self.responses.append(eventDict)

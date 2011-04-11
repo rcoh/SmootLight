@@ -1,5 +1,9 @@
 from operationscore.Behavior import *
 class Oval(Behavior):
+
+    """Draws an oval around the location provided in the input. Options are:
+    Height (in pixels), Width (in pixels), and [Outside | Inside | Outline] """
+
     def processResponse(self, sensors, recurs):
         ret = []
         for data in sensors:
@@ -19,10 +23,17 @@ class Oval(Behavior):
             if not self['Id']+'Radius' in data:
                 data[self['Id']+'Radius'] = self['Radius']
             rad = data[self['Id']+'Radius']
-            cond = '>=' if self['Outside'] else '<='
+            if self['Outside']:
+                cond = '>='
+            elif self['Inside']:
+                cond = '<='
+            else:
+                cond = ') =='
             circleStr = \
                 'math.sqrt((({x}-%(xLoc)d))**2*%(width)d+(({y}-%(yLoc)d)**2)*%(height)d)%(cond)s%(rad)d' % \
                 locals() 
+            if self['Outline']:
+                circleStr = 'int(' + circleStr
             if self['Combine']:
                 data['Location'] += ',' + circleStr
             else:
