@@ -34,28 +34,17 @@
         <Renderer>
             <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
         </Renderer>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>800</MaxX>
+                <MaxX>200</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
                 <NumPeds>1</NumPeds>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygameclick</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
             </Args>
         </InputElement>
         <InputElement>
