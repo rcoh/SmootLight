@@ -558,7 +558,7 @@
                 <Id>maininterrupt</Id>
                 <MainId>subinterrupt</MainId>
                 <OnChange>None</OnChange>
-                <InterruptId>moveanddecay1</InterruptId>
+                <InterruptId>moveanddecay4</InterruptId>
                 <Timeout>1</Timeout>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
