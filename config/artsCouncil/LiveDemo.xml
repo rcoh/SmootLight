@@ -1,6 +1,16 @@
 <LightInstallation>
 
-    <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer Scale="3">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
 
     <InstallationConfiguration>
         <Defaults>
