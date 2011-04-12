@@ -103,6 +103,42 @@
         </InputElement>
 
         <!-- End OSC Inputs -->
+        <!-- Mobile Inputs -->
+
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp1</Id>
+                <Port>2001</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp2</Id>
+                <Port>2002</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp3</Id>
+                <Port>2003</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp4</Id>
+                <Port>2004</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+
+        <!-- End Mobile Inputs -->
         <!-- Common Inputs -->
 
         <InputElement>
@@ -225,6 +261,7 @@
         <!-- End Common Behaviors -->
         <!-- OSC Behaviors -->
 
+        <!--
         <Behavior>
             <Args>
                 <Id>touchosc</Id>
@@ -247,8 +284,116 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
+        -->
 
         <!-- End OSC Behaviors -->
+        <!-- Mobile Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move1</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move2</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move3</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move4</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+	<Behavior>
+	  <Class>behaviors.MobileShakeBehavior</Class>
+	  <Args>
+	    <Id>mobileshake</Id>
+	    <SizeMult>3</SizeMult>
+	  </Args>
+	</Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay1</Id>
+                <Inputs>
+                    <Id>udp1</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move1</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay2</Id>
+                <Inputs>
+                    <Id>udp2</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move2</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay3</Id>
+                <Inputs>
+                    <Id>udp3</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move3</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay4</Id>
+                <Inputs>
+                    <Id>udp4</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move4</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+
+        <!-- End Mobile Behaviors -->
         <!-- Pedtracker Behaviors -->
 
         <Behavior>
@@ -325,8 +470,8 @@
             <Args>
                 <Id>colorbar</Id>
                 <ChainedBehaviors>
-		    <Id>vbar</Id>
-		    <Id>slowcolorshift</Id>
+                    <Id>vbar</Id>
+                    <Id>slowcolorshift</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -338,10 +483,10 @@
                     <Id>onehorizontal</Id>
                 </Inputs>
                 <ChainedBehaviors>
-		    <Id>color</Id>
-		    <Id>mover</Id>
-		    <!--Id>flicker</Id-->
-		    <Id>singleframe</Id>
+                    <Id>color</Id>
+                    <Id>mover</Id>
+                    <!--Id>flicker</Id-->
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorbar'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
@@ -413,7 +558,7 @@
                 <Id>maininterrupt</Id>
                 <MainId>subinterrupt</MainId>
                 <OnChange>None</OnChange>
-                <InterruptId>OSCTouchChase</InterruptId>
+                <InterruptId>moveanddecay1</InterruptId>
                 <Timeout>1</Timeout>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
