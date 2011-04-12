@@ -1,11 +1,13 @@
-<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+
     <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
+
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
+
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -25,13 +27,11 @@
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
+
     <InputConfiguration>
-        <InputElement>
-            <Class>inputs.OneHorizontalInput</Class>
-            <Args>
-                <Id>onehorizontal</Id>
-            </Args>
-        </InputElement>
+
+        <!-- Pygame Inputs -->
+
         <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
@@ -48,15 +48,10 @@
                 <Keyboard>True</Keyboard>
             </Args>
         </InputElement>
-        <InputElement>
-            <Class>inputs.ParametricLocationInput</Class>
-            <Args>
-                <Id>randomloc</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <xEquation>random.random()</xEquation>
-                <yEquation>random.random()</yEquation>
-            </Args>
-        </InputElement>
+
+        <!-- End Pygame Inputs -->
+        <!-- Pedestrian Inputs -->
+
         <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
@@ -77,19 +72,12 @@
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygameclick</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
-            </Args>
-        </InputElement>
-        <InputElement>
             <Class>inputs.SensorNetworkToLocation</Class>
             <Args>
                 <Id>netloc</Id>
                 <SensorNetworkId>pedsim</SensorNetworkId>
                 <SensorSpacing>36</SensorSpacing>
+                <Y>50</Y>
                 <!--Mode>SensorNetwork</Mode-->
                 <RefreshInterval>100</RefreshInterval>
             </Args>
@@ -101,9 +89,50 @@
                 <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
+
+        <!-- End Pedestrian Inputs -->
+        <!-- OSC Inputs -->
+
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Args>
+                <Id>osc</Id>
+                <Port>1234</Port>
+                <RefreshInterval>10</RefreshInterval>
+            </Args>
+        </InputElement>
+
+        <!-- End OSC Inputs -->
+        <!-- Common Inputs -->
+
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>randomloc</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <xEquation>random.random()</xEquation>
+                <yEquation>random.random()</yEquation>
+            </Args>
+        </InputElement>
+
+        <!-- End Common Inputs -->
+        <!-- Bar Inputs -->
+
+        <InputElement>
+            <Class>inputs.OneHorizontalInput</Class>
+            <Args>
+                <Id>onehorizontal</Id>
+            </Args>
+        </InputElement>
+
+        <!-- End Bar Inputs -->
+
     </InputConfiguration>
 
     <BehaviorConfiguration>
+        
+        <!-- Pixel Event Behaviors -->
+
         <Behavior Id="singleframe">
 	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
 	    </Behavior>
@@ -113,6 +142,16 @@
                 <Coefficient>.02</Coefficient>
             </Args>
         </Behavior>
+        <Behavior Id="slowdecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.003</Coefficient>
+            </Args>
+        </Behavior>
+
+        <!-- End PixelEvent Behaviors -->
+        <!-- Color Behaviors -->
+
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Args>
@@ -121,16 +160,97 @@
                 </ColorList>
             </Args>
         </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>colorshift</Id>
+                <Increment>0.04</Increment>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>slowcolorshift</Id>
+                <Increment>0.01</Increment>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.CycleColorBehavior</Class>
+            <Args>
+                <Id>color</Id>
+                <Increments>500</Increments>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <Id>white</Id>
+                <ColorList>
+                    <Color>(255,255,255)</Color>
+                </ColorList>
+            </Args>
+        </Behavior>
+
+        <!-- End Color Behaviors -->
+        <!-- Common Behaviors -->
+
         <Behavior Id="recursivedecay" InitialResponseCount="30">
             <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
-        <Behavior Id="slowdecay">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+        <Behavior>
+            <Class>behaviors.ResponseMover</Class>
             <Args>
-                <Coefficient>.003</Coefficient>
+                <Id>mover</Id>
             </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.Flicker</Class>
+            <Args>
+                <Id>flicker</Id>
+                <AllProb>1</AllProb>
+                <Prob>.8</Prob>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Args>
+                <Id>debugprint</Id>
+                <Quiet>True</Quiet>
+                <Output>print</Output>
+                <PassThrough>True</PassThrough>
+            </Args>
+        </Behavior>
+
+        <!-- End Common Behaviors -->
+        <!-- OSC Behaviors -->
+
+        <Behavior>
+            <Args>
+                <Id>touchosc</Id>
+            </Args>
+            <Class>behaviors.TouchOSC</Class>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>Creates a large colored circle at the location specified by osc</Doc>
+            <Args>
+                <Id>OSCTouchChase</Id>
+                <Inputs>
+                    <Id>osc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>touchosc</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+
+        <!-- End OSC Behaviors -->
+        <!-- Pedtracker Behaviors -->
+
         <Behavior>
             <Class>behaviors.ModifyParam</Class>
             <Args>
@@ -146,27 +266,6 @@
                 <Id>circle</Id>
                 <Radius>0</Radius>
                 <Outline>True</Outline>
-            </Args>
-        </Behavior>
-       <Behavior>
-            <Class>behaviors.Bar</Class>
-            <Args>
-                <Id>vbar</Id>
-                <Slope>None</Slope>
-            </Args>
-        </Behavior>
-       <Behavior>
-            <Class>behaviors.ColorShift</Class>
-            <Args>
-                <Id>colorshift</Id>
-		<Increment>0.04</Increment>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.CycleColorBehavior</Class>
-            <Args>
-                <Id>color</Id>
-		<Increments>500</Increments>
             </Args>
         </Behavior>
         <Behavior>
@@ -193,17 +292,48 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
+                <Id>pedtracker</Id>
+                <Inputs>
+                    <Id>dirped</Id>
+                    <Id>pygameclick</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>debugprint</Id>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>colorshift</Id>
+                    <Id>slowdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>simplemap</Mapper>
+            </Args>
+        </Behavior>
+
+        <!-- End Pedtracker Behaviors -->
+        <!-- Bar Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.Bar</Class>
+            <Args>
+                <Id>vbar</Id>
+                <Slope>None</Slope>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
                 <Id>colorbar</Id>
                 <ChainedBehaviors>
 		    <Id>vbar</Id>
-		    <Id>colorshift</Id>
+		    <Id>slowcolorshift</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>shiftall</Id>
+                <Id>shiftingcolors</Id>
                 <Inputs>
                     <Id>onehorizontal</Id>
                 </Inputs>
@@ -218,15 +348,10 @@
                 <Mapper>simplemap</Mapper>
             </Args>
         </Behavior>
-        <Behavior>
-            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-            <Args>
-                <Id>white</Id>
-                <ColorList>
-                    <Color>(255,255,255)</Color>
-                </ColorList>
-            </Args>
-        </Behavior>
+
+        <!-- End Bar Behaviors -->
+        <!-- Sparkle Behaviors -->
+
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
@@ -242,50 +367,11 @@
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.ResponseMover</Class>
-            <Args>
-                <Id>mover</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.Flicker</Class>
-            <Args>
-                <Id>flicker</Id>
-                <AllProb>1</AllProb>
-                <Prob>.8</Prob>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.DebugBehavior</Class>
-            <Args>
-                <Id>debugpedtracker</Id>
-                <Quiet>True</Quiet>
-                <Output>print</Output>
-                <PassThrough>True</PassThrough>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>pedtracker</Id>
-                <Inputs>
-                    <Id>netloc</Id>
-                    <Id>pygameclick</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>debugpedtracker</Id>
-                    <Id>colorchange</Id>
-                    <Id>mover</Id>
-                    <Id>colorshift</Id>
-                    <Id>slowdecay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
-                <Mapper>simplemap</Mapper>
-            </Args>
-        </Behavior>
-        <Behavior>
+
+        <!-- End Sparkle Behaviors -->
+        <!-- Main Behavior Stack -->
+
+        <!--Behavior>
             <Class>behaviors.BehaviorSequence</Class>
             <Args>
                 <Id>sequence</Id>
@@ -301,7 +387,7 @@
                         <OnChange>Pause</OnChange>
                     </Behavior>
                     <Behavior>
-                        <Id>shiftall</Id>
+                        <Id>shiftingcolors</Id>
                         <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
                     </Behavior>
@@ -309,6 +395,31 @@
                 <Repeat>True</Repeat>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
+        </Behavior-->
+        <Behavior>
+            <Class>behaviors.BehaviorInterrupt</Class>
+            <Args>
+                <Id>subinterrupt</Id>
+                <MainId>shiftingcolors</MainId>
+                <OnChange>None</OnChange>
+                <InterruptId>pedtracker</InterruptId>
+                <Timeout>1</Timeout>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorInterrupt</Class>
+            <Args>
+                <Id>maininterrupt</Id>
+                <MainId>subinterrupt</MainId>
+                <OnChange>None</OnChange>
+                <InterruptId>OSCTouchChase</InterruptId>
+                <Timeout>1</Timeout>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+
+        <!-- End Main Behavior Stack -->
+
     </BehaviorConfiguration>
 </LightInstallation>
