@@ -183,7 +183,12 @@ class LightInstallation(object):
                 
     def processResponse(self,inputDict, responseDict):
         inputId = inputDict['Id']
-        boundBehaviorIds = self.inputBehaviorRegistry[inputId]
+        try:
+            boundBehaviorIds = self.inputBehaviorRegistry[inputId]
+        except KeyError:
+            print "missing input"
+            return
+            
         if not isinstance(responseDict, list):
             responseDict = [responseDict]
         try:
