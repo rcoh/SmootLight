@@ -66,7 +66,7 @@
                 <Id>pedsim</Id>
                 <MaxX>900</MaxX>
                 <Velocity>40</Velocity>
-                <NumSensors>40</NumSensors>
+                <NumSensors>4</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
                 <NumPeds>1</NumPeds>
             </Args>

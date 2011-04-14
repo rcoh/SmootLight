@@ -22,14 +22,12 @@ class XYMoveBounceDir(Behavior):
                     bqs.getDistLambda(opsensory['Location'], 19)
                 ])
                 if results:
-                    print len(results)
                     opsensory['XStep'] = -opsensory['XStep']
                     opsensory['Location'] = Geo.addLocations((opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
             else:
                 opsensory['isNew'] -= 1
             if isNew:
                 if opsensory['Direction'] != 0:
-                    print opsensory['Direction']
                     opsensory['Location'] = Geo.addLocations((2*opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
                     ret.append(opsensory)
                     opsensory2 = dict(opsensory)
