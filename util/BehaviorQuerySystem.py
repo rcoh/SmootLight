@@ -34,7 +34,6 @@ def query(predicateList):
             #for pred in predicateList: #Evaluate every predicate.  A predicate is a lambda function that
             #takes a dict and returns a bool.
                 try:
-                    #import pdb; pdb.set_trace()
                     if not predicateList[i](output):
                         validOutput = False
                         break
@@ -55,6 +54,14 @@ def getBehaviorsNear(loc, maxdist):
 
 def getDifferentUIDLambda(uri):
     return lambda args:args['UniqueResponseIdentifier']!=uri
+
+def getDirectionLambda(direction):
+    if direction == '+':
+        return lambda args:args['Direction']>0
+    if direction == '-':
+        return lambda args:args['Direction']<0
+
+
 
 def getBehaviorId(behaviorid):
     return query(getBehaviorIdLambda(behaviorid))
