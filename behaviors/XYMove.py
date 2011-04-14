@@ -13,7 +13,7 @@ class XYMove(Behavior):
         for loc in sensor:
             oploc = dict(loc)
             self.insertVelIfMissing(oploc)
-            oploc['Location'] = Geo.addLocations((oploc['XStep'], oploc['YStep']), oploc['Location']) 
+            oploc['Location'] = Geo.addLocations((oploc['XVel'], oploc['YVel']), oploc['Location']) 
             ret.append(oploc)
         return (ret, []) 
     def insertVelIfMissing(self, data):

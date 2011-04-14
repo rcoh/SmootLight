@@ -21,8 +21,7 @@ class GrowNear(Behavior):
             ])
             if results:
                 opsensory['XVel'] = opsensory['XVel'] + 10 
-            opsensory['XVel'] = min(max(-1, opsensory['XVel'] - 1), 15)
-            print "VEL:", opsensory['XVel']
+            opsensory['XVel'] = min(max(-1, opsensory['XVel'] - 1), 10)
             opsensory['Location'] = Geo.addLocations((opsensory['XVel'], 0), opsensory['Location'])
             if opsensory['Location'][0] <= 0:
                 opsensory['Location'] = tuple([1, 25])
