@@ -4,13 +4,9 @@ Params:
 <SensorNetworkId> -- the cid of the component generating raw sensor data -- Note that this component may
 need to be below that component in the XML
 <SensorSpacing> -- sensors location = int(id)*SensorSpacing 
-<<<<<<< HEAD
 <Y> -- the Y location specified by the user
-
-=======
 <Mode> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
 PedestrianSimulator.  Set to SensorNetwork to take data from UDP input.
->>>>>>> 0c80f07db08bbe06f365f22a7f89519e4e05f1d9
 SensorNetworkToLocation takes packets with field <SensorId>int</SensorId>.  It adds a <Location> tag
 to the response which it infers from the SensorId field.
 
@@ -42,7 +38,7 @@ class SensorNetworkToLocation(Input):
         output = []
         for i,val in enumerate(packet):
             if val == '1':
-                print 'responding:',i
+                #print 'responding:',i
                 output.append({'SensorId':int(sensorId)*len(packet)+i, 'Responding':timeOps.time()})
                 
         return output
@@ -57,7 +53,11 @@ class SensorNetworkToLocation(Input):
 
             self.responses = tempResponses
         for r in self.responses:
-            r['Location'] = (int(r['SensorId'])*self['SensorSpacing'], self['Y'])
+            if self['Y']:
+                r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], self['Y'])
+            else:
+                r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
+
         if self.responses:
             self.respond(self.responses)
         self.responses = []

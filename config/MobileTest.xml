@@ -114,7 +114,7 @@
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
 		<XBound>200</XBound>
-		<YBound>200</YBound>
+		<YBound>70</YBound>
             </Args>
         </Behavior>
         <Behavior>
@@ -124,7 +124,7 @@
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
 		<XBound>200</XBound>
-		<YBound>200</YBound>
+		<YBound>70</YBound>
             </Args>
         </Behavior>
         <Behavior>
@@ -134,7 +134,7 @@
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
 		<XBound>200</XBound>
-		<YBound>200</YBound>
+		<YBound>70</YBound>
             </Args>
         </Behavior>
         <Behavior>
@@ -144,7 +144,7 @@
 	        <XStep>3</XStep>
 	        <YStep>3</YStep>
 		<XBound>200</XBound>
-		<YBound>200</YBound>
+		<YBound>70</YBound>
             </Args>
         </Behavior>
 	<Behavior>
