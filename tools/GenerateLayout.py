@@ -147,19 +147,22 @@ testSections.append( makeSection('Section4', 20, 12, 4, 12, 1) )
 #print sections
 
 reverseStrips = []
-reverseStrips += range(13, 17) +\
+reverseStrips += range(9, 17) +\
                  range(25, 29) +\
                  range(37, 45) +\
                  range(53, 57) +\
-                 range(65, 77) +\
+                 range(69, 73) +\
                  range(81, 85) +\
                  range(89, 93) +\
                  range(97, 101) +\
+                 range(105, 109) +\
                  range(113, 117) +\
-                 range(121, 125) +\
+                 range(121, 129) +\
                  range(133, 137) +\
-                 range(173, 177) +\
-                 range(181, 185)
+                 range(153, 157) +\
+                 range(169, 177) +\
+                 range(181, 185) +\
+                 range(189, 193)
 #print reverseStrips
 
 rowToDiffuser = {1: '(0, -12)', 2: '(0, 12)', 3: '(0, -12)', 4: '(0, 12)'}
