@@ -159,7 +159,6 @@
                 <Id>runcolordecay</Id>
                 <Inputs>
                     <Id>dirped</Id>
-                    <Id>pygameclick</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>

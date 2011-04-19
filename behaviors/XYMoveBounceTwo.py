@@ -15,7 +15,6 @@ class XYMoveBounceTwo(Behavior):
             opsensory = dict(sensory)
             isNew = self.insertStepIfMissing(opsensory) 
             #TODO: update 19 to be a configurable variable
-            print opsensory
             if opsensory['isNew'] <= 0:
                 results = bqs.query([
                     bqs.getBehaviorIdLambda(self['Id']),\
@@ -23,7 +22,6 @@ class XYMoveBounceTwo(Behavior):
                     bqs.getDistLambda(opsensory['Location'], 19)
                 ])
                 if results:
-                    print len(results)
                     opsensory['XStep'] = -opsensory['XStep']
                     opsensory['Location'] = Geo.addLocations((opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
             else:

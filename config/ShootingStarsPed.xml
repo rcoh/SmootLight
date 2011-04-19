@@ -6,7 +6,8 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+<!--            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> -->
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -28,12 +29,13 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
+<Renderer>
+    <Class>renderers.PygameRenderer</Class>
+    <Args>
+        <Id>pygamerender</Id>
+        <Size>(1200, 50)</Size>
+    </Args>
+</Renderer>
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
@@ -64,7 +66,7 @@
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>300</MaxX>
+                <MaxX>1200</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
@@ -79,9 +81,25 @@
                 <SensorSpacing>48</SensorSpacing>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.DirectionalPedestrians</Class>
+            <Args>
+                <Id>dirped</Id>
+                <LocSensorId>netloc</LocSensorId>
+            </Args>
+        </InputElement>
+ 
     </InputConfiguration>
 
     <BehaviorConfiguration>
+    <Behavior Id='accelerate'>
+        <Class>behaviors.ModifyParam</Class>
+        <Args>
+            <ParamType>Sensor</ParamType>
+            <ParamName>XStep</ParamName>
+            <ParamOp>'{val}*1.1'</ParamOp>
+        </Args>
+    </Behavior>
         <Behavior Id="recursivedecay" InitialResponseCount="20">
             <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
@@ -95,42 +113,44 @@
         <Behavior Id="decay" Coefficient=".0025">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
-        <Behavior Id="accel">
-            <InheritsFrom>behaviors/Accelerate.xml</InheritsFrom>
-        </Behavior>
         <Behavior>
-            <Class>behaviors.RestrictLocation</Class>
+            <Class>behaviors.LocationBasedEvent</Class>
             <Args>
                 <Id>xbounce</Id>
                 <Action>'{val}*-1'</Action>
                 <ParamName>XStep</ParamName>
-                <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
+                <LocationRestriction>{x}&lt;0 or {x}&gt;{xmax}</LocationRestriction>
             </Args>
         </Behavior>
-	<Behavior>
-	  <Class>behaviors.Flasher</Class>
-	  <Args>
-	    <Id>flasher</Id>
-	    <Factor>0.5</Factor>
-	  </Args>
-	</Behavior>
         <Behavior>
+            <Class>behaviors.LocationBasedEvent</Class>
+            <Args>
+                <Id>ybounce</Id>
+                <Action>'{val}*-1'</Action>
+                <ParamName>YStep</ParamName>
+                <LocationRestriction>{y}&lt;0 or {y}&gt;{ymax}</LocationRestriction>
+            </Args>
+        </Behavior>
+       <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>flashermovebounce</Id>
+                <Id>movebounce</Id>
                 <ChainedBehaviors>
-                    <Id>accel</Id>
-                    <Id>moveright</Id>
+                    <Id>move</Id>
+                    <Id>ybounce</Id>
+                    <Id>xbounce</Id>
+                    <Id>accelerate</Id>
                     <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.XYMove</Class>
+      <Behavior>
+            <Class>behaviors.XYMoveBounceDirOne</Class>
             <Args>
-                <Id>moveright</Id>
+                <Id>move</Id>
                 <XStep>10</XStep>
         		<YStep>0</YStep>
+                <NoBounceTime>100</NoBounceTime>
             </Args>
         </Behavior>
         <Behavior>
@@ -138,15 +158,14 @@
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>netloc</Id>
-                    <Id>pygameclick</Id>
+                    <Id>dirped</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
                     <Id>mover</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>

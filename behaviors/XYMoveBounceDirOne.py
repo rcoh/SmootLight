@@ -1,8 +1,8 @@
 from operationscore.Behavior import *
 import util.BehaviorQuerySystem as bqs
 import util.Geo as Geo
-class XYMoveBounceDir(Behavior):
-    """XYMoveBounceDir is a behavior designed to be used as a recursive hook to ResponseMover to move pixels by
+class XYMoveBounceDirOne(Behavior):
+    """XYMoveBounceDirOne is a behavior designed to be used as a recursive hook to ResponseMover to move pixels by
     XStep and YStep.  As XStep and YStep are maintained in the responses itself, they can be
     modulated to facilitate, acceleration, modulation, bouncing, etc.  Specify:
     <XStep> -- the starting XStep
@@ -27,13 +27,11 @@ class XYMoveBounceDir(Behavior):
             else:
                 opsensory['isNew'] -= 1
             if isNew:
+                if opsensory['Direction'] < 0:
+                    opsensory['XStep'] = -opsensory['XStep']
                 if opsensory['Direction'] != 0:
                     opsensory['Location'] = Geo.addLocations((2*opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
                     ret.append(opsensory)
-                    opsensory2 = dict(opsensory)
-                    opsensory2['XStep'] = -opsensory2['XStep']
-                    opsensory2['Location'] = Geo.addLocations((2*opsensory2['XStep'], opsensory2['YStep']), opsensory['Location']) 
-                    ret.append(opsensory2)
             else:
                 opsensory['Location'] = Geo.addLocations((opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
                 ret.append(opsensory)
