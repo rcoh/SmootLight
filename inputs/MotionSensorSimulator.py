@@ -17,7 +17,7 @@ class MotionSensorSimulator(SmootCoreObject):
         if not self['DetectionRange']:
             self['DetectionRange'] = 30
         if not self['DetectionProbability']:
-            self['DetectionProbability'] = .8
+            self['DetectionProbability'] = 1
         self.lastDetection = timeOps.time()-self['RefactoryTime'] 
         self.objLocHook = self['DataHook']
     

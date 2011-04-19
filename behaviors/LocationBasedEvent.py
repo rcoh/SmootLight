@@ -16,7 +16,6 @@ class LocationBasedEvent(Behavior):
     <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>"""
 
     def behaviorInit(self):
-        action = self['Action']
         modifyParamArgs = {'ParamType': 'Sensor',
                 'ParamName':self['ParamName'],'ParamOp':self['Action']} 
         self.locBounds = self['LocationRestriction']

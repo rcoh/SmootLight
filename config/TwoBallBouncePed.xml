@@ -37,12 +37,6 @@
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
-            <Class>inputs.OneHorizontalInput</Class>
-            <Args>
-                <Id>onehorizontal</Id>
-            </Args>
-        </InputElement>
-        <InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
                 <Id>pygameclick</Id>
@@ -58,61 +52,104 @@
                 <Keyboard>True</Keyboard>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.PedestrianSimulator</Class>
+            <Args>
+                <Id>pedsim</Id>
+                <MaxX>900</MaxX>
+                <Velocity>40</Velocity>
+                <NumSensors>4</NumSensors>
+                <SensorSpacing>48</SensorSpacing>
+                <NumPeds>1</NumPeds>
+            </Args>
+        </InputElement>
+         <InputElement>
+            <Class>inputs.SensorNetworkToLocation</Class>
+            <Args>
+                <Id>netloc</Id>
+                <SensorNetworkId>pedsim</SensorNetworkId>
+                <SensorSpacing>48</SensorSpacing>
+            </Args>
+        </InputElement>
     </InputConfiguration>
 
     <BehaviorConfiguration>
-        <Behavior Id="singleframe">
-	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
-	</Behavior>
-       <Behavior>
-            <Class>behaviors.VerticalBar</Class>
+        <Behavior Id="recursivedecay" InitialResponseCount="10">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RandomSetBrightColorBehavior</Class>
             <Args>
-                <Id>vbar</Id>
+                <Id>setbrightcolor</Id>
             </Args>
         </Behavior>
-       <Behavior>
-            <Class>behaviors.ColorShift</Class>
+        <Behavior Id="decay" Coefficient=".0025">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RestrictLocation</Class>
             <Args>
-                <Id>colorshift</Id>
-<<<<<<< HEAD
-		<Increment>0.01</Increment>
-=======
-		<Increment>0.05</Increment>
->>>>>>> b473b5443e2e5403e7ce0af932c7ed60855bf2e4
+                <Id>xbounce</Id>
+                <Action>'{val}*-1'</Action>
+                <ParamName>XStep</ParamName>
+                <LocationRestriction>{x}&lt;0 or {x}&gt;800</LocationRestriction>
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.CycleColorBehavior</Class>
+            <Class>behaviors.RestrictLocation</Class>
             <Args>
-                <Id>color</Id>
-		<Increments>2000</Increments>
+                <Id>ybounce</Id>
+                <Action>'{val}*-1'</Action>
+                <ParamName>YStep</ParamName>
+                <LocationRestriction>{y}&lt;0 or {y}&gt;200</LocationRestriction>
             </Args>
         </Behavior>
-        <Behavior>
+       <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>colorchange</Id>
+                <Id>movebounce</Id>
                 <ChainedBehaviors>
-		    <Id>vbar</Id>
-		    <Id>colorshift</Id>
+                    <Id>move</Id>
+                    <Id>ybounce</Id>
+                    <Id>xbounce</Id>
+                    <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
+       <Behavior>
+            <Class>behaviors.XYMoveBounceTwo</Class>
+            <Args>
+                <Id>move</Id>
+                <XStep>10</XStep>
+        		<YStep>0</YStep>
+                <NoBounceTime>100</NoBounceTime>
+            </Args>
+        </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>shiftall</Id>
+                <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>onehorizontal</Id>
+                    <Id>netloc</Id>
+                    <Id>pygameclick</Id>
                 </Inputs>
                 <ChainedBehaviors>
-		    <Id>color</Id>
-		    <Id>mover</Id>
-		    <Id>singleframe</Id>
+                    <Id>setbrightcolor</Id>
+                    <Id>mover</Id>
+                    <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'colorchange'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>simplemap</Mapper>
+                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
@@ -121,6 +158,5 @@
                 <Id>mover</Id>
             </Args>
         </Behavior>
-
     </BehaviorConfiguration>
 </LightInstallation>

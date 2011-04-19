@@ -22,7 +22,12 @@ class TestBQS(unittest.TestCase):
         invalidQuery = lambda args:args['Color']==(254,0,0)
         assert bqs.query(validQuery) == [{'Color':(255,0,0), 'Location':(3,4)}]
         assert bqs.query(invalidQuery) == []
-
+    def test_uri_query(self):
+        mydict = {'UniqueResponseIdentifier':'abc'}
+        goodict = {'UniqueResponseIdentifier':'cde'}
+        urichecker = bqs.getDifferentUIDLambda('abc')
+        assert urichecker(mydict) == False
+        assert urichecker(goodict) == True
     def test_dist_query(self):
         validDist = lambda args:geo.dist(args['Location'], (0,0)) <= 5
         invalidDist = lambda args:geo.dist(args['Location'], (0,0)) <= 2
