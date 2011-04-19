@@ -95,6 +95,8 @@ class MenuTree(object):
                 self.sendCommand()
         elif cl in ["e"]:
             
+            self.nextAction = lambda x: self.initiateEdit(x)
+            
             if len(cs) > 1 and cs[1].isdigit():
                 # if digit known, call command to get details of object first,  invisible mode
                 self.sendCommandInt(int(cs[1]), True)
@@ -107,60 +109,14 @@ class MenuTree(object):
                 print "Object not renderable."
                 return 0
             else:
-               #pdb.set_trace()
-                co=self.currentObject[1:-1]#.rstrip('}').lstrip('{')
-                                
-                # split on commas unless inside square brackets
-                co = re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', co)
-                
-                
-                currentRender = [map(unicode.strip,i.replace("'","").split(':')) for i in co if i.find('RenderToScreen') != -1][0]
-                #pdb.set_trace()
-                print self.commandDict['OperationArg']+"'s "+str(currentRender[0])+" is "+str(currentRender[1])+" -- ",
-                if currentRender[1][0].lower() == 'f':
-                    value = False
-                    confirm = raw_input("activate (y/N)? ")
-                else:
-                    value = True
-                    confirm = raw_input("deactivate (y/N)? ")
-                    
-                if confirm != "" and confirm[0] == 'y':
-                    value = not value
-                    
-                self.commandDict['OperationType'] = 'Update'
-                self.commandDict['ComponentId'] = filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
-                self.commandDict['Value'] = value
-                self.commandDict['ParamName'] = "RenderToScreen"#selection[0].strip("'")
-                resp = self.connection.sendMsg(json.dumps(self.commandDict))
-                
-                self.commandDict = {'OperationArg':None,'OperationDetail':self.commandDict['OperationDetail']}
-                # co = [i for i in co if i.find(': <') == -1]
-                # for n in range(len(co)):
-                #     print n, ": ", co[n].strip()
-                #             
-                # print "edit what?"    
-                # i = raw_input("> ")
-                # 
-                # #argDict=eval('{%s}'%','.join(co))                
-                # if i.isdigit() and int(i) < len(co):
-                #     selection = map(unicode.strip,co[int(i)].split(':'))
-                #     value = raw_input("set "+ selection[0]+ " to: " )
-                #     
-                #     print "setting ", selection[0]," to '",value,"'"      
-                #     self.commandDict['OperationType'] = 'Update'
-                #     self.commandDict['ComponentId'] = filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
-                #     self.commandDict['Value'] = value
-                #     self.commandDict['ParamName'] = selection[0].strip("'")
-                #     resp = self.connection.sendMsg(json.dumps(self.commandDict)) 
-                #     print resp
-                #     self.commandDict = {'OperationArg':None}
-                #     
+                self.initiateEdit()
 
         elif cl in ["h","?"]: 
             print self.__doc__
             self.nextAction = None
         elif cl in ["c","d"]:
             print "unimplemented"
+            self.nextAction = None
         else:
             if cl != "":
                 print "syntax error, use 'h' for help"
@@ -216,11 +172,69 @@ class MenuTree(object):
                     print "{:4}  {:10}".format(n,resp[n][0])
         else:
             self.currentObject = resp
-            if not(is_quiet):
-                for r in re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', resp[1:-1]): #   resp.split(','):
-                    if r.find('parentScope') == -1:
-                        print " "+r.replace("'","").strip()
+            self.printCurrentObject(is_quiet)
             
+    def printCurrentObject(self,is_quiet):
+        if not(is_quiet):
+            for r in re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', self.currentObject[1:-1]): #   resp.split(','):
+                if r.find('parentScope') == -1:
+                    print " "+r.replace("'","").strip()
+            
+    def initiateEdit(self, index=None):
+         #pdb.set_trace()
+            if index != None:
+                self.sendCommandInt(False)
+            else:
+                self.printCurrentObject(False)
+         
+            co=self.currentObject[1:-1]#.rstrip('}').lstrip('{')
+                            
+            # split on commas unless inside square brackets
+            co = re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', co)
+            
+            
+            currentRender = [map(unicode.strip,i.replace("'","").split(':')) for i in co if i.find('RenderToScreen') != -1][0]
+            #pdb.set_trace()
+            print self.commandDict['OperationArg']+"'s "+str(currentRender[0])+" is "+str(currentRender[1])+" -- ",
+            
+            if currentRender[1][0].lower() == 'f':
+                value = False
+                confirm = raw_input("activate (y/N)? ")
+            else:
+                value = True
+                confirm = raw_input("deactivate (y/N)? ")
+                
+            if confirm != "" and confirm[0] == 'y':
+                value = not value
+                
+            self.commandDict['OperationType'] = 'Update'
+            self.commandDict['ComponentId'] = filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
+            self.commandDict['Value'] = value
+            self.commandDict['ParamName'] = "RenderToScreen"#selection[0].strip("'")
+            resp = self.connection.sendMsg(json.dumps(self.commandDict))
+            
+            #self.commandDict = {'OperationArg':None,'OperationDetail':self.commandDict['OperationDetail']}
+            # co = [i for i in co if i.find(': <') == -1]
+            # for n in range(len(co)):
+            #     print n, ": ", co[n].strip()
+            #             
+            # print "edit what?"    
+            # i = raw_input("> ")
+            # 
+            # #argDict=eval('{%s}'%','.join(co))                
+            # if i.isdigit() and int(i) < len(co):
+            #     selection = map(unicode.strip,co[int(i)].split(':'))
+            #     value = raw_input("set "+ selection[0]+ " to: " )
+            #     
+            #     print "setting ", selection[0]," to '",value,"'"      
+            #     self.commandDict['OperationType'] = 'Update'
+            #     self.commandDict['ComponentId'] = filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
+            #     self.commandDict['Value'] = value
+            #     self.commandDict['ParamName'] = selection[0].strip("'")
+            #     resp = self.connection.sendMsg(json.dumps(self.commandDict)) 
+            #     print resp
+            #     self.commandDict = {'OperationArg':None}
+            #
 class TapRunningInstallation(object):
     """ This is the main class responsible for console IO """
     def __init__(self):
