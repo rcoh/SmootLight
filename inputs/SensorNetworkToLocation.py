@@ -6,7 +6,6 @@ need to be below that component in the XML
 <SensorSpacing> -- sensors location = int(id)*SensorSpacing 
 <Y> -- the Y location specified by the user
 <Mode> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
-=======
 <InputType> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
 PedestrianSimulator.  Set to SensorNetwork to take data from UDP input.
 SensorNetworkToLocation takes packets with field <SensorId>int</SensorId>.  It adds a <Location> tag
@@ -34,15 +33,18 @@ class SensorNetworkToLocation(Input):
         except Exception as ex:
             compReg.getLock().release()
             return False
-    def parseSensorPacket(self, s):
-        sensorId, packetData = s.split(':')
-        packet = packetData.split('|')
+    def parseSensorPacket(self, p):
+        #sensorid:XXXX#sensorid:XXXX#sensorid:XXXX
+        packets = p.split('#')
         output = []
-        for i,val in enumerate(packet):
-            if val == '1':
-                #print 'responding:',i
-                output.append({'SensorId':int(sensorId)*len(packet)+i, 'Responding':timeOps.time()})
-                
+        for s in packets:
+            if s != '':
+                sensorId, packetData = s.split(':')
+                for i,val in enumerate(packetData):
+                    if val == '1':
+                        #print 'responding:',i
+                        output.append({'SensorId':int(sensorId)*len(packetData)+i, 'Responding':timeOps.time()})
+                        print 'output'
         return output
     def sensingLoop(self):
         #TODO: Lock on self.responses
@@ -51,7 +53,7 @@ class SensorNetworkToLocation(Input):
         if self['Mode'] == 'SensorNetwork':
             tempResponses = []
             for r in self.responses:
-                tempResponses += self.parseSensorPacket(s) 
+                tempResponses += self.parseSensorPacket(r['data']) 
 
             self.responses = tempResponses
 
@@ -60,7 +62,6 @@ class SensorNetworkToLocation(Input):
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], self['Y'])
             else:
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
-
         if self.responses:
             self.respond(self.responses)
         self.responses = []
