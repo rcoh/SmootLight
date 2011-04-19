@@ -79,7 +79,7 @@ def genSectionLayoutStr(section, idCounter, locCounter, reverseStrips, rowToDiff
         
         # Arg:Id
         sectionLayoutStr += tab(1)+'<PixelStrip ' + \
-                            'Id="'+str(i) + '"'
+                            'Id="s'+str(i) + '"'
 
         # Arg:diffuser
         sectionLayoutStr += ' diffuser="' + str(rowToDiffuser[rowCounter]) + '"'
