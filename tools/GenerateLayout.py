@@ -165,7 +165,7 @@ reverseStrips += range(9, 17) +\
                  range(189, 193)
 #print reverseStrips
 
-rowToDiffuser = {1: '(0, -12)', 2: '(0, 12)', 3: '(0, -12)', 4: '(0, 12)'}
+rowToDiffuser = {1: '(0, -11)', 2: '(0, 11)', 3: '(0, -11)', 4: '(0, 11)'}
 
 
 # ---------------
