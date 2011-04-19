@@ -10,6 +10,7 @@
 	            </Args>
 	        </InputElement>
 		</APPEND>
+		<APPEND>
 		<InputElement>
 		    <Class>inputs.TapInput</Class>
 		    <Args>
@@ -18,6 +19,7 @@
 			<RefreshInterval>50</RefreshInterval>
 		    </Args>
 		</InputElement>
+	</APPEND>
 
 	</InputConfiguration>   
 

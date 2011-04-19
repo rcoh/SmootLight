@@ -73,7 +73,10 @@ class SystemConfigMutator(Behavior):
                
                     #if newParamValue.find('[') != -1:
                     #    newParamValue = list(newParamValue.strip('[]').split(','))
-                    currentObject[paramName] = eval(newParamValue)
+                    if type(currentObject[paramName]) is str:
+                        currentObject[paramName] = newParamValue.strip(""""'""")
+                    else:
+                        currentObject[paramName] = eval(newParamValue)
                     
                     if type(currentObject) is LocationBasedEvent.LocationBasedEvent:
                         currentObject.recalc()

@@ -100,7 +100,8 @@ class MenuTree(object):
                 if self.currentObject == None:
                     print "Need to specify which object."
                     return
-                co=self.currentObject.rstrip('}').lstrip('{')
+               #pdb.set_trace()
+                co=self.currentObject[1:-1]#.rstrip('}').lstrip('{')
                 
                 # split on commas unless inside square brackets
                 co = re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', co)
