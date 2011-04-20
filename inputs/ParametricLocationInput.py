@@ -40,6 +40,7 @@ class ParametricLocationInput(Input):
         self.y_eqn = eval('lambda t:' + str(xmin) + '+' + str(xlen) + '*(' + str(self['yEquation']) + ')')
 
     def sensingLoop(self):
+        #print {Strings.LOCATION: (self.x_eqn(self.t), self.y_eqn(self.t))}
         self.respond({Strings.LOCATION: (self.x_eqn(self.t), self.y_eqn(self.t))})
         self.t += 1
         

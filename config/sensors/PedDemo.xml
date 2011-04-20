@@ -154,6 +154,49 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.ResponseMover</Class>
+            <Args>
+                <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Oval</Class>
+            <Args>
+                <Id>circle</Id>
+                <Radius>0</Radius>
+                <Outline>True</Outline>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Doc>cycles through hue</Doc>
+            <Args>
+                <Id>colorshift</Id>
+                <Increment>.04</Increment>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>inccircle</Id>
+                <ParamOp>'{val}+1'</ParamOp>
+                <ParamName>circleRadius</ParamName>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>draws and increments an expanding ring</Doc>
+            <Args>
+                <Id>circle_expand</Id>
+                <ChainedBehaviors>
+                    <Id>circle</Id>
+                    <Id>inccircle</Id>
+                    <Id>dimcolor</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>pedtracker</Id>

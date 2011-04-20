@@ -6,7 +6,6 @@ need to be below that component in the XML
 <SensorSpacing> -- sensors location = int(id)*SensorSpacing 
 <Y> -- the Y location specified by the user
 <Mode> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
-=======
 <InputType> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
 PedestrianSimulator.  Set to SensorNetwork to take data from UDP input.
 SensorNetworkToLocation takes packets with field <SensorId>int</SensorId>.  It adds a <Location> tag
@@ -60,7 +59,6 @@ class SensorNetworkToLocation(Input):
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], self['Y'])
             else:
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
-
         if self.responses:
             self.respond(self.responses)
         self.responses = []
