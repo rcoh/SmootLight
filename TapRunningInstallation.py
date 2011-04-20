@@ -148,7 +148,7 @@ class MenuTree(object):
         
         resp = self.connection.sendMsg(json.dumps(self.commandDict))  
         if resp == "":
-            print "No response. Is server running? Is SystemConfigMutator Behavior and tap input in the configuration?"
+            print "No (timely) response. Is server running? Is SystemConfigMutator Behavior and tap input in the configuration?"
             return 0
         try: 
             resp = json.loads(resp)   
@@ -179,7 +179,7 @@ class MenuTree(object):
             
     def initiateEdit(self, index=None):
          #pdb.set_trace()
-         print self.commandDict,"\n\n",index
+         #print self.commandDict,"\n\n",index
          if self.currentObject == None or self.commandDict['OperationArg'] == None:
              print "Need to specify which object."
              return 0
