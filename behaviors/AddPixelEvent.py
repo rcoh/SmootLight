@@ -20,8 +20,8 @@ class AddPixelEvent(Behavior):
     def processResponse(self, sensors, recurses):
         ret = []
         for sensory in sensors:
-            outDict = {}
-            outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
+            outDict = dict(sensory) 
+#            outDict[Strings.LOCATION] = sensory[Strings.LOCATION]
             settingsDict = dict(self.argDict)
             settingsDict['Color'] = sensory['Color']
             outDict['PixelEvent'] = self.eventGenerator(settingsDict)

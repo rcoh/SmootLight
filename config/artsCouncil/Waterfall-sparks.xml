@@ -1,13 +1,11 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+    <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
-    <PixelConfiguration>
-        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
-    </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -20,21 +18,13 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>10</CutoffDist>
                 <MinWeight>0.1</MinWeight>
                 <Width>10</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
-    </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.OneHorizontalInput</Class>
@@ -58,34 +48,46 @@
                 <Keyboard>True</Keyboard>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>randomloc</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <xEquation>random.random()</xEquation>
+                <yEquation>random.random()</yEquation>
+            </Args>
+        </InputElement>
     </InputConfiguration>
 
     <BehaviorConfiguration>
         <Behavior Id="singleframe">
 	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
-	</Behavior>
+	    </Behavior>
+        <Behavior Id="decay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.02</Coefficient>
+            </Args>
+        </Behavior>
        <Behavior>
-            <Class>behaviors.VerticalBar</Class>
+            <Class>behaviors.Bar</Class>
             <Args>
                 <Id>vbar</Id>
+                <Slope>.5</Slope>
             </Args>
         </Behavior>
        <Behavior>
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
-<<<<<<< HEAD
-		<Increment>0.01</Increment>
-=======
-		<Increment>0.05</Increment>
->>>>>>> b473b5443e2e5403e7ce0af932c7ed60855bf2e4
+		<!--Increment>0.7</Increment-->
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.CycleColorBehavior</Class>
             <Args>
                 <Id>color</Id>
-		<Increments>2000</Increments>
+		<Increments>500</Increments>
             </Args>
         </Behavior>
         <Behavior>
@@ -116,11 +118,34 @@
             </Args>
         </Behavior>
         <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <Id>white</Id>
+                <ColorList>
+                    <Color>(255,255,255)</Color>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>sparkle</Id>
+                <Inputs>
+                    <Id>randomloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>white</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.ResponseMover</Class>
             <Args>
                 <Id>mover</Id>
             </Args>
         </Behavior>
-
     </BehaviorConfiguration>
 </LightInstallation>

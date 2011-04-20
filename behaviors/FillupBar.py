@@ -1,5 +1,5 @@
 from operationscore.Behavior import *
-class VerticalBar(Behavior):
+class FillupBar(Behavior):
 
     def processResponse(self, inputs, recurs):
         ret = []
@@ -10,7 +10,7 @@ class VerticalBar(Behavior):
                 inputset['xLoc'] = inputset['Location'][0]
             xLoc = inputset['xLoc']
 
-            condition = '{x} < ' + str(xLoc+3) + ' and ' + '{x} > ' + str(xLoc-3)
+            condition = '{x} < ' + str(xLoc+3)
             
             if self['Combine']:
                 inputset['Location'] += ',' + condition
