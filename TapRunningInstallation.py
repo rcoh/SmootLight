@@ -54,7 +54,7 @@ class MenuTree(object):
            d - delete
            """
      
-    COMMANDS = {'p':'Renderables','a':'Objects','b':'Behaviors'}
+    ObjectTypes = {'p':'Renderables','a':'Objects','b':'Behaviors'}
     commandDict = {'OperationArg':None}
     componentList = None
      
@@ -78,28 +78,30 @@ class MenuTree(object):
         cs = cl.split(' ')
         cl = cs[0]
          
+        #  should put processing for edit inputs here. if generalized callback exists, try using input  
+        # all the following should be special case when input callback = None
         if cl in ["q","x"]:
             return -1
-        elif cl in self.COMMANDS.keys():
-            self.commandDict['OperationDetail'] = self.COMMANDS[cl]
+        elif cl in self.ObjectTypes.keys(): 
+            self.commandDict['OperationDetail'] = self.ObjectTypes[cl]
             
-            self.nextAction = lambda x: self.sendCommandInt(x)
+            self.nextAction = lambda x: self.requestSpecificItem(x)
             
             if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
-                self.sendCommandInt(int(cs[1]))
+                self.requestSpecificItem(int(cs[1]))
             else:
-                print "Getting {}, please wait...".format(self.COMMANDS[cl])
+                print "Getting {}, please wait...".format(self.ObjectTypes[cl])
                 self.currentObject = None
                 
                 self.commandDict['OperationArg'] = None
-                self.sendCommand()
+                self.requestItems()
         elif cl in ["e"]:
             
             self.nextAction = lambda x: self.initiateEdit(x)
             
             if len(cs) > 1 and cs[1].isdigit():
                 # if digit known, call command to get details of object first,  invisible mode
-                if self.sendCommandInt(int(cs[1]), True) < 0:
+                if self.requestSpecificItem(int(cs[1]), True) < 0:
                     return
                 #print "do some prompting to figure out what needs to be changed"
  
@@ -111,7 +113,7 @@ class MenuTree(object):
         elif cl in ["c","d"]:
             print "unimplemented"
             self.nextAction = None
-        else:
+        else: 
             if cl != "":
                 print "syntax error, use 'h' for help"
 
@@ -122,7 +124,7 @@ class MenuTree(object):
     def acceptInput(self):
         pass
         
-    def sendCommandInt(self,index, is_quiet=False):
+    def requestSpecificItem(self,index, is_quiet=False):
         if self.componentList == None:
             print "Specify whether you're talking about renderables (p) objects (a) or all behaviors (b)."
             return -1
@@ -135,11 +137,11 @@ class MenuTree(object):
             if not is_quiet:
                 print "Retrieving specific {}...\n".format(self.commandDict['OperationDetail'][:-1])
             self.commandDict['OperationArg'] = self.componentList[index][0] 
-            self.sendCommand(is_quiet)
+            self.requestItems(is_quiet)
             return 0
         
          
-    def sendCommand(self, is_quiet=False):
+    def requestItems(self, is_quiet=False):
         self.commandDict['OperationType'] = 'Read'
        # self.commandDict['OperationDetail'] = command
         
@@ -160,17 +162,21 @@ class MenuTree(object):
             
             self.componentList = resp
             
-            print "Available %s:\n"%self.commandDict['OperationDetail']
+            self.printComponentList()
             
-            for n in range(len(resp)):
-                if len(resp[n]) > 1:
-                    print "{:4}  {:15} {:5}".format(n,resp[n][0], resp[n][1] and 'True' or 'False') 
-                else:
-                    print "{:4}  {:10}".format(n,resp[n][0])
         else:
             self.currentObject = resp
             self.printCurrentObject(is_quiet)
             
+    def printComponentList(self):
+        print "Available %s:\n"%self.commandDict['OperationDetail']
+        resp = self.componentList
+        for n in range(len(resp)):
+            if len(resp[n]) > 1:
+                print "{:4}  {:15} {:5}".format(n,resp[n][0], resp[n][1] and 'True' or 'False') 
+            else:
+                print "{:4}  {:10}".format(n,resp[n][0])
+                
     def printCurrentObject(self,is_quiet):
         if not(is_quiet):
             for r in re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', self.currentObject[1:-1]): #   resp.split(','):
@@ -188,7 +194,7 @@ class MenuTree(object):
              return 0
          else:             
             if index != None:
-                if self.sendCommandInt(index,False) < 0:
+                if self.requestSpecificItem(index,False) < 0:
                     return 
             else:
                 self.printCurrentObject(False)
