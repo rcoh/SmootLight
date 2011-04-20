@@ -10,7 +10,7 @@ class VerticalBar(Behavior):
                 inputset['xLoc'] = inputset['Location'][0]
             xLoc = inputset['xLoc']
 
-            condition = '{x} == ' + str(xLoc)
+            condition = '{x} < ' + str(xLoc+3) + ' and ' + '{x} > ' + str(xLoc-3)
             
             if self['Combine']:
                 inputset['Location'] += ',' + condition

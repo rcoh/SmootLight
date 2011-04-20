@@ -74,14 +74,18 @@
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
+<<<<<<< HEAD
+		<Increment>0.01</Increment>
+=======
 		<Increment>0.05</Increment>
+>>>>>>> b473b5443e2e5403e7ce0af932c7ed60855bf2e4
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.CycleColorBehavior</Class>
             <Args>
                 <Id>color</Id>
-		<Increments>500</Increments>
+		<Increments>2000</Increments>
             </Args>
         </Behavior>
         <Behavior>

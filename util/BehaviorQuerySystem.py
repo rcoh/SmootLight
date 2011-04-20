@@ -1,4 +1,5 @@
 import types 
+import util.Geo as Geo
 """The behavior query system is a module that allows querying behaviors based on lambda-function
 predicates."""
 def initBQS():
@@ -27,12 +28,17 @@ def query(predicateList):
     for behavior in behaviorList: #Consider every behavior
         lastOutput = behavior.getLastOutput()
         for output in lastOutput: #Look at every element it has output
+            #import pdb; pdb.set_trace()
             validOutput = True
-            for pred in predicateList: #Evaluate every predicate.  A predicate is a lambda function that
+            for i in xrange(len(predicateList)):
+            #for pred in predicateList: #Evaluate every predicate.  A predicate is a lambda function that
             #takes a dict and returns a bool.
-                if not pred(output):
+                try:
+                    if not predicateList[i](output):
+                        validOutput = False
+                        break
+                except Exception:
                     validOutput = False
-                    break
             if validOutput:
                 ret.append(output)
     return ret 
@@ -40,8 +46,25 @@ def query(predicateList):
 def getDistLambda(loc, maxDist):
     """Returns a lambda function that checks if for behaviors within maxDist of loc.  Can be passed
     in as an arg to query."""
-    return lambda args:geo.dist(args['Location'], loc) <= maxDist
+    return lambda args:Geo.dist(args['Location'], loc) <= maxDist
 
 def getBehaviorsNear(loc, maxdist):
     """A premade method to do the common task of finding behavior near a location."""
-    return query(getDistLambda(loc, maxDist))
+    return query(getDistLambda(loc, maxdist))
+
+def getDifferentUIDLambda(uri):
+    return lambda args:args['UniqueResponseIdentifier']!=uri
+
+def getDirectionLambda(direction):
+    if direction == '+':
+        return lambda args:args['Direction']>0
+    if direction == '-':
+        return lambda args:args['Direction']<0
+
+
+
+def getBehaviorId(behaviorid):
+    return query(getBehaviorIdLambda(behaviorid))
+
+def getBehaviorIdLambda(behaviorid):
+    return lambda args:args['BehaviorId']==behaviorid

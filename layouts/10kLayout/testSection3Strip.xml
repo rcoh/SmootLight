@@ -1,0 +1,8 @@
+<PixelStrip>
+  <Class>layouts.LineLayout</Class>
+  <Args OverrideBehavior="Merge">
+    <pixelToPixelSpacing>10</pixelToPixelSpacing>
+    <step>(10, 0)</step>
+    <numPixels>50</numPixels>
+  </Args>
+</PixelStrip>

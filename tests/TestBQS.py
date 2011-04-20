@@ -20,18 +20,24 @@ class TestBQS(unittest.TestCase):
     def test_simple_query(self):
         validQuery = lambda args:args['Color']==(255,0,0)
         invalidQuery = lambda args:args['Color']==(254,0,0)
-        assert bqs.query(validQuery) == [{'Color':(255,0,0), 'Location':(3,4)}]
+        import pdb; pdb.set_trace()
+        assert bqs.query(validQuery) == [{'Color':(255,0,0), 'Location':(3,4), 'BehaviorId':'color'}]
         assert bqs.query(invalidQuery) == []
-
+    def test_uri_query(self):
+        mydict = {'UniqueResponseIdentifier':'abc'}
+        goodict = {'UniqueResponseIdentifier':'cde'}
+        urichecker = bqs.getDifferentUIDLambda('abc')
+        assert urichecker(mydict) == False
+        assert urichecker(goodict) == True
     def test_dist_query(self):
         validDist = lambda args:geo.dist(args['Location'], (0,0)) <= 5
         invalidDist = lambda args:geo.dist(args['Location'], (0,0)) <= 2
         doubleDist = lambda args:geo.dist(args['Location'], (0,0)) <= 20
 
-        assert bqs.query(validDist) == [{'Color':(255,0,0), 'Location':(3,4)}] 
+        assert bqs.query(validDist) == [{'Color':(255,0,0), 'Location':(3,4), 'BehaviorId':'color'}] 
         assert bqs.query(invalidDist) == [] 
-        assert bqs.query(doubleDist) == [{'Color':(255,0,0), 'Location':(3,4)}, {'Color':(0,0,255),\
-                                         'Location':(5,12)}] 
+        assert bqs.query(doubleDist) == [{'Color':(255,0,0), 'Location':(3,4), 'BehaviorId':'color'}, {'Color':(0,0,255),\
+                                         'Location':(5,12), 'BehaviorId':'color'}] 
     def test_complex_queries(self):
         validQuery = lambda args:args['Color']==(255,0,0)
         doubleDist = lambda args:geo.dist(args['Location'], (0,0)) <= 20

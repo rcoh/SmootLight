@@ -1,4 +1,5 @@
 from operationscore.Behavior import *
+import json
 #import util.ComponentRegistry as compReg
 #import util.Geo as Geo
 #import util.Strings as Strings
@@ -11,21 +12,35 @@ class MoveBehavior(Behavior):
         if recursiveInputs:
             currRecLocs = recursiveInputs
         else:
-            currRecLocs = [{'Location' : (5, 5), 'Color' : [255, 255, 255]}]
+            currRecLocs = [{'Location' : (5, 5), 'Color' : [0, 0, 0]}]
 
         if sensorInputs:   # if input exists, change location
             ret = []
             for currRecLoc in currRecLocs:
                 currDict = dict(currRecLoc)
                 for sensorInput in sensorInputs:
-                    if 'type' in sensorInput and sensorInput['type'] == 1:
+                    sInput = json.loads(sensorInput['data'])
+                    #print sInput
+                    if 'type' in sInput and sInput['type'] == 1:
                         currDict['Shake'] = 0
-                        currDict['Location'] = (currDict['Location'][0] - sensorInput['x'] * self['XStep'], \
-                                                currDict['Location'][1] + sensorInput['y'] * self['YStep'])
-                        currDict['Color'] = [sensorInput['r'], sensorInput['g'], sensorInput['b']]
-                    elif sensorInput['type'] == 2:
+
+                        # move only if in bound
+                        newTempXLoc = currDict['Location'][0] - sInput['x'] * self['XStep']
+                        newTempYLoc = currDict['Location'][1] + sInput['y'] * self['YStep']
+                        if newTempXLoc < 0 or newTempXLoc > self.argDict['XBound']:
+                            newXLoc = currDict['Location'][0]
+                        else:
+                            newXLoc = newTempXLoc
+                        if newTempYLoc < 0 or newTempYLoc > self.argDict['YBound']:
+                            newYLoc = currDict['Location'][1]
+                        else:
+                            newYLoc = newTempYLoc
+                            
+                        currDict['Location'] = (newXLoc, newYLoc)
+                        currDict['Color'] = [sInput['r'], sInput['g'], sInput['b']]
+                    elif sInput['type'] == 2:
                         currDict['Shake'] = 1
-                        #currDict['Force'] = sensorInput['force']
+                        #currDict['Force'] = sInput['force']
                 ret.append(currDict)
             #print ret
             return (ret, ret)

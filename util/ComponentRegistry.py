@@ -3,6 +3,7 @@ from logger import main_log
 import thread
 #TODO: make component registry a singleton
 def initRegistry():
+    globals()['trialKey'] = 0
     #TODO: don't overwrite existing registry
     if not 'Registry' in globals():
         globals()['Registry'] = {}
@@ -52,8 +53,8 @@ def removeComponent(cid):
     Registry.pop(cid)
 
 def getNewId():
-    global Registry
-    trialKey = len(Registry)
+    global trialKey
+    trialKey += 1
     trialId = hashlib.md5(str(trialKey)).hexdigest()
     while trialId in Registry:
         trialKey += 1
