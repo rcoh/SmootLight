@@ -99,17 +99,11 @@ class MenuTree(object):
             
             if len(cs) > 1 and cs[1].isdigit():
                 # if digit known, call command to get details of object first,  invisible mode
-                self.sendCommandInt(int(cs[1]), True)
+                if self.sendCommandInt(int(cs[1]), True) < 0:
+                    return
                 #print "do some prompting to figure out what needs to be changed"
-
-            if self.currentObject == None or self.commandDict['OperationArg'] == None:
-                print "Need to specify which object."
-                return 0
-            elif self.currentObject.find('RenderToScreen') == -1:
-                print "Object not renderable."
-                return 0
-            else:
-                self.initiateEdit()
+ 
+            self.initiateEdit()
 
         elif cl in ["h","?"]: 
             print self.__doc__
@@ -131,15 +125,18 @@ class MenuTree(object):
     def sendCommandInt(self,index, is_quiet=False):
         if self.componentList == None:
             print "Specify whether you're talking about renderables (p) objects (a) or all behaviors (b)."
+            return -1
         elif len(self.componentList)-1 < index:
             print "No element with index {}.".format(index)
             self.commandDict['OperationArg'] = None
             self.nextAction = None
+            return -1
         else:
             if not is_quiet:
                 print "Retrieving specific {}...\n".format(self.commandDict['OperationDetail'][:-1])
             self.commandDict['OperationArg'] = self.componentList[index][0] 
             self.sendCommand(is_quiet)
+            return 0
         
          
     def sendCommand(self, is_quiet=False):
@@ -182,8 +179,17 @@ class MenuTree(object):
             
     def initiateEdit(self, index=None):
          #pdb.set_trace()
+         print self.commandDict,"\n\n",index
+         if self.currentObject == None or self.commandDict['OperationArg'] == None:
+             print "Need to specify which object."
+             return 0
+         elif self.currentObject.find('RenderToScreen') == -1:
+             print "Object not renderable."
+             return 0
+         else:             
             if index != None:
-                self.sendCommandInt(False)
+                if self.sendCommandInt(index,False) < 0:
+                    return 
             else:
                 self.printCurrentObject(False)
          
@@ -213,7 +219,8 @@ class MenuTree(object):
             self.commandDict['ParamName'] = "RenderToScreen"#selection[0].strip("'")
             resp = self.connection.sendMsg(json.dumps(self.commandDict))
             
-            #self.commandDict = {'OperationArg':None,'OperationDetail':self.commandDict['OperationDetail']}
+            self.commandDict = {'OperationArg':self.commandDict['OperationArg'],
+                                'OperationDetail':self.commandDict['OperationDetail']}
             # co = [i for i in co if i.find(': <') == -1]
             # for n in range(len(co)):
             #     print n, ": ", co[n].strip()
