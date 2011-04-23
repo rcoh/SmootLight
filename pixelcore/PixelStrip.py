@@ -13,7 +13,11 @@ class PixelStrip:
     
     def initStrip(self, layoutEngine):
         pixelLocations = layoutEngine.getPixelLocations()
-        self.pixels = [Pixel(l) for l in pixelLocations]
+        defaultColor = layoutEngine.getDefaultColor()
+        if defaultColor:
+            self.pixels = [Pixel(l, defaultColor) for l in pixelLocations]
+        else:
+            self.pixels = [Pixel(l) for l in pixelLocations]
     
     def __iter__(self):
         return self.pixels.__iter__()

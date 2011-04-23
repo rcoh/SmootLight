@@ -1,4 +1,3 @@
-<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
     <InstallationConfiguration>
         <Defaults>
@@ -61,7 +60,7 @@
 	  <Class>inputs.PedestrianSimulator</Class>
 	  <Args>
 	    <Id>pedsim</Id>
-            <MaxX>500</MaxX>
+            <MaxX>800</MaxX>
             <Velocity>50</Velocity>
             <NumSensors>40</NumSensors>
             <SensorSpacing>48</SensorSpacing>
@@ -104,21 +103,6 @@
 	    <Args>
 	      <Coefficient>0.001</Coefficient>
 	    </Args>
-        </Behavior>
-
-	<!--BOOM BEHAVIOR-->
-        <Behavior>
-            <Class>behaviors.Boom</Class>
-            <Args>
-                <Id>boom</Id>
-                <Inputs>
-		  <Id>randomLoc</Id>
-		  <Id>decay</Id>
-		</Inputs>
-		<MaxRadius>50</MaxRadius>
-		<StepSize>10</StepSize>
-		<RenderToScreen>False</RenderToScreen>		
-            </Args>
         </Behavior>
 
 	<!--PED-FIREFLY BEHAVIOR-->
@@ -232,42 +216,5 @@
             </Args>
         </Behavior>
 
-
-	<!--CHARGING-->
-	<Behavior>
-	  <Class>behaviors.ModifyMapper</Class>
-	  <Args>
-	    <Id>momapper</Id>
-	    <MapperId>gaussmap1</MapperId>
-	    <ParamChange>'{"Width":10, "CutoffDist":10}'</ParamChange>
-	  </Args>
-	</Behavior>	      
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>charge</Id>
-                <ChainedBehaviors>
-                    <Id>momapper</Id>
-		    <Id>recursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>charging</Id>
-                <Inputs>
-                    <Id>netloc</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>setbrightcolor</Id>
-		    <Id>mover</Id>
-		    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'charge'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap1</Mapper>
-            </Args>
-        </Behavior>
     </BehaviorConfiguration>
 </LightInstallation>

@@ -13,11 +13,12 @@ class Pixel:
     radius = 2
     timeOff = -1
     
-    def __init__(self, location):
+    def __init__(self, location, defaultColor = (0,0,0)):
         self.location = location
         self.events = []
+        self.defaultColor = defaultColor
         self.lastRenderTime = timeops.time()
-        self.lastRender = (0,0,0) 
+        self.lastRender = defaultColor
         
     def turnOn(self):
         self.turnOnFor(-1)
@@ -44,9 +45,9 @@ class Pixel:
             currentTime = timeops.time()
         if self.events == []:
             self.lastRenderTime = currentTime
-            return (0,0,0)
+            return self.defaultColor
         deadEvents = []
-        resultingColor = (0,0,0)
+        resultingColor = self.defaultColor
         colors = []
         for eventObj in self.events: #TODO: right color weighting code
             if len(self.events) > 50:

@@ -139,10 +139,10 @@ sections.append( makeSection('Section3', 50, 10, 4, 12, 10) )
 sections.append( makeSection('Section4', 50, 12, 4, 12, 7) )
 # smaller test
 testSections = []
-testSections.append( makeSection('Section1', 20, 4, 4, 12, 1) )
-testSections.append( makeSection('Section2', 20, 9, 4, 12, 1) )
-testSections.append( makeSection('Section3', 20, 10, 4, 12, 1) )
-testSections.append( makeSection('Section4', 20, 12, 4, 12, 1) )
+testSections.append( makeSection('TestSection1', 20, 4, 4, 12, 1) )
+testSections.append( makeSection('TestSection2', 20, 9, 4, 12, 1) )
+testSections.append( makeSection('TestSection3', 20, 10, 4, 12, 1) )
+testSections.append( makeSection('TestSection4', 20, 12, 4, 12, 1) )
 
 #print sections
 
@@ -180,7 +180,7 @@ for section in sections:
 writeToFile( generateLayoutXml(sections, reverseStrips, rowToDiffuser), dir + '10kLayout.xml' )
 
 # Smaller test
-for section in sections:
-    writeToFile( generateStripXml(section), dir + 'test' + section['Id']+'Strip.xml' )
+for section in testSections:
+    writeToFile( generateStripXml(section), dir + section['Id']+'Strip.xml' )
 
-writeToFile( generateLayoutXml(sections, reverseStrips, rowToDiffuser), dir + 'test10kLayout.xml' )
+writeToFile( generateLayoutXml(testSections, reverseStrips, rowToDiffuser), dir + 'test10kLayout.xml' )

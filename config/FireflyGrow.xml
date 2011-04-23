@@ -1,4 +1,3 @@
-<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
     <InstallationConfiguration>
         <Defaults>
@@ -173,7 +172,7 @@
                     <Id>mover</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -227,7 +226,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover1':'flashermovebounce1'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap1</Mapper>
             </Args>
         </Behavior>
@@ -265,7 +264,7 @@
 		    <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'charge'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap1</Mapper>
             </Args>
         </Behavior>

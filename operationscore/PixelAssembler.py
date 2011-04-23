@@ -15,3 +15,8 @@ class PixelAssembler(SmootCoreObject):
                                 + 'Illegal distance is between {0} and {1}'
                                 .format(pixel1, pixel2))
         return locations[::-1] if self['Reverse'] else locations
+    def getDefaultColor(self):
+        if 'DefaultColor' in self.argDict:
+            return self['DefaultColor']
+        else:
+            return None

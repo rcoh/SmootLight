@@ -37,7 +37,15 @@ def floatToIntColor(rgb):
 def randomBrightColor():
     hue = random.random()
     sat = random.random()/2.0 + .5
-    val = 1.0
+    val = 0.6
+    hue, sat, val = colorsys.hsv_to_rgb(hue, sat, val)
+    ret = [hue, sat, val]
+    return floatToIntColor(ret)
+
+def randomDimColor(value):
+    hue = random.random()
+    sat = random.random()/2.0 + .5
+    val = value
     hue, sat, val = colorsys.hsv_to_rgb(hue, sat, val)
     ret = [hue, sat, val]
     return floatToIntColor(ret)
