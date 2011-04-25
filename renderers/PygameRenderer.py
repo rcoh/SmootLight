@@ -30,8 +30,9 @@ class PygameRenderer(Renderer):
             scale = 1
         for light in lightSystem:
             scaledLoc = [l*scale for l in light.location] 
-            pygame.draw.circle(self.background, light.state(currentTime), scaledLoc, \
-                scale)
+            if light.state(currentTime) != (0,0,0):
+                pygame.draw.circle(self.background, light.state(currentTime), scaledLoc, \
+                    scale)
 
         self.screen.blit(self.background, (0,0))
         pygame.display.flip()

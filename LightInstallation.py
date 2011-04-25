@@ -193,7 +193,12 @@ class LightInstallation(object):
             responseDict = [responseDict]
         try:
             for r in responseDict:
-                [compReg.getComponent(b).addInput(r) for b in boundBehaviorIds]
+                for b in boundBehaviorIds:
+                    c = compReg.getComponent(b)
+                    # Only accept inputs to rendering behaviors, since they can pile up
+                    # MAY CAUSE DISCONTINUITY if behavior continuity is dependent on input continuity
+                    if c['RenderToScreen']:
+                        c.addInput(r)
         except:
             pass
             #Behavior run before loading.  Not a big deal.

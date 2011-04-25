@@ -33,8 +33,20 @@ class SensorNetworkToLocation(Input):
         except Exception as ex:
             compReg.getLock().release()
             return False
+    def grabBits(self, p):
+        return bin(ord(p))[2:].zfill(8) 
+    def parseSensorBinaryPacket(self,p):
+        if len(p) != 5:
+            print 'bad length'
+        packet = []
+        for i,hexBit in enumerate(p):
+            pass
+            #send output as necessary 
     def parseSensorPacket(self, p):
         #sensorid:XXXX#sensorid:XXXX#sensorid:XXXX
+        #Packet:
+        #10 Bytes
+        import pdb; pdb.set_trace()
         packets = p.split('#')
         output = []
         for s in packets:
@@ -53,7 +65,8 @@ class SensorNetworkToLocation(Input):
         if self['Mode'] == 'SensorNetwork':
             tempResponses = []
             for r in self.responses:
-                tempResponses += self.parseSensorPacket(r['data']) 
+                startIndex = 0 #TODO: lookup from table
+                tempResponses += self.parseBinarySensorPacket(r['data'], startIndex) 
 
             self.responses = tempResponses
 
