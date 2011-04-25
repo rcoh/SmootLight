@@ -72,7 +72,7 @@
             <Args>
                 <Id>netloc</Id>
                 <SensorNetworkId>pedsim</SensorNetworkId>
-                <SensorSpacing>48</SensorSpacing>
+                <SensorSpacing>144</SensorSpacing>
 		<Y>15</Y>
 		<RefreshInterval>100</RefreshInterval>
             </Args>
@@ -81,7 +81,7 @@
             <Class>inputs.FixedSensorLocations</Class>
             <Args>
                 <Id>sensorloc</Id>
-                <SensorNumber>5</SensorNumber>		
+                <SensorNumber>8</SensorNumber>		
                 <SensorSpacing>144</SensorSpacing>
 		<Y>15</Y>
 		<RefreshInterval>500</RefreshInterval>
@@ -121,6 +121,15 @@
         </Behavior>
 
 	<!--PED-FIREFLY BEHAVIOR-->
+	<Behavior>
+	  <Class>behaviors.ModifyMapper</Class>
+	  <Args>
+	    <Id>momapper</Id>
+	    <MapperId>gaussmap1</MapperId>
+	    <WidthChange>30</WidthChange>
+	    <CutoffDistChange>35</CutoffDistChange>
+	  </Args>
+	</Behavior>	      
         <Behavior Id="recursivedecay" InitialResponseCount="10">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
@@ -144,6 +153,7 @@
                 <ChainedBehaviors>
                     <Id>randmovement</Id>
 		    <Id>flasher</Id>
+		    <Id>momapper</Id>
 		    <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
@@ -172,8 +182,8 @@
                     <Id>mover</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>gaussmap1</Mapper>
             </Args>
         </Behavior>
 
@@ -186,7 +196,7 @@
             <Class>behaviors.RandomSetColorBehavior</Class>
             <Args>
                 <Id>setdimcolor</Id>
-		<Dimness>0.3</Dimness>
+		<Dimness>0.5</Dimness>
             </Args>
         </Behavior>
         <Behavior>
@@ -226,47 +236,10 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover1':'flashermovebounce1'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap1</Mapper>
-            </Args>
-        </Behavior>
-
-
-	<!--CHARGING-->
-	<Behavior>
-	  <Class>behaviors.ModifyMapper</Class>
-	  <Args>
-	    <Id>momapper</Id>
-	    <MapperId>gaussmap1</MapperId>
-	    <ParamChange>'{"Width":10, "CutoffDist":10}'</ParamChange>
-	  </Args>
-	</Behavior>	      
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>charge</Id>
-                <ChainedBehaviors>
-                    <Id>momapper</Id>
-		    <Id>recursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>charging</Id>
-                <Inputs>
-                    <Id>netloc</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>setbrightcolor</Id>
-		    <Id>mover</Id>
-		    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'charge'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap1</Mapper>
+                <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
+
     </BehaviorConfiguration>
 </LightInstallation>

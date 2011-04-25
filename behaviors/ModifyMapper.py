@@ -8,11 +8,10 @@ class ModifyMapper(Behavior):
         
     def processResponse(self, sensorInputs, recursiveInputs):
         self.mapper = compReg.getComponent(self.argDict['MapperId'])        
-        print 'CutoffDist: ' + str(self.mapper.argDict['CutoffDist']) + ', Width: ' + str(self.mapper.argDict['Width'])
-
-        paramChange = json.loads(self.argDict['ParamChange'])
-        for k,v in paramChange.items():
-            #print str(k) + ': ' + str(v)
-            self.mapper.argDict[k] += v
+        #print 'CutoffDist: ' + str(self.mapper.argDict['CutoffDist']) + ', Width: ' + str(self.mapper.argDict['Width'])
+        #print 'CutoffDist: ' + str(self.mapper.CutoffDist) + ', Width: ' + str(self.mapper.Width)
+        
+        self.mapper.CutoffDist = self.argDict['CutoffDistChange']
+        self.mapper.Width = self.argDict['WidthChange']
         
         return (sensorInputs, recursiveInputs)
