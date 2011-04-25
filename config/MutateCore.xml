@@ -1,0 +1,27 @@
+<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
+<LightInstallation>
+    <InputConfiguration>
+		<APPEND>
+		<InputElement>
+		    <Class>inputs.TapInput</Class>
+		    <Args>
+			<Id>tap</Id>
+			<Port>22332</Port>
+			<RefreshInterval>50</RefreshInterval>
+		    </Args>
+		</InputElement>
+	</APPEND>
+
+	</InputConfiguration>   
+
+    <BehaviorConfiguration>
+        <Behavior Id="mutation">
+		<Class>behaviors.SystemConfigMutator</Class>
+		<Args><Inputs>
+			<Id>tap</Id>
+		</Inputs>
+		<RenderToScreen>True</RenderToScreen>
+		</Args>
+        </Behavior>
+    </BehaviorConfiguration>
+</LightInstallation>
