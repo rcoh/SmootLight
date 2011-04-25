@@ -2,7 +2,6 @@
 
 from xml.etree.ElementTree import ElementTree
 from pixelcore.Screen import * 
-from pixelcore.PixelStrip import *
 import pdb, sys, time, thread
 import util.TimeOps as clock
 import util.Config as configGetter 
@@ -82,12 +81,8 @@ class LightInstallation(object):
         
     def initializeScreen(self, layoutConfig):
         pixelAssemblers = self.initializeComponent(layoutConfig)
-        [self.addPixelStrip(l) for l in pixelAssemblers]
-        
-    def addPixelStrip(self, layoutEngine):
-        pixelStrip = PixelStrip(layoutEngine)
-        self.screen.addStrip(pixelStrip)
-        
+        self.screen.initStrips(pixelAssemblers)
+    
     def initializeInputs(self, inputConfig):
         inputs = self.initializeComponent(inputConfig)
         self.inputs = inputs
@@ -137,7 +132,7 @@ class LightInstallation(object):
         
     def alive(self):
         return True
-        
+    
     def mainLoop(self):
         lastLoopTime = clock.time()
         refreshInterval = 30 
@@ -151,8 +146,7 @@ class LightInstallation(object):
             [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
             sleepTime = max(0,refreshInterval-loopElapsed)
-            main_log.debug('Loop complete in ' + str(loopElapsed) + 'ms.  Sleeping for ' +\
-                str(sleepTime))
+            main_log.debug('Loop complete in {0} ms.  Sleeping for {1} ms.'.format(loopElapsed, sleepTime))
             self.timer.stop()
             if sleepTime > 0:
                 time.sleep(sleepTime/1000)
