@@ -2,8 +2,6 @@
     <Class>pixelmappers.GaussianMapper</Class>
     <Args>
         <Id>gaussmap</Id>
-        <CutoffDist>30</CutoffDist>
-        <MinWeight>0.1</MinWeight>
         <Width>10</Width>
         <Height>1</Height>
     </Args>

@@ -60,9 +60,9 @@ class Screen:
     def processEvents(self, currentTime):
         while self.eventHeap and self.eventHeap[0][0] <= currentTime:
             oldTime, startTime, event, weights = heappop(self.eventHeap)
-            mw = max([w[1] for w in weights])
             coeffs, time = event.changeInState(currentTime-startTime)
-            for index, weight in weights:
-                self.state[:,index] += (weight * coeffs)[:,None] * event.Color
+            for i,c in enumerate(coeffs): # iterate rather than broadcasting
+                for j,d in enumerate(event.Color): # for memory reasons
+                    self.state[i,:,j] += c*d*weights
             if time: # if the event wants to run again
                 heappush(self.eventHeap, (startTime+time, startTime, event, weights))

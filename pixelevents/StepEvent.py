@@ -12,4 +12,3 @@ class StepEvent(PixelEvent):
     def generate(onTime, color):
         args = {'LightTime': onTime, 'Color': color}
         return StepEvent(args)
-
