@@ -77,20 +77,17 @@ class WebsocketRenderer(Renderer):
             self.clients_lock.release()
     
     def render(self, lightSystem, currentTime=timeops.time()):
-        json_frame = []
-        
-        for light in lightSystem:
-            loc = light.location
-            c = light.state(currentTime)
-            
-            if c == (0,0,0):
+        json_frame = [0]*len(lightSystem)
+        i = 0
+        for (loc, c) in lightSystem:
+            if all(c < 0.05):
                 continue
-            
-            cs = 'rgb('+str(c[0])+','+str(c[1])+','+str(c[2])+')'
-            loc = map(int, loc) 
-            json_frame.append((loc, cs))
-        
-        size = compReg.getComponent('Screen').getSize()
+            cs = 'rgb({0},{1},{2})'.format(c)
+            json_frame[i] = (map(int, loc), cs)
+            i += 1
+
+        json_frame = json_frame[0:i]
+        size = compReg.getComponent('Screen').size
         
         json_data = json.dumps(dict(status='ok', size=map(int, size), frame=json_frame))
         self.client_push(json_data)

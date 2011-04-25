@@ -1,100 +1,69 @@
-from pixelcore.Pixel import * 
-from pixelcore.PixelStrip import *
-from operationscore.PixelEvent import *
-from operationscore.PixelMapper import *
-import util.Search as Search
-import util.ComponentRegistry as compReg
-import util.Strings as Strings
-import util.TimeOps as timeops
-import itertools
-import sys
-import pdb
+from operationscore.PixelEvent import PixelEvent, addPixelEventIfMissing
+from operationscore.PixelMapper import PixelMapper
+from util import Strings, ComponentRegistry
+import numpy
+from scipy.spatial import KDTree
 from logger import main_log
+from itertools import izip
+from heapq import *
+
 class Screen:
-    """Class representing a collection of Pixels grouped into PixelStrips.  Needs a
-    PixelMapper, currently set via setMapper by may be migrated into the argDict."""
-    
+    """Class representing a collection of Pixels grouped into PixelStrips."""
     def __init__(self):
         self.responseQueue = []
+        self.eventHeap = [] # stores items in the format (nextTime, lastTime, event, weights)
         self.pixelStrips = []
-        self.xSortedPixels = []
-        self.xPixelLocs = []
-        self.sizeValid = False 
-        self.pixelsSorted = False 
+        self.lastTime = 0
+    def initStrips(self, stripLayouts):
+        self.strips = stripLayouts # to do: turn layout into a hybrid pixelstrip-ish object
+        self.locs = numpy.concatenate([s.layoutFunc() for s in self.strips])
+        self.tree = KDTree(self.locs) # super-fast nearest neighbor lookups
+        self.size = [min(self.locs[:,0]), min(self.locs[:,1]),
+                     max(self.locs[:,0]), max(self.locs[:,1])]
+        self.state = numpy.zeros((3, len(self), 3), dtype='float') # quadratic
+        self.temp = numpy.zeros((len(self), 3), dtype="int")
+        self.pixels = numpy.zeros((len(self), 3), dtype='ubyte')
+        # still need access to pixel strips for diffuser and power supply information
+        indices = numpy.cumsum([0] + [s.numPixels for s in self.strips])
+        for strip, i1, i2 in zip(self.strips, indices[:-1], indices[1:]):
+            strip.indices = range(i1, i2) # for iteration by strip-aware mappers
+            strip.values = self.pixels[i1:i2] # for quick access by hardware renderer
     
-    def addStrip(self, strip):
-        self.pixelStrips.append(strip)
-        self.sizeValid = False #keep track of whether or not our screen size has
-        self.pixelsSorted = False
-        #been invalidated by adding more pixels
-        
-    def pixelsInRange(self, minX, maxX):
-        """Returns (pixelIndex, pixel).  Does a binary search.  Sorts first if neccesary."""
-        if not self.pixelsSorted:
-            self.computeXSortedPixels()
-        minIndex = Search.find_ge(self.xPixelLocs, minX) 
-        maxIndex = Search.find_le(self.xPixelLocs, maxX)+1
-        return self.xSortedPixels[minIndex:maxIndex]
-        
-    def computeXSortedPixels(self):
-        self.xSortedPixels = []
-        for pixel in self:
-            self.xSortedPixels.append((pixel.location[0], pixel))
-        self.xSortedPixels.sort()
-        self.xPixelLocs = [p[0] for p in self.xSortedPixels]
-        self.pixelsSorted = True 
+    def __len__(self):
+        return len(self.locs)
+    def __iter__(self): # iterator over all pixels
+        return izip(self.locs, self.pixels)
     
-    def __iter__(self): #the iterator of all our pixel strips chained togther
-        return itertools.chain(*[strip.__iter__() for strip in \
-            self.pixelStrips]) #the * operator breaks the list into args 
-            
-    #SUBVERTING DESIGN FOR EFFICIENCY 1/24/11, RCOH -- It would be cleaner to store the time on the responses
-    #themselves, however, it is faster to just pass it in.
-    def timeStep(self, currentTime=None):
-        """Increments time -- This processes all queued responses, adding that to a queue that will
-        be processed on the next time step."""
-        if currentTime == None:
-            currentTime = timeops.time()
-        tempQueue = list(self.responseQueue)
-        self.responseQueue = []
-        for response in tempQueue:
-            self.processResponse(response, currentTime)
-        
+    def timeStep(self, currentTime):
+        """Increments time -- This processes all queued responses and
+        events."""
+        t, self.lastTime = currentTime - self.lastTime, currentTime
+        # Shift the quadratic by t
+        self.state[0] += t * (self.state[1] + t * self.state[2])
+        self.state[1] += t * 2 * self.state[2]
+        while self.responseQueue:
+            self.processResponse(self.responseQueue.pop(0), currentTime)
+        self.processEvents(currentTime)
+        numpy.maximum(0, self.state[0], self.temp)
+        numpy.minimum(255, self.temp, self.pixels)
+        print(self.pixels[0])   
     #public
     def respond(self, responseInfo):
         self.responseQueue.append(responseInfo)
-        
-    def getSize(self):
-        """Returns the size of the screen in the form: (minx, miny, maxx, maxy)"""
-        if self.sizeValid:
-            return self.size
-        (minX, minY, maxX, maxY) = (sys.maxint,sys.maxint,-sys.maxint,-sys.maxint)
-        for light in self:
-            (x,y) = light.location
-            
-            minX = min(x, minX)
-            maxX = max(x, maxX)
-
-            minY = min(y, minY)
-            maxY = max(y, maxY)
-        self.size = (minX,minY, maxX, maxY)
-        self.sizeValid = True
-        return (minX, minY, maxX, maxY) 
-        
+    
     #private
-    def processResponse(self, responseInfo, currentTime=None): #we need to make a new dict for
-        #each to prevent interference
-        if currentTime == None:
-            currentTime = timeops.time()
-        if type(responseInfo) != type(dict()):
-            pass
-        if 'Mapper' in responseInfo:
-            mapper = compReg.getComponent(responseInfo['Mapper']) 
-        else:
-            mapper = compReg.getComponent(Strings.DEFAULT_MAPPER)
-        pixelWeightList = mapper.mapEvent(responseInfo['Location'], self)
-        main_log.debug('Screen processing response.  ' + str(len(pixelWeightList)) + ' events\
-generated')
-        PixelEvent.addPixelEventIfMissing(responseInfo)
-        for (pixel, weight) in pixelWeightList: 
-            pixel.processInput(responseInfo['PixelEvent'], 0,weight, currentTime) #TODO: z-index
+    def processResponse(self, responseInfo, currentTime):
+        mapper = ComponentRegistry.getComponent(responseInfo.get('Mapper', Strings.DEFAULT_MAPPER))
+        weights = mapper.mapEvent(responseInfo['Location'], self)
+        main_log.debug('Screen processing response.  Event generated.')
+        addPixelEventIfMissing(responseInfo)
+        heappush(self.eventHeap, (currentTime, currentTime, responseInfo['PixelEvent'], weights))
+    def processEvents(self, currentTime):
+        while self.eventHeap and self.eventHeap[0][0] <= currentTime:
+            oldTime, startTime, event, weights = heappop(self.eventHeap)
+            coeffs, time = event.changeInState(currentTime-startTime)
+            for i,c in enumerate(coeffs): # iterate rather than broadcasting
+                for j,d in enumerate(event.Color): # for memory reasons
+                    self.state[i,:,j] += c*d*weights
+            if time: # if the event wants to run again
+                heappush(self.eventHeap, (startTime+time, startTime, event, weights))

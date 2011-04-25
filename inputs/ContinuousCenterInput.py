@@ -5,7 +5,7 @@ from operationscore.Input import *
 class ContinuousCenterInput(Input):
     def inputInit(self):
         compReg.getLock().acquire()
-        minX,minY,maxX,maxY = compReg.getComponent('Screen').getSize()
+        minX,minY,maxX,maxY = compReg.getComponent('Screen').size
         compReg.getLock().release()
         self.center = ((minX+maxX) / 2, (minY+maxY) / 2)
     def sensingLoop(self):

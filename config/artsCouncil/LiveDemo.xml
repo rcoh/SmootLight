@@ -89,12 +89,15 @@
                 <SensorSpacing>48</SensorSpacing>
                 <Y>45</Y>
                 <Mode>SensorNetwork</Mode>
+<<<<<<< HEAD
 <!-- For simulation purposes
                 <SensorNetworkId>pedsim</SensorNetworkId>
                 <SensorSpacing>36</SensorSpacing>
                 <Y>50</Y>
                 Mode>SensorNetwork</Mode-->
 
+=======
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                 <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
@@ -164,6 +167,10 @@
                 <RefreshInterval>10</RefreshInterval>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
+<<<<<<< HEAD
+=======
+                <RefreshInterval>100</RefreshInterval>
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
             </Args>
         </InputElement>
 
@@ -207,16 +214,25 @@
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Args>
+<<<<<<< HEAD
                 <!--ColorList>
                     <Val>(0,0,255)</Val>
                 </ColorList-->
+=======
+                <ColorList>
+                    <Val>(0,0,255)</Val>
+                </ColorList>
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
             </Args>
         </Behavior>
        <Behavior>
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                 <Increment>0.04</Increment>
             </Args>
         </Behavior>
@@ -278,7 +294,14 @@
         <!-- End Common Behaviors -->
         <!-- OSC Behaviors -->
 
+<<<<<<< HEAD
         <!--
+=======
+<<<<<<< HEAD
+=======
+        <!--
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
         <Behavior>
             <Args>
                 <Id>touchosc</Id>
@@ -301,6 +324,13 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+        <!-- End OSC Behaviors -->
+=======
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
         -->
 
         <!-- End OSC Behaviors -->
@@ -411,6 +441,10 @@
         </Behavior>
 
         <!-- End Mobile Behaviors -->
+<<<<<<< HEAD
+=======
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
         <!-- Pedtracker Behaviors -->
 
         <Behavior>
@@ -419,7 +453,15 @@
                 <Id>dimcolor</Id>
                 <ParamType>Sensor</ParamType>
                 <ParamName>Color</ParamName>
+<<<<<<< HEAD
                 <ParamOp>'[chan*.97 for chan in {val}]'</ParamOp>
+=======
+<<<<<<< HEAD
+                <ParamOp>'[chan*.94 for chan in {val}]'</ParamOp>
+=======
+                <ParamOp>'[chan*.97 for chan in {val}]'</ParamOp>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
             </Args>
         </Behavior>
         <Behavior>
@@ -460,10 +502,23 @@
                     <Id>pygameclick</Id>
                 </Inputs>
                 <ChainedBehaviors>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                    <!--Id>debugprint</Id-->
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <!--Id>colorshift</Id-->
+=======
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                     <Id>debugprint</Id>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
                     <Id>colorshift</Id>
+<<<<<<< HEAD
+=======
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
@@ -487,8 +542,18 @@
             <Args>
                 <Id>colorbar</Id>
                 <ChainedBehaviors>
+<<<<<<< HEAD
                     <Id>vbar</Id>
                     <Id>slowcolorshift</Id>
+=======
+<<<<<<< HEAD
+		    <Id>vbar</Id>
+		    <Id>slowcolorshift</Id>
+=======
+                    <Id>vbar</Id>
+                    <Id>slowcolorshift</Id>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -500,10 +565,22 @@
                     <Id>onehorizontal</Id>
                 </Inputs>
                 <ChainedBehaviors>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+		    <Id>color</Id>
+		    <Id>mover</Id>
+		    <Id>singleframe</Id>
+=======
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                     <Id>color</Id>
                     <Id>mover</Id>
                     <!--Id>flicker</Id-->
                     <Id>singleframe</Id>
+<<<<<<< HEAD
+=======
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorbar'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
@@ -565,7 +642,15 @@
                 <MainId>shiftingcolors</MainId>
                 <OnChange>None</OnChange>
                 <InterruptId>pedtracker</InterruptId>
+<<<<<<< HEAD
                 <Timeout>2</Timeout>
+=======
+<<<<<<< HEAD
+                <Timeout>2</Timeout>
+=======
+                <Timeout>1</Timeout>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -575,7 +660,15 @@
                 <Id>maininterrupt</Id>
                 <MainId>subinterrupt</MainId>
                 <OnChange>None</OnChange>
+<<<<<<< HEAD
                 <InterruptId>moveanddecay4</InterruptId>
+=======
+<<<<<<< HEAD
+                <InterruptId>OSCTouchChase</InterruptId>
+=======
+                <InterruptId>moveanddecay4</InterruptId>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+>>>>>>> 53e3dd63a0fae7b484da8c18f9c816c47c21f70d
                 <Timeout>1</Timeout>
                 <RenderToScreen>True</RenderToScreen>
             </Args>

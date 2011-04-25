@@ -30,7 +30,7 @@ class ControllerOSC(Behavior):
 
         self.start_hsv = [0,1,1] 
         self.dest_hsv = [0,1,1] 
-        self.ssize = compReg.getComponent('Screen').getSize()[-2:] #896 x 310
+        self.ssize = compReg.getComponent('Screen').size[-2:] #896 x 310
     
     def processResponse(self, sensorInputs, recursiveInputs):
         ret = []
