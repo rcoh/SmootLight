@@ -1,0 +1,619 @@
+<LightInstallation>
+
+    <PixelConfiguration>
+        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer Scale="3">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>simplemap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.SimpleMapper</Class>
+            <Args>
+                <Id>simplemap</Id>
+                <CutoffDist>20</CutoffDist>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>gaussmap</Id>
+                <CutoffDist>10</CutoffDist>
+                <MinWeight>0.1</MinWeight>
+                <Width>10</Width>
+                <Height>1</Height>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+
+    <InputConfiguration>
+
+        <!-- Pygame Inputs -->
+
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args>
+                <Id>pygameclick</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <Clicks>True</Clicks>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.PygameInput</Class>
+            <Args>
+                <Id>pygamekey</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <Keyboard>True</Keyboard>
+            </Args>
+        </InputElement>
+
+        <!-- End Pygame Inputs -->
+        <!-- Pedestrian Inputs -->
+
+        <InputElement>
+            <Class>inputs.PedestrianSimulator</Class>
+            <Args>
+                <Id>pedsim</Id>
+                <MaxX>200</MaxX>
+                <Velocity>40</Velocity>
+                <NumSensors>4</NumSensors>
+                <SensorSpacing>36</SensorSpacing>
+                <NumPeds>1</NumPeds>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.SensorNetworkToLocation</Class>
+            <Args>
+                <Id>netloc</Id>
+                <SensorNetworkId>udp</SensorNetworkId>
+                <SensorSpacing>48</SensorSpacing>
+                <Y>45</Y>
+                <Mode>SensorNetwork</Mode>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.DirectionalPedestrians</Class>
+            <Args>
+                <Id>dirped</Id>
+                <LocSensorId>netloc</LocSensorId>
+            </Args>
+        </InputElement>
+
+        <!-- End Pedestrian Inputs -->
+        <!-- OSC Inputs -->
+
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Args>
+                <Id>osc</Id>
+                <Port>1234</Port>
+                <RefreshInterval>10</RefreshInterval>
+            </Args>
+        </InputElement>
+
+        <!-- End OSC Inputs -->
+        <!-- Mobile Inputs -->
+
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp1</Id>
+                <Port>2001</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp2</Id>
+                <Port>2002</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp3</Id>
+                <Port>2003</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp4</Id>
+                <Port>2004</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+
+        <!-- End Mobile Inputs -->
+        <!-- Common Inputs -->
+
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>randomloc</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <xEquation>random.random()</xEquation>
+                <yEquation>random.random()</yEquation>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+
+        <!-- End Common Inputs -->
+        <!-- Bar Inputs -->
+
+        <InputElement>
+            <Class>inputs.OneHorizontalInput</Class>
+            <Args>
+                <Id>onehorizontal</Id>
+            </Args>
+        </InputElement>
+
+        <!-- End Bar Inputs -->
+
+    </InputConfiguration>
+
+    <BehaviorConfiguration>
+        
+        <!-- Pixel Event Behaviors -->
+
+        <Behavior Id="singleframe">
+	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+	    </Behavior>
+        <Behavior Id="decay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.02</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="slowdecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.003</Coefficient>
+            </Args>
+        </Behavior>
+
+        <!-- End PixelEvent Behaviors -->
+        <!-- Color Behaviors -->
+
+        <Behavior Id="colorchange">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <ColorList>
+                    <Val>(0,0,255)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>colorshift</Id>
+                <Increment>0.04</Increment>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>slowcolorshift</Id>
+                <Increment>0.01</Increment>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.CycleColorBehavior</Class>
+            <Args>
+                <Id>color</Id>
+                <Increments>500</Increments>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <Id>white</Id>
+                <ColorList>
+                    <Color>(255,255,255)</Color>
+                </ColorList>
+            </Args>
+        </Behavior>
+
+        <!-- End Color Behaviors -->
+        <!-- Common Behaviors -->
+
+        <Behavior Id="recursivedecay" InitialResponseCount="30">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ResponseMover</Class>
+            <Args>
+                <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Flicker</Class>
+            <Args>
+                <Id>flicker</Id>
+                <AllProb>1</AllProb>
+                <Prob>.8</Prob>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Args>
+                <Id>debugprint</Id>
+                <Quiet>True</Quiet>
+                <Output>print</Output>
+                <PassThrough>True</PassThrough>
+            </Args>
+        </Behavior>
+
+        <!-- End Common Behaviors -->
+        <!-- OSC Behaviors -->
+
+<<<<<<< HEAD
+=======
+        <!--
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+        <Behavior>
+            <Args>
+                <Id>touchosc</Id>
+            </Args>
+            <Class>behaviors.TouchOSC</Class>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>Creates a large colored circle at the location specified by osc</Doc>
+            <Args>
+                <Id>OSCTouchChase</Id>
+                <Inputs>
+                    <Id>osc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>touchosc</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+<<<<<<< HEAD
+
+        <!-- End OSC Behaviors -->
+=======
+        -->
+
+        <!-- End OSC Behaviors -->
+        <!-- Mobile Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move1</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move2</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move3</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.MoveBehavior</Class>
+            <Args>
+                <Id>move4</Id>
+	        <XStep>3</XStep>
+	        <YStep>3</YStep>
+            </Args>
+        </Behavior>
+	<Behavior>
+	  <Class>behaviors.MobileShakeBehavior</Class>
+	  <Args>
+	    <Id>mobileshake</Id>
+	    <SizeMult>3</SizeMult>
+	  </Args>
+	</Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay1</Id>
+                <Inputs>
+                    <Id>udp1</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move1</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay2</Id>
+                <Inputs>
+                    <Id>udp2</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move2</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay3</Id>
+                <Inputs>
+                    <Id>udp3</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move3</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>moveanddecay4</Id>
+                <Inputs>
+                    <Id>udp4</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>move4</Id>
+		    <!--<Id>mobileshake</Id>-->
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>		
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+
+        <!-- End Mobile Behaviors -->
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+        <!-- Pedtracker Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>dimcolor</Id>
+                <ParamType>Sensor</ParamType>
+                <ParamName>Color</ParamName>
+<<<<<<< HEAD
+                <ParamOp>'[chan*.94 for chan in {val}]'</ParamOp>
+=======
+                <ParamOp>'[chan*.97 for chan in {val}]'</ParamOp>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Oval</Class>
+            <Args>
+                <Id>circle</Id>
+                <Radius>0</Radius>
+                <Outline>True</Outline>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ModifyParam</Class>
+            <Args>
+                <Id>inccircle</Id>
+                <ParamOp>'{val}+1'</ParamOp>
+                <ParamName>circleRadius</ParamName>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>draws and increments an expanding ring</Doc>
+            <Args>
+                <Id>circle_expand</Id>
+                <ChainedBehaviors>
+                    <Id>circle</Id>
+                    <Id>inccircle</Id>
+                    <Id>dimcolor</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>pedtracker</Id>
+                <Inputs>
+                    <Id>dirped</Id>
+                    <Id>pygameclick</Id>
+                </Inputs>
+                <ChainedBehaviors>
+<<<<<<< HEAD
+                    <!--Id>debugprint</Id-->
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <!--Id>colorshift</Id-->
+=======
+                    <Id>debugprint</Id>
+                    <Id>colorchange</Id>
+                    <Id>mover</Id>
+                    <Id>colorshift</Id>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+                    <Id>slowdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>simplemap</Mapper>
+            </Args>
+        </Behavior>
+
+        <!-- End Pedtracker Behaviors -->
+        <!-- Bar Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.Bar</Class>
+            <Args>
+                <Id>vbar</Id>
+                <Slope>None</Slope>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>colorbar</Id>
+                <ChainedBehaviors>
+<<<<<<< HEAD
+		    <Id>vbar</Id>
+		    <Id>slowcolorshift</Id>
+=======
+                    <Id>vbar</Id>
+                    <Id>slowcolorshift</Id>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>shiftingcolors</Id>
+                <Inputs>
+                    <Id>onehorizontal</Id>
+                </Inputs>
+                <ChainedBehaviors>
+<<<<<<< HEAD
+		    <Id>color</Id>
+		    <Id>mover</Id>
+		    <Id>singleframe</Id>
+=======
+                    <Id>color</Id>
+                    <Id>mover</Id>
+                    <!--Id>flicker</Id-->
+                    <Id>singleframe</Id>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'colorbar'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>simplemap</Mapper>
+            </Args>
+        </Behavior>
+
+        <!-- End Bar Behaviors -->
+        <!-- Sparkle Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>sparkle</Id>
+                <Inputs>
+                    <Id>randomloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>white</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+
+        <!-- End Sparkle Behaviors -->
+        <!-- Main Behavior Stack -->
+
+        <!--Behavior>
+            <Class>behaviors.BehaviorSequence</Class>
+            <Args>
+                <Id>sequence</Id>
+                <Sequence>
+                    <Behavior>
+                        <Id>pedtracker</Id>
+                        <Timeout>10</Timeout>
+                        <OnChange>Pause</OnChange>
+                    </Behavior>
+                    <Behavior>
+                        <Id>sparkle</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
+                    </Behavior>
+                    <Behavior>
+                        <Id>shiftingcolors</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>None</OnChange>
+                    </Behavior>
+                </Sequence>
+                <Repeat>True</Repeat>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior-->
+        <Behavior>
+            <Class>behaviors.BehaviorInterrupt</Class>
+            <Args>
+                <Id>subinterrupt</Id>
+                <MainId>shiftingcolors</MainId>
+                <OnChange>None</OnChange>
+                <InterruptId>pedtracker</InterruptId>
+<<<<<<< HEAD
+                <Timeout>2</Timeout>
+=======
+                <Timeout>1</Timeout>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorInterrupt</Class>
+            <Args>
+                <Id>maininterrupt</Id>
+                <MainId>subinterrupt</MainId>
+                <OnChange>None</OnChange>
+<<<<<<< HEAD
+                <InterruptId>OSCTouchChase</InterruptId>
+=======
+                <InterruptId>moveanddecay4</InterruptId>
+>>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
+                <Timeout>1</Timeout>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+
+        <!-- End Main Behavior Stack -->
+
+    </BehaviorConfiguration>
+</LightInstallation>

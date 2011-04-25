@@ -20,8 +20,9 @@ class Behavior(SmootCoreObject):
         self.recursiveResponseQueue = []
         self.sensorResponseQueue = []
         self.outGoingQueue = []
-        self.lastState = [] 
-        self.behaviorInit()
+        # to make this class more state-machine-like:
+        self.lastState = self.behaviorInit()
+        self.inputPause = False
     
     def behaviorInit(self):
         pass
@@ -35,7 +36,8 @@ class Behavior(SmootCoreObject):
         raise Exception('ProcessResponse not defined!')
     
     def addInput(self, sensorInput):
-        self.sensorResponseQueue.append(sensorInput)
+        if not self.inputPause:
+            self.sensorResponseQueue.append(sensorInput)
     
     #used for behavior chaining
     
@@ -88,12 +90,23 @@ class Behavior(SmootCoreObject):
                             main_log.error('Here')
                     return responses
         return responses
+
+    def clearInputs(self):
+        self.sensorResponseQueue = []
+
     
     def timeStep(self): #TODO: type checking.  clean this up
         (outputs, recursions) = self.processResponse(self.sensorResponseQueue, \
                 self.recursiveResponseQueue)
-        self.sensorResponseQueue = []
+        self.clearInputs()
         self.recursiveResponseQueue = recursions 
         self.setLastOutput(outputs)
         main_log.debug(self['Id'] + ' Ouputs ' + str(outputs))
         return self.addMapperToResponse(outputs)
+
+    def pauseInputs(self):
+        print "paused input for " + self['Id']
+        self.inputPause = True
+    def resumeInputs(self):
+        print "resumed input for " + self['Id']
+        self.inputPause = False

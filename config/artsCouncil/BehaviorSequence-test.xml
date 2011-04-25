@@ -1,16 +1,11 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
-	<InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
-	
+    <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
-    <PixelConfiguration>
-        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
-<!--            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> -->
-    </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -23,27 +18,18 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>10</CutoffDist>
                 <MinWeight>0.1</MinWeight>
                 <Width>10</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <RendererConfiguration>
-<Renderer>
-    <Class>renderers.PygameRenderer</Class>
-    <Args>
-        <Id>pygamerender</Id>
-        <Size>(1200, 50)</Size>
-    </Args>
-</Renderer>
-    </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
-            <Class>inputs.LeftEdgeInput</Class>
+            <Class>inputs.OneHorizontalInput</Class>
             <Args>
-                <Id>leftedge</Id>
+                <Id>onehorizontal</Id>
             </Args>
         </InputElement>
         <InputElement>
@@ -63,25 +49,26 @@
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.UDPInput</Class>
+            <Class>inputs.ParametricLocationInput</Class>
             <Args>
-                <Id>udp</Id>
-                <Port>3344</Port>
-                <RefreshInterval>50</RefreshInterval>
+                <Id>randomloc</Id>
+                <RefreshInterval>10</RefreshInterval>
+                <xEquation>random.random()</xEquation>
+                <yEquation>random.random()</yEquation>
             </Args>
         </InputElement>
         <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>1200</MaxX>
+                <MaxX>900</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
                 <NumPeds>1</NumPeds>
             </Args>
         </InputElement>
-         <InputElement>
+        <InputElement>
             <Class>inputs.SensorNetworkToLocation</Class>
             <Args>
                 <Id>netloc</Id>
@@ -96,106 +83,89 @@
                 <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
- 
     </InputConfiguration>
 
     <BehaviorConfiguration>
-    <Behavior Id='accelerate'>
-        <Class>behaviors.ModifyParam</Class>
-        <Args>
-            <ParamType>Sensor</ParamType>
-            <ParamName>XStep</ParamName>
-            <ParamOp>'{val}*1.1'</ParamOp>
-        </Args>
-    </Behavior>
-        <Behavior Id="recursivedecay" InitialResponseCount="25">
-            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
-            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RandomSetBrightColorBehavior</Class>
-            <Args>
-                <Id>setbrightcolor</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.RandomSetBrightColorBehavior</Class>
-            <Args>
-                <Id>setbrightcolor2</Id>
-            </Args>
-        </Behavior>
-
-        <Behavior Id="decay" Coefficient=".0025">
+        <Behavior Id="singleframe">
+	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+	    </Behavior>
+        <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-        </Behavior>
-        <Behavior Id="decay2" Coefficient=".025">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.02</Coefficient>
+            </Args>
         </Behavior>
        <Behavior>
+            <Class>behaviors.Bar</Class>
+            <Args>
+                <Id>vbar</Id>
+                <Slope>None</Slope>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>colorshift</Id>
+		<Increment>0.07</Increment>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.CycleColorBehavior</Class>
+            <Args>
+                <Id>color</Id>
+		<Increments>500</Increments>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>movebounce</Id>
+                <Id>colorchange</Id>
                 <ChainedBehaviors>
-                    <Id>move</Id>
-                    <Id>accelerate</Id>
-                    <Id>recursivedecay</Id>
+		    <Id>vbar</Id>
+		    <Id>colorshift</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
-       <Behavior>
-            <Class>behaviors.GrowNear</Class>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>grow</Id>
+                <Id>shiftall</Id>
+                <Inputs>
+                    <Id>onehorizontal</Id>
+                </Inputs>
+                <ChainedBehaviors>
+		    <Id>color</Id>
+		    <Id>mover</Id>
+		    <!--Id>flicker</Id-->
+		    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'colorchange'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>simplemap</Mapper>
             </Args>
         </Behavior>
-      <Behavior>
-            <Class>behaviors.XYMoveBounceDirOne</Class>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Args>
-                <Id>move</Id>
-                <XStep>10</XStep>
-        		<YStep>0</YStep>
-                <NoBounceTime>100</NoBounceTime>
+                <Id>white</Id>
+                <ColorList>
+                    <Color>(255,255,255)</Color>
+                </ColorList>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>runcolordecay</Id>
+                <Id>sparkle</Id>
                 <Inputs>
-                    <Id>dirped</Id>
+                    <Id>randomloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>setbrightcolor</Id>
-                    <Id>mover</Id>
+                    <Id>white</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-       <Behavior>
-            <Class>behaviors.FillupBar</Class>
-            <Args>
-                <Id>fbar</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>fillupleft</Id>
-                <Inputs>
-                    <Id>leftedge</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>setbrightcolor2</Id>
-                    <Id>mover2</Id>
-                    <Id>fbar</Id>
-                    <Id>decay2</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mover2':'grow'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
-                <Mapper>simplemap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
@@ -204,10 +174,49 @@
                 <Id>mover</Id>
             </Args>
         </Behavior>
-         <Behavior>
-            <Class>behaviors.ResponseMover</Class>
+        <Behavior>
+            <Class>behaviors.Flicker</Class>
             <Args>
-                <Id>mover2</Id>
+                <Id>flicker</Id>
+                <AllProb>1</AllProb>
+                <Prob>.8</Prob>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Args>
+                <Id>pedprint</Id>
+                <Inputs>
+                    <Id>dirped</Id>
+                </Inputs>
+                <Output>print</Output>
+                <PassThrough>False</PassThrough>
+                <Quiet>True</Quiet>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorSequence</Class>
+            <Args>
+                <Id>sequence</Id>
+                <Sequence>
+                    <Behavior>
+                        <Id>pedprint</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>None</OnChange>
+                    </Behavior>
+                    <Behavior>
+                        <Id>sparkle</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
+                    </Behavior>
+                    <Behavior>
+                        <Id>shiftall</Id>
+                        <Timeout>10</Timeout>
+                        <OnChange>None</OnChange>
+                    </Behavior>
+                </Sequence>
+                <Repeat>True</Repeat>
+                <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
     </BehaviorConfiguration>

@@ -23,8 +23,20 @@ class MoveBehavior(Behavior):
                     #print sInput
                     if 'type' in sInput and sInput['type'] == 1:
                         currDict['Shake'] = 0
-                        currDict['Location'] = (currDict['Location'][0] - sInput['x'] * self['XStep'], \
-                                                currDict['Location'][1] + sInput['y'] * self['YStep'])
+
+                        # move only if in bound
+                        newTempXLoc = currDict['Location'][0] - sInput['x'] * self['XStep']
+                        newTempYLoc = currDict['Location'][1] + sInput['y'] * self['YStep']
+                        if newTempXLoc < 0 or newTempXLoc > self.argDict['XBound']:
+                            newXLoc = currDict['Location'][0]
+                        else:
+                            newXLoc = newTempXLoc
+                        if newTempYLoc < 0 or newTempYLoc > self.argDict['YBound']:
+                            newYLoc = currDict['Location'][1]
+                        else:
+                            newYLoc = newTempYLoc
+                            
+                        currDict['Location'] = (newXLoc, newYLoc)
                         currDict['Color'] = [sInput['r'], sInput['g'], sInput['b']]
                     elif sInput['type'] == 2:
                         currDict['Shake'] = 1
