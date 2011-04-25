@@ -49,6 +49,8 @@ class Screen:
     #public
     def respond(self, responseInfo):
         self.responseQueue.append(responseInfo)
+    def getSize(self):
+        return list(self.size)
     
     #private
     def processResponse(self, responseInfo, currentTime):
