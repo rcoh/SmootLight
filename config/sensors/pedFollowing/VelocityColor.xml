@@ -29,9 +29,9 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>15</CutoffDist>
+                <CutoffDist>30</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>7</Width>
+                <Width>20</Width>
                 <Height>10</Height>
             </Args>
         </PixelMapper>
@@ -45,7 +45,7 @@
                 <Velocity>10</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>45</SensorSpacing>
-                <NumPeds>2</NumPeds>
+                <NumPeds>20</NumPeds>
             </Args>
         </InputElement>
         <InputElement>

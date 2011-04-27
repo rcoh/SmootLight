@@ -4,8 +4,11 @@
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <Renderer Scale="1">
+        <!--<Renderer Scale="1">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>-->
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
     </RendererConfiguration>
     <InstallationConfiguration>
@@ -37,7 +40,7 @@
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>800</MaxX>
+                <MaxX>2000</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>45</SensorSpacing>
