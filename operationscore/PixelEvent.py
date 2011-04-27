@@ -10,6 +10,7 @@ class PixelEvent(SmootCoreObject):
         self.validateArgs('PixelEvent.params')
         self.coeffs = zeros(3)
         self.initEvent()
+        self.scale = 1
     def initEvent(self):
         pass
     #Returns  a new PixelEvent, but with a response scaled by c.
@@ -34,7 +35,7 @@ class PixelEvent(SmootCoreObject):
         coeffs, timeDelay = self.state(time) or (zeros(3), None)
         (c,b,a), self.coeffs = coeffs - self.coeffs, coeffs
         shiftedCoeffs = array([c+time*(b+time*a), b+2*time*a, a])
-        return shiftedCoeffs, timeDelay
+        return self.scale * shiftedCoeffs, timeDelay
 
 def addPixelEventIfMissing(responseDict):
     if not 'PixelEvent' in responseDict:

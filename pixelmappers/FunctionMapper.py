@@ -1,7 +1,7 @@
 from operationscore.PixelMapper import *
 
+# the location argument is a function of x and y
+
 class FunctionMapper(PixelMapper):
-    def mappingFuncion(self, loc, screen):
-        if not hasattr(self, 'func'):
-            self.func = eval('lambda x,y:' + self.Function)
-        return self.func(screen.locs[:,0], screen.locs[:,1])
+    def mappingFuncion(self, func, screen):
+        return func(screen.locs[:,0], screen.locs[:,1])
