@@ -46,7 +46,7 @@ class Screen:
         self.processEvents(currentTime)
         numpy.maximum(0, self.state[0], self.temp)
         numpy.minimum(255, self.temp, self.pixels)
-        print(self.pixels[0])   
+        #self.pixels += 1
     #public
     def respond(self, responseInfo):
         self.responseQueue.append(responseInfo)

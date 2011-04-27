@@ -1,0 +1,38 @@
+<LightInstallation>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+        <!--Renderer>
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer-->
+    </RendererConfiguration>
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.FunctionMapper</Class>
+            <Args>
+                <Id>funcmap</Id>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>funcmap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+    <InputConfiguration>
+    </InputConfiguration>
+    <BehaviorConfiguration>
+        <Behavior>
+            <Class>behaviors.LayoutTest</Class>
+            <Args>
+                <Id>layoutest</Id>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+    </BehaviorConfiguration>
+</LightInstallation>
+

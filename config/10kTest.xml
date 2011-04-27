@@ -21,6 +21,9 @@
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
     </InputConfiguration>

@@ -35,13 +35,18 @@ class SensorNetworkToLocation(Input):
             return False
     def grabBits(self, p):
         return bin(ord(p))[2:].zfill(8) 
-    def parseSensorBinaryPacket(self,p):
+    def parseSensorBinaryPacket(self,p, firstBitIndex):
         if len(p) != 5:
             print 'bad length'
         packet = []
-        for i,hexBit in enumerate(p):
-            pass
+        for i,hexByte in enumerate(p):
+            bits = grabBits(hexByte)
+            for b,j in enumerate(bits):
+                if b == 1:
+                    sensorId = firstBitIndex + i*8 + j
+                    output.append({'SensorId':sensorId, 'Responding':timeOps.time()})
             #send output as necessary 
+        return output
     def parseSensorPacket(self, p):
         #sensorid:XXXX#sensorid:XXXX#sensorid:XXXX
         #Packet:
