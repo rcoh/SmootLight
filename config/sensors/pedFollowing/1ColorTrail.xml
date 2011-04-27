@@ -59,8 +59,17 @@
             <Class>inputs.SensorNetworkToLocation</Class>
             <Args>
                 <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
+                <SensorNetworkId>udp</SensorNetworkId>
                 <SensorSpacing>45</SensorSpacing>
+                <Mode>SensorNetwork</Mode>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
