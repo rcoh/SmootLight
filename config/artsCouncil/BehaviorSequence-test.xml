@@ -5,6 +5,9 @@
     </PixelConfiguration>
     <RendererConfiguration>
         <Renderer>
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
     </RendererConfiguration>
@@ -51,6 +54,12 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <InputConfiguration>
+        <InputElement>
+            <Class>inputs.OneCenterInput</Class>
+            <Args>
+                <Id>onecenter</Id>
+            </Args>
+        </InputElement>
         <InputElement>
             <Class>inputs.OneHorizontalInput</Class>
             <Args>
@@ -131,7 +140,7 @@
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
-		<Increment>0.07</Increment>
+                <Increment>0.04</Increment>
             </Args>
         </Behavior>
         <Behavior>
@@ -165,6 +174,41 @@
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorchange'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.AllPixels</Class>
+            <Args>
+                <Id>allpixels</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>colorchangeall</Id>
+                <ChainedBehaviors>
+                    <Id>allpixels</Id>
+                    <Id>colorshift</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>colorall</Id>
+                <Inputs>
+                    <Id>onecenter</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>color</Id>
+                    <Id>mover</Id>
+                    <!--Id>flicker</Id-->
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'colorchangeall'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
                 <AcceptInputs>True</AcceptInputs>
                 <Mapper>functionmap</Mapper>
@@ -241,6 +285,15 @@
             <Args>
                 <Id>sequence</Id>
                 <Sequence>
+                    <Behavior>
+                        <Id>colorall</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
                     <Behavior>
                         <Id>sparkle</Id>
                         <Timeout>5</Timeout>

@@ -51,7 +51,6 @@ class Input(ThreadedSmootCoreObject):
             #print self['Id'], self.argDict['RefreshInterval']
             time.sleep(self.argDict['RefreshInterval']/float(1000))
             if self.done:
-                print 'breaking'
                 break
             
     def sensingLoop(self):
