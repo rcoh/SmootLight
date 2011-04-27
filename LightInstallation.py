@@ -191,7 +191,7 @@ class LightInstallation(object):
                     c = compReg.getComponent(b)
                     # Only accept inputs to rendering behaviors, since they can pile up
                     # MAY CAUSE DISCONTINUITY if behavior continuity is dependent on input continuity
-                    if c['RenderToScreen']:
+                    if c['RenderToScreen'] or c['AcceptInputs']:
                         c.addInput(r)
         except:
             pass

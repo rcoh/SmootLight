@@ -18,6 +18,10 @@ class BehaviorSequence(Behavior):
                 # Pause: No inputs will be added to it's queue when inactive
                 # Restart: Behavior restarts
                 # None: Behavior will keep State and will accrue inputs
+                <FadeInId>...</FadeInId> # optional behavior to modulate fadein
+                <FadeInTime>...</FadeInTime> # fade in time in seconds
+                <FadeOutId>...</FadeOutId> # optional behavior
+                <FadeOutTime>...</FadeOutTime> # in seconds
             </Behavior>
             ...
         </Sequence>
@@ -38,54 +42,114 @@ class BehaviorSequence(Behavior):
         print "behaviorInit"
         self.iterator = self['Sequence'].__iter__()
         self.loadNextBehavior()
+        self.transition = None
 
     def loadNextBehavior (self):
         print "loadNextBehavior"
         behavior = self.iterator.next()
         print "   ", behavior
         self.behavior = behavior['Id']
-        self.endTime = clock.time() + behavior['Timeout'] * 1000
         self.onChange = behavior['OnChange']
+        if 'FadeInId' in behavior:
+            self.transin = behavior['FadeInId']
+            self.endTime = clock.time() + behavior['FadeInTime'] * 1000
+            self.timeout = behavior['Timeout']
+        else:
+            self.transin = None
+            self.endTime = clock.time() + behavior['Timeout'] * 1000
+        if 'FadeOutId' in behavior:
+            self.transout = behavior['FadeOutId']
+            self.fadetime = behavior['FadeOutTime']
+        else:
+            self.transout = None
+            self.fadetime = 0
 
     def stopBehavior (self):
-        if self.onChange == 'Pause':
-            compReg.getComponent(self.behavior).pauseInputs()
+        print "stop Behavior", self.behavior
+        if self.transout:
+            self.transoutState = \
+                compReg.getComponent(self.transout).behaviorInit()
+        self.transition = self.behavior
+        self.transitionout = self.transout
+        self.transTime = clock.time() + self.fadetime * 1000
+        self.transout = None
+        self.transOnChange = self.onChange
+        self.onChange = None
 
     def startBehavior (self):
+        print "startBehavior", self.behavior
+        if self.transin:
+            self.transinState =  \
+                compReg.getComponent(self.transin).behaviorInit()
         if self.onChange == 'Pause':
             compReg.getComponent(self.behavior).resumeInputs()
         elif self.onChange == 'Restart':
             compReg.getCompenent(self.behavior).init()
 
+    def transitionIn (self): # switch out of fade in
+        print "transitionIn ", self.transin
+        self.transin = None
+        self.transinState = []
+        self.endTime = clock.time() + self.timeout * 1000
+
+    def transitionOut (self): #switch out of fade out
+        print "transitionOut", self.transition
+        if self.transOnChange == 'Pause':
+            compReg.getComponent(self.transition).pauseInputs()
+        self.transition = None
+        self.transitionout = None
+        self.transoutState = []
+
     def processResponse (self, sensors, state):
 
-        if self.behavior == None:
-            return ([], [self.behaviorComplete])
-        
+        curTime = clock.time()
+
         if state == []: # if processResponse has never been run
             for behavior in self['Sequence']:
-                if behavior['OnChange'] == 'Pause' \
-                        and behavior['Id'] != self.behavior:
+                if behavior['OnChange'] == 'Pause':
                     compReg.getComponent(behavior['Id']).pauseInputs()
+                self.startBehavior()
 
-        outputs = compReg.getComponent(self.behavior).timeStep()
+        if self.behavior:
+            outputs = compReg.getComponent(self.behavior).timeStep()
+            loadNext = False
+            if len(outputs) > 0 and self.behaviorComplete == outputs[-1]:
+                outputs[-1:] = None
+                loadNext = True
 
-        loadNext = False
-        if len(outputs) > 0 and self.behaviorComplete == outputs[-1]:
-            outputs[-1:] = None
-            loadNext = True
+            if self.transin:
+                transin = compReg.getComponent(
+                    self.transin).immediateProcessInput(
+                                                outputs, self.transinState)
+                outputs = transin[0]
+                self.transinState = transin[1]
 
-        if self.endTime <= clock.time() or loadNext == True:
+        if self.transition and self.transitionout:
+            transoutput = compReg.getComponent(self.transition).timeStep()
+            transout = compReg.getComponent(
+                self.transitionout).immediateProcessInput(
+                                            transoutput, self.transoutState)
+            compReg.getComponent(self.transition).setLastOutput(transout[0])
+            outputs.extend(transout[0])
+            self.transoutState = transout[1]
+
+        if self.endTime <= curTime or loadNext == True:
 
             try:
-                self.stopBehavior()
-                self.loadNextBehavior()
-                self.startBehavior()
+                if self.transin and not loadNext:
+                    self.transitionIn()
+                else:
+                    self.stopBehavior()
+                    self.loadNextBehavior()
+                    self.startBehavior()
             except StopIteration:
                 if self['Repeat']:
                     self.behaviorInit()
                     self.startBehavior()
                 else:
                     self.behavior = None
+
+        if self.transition and self.transTime <= curTime:
+            self.transitionOut()
 
         return (outputs, [True])

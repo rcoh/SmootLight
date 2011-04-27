@@ -8,6 +8,12 @@
     </InstallationConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
+            <Class>pixelmappers.FunctionMapper</Class>
+            <Args>
+                <Id>functionmap</Id>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
             <Args>
                 <Id>simplemap</Id>
@@ -134,14 +140,15 @@
                     <Id>onehorizontal</Id>
                 </Inputs>
                 <ChainedBehaviors>
-		    <Id>color</Id>
-		    <Id>mover</Id>
-		    <!--Id>flicker</Id-->
-		    <Id>singleframe</Id>
+                    <Id>color</Id>
+                    <Id>mover</Id>
+                    <!--Id>flicker</Id-->
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorchange'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>simplemap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
@@ -165,6 +172,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -192,6 +200,21 @@
                 <Output>print</Output>
                 <PassThrough>False</PassThrough>
                 <Quiet>True</Quiet>
+                <AcceptInputs>True</AcceptInputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.FadeOut</Class>
+            <Args>
+                <Id>fadeout</Id>
+                <TimeOut>2</TimeOut>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.FadeIn</Class>
+            <Args>
+                <Id>fadein</Id>
+                <TimeOut>2</TimeOut>
             </Args>
         </Behavior>
         <Behavior>
@@ -200,19 +223,27 @@
                 <Id>sequence</Id>
                 <Sequence>
                     <Behavior>
-                        <Id>pedprint</Id>
+                        <Id>shiftall</Id>
                         <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>sparkle</Id>
                         <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>shiftall</Id>
-                        <Timeout>10</Timeout>
-                        <OnChange>None</OnChange>
+                        <Id>pedprint</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>

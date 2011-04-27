@@ -158,7 +158,6 @@
                 <RefreshInterval>10</RefreshInterval>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
-                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
 
@@ -272,10 +271,7 @@
         <!-- End Common Behaviors -->
         <!-- OSC Behaviors -->
 
-<<<<<<< HEAD
-=======
         <!--
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
         <Behavior>
             <Args>
                 <Id>touchosc</Id>
@@ -298,10 +294,6 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-<<<<<<< HEAD
-
-        <!-- End OSC Behaviors -->
-=======
         -->
 
         <!-- End OSC Behaviors -->
@@ -412,7 +404,6 @@
         </Behavior>
 
         <!-- End Mobile Behaviors -->
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
         <!-- Pedtracker Behaviors -->
 
         <Behavior>
@@ -421,11 +412,7 @@
                 <Id>dimcolor</Id>
                 <ParamType>Sensor</ParamType>
                 <ParamName>Color</ParamName>
-<<<<<<< HEAD
-                <ParamOp>'[chan*.94 for chan in {val}]'</ParamOp>
-=======
                 <ParamOp>'[chan*.97 for chan in {val}]'</ParamOp>
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
             </Args>
         </Behavior>
         <Behavior>
@@ -466,17 +453,10 @@
                     <Id>pygameclick</Id>
                 </Inputs>
                 <ChainedBehaviors>
-<<<<<<< HEAD
-                    <!--Id>debugprint</Id-->
-                    <Id>colorchange</Id>
-                    <Id>mover</Id>
-                    <!--Id>colorshift</Id-->
-=======
                     <Id>debugprint</Id>
                     <Id>colorchange</Id>
                     <Id>mover</Id>
                     <Id>colorshift</Id>
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
@@ -500,13 +480,8 @@
             <Args>
                 <Id>colorbar</Id>
                 <ChainedBehaviors>
-<<<<<<< HEAD
-		    <Id>vbar</Id>
-		    <Id>slowcolorshift</Id>
-=======
                     <Id>vbar</Id>
                     <Id>slowcolorshift</Id>
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -518,16 +493,10 @@
                     <Id>onehorizontal</Id>
                 </Inputs>
                 <ChainedBehaviors>
-<<<<<<< HEAD
-		    <Id>color</Id>
-		    <Id>mover</Id>
-		    <Id>singleframe</Id>
-=======
                     <Id>color</Id>
                     <Id>mover</Id>
                     <!--Id>flicker</Id-->
                     <Id>singleframe</Id>
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorbar'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
@@ -589,11 +558,7 @@
                 <MainId>shiftingcolors</MainId>
                 <OnChange>None</OnChange>
                 <InterruptId>pedtracker</InterruptId>
-<<<<<<< HEAD
-                <Timeout>2</Timeout>
-=======
                 <Timeout>1</Timeout>
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -603,11 +568,7 @@
                 <Id>maininterrupt</Id>
                 <MainId>subinterrupt</MainId>
                 <OnChange>None</OnChange>
-<<<<<<< HEAD
-                <InterruptId>OSCTouchChase</InterruptId>
-=======
                 <InterruptId>moveanddecay4</InterruptId>
->>>>>>> ff2356dbea55635e3f8b5b632be6914aa9fb7a3d
                 <Timeout>1</Timeout>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
