@@ -9,7 +9,6 @@ from heapq import *
 
 class Screen:
     """Class representing a collection of Pixels grouped into PixelStrips."""
-    
     def __init__(self):
         self.responseQueue = []
         self.eventHeap = [] # stores items in the format (nextTime, lastTime, event, weights)
@@ -22,6 +21,7 @@ class Screen:
         self.size = [min(self.locs[:,0]), min(self.locs[:,1]),
                      max(self.locs[:,0]), max(self.locs[:,1])]
         self.state = numpy.zeros((3, len(self), 3), dtype='float') # quadratic
+        self.temp = numpy.zeros((len(self), 3), dtype="int")
         self.pixels = numpy.zeros((len(self), 3), dtype='ubyte')
         # still need access to pixel strips for diffuser and power supply information
         indices = numpy.cumsum([0] + [s.numPixels for s in self.strips])
@@ -44,8 +44,9 @@ class Screen:
         while self.responseQueue:
             self.processResponse(self.responseQueue.pop(0), currentTime)
         self.processEvents(currentTime)
-        self.pixels = numpy.minimum(255, numpy.maximum(0, self.state[0]))
-    
+        numpy.maximum(0, self.state[0], self.temp)
+        numpy.minimum(255, self.temp, self.pixels)
+        print(self.pixels[0])   
     #public
     def respond(self, responseInfo):
         self.responseQueue.append(responseInfo)

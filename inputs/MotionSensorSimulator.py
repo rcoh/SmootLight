@@ -13,9 +13,9 @@ class MotionSensorSimulator(SmootCoreObject):
     def init(self):
         #defaults:
         if not self['RefactoryTime']:
-            self['RefactoryTime'] = 1500
+            self['RefactoryTime'] = 500
         if not self['DetectionRange']:
-            self['DetectionRange'] = 30
+            self['DetectionRange'] = 15 
         if not self['DetectionProbability']:
             self['DetectionProbability'] = 1
         self.lastDetection = timeOps.time()-self['RefactoryTime'] 
