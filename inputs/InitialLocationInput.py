@@ -9,7 +9,7 @@ class InitialLocationInput(Input):
 
     def inputInit(self):
         compReg.getLock().acquire()
-        xmin, ymin, xmax, ymax = compReg.getComponent('Screen').getSize()
+        xmin, ymin, xmax, ymax = compReg.getComponent('Screen').size
         compReg.getLock().release()
 
         xlen = xmax-xmin

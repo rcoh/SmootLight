@@ -1,14 +1,14 @@
 from operationscore.PixelEvent import *
+from numpy import array
+
 class StepEvent(PixelEvent):
     def initEvent(self):
         self.validateArgs('StepEvent.params')
-    def state(self,timeDelay):
-        if timeDelay < self['LightTime'] or self['LightTime'] == -1:
-            return self['Color']
-        else:
-            return None
+        self.life = self["LightTime"]
+    def state(self, time)
+        if time==0: return [1,0,0], self.life
+        else: return None
     @staticmethod
     def generate(onTime, color):
         args = {'LightTime': onTime, 'Color': color}
         return StepEvent(args)
-

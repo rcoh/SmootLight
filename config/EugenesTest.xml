@@ -1,7 +1,7 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
 	<InheritsFrom>config/MutateCore.xml</InheritsFrom>
-	<InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
+	<InheritsFrom>config/bridgeConfig/BridgeCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
@@ -50,6 +50,11 @@
             <Class>inputs.RandomLocs</Class>
             <Args>
                 <Id>randomLoc</Id>
+		<MinX>1400</MinX>
+		<MinY>0</MinY>
+		<MaxX>2000</MaxX>
+		<MaxY>50</MaxY>
+		<Interval>1000</Interval>
             </Args>
         </InputElement>
 	<InputElement>
@@ -112,7 +117,7 @@
 		</Inputs>
 		<MaxRadius>50</MaxRadius>
 		<StepSize>10</StepSize>
-		<RenderToScreen>False</RenderToScreen>		
+		<RenderToScreen>True</RenderToScreen>		
             </Args>
         </Behavior>
 
@@ -173,7 +178,7 @@
                     <Id>mover</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -227,7 +232,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover1':'flashermovebounce1'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap1</Mapper>
             </Args>
         </Behavior>
@@ -269,5 +274,14 @@
                 <Mapper>gaussmap1</Mapper>
             </Args>
         </Behavior>
+
+        <Behavior>
+            <Class>behaviors.SynchTest</Class>
+            <Args>
+                <Id>synch</Id>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+
     </BehaviorConfiguration>
 </LightInstallation>

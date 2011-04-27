@@ -8,7 +8,7 @@ class MITDoors(Behavior):
     def behaviorInit(self):
         self.keymapping = {'q':[2,19], 'w':[22,36], 'e':[37,49], 'r':[52,69], 't':[76,91], 'y':[94,105],
         'u':[106,117], 'i':[123,154], 'o':[158,161], 'p':[164,167], '[':[172,184]}
-        screenWidth = compReg.getComponent('Screen').getSize()[2] #(minx, miny,maxx, maxy)
+        screenWidth = compReg.getComponent('Screen').size[2] #(minx, miny,maxx, maxy)
         maxKey = max([max(self.keymapping[v]) for v in self.keymapping])
         mult = screenWidth / float(maxKey)
         for k in self.keymapping:

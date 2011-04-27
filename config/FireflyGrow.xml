@@ -1,12 +1,14 @@
 <LightInstallation>
+	<InheritsFrom>config/MutateCore.xml</InheritsFrom>
+	<InheritsFrom>config/bridgeConfig/BridgeCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
-    <PixelConfiguration>
+    <!--<PixelConfiguration>
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
-    </PixelConfiguration>
+    </PixelConfiguration>-->
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -19,9 +21,9 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>20</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>10</Width>
+                <Width>8</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -29,18 +31,18 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap1</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>20</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>10</Width>
+                <Width>8</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <RendererConfiguration>
+    <!--<RendererConfiguration>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
-    </RendererConfiguration>
+    </RendererConfiguration>-->
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PygameInput</Class>
@@ -54,16 +56,21 @@
             <Class>inputs.RandomLocs</Class>
             <Args>
                 <Id>randomLoc</Id>
+		<MinX>100</MinX>
+		<MinY>10</MinY>
+		<MaxX>200</MaxX>
+		<MaxY>40</MaxY>
+		<Interval>200</Interval>
             </Args>
         </InputElement>
 	<InputElement>
 	  <Class>inputs.PedestrianSimulator</Class>
 	  <Args>
 	    <Id>pedsim</Id>
-            <MaxX>500</MaxX>
-            <Velocity>50</Velocity>
-            <NumSensors>40</NumSensors>
-            <SensorSpacing>48</SensorSpacing>
+            <MaxX>3000</MaxX>
+            <Velocity>200</Velocity>
+            <NumSensors>15</NumSensors>
+            <SensorSpacing>144</SensorSpacing>
             <NumPeds>1</NumPeds>	   
 	  </Args>
 	</InputElement>
@@ -81,7 +88,7 @@
             <Class>inputs.FixedSensorLocations</Class>
             <Args>
                 <Id>sensorloc</Id>
-                <SensorNumber>8</SensorNumber>		
+                <SensorNumber>15</SensorNumber>		
                 <SensorSpacing>144</SensorSpacing>
 		<Y>15</Y>
 		<RefreshInterval>500</RefreshInterval>
@@ -95,7 +102,7 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
 	    <Args>
-	      <Coefficient>0.01</Coefficient>
+	      <Coefficient>0.004</Coefficient>
 	    </Args>
         </Behavior>
         <Behavior Id="slowdecay">
@@ -126,8 +133,8 @@
 	  <Args>
 	    <Id>momapper</Id>
 	    <MapperId>gaussmap1</MapperId>
-	    <WidthChange>30</WidthChange>
-	    <CutoffDistChange>35</CutoffDistChange>
+	    <WidthChange>16</WidthChange>
+	    <CutoffDistChange>30</CutoffDistChange>
 	  </Args>
 	</Behavior>	      
         <Behavior Id="recursivedecay" InitialResponseCount="10">
@@ -137,7 +144,7 @@
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>randmovement</Id>
-                <StepSize>15</StepSize>
+                <StepSize>5</StepSize>
             </Args>
         </Behavior>
 	<Behavior>
@@ -196,7 +203,7 @@
             <Class>behaviors.RandomSetColorBehavior</Class>
             <Args>
                 <Id>setdimcolor</Id>
-		<Dimness>0.5</Dimness>
+		<Dimness>0.3</Dimness>
             </Args>
         </Behavior>
         <Behavior>

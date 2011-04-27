@@ -1,11 +1,11 @@
-from numpy import zeros, concatenate
+from numpy import zeros
 argDict = {'flags': 0, 'startcode': 0x0fff, 'pad':0}
 
 # Allocate a buffer for transmitted packets and fill it with magic
+# Only works for strips of 50 pixels
 xmit = zeros(174, dtype='ubyte')
-xmit[:24] = bytearray('\x04\x01\xdcJ\x01\x00\x08\x01\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x96\x00\xff\x0f')
+xmit[:8], xmit[20:24] = [4,1,220,74,1,0,8,1], [150,0,255,15]
 
-def composePixelStripPacket(pixelStrip, port, currentTime):
-    xmit[16] = port
-    xmit[24:] = concatenate([p.state(currentTime) for p in pixelStrip])
+def composePixelStripPacket(values, port):
+    xmit[16], xmit[24:] = port, values.ravel()
     return xmit

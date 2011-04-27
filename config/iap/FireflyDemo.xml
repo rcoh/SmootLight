@@ -11,7 +11,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -33,9 +33,6 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
-        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>

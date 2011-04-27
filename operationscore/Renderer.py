@@ -8,6 +8,6 @@ class Renderer(SmootCoreObject):
     def init(self):
         self.initRenderer()
     def render(lightSystem):
-        pass
+        raise NotImplementedError
     def initRenderer(self):
         pass
