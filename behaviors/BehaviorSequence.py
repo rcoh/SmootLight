@@ -108,7 +108,7 @@ class BehaviorSequence(Behavior):
             for behavior in self['Sequence']:
                 if behavior['OnChange'] == 'Pause':
                     compReg.getComponent(behavior['Id']).pauseInputs()
-                self.startBehavior()
+            self.startBehavior()
 
         if self.behavior:
             outputs = compReg.getComponent(self.behavior).timeStep()

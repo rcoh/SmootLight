@@ -22,7 +22,7 @@ class IndoorRenderer(Renderer):
         self.broadSocket = network.getBroadcastSocket(6038) 
     def render(self, lightSystem, currentTime=timeops.time()): 
         for pixelStrip in lightSystem.strips:
-            stripId = pixelStrip.argDict['Id']
+            stripId = str(pixelStrip.argDict['Id'])
             (ip, port) = self.stripLocations[stripId] 
             if not ip in self.sockets: #do we have a socket to this
                 self.sockets[ip] = network.getConnectedSocket(ip,sock_port)

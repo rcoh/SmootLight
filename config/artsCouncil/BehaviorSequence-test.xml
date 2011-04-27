@@ -1,6 +1,25 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
-    <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+    <!--PixelConfiguration>
+        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer Scale="3">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration-->
+
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
@@ -38,7 +57,7 @@
                 <Id>onehorizontal</Id>
             </Args>
         </InputElement>
-        <InputElement>
+        <!--InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
                 <Id>pygameclick</Id>
@@ -53,7 +72,7 @@
                 <RefreshInterval>10</RefreshInterval>
                 <Keyboard>True</Keyboard>
             </Args>
-        </InputElement>
+        </InputElement-->
         <InputElement>
             <Class>inputs.ParametricLocationInput</Class>
             <Args>
@@ -223,18 +242,18 @@
                 <Id>sequence</Id>
                 <Sequence>
                     <Behavior>
-                        <Id>shiftall</Id>
+                        <Id>sparkle</Id>
                         <Timeout>5</Timeout>
-                        <OnChange>None</OnChange>
+                        <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>sparkle</Id>
+                        <Id>shiftall</Id>
                         <Timeout>5</Timeout>
-                        <OnChange>Pause</OnChange>
+                        <OnChange>None</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
