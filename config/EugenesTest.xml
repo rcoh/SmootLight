@@ -1,13 +1,13 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+	<InheritsFrom>config/MutateCore.xml</InheritsFrom>
+	<InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
-    <PixelConfiguration>
-        <InheritsFrom>layouts/10kLayout/test10kLayout.xml</InheritsFrom>
-    </PixelConfiguration>
+    
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -37,11 +37,7 @@
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
-    </RendererConfiguration>
+
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PygameInput</Class>
@@ -85,7 +81,7 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
 	    <Args>
-	      <Coefficient>0.9</Coefficient>
+	      <Coefficient>0.004</Coefficient>
 	    </Args>
         </Behavior>
         <Behavior Id="slowdecay">
@@ -118,6 +114,11 @@
                 <StepSize>20</StepSize>
             </Args>
         </Behavior>
+        <Behavior Id="recursivedecay" InitialResponseCount="10">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+
 	<Behavior>
 	  <Class>behaviors.Flasher</Class>
 	  <Args>
@@ -130,7 +131,8 @@
                 <Id>flashermovebounce</Id>
                 <ChainedBehaviors>
                     <Id>randmovement</Id>
-		    <Id>flasher</Id>
+		    		<Id>flasher</Id>
+					<Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -149,7 +151,7 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>runcolordecay</Id>
+                <Id>fireflies</Id>
                 <Inputs>
                     <Id>netloc</Id>
                 </Inputs>
@@ -159,7 +161,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -185,7 +187,7 @@
 		    <Id>momapper</Id>
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap1</Mapper>
             </Args>
         </Behavior>
