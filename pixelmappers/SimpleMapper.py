@@ -1,6 +1,6 @@
 from operationscore.PixelMapper import *
 import numpy
-
+square = numpy.square
 class SimpleMapper(PixelMapper):
     """SimpleMapper is a PixelMapper which maps events to the nearest Pixel."""
     def mappingFunction(self, loc, screen):
