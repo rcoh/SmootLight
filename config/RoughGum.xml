@@ -6,15 +6,15 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
-<!--            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> -->
+<!--        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>-->
+            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
          <PixelMapper>
             <Class>pixelmappers.PedMapper</Class>
             <Args>
                 <Id>pedmap</Id>
-                <Intensity>10</Intensity>
+                <Intensity>2</Intensity>
             </Args>
         </PixelMapper>
         <PixelMapper>
