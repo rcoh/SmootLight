@@ -4,25 +4,22 @@ import util.Geo as Geo
 class PedTrack(Behavior):
 
     def processResponse(self, sensor, recurs):
-        #Initialize dictionary. Keys: sensor_ids, Values: indicator of ped presence
-        try:
-            self.peds
-        except:
-            self.peds = {}
         ret = []
-        #Decrease all presence levels to a minimum of 0
-        for v in self.peds.keys():
-            self.peds[v] = max(0, self.peds[v] - 1)
-        print sensor
+
+        if self['MaxIntensity'] != None:
+            maxIntensity = self['MaxIntensity']
+        else:
+            maxIntensity = 10
+ 
         for sensory in sensor:
             opsensory = dict(sensory)
             if "SensorId" in opsensory:
                 if "detected" not in opsensory:
                     opsensory["detected"] = True
-                    sid = opsensory["Location"]
-                    self.peds[sid] = 10
+                    opsensory["Location"] = {opsensory["Location"]:maxIntensity}
+                else:
+                    opsensory["Location"] = {opsensory["Location"].keys()[0]:max(opsensory["Location"].values()[0] - 1, 0)}
             ret.append(opsensory)
-        ret.append(self.peds)
 
         return (ret, []) 
 
