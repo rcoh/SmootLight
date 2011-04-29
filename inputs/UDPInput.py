@@ -12,14 +12,19 @@ class UDPInput(Input):
         PORT = self.argDict['Port']              # Arbitrary non-privileged port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((HOST, PORT))
-    def sensingLoop(self):
+    
+    def socketLoop(self):
         (data,address) = self.sock.recvfrom(1024)
-	while data:
-	        if not self['Mode'] or self['Mode'] == 'Raw':
-        	    dataDict = {'data':data, 'address':address}
-	        else:
-	            dataDict = json.loads(data)
-        	    dataDict['Address'] = address
-	        self.respond(dataDict)
-		(data, address) = self.sock.recvfrom(1024)
-             
+        while data:
+            if not self['Mode'] or self['Mode'] == 'Raw':
+                dataDict = {'data':data, 'address':address}
+            else:
+                dataDict = json.loads(data)
+                dataDict['Address'] = address
+            self.respond(dataDict)
+            print 'responding'
+            (data, address) = self.sock.recvfrom(1024)
+    def run(self):
+        self.socketLoop()
+
+

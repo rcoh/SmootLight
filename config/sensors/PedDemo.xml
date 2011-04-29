@@ -40,7 +40,7 @@
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>800</MaxX>
+                <MaxX>400</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>48</SensorSpacing>

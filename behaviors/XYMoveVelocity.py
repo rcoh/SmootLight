@@ -14,10 +14,11 @@ class XYMoveVelocity(Behavior):
             self.insertVelIfMissing(oploc)
             deltaT = timeOps.time()-oploc['EvalTime']
             deltaLoc = (deltaT*oploc['XVel'], deltaT*oploc['YVel'])
+            #print 'diff:',deltaLoc
             oploc['Location'] = Geo.addLocations(deltaLoc, oploc['Location'])
             oploc['EvalTime'] = timeOps.time()
             ret.append(oploc)
-        return ret
+        return (ret, [])
     def insertVelIfMissing(self, data):
         if not 'XVel' in data:
             data['XVel'] = self['XVel']
