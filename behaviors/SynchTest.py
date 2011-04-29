@@ -8,5 +8,5 @@ class SynchTest(Behavior):
         if not self.rendered:
             self.rendered = True
             print 'here1'
-            return ([{'Location':'True', 'PixelEvent':SynchTestEvent({'Color':(255,0,0)})}], [])
+            return ([{'Location':1, 'PixelEvent':SynchTestEvent({'Color':(255,0,0)})}], [])
         return ([], []) 

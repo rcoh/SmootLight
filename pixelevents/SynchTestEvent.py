@@ -7,4 +7,4 @@ class SynchTestEvent(PixelEvent):
         self.i = 0
     def state(self, time):
         self.i = (self.i + 1) % 2
-        return [self.i,0.,0.], time+1
+        return array([self.i,0.,0.]), time+1
