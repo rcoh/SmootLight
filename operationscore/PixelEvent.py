@@ -31,10 +31,10 @@ class PixelEvent(SmootCoreObject):
         time."""
         raise NotImplementedError
     def changeInState(self, time):
+        time = 0
         # Automatically provided to subclasses.
         coeffs, timeDelay = self.state(time) or (zeros(3), None)
         (c,b,a), self.coeffs = coeffs - self.coeffs, coeffs
-        print self.coeffs
         shiftedCoeffs = array([c+time*(b+time*a), b+2*time*a, a])
         return self.scale * shiftedCoeffs, timeDelay
 
