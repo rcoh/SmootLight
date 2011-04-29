@@ -140,7 +140,7 @@
                 <HitSensitivity>4</HitSensitivity>
                 <MaxVelocity>10</MaxVelocity>
                 <MinVelocity>-1</MinVelocity>
-                <MinLength>0</MinLength>
+                <MinLength>10</MinLength>
             </Args>
         </Behavior>
         <Behavior>
@@ -151,7 +151,7 @@
                 <HitSensitivity>4</HitSensitivity>
                 <MaxVelocity>10</MaxVelocity>
                 <MinVelocity>-1</MinVelocity>
-                <MinLength>0</MinLength>
+                <MinLength>10</MinLength>
             </Args>
         </Behavior>
      <Behavior>
@@ -181,12 +181,6 @@
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
-<!--        <Behavior>
-            <Class>behaviors.AllPixelsRight</Class>
-            <Args>
-                <Id>fbarright</Id>
-            </Args>
-        </Behavior>-->
        <Behavior>
             <Class>behaviors.FillupBar</Class>
             <Args>

@@ -12,7 +12,6 @@ class SquareBlobMapper(PixelMapper):
         else:
             growthDirection = 'right'
 
-        print "sth"
         # inp is a tuple (location, distance)
         if growthDirection == 'right':
             return numpy.amax(screen.locs - inp[0], -1) < inp[1]
