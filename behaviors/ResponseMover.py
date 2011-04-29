@@ -8,6 +8,7 @@ class ResponseMover(Behavior):
 
     def processResponse(self, sensorInputs, recursiveInputs):
         a = (recursiveInputs, recursiveInputs+self.addUID(sensorInputs))
+        print 'balls running:', len(recursiveInputs)
         return a
     def addUID(self, inputs):
         for i in inputs:
