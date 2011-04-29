@@ -10,6 +10,13 @@
 <!--            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> -->
     </PixelConfiguration>
     <PixelMapperConfiguration>
+         <PixelMapper>
+            <Class>pixelmappers.PedMapper</Class>
+            <Args>
+                <Id>pedmap</Id>
+                <Intensity>10</Intensity>
+            </Args>
+        </PixelMapper>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
             <Args>
@@ -94,7 +101,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'pedtrack'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <Mapper>pedmap</Mapper>
             </Args>
         </Behavior>
       <Behavior>

@@ -9,19 +9,20 @@ class PedTrack(Behavior):
             self.peds
         except:
             self.peds = {}
-        print self.peds
         ret = []
         #Decrease all presence levels to a minimum of 0
         for v in self.peds.keys():
             self.peds[v] = max(0, self.peds[v] - 1)
+        print sensor
         for sensory in sensor:
             opsensory = dict(sensory)
             if "SensorId" in opsensory:
                 if "detected" not in opsensory:
                     opsensory["detected"] = True
-                    sid = opsensory["SensorId"]
+                    sid = opsensory["Location"]
                     self.peds[sid] = 10
             ret.append(opsensory)
+        ret.append(self.peds)
 
         return (ret, []) 
 
