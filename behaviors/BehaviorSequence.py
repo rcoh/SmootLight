@@ -39,15 +39,15 @@ class BehaviorSequence(Behavior):
     behaviorComplete = {'BehaviorComplete': True}
 
     def behaviorInit (self):
-        print "behaviorInit"
+        print self['Id'], "behaviorInit"
         self.iterator = self['Sequence'].__iter__()
         self.loadNextBehavior()
         self.transition = None
 
     def loadNextBehavior (self):
-        print "loadNextBehavior"
+        print self['Id'], "loadNextBehavior"
         behavior = self.iterator.next()
-        print "   ", behavior
+        print self['Id'], "   ", behavior
         self.behavior = behavior['Id']
         self.onChange = behavior['OnChange']
         if 'FadeInId' in behavior:
@@ -65,7 +65,7 @@ class BehaviorSequence(Behavior):
             self.fadetime = 0
 
     def stopBehavior (self):
-        print "stop Behavior", self.behavior
+        print self['Id'], "stop Behavior", self.behavior
         if self.transout:
             self.transoutState = \
                 compReg.getComponent(self.transout).behaviorInit()
@@ -77,7 +77,7 @@ class BehaviorSequence(Behavior):
         self.onChange = None
 
     def startBehavior (self):
-        print "startBehavior", self.behavior
+        print self['Id'], "startBehavior", self.behavior
         if self.transin:
             self.transinState =  \
                 compReg.getComponent(self.transin).behaviorInit()
@@ -87,13 +87,13 @@ class BehaviorSequence(Behavior):
             compReg.getCompenent(self.behavior).init()
 
     def transitionIn (self): # switch out of fade in
-        print "transitionIn ", self.transin
+        print self['Id'], "transitionIn ", self.transin
         self.transin = None
         self.transinState = []
         self.endTime = clock.time() + self.timeout * 1000
 
     def transitionOut (self): #switch out of fade out
-        print "transitionOut", self.transition
+        print self['Id'], "transitionOut", self.transition
         if self.transOnChange == 'Pause':
             compReg.getComponent(self.transition).pauseInputs()
         self.transition = None
@@ -153,3 +153,16 @@ class BehaviorSequence(Behavior):
             self.transitionOut()
 
         return (outputs, [True])
+
+    def pauseInputs(self):
+        print self['Id'], "paused input"
+        self.inputPause = True
+        for behavior in self['Sequence']:
+            if behavior['OnChange'] == 'Pause':
+                compReg.getComponent(behavior['Id']).pauseInputs()
+    def resumeInputs(self):
+        print self['Id'], "resumed input"
+        self.inputPause = False
+        for behavior in self['Sequence']:
+            if behavior['OnChange'] == 'Pause':
+                compReg.getComponent(behavior['Id']).resumeInputs()

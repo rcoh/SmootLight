@@ -1,0 +1,482 @@
+<!-- 
+TABLE OF SECTIONS
+
+    _INP Inputs
+        _CIO Common Inputs - Once Only
+        _CIC Common Inputs - Continuous
+        _PSI Pedestrian Sensor Inputs
+    
+    _CRB Common Reusable Behaviors
+        _CLR Color Behaviors
+        _PXE Pixel Events
+        _RCD Recursive Decays
+        _LOC Location Filters
+        _TRN Transition Behaviors
+        _CHN Chaining Behaviors
+
+    _ANM Animation Specific Behaviors
+        _SPK Sparkle Behaviors
+        _CLA Colorall Behaviors
+
+    _EXE Execution Behaviors
+        _BAS Main Animation Stack
+        _SAS Startup/Shutdown Animation Stack
+
+WHERE TO PUT YOUR CODE (Please read this)
+
+When adding a new animation into the body animation stack, please try to keep
+this file organized and with as little behavior/input repitition as possible. 
+To help with this, please put B/I's which should/can not be reused by others
+in the animation's B/I section, and put any B/I's that will be used by others
+in the common area.
+
+<Doc> tags are useful for describing non-intuitive behaviors to help
+others see what is going on. Run XmlInfo.py <config-file> to generate a quick
+help text of the various Behaviors/Inputs 
+
+I've added three-letter tags for each section header, and have also
+included them in the table of sections. They should only be found in those two
+places, so that you can use them to quickly jump back and forth between the
+ToS and various sections of code. (Key * with your cursor over the _XXX in vim)
+
+For additional instruction on adding your animation to BehaviorSequence, please
+see BehaviorSequnce.py documentation.
+-->
+
+<LightInstallation>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer>
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>simplemap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.FunctionMapper</Class>
+            <Args>
+                <Id>functionmap</Id>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.SimpleMapper</Class>
+            <Args>
+                <Id>simplemap</Id>
+                <CutoffDist>20</CutoffDist>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>gaussmap</Id>
+                <CutoffDist>10</CutoffDist>
+                <MinWeight>0.1</MinWeight>
+                <Width>10</Width>
+                <Height>1</Height>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+    <InputConfiguration>
+
+<!-- ****** _INP Inputs ****** -->
+
+    <!-- _CIO Common Inputs - Once Only -->
+
+        <InputElement>
+            <Class>inputs.OneCenterInput</Class>
+            <Args>
+                <Id>onecenter</Id>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.OneHorizontalInput</Class>
+            <Doc>Generates an event for every inch from left to right, once</Doc>
+            <Args>
+                <Id>onehorizontal</Id>
+            </Args>
+        </InputElement>
+
+    <!-- End Common Inputs - Once Only -->
+
+    <!-- _CIC Common Inputs - Continuous -->
+
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>randomloc</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>random.random()</xEquation>
+                <yEquation>random.random()</yEquation>
+            </Args>
+        </InputElement>
+
+    <!-- End Common Inputs - Continuous -->
+
+    <!-- _PSI Pedestrian Sensor Inputs -->
+
+        <InputElement>
+            <Class>inputs.PedestrianSimulator</Class>
+            <Args>
+                <Id>pedsim</Id>
+                <MaxX>900</MaxX>
+                <Velocity>40</Velocity>
+                <NumSensors>40</NumSensors>
+                <SensorSpacing>48</SensorSpacing>
+                <NumPeds>1</NumPeds>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>sensorudp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.SensorNetworkToLocation</Class>
+            <Args>
+                <Id>netloc</Id>
+                <SensorNetworkId>pedsim</SensorNetworkId>
+                <!--SensorNetworkId>sensorudp</SensorNetworkId>
+                <Mode>SensorNetwork</Mode-->
+                <SensorSpacing>48</SensorSpacing>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.DirectionalPedestrians</Class>
+            <Doc>Use this as actual input for dirped</Doc>
+            <Args>
+                <Id>dirped</Id>
+                <LocSensorId>netloc</LocSensorId>
+            </Args>
+        </InputElement>
+
+    <!-- End Pedestrian Sensor Inputs -->
+
+<!-- ****** End Inputs ****** -->
+
+    </InputConfiguration>
+    <BehaviorConfiguration>
+
+<!-- ****** _CRB Common Reusable Behaviors ****** -->
+
+        <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Doc>insert this into any behavior chain to see the input stream there</Doc>
+            <Args>
+                <Id>printdebug</Id>
+                <Output>print</Output>
+                <PassThrough>True</PassThrough>
+                <Quiet>True</Quiet>
+            </Args>
+        </Behavior>
+
+    <!-- _CLR Color Behaviors -->
+
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs green</Doc>
+            <Args>
+                <Id>greencolor</Id>
+                <ColorList>
+                    <Val>(0,255,0)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs blue</Doc>
+            <Args>
+                <Id>bluecolor</Id>
+                <ColorList>
+                    <Val>(0,0,255)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs red</Doc>
+            <Args>
+                <Id>redcolor</Id>
+                <ColorList>
+                    <Color>(255,0,0)</Color>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <Id>white</Id>
+                <ColorList>
+                    <Color>(255,255,255)</Color>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior Id="randomcolor">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>Inputs a random color</Doc>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>colorshift</Id>
+                <Increment>0.02</Increment>
+            </Args>
+        </Behavior>
+
+    <!-- End Color Behaviors -->
+
+    <!-- _PXE Pixel Events -->
+
+        <Behavior Id="slowdecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decays the pixel brightness with coeff of .001</Doc>
+            <Args>
+                <Coefficient>.001</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="meddecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decays the pixel brightness with coeff of .003</Doc>
+            <Args>
+                <Coefficient>.003</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="fastdecay">
+            <Doc>Decays the pixel brightness with coeff of .01</Doc>
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="flashdecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.02</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="singleframe">
+	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+	    </Behavior>
+
+    <!-- End Pixel Events -->
+
+    <!-- _RCD Recursive Decays -->
+
+        <Behavior Id="recursivedecay" InitialResponseCount="50">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="shortrecursivedecay" InitialResponseCount="25">
+            <Doc>short recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="longrecursivedecay" InitialResponseCount="100">
+            <Doc>long recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+
+    <!-- End Recursive Decays -->
+
+    <!-- _LOC Location Filters -->
+
+        <Behavior>
+            <Class>behaviors.AllPixels</Class>
+            <Doc>For functionmapper - makes an event apply for all pixels on screen</Doc>
+            <Args>
+                <Id>allpixels</Id>
+            </Args>
+        </Behavior>
+
+    <!-- End Location Filters -->
+
+    <!-- _TRN Transition Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.FadeOut</Class>
+            <Args>
+                <Id>fadeout</Id>
+                <TimeOut>1</TimeOut>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.FadeIn</Class>
+            <Args>
+                <Id>fadein</Id>
+                <TimeOut>1</TimeOut>
+            </Args>
+        </Behavior>
+
+    <!-- End Transition Behaviors -->
+
+    <!-- _CHN Chaining Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.ResponseMover</Class>
+            <Doc>moves specified objects in designated chain</Doc>
+            <Args>
+                <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RunFinite</Class>
+            <Doc>Only allows the first input through; drops all subsequent</Doc>
+            <Args>
+                <Id>runonce</Id>
+                <Iterations>1</Iterations>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.PassThrough</Class>
+            <Doc>Spacer</Doc>
+            <Args>
+                <Id>passthrough</Id>
+            </Args>
+        </Behavior>
+
+    <!-- End Chaining Behaviors -->
+
+<!-- ****** End Common Reusable Behaviors ****** -->
+
+
+<!-- ****** _ANM Animation Specific Behaviors ****** -->
+
+    <!-- _SPK Sparkle Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>sparkle</Id>
+                <Inputs>
+                    <Id>randomloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>white</Id>
+                    <Id>flashdecay</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+
+    <!-- End Sparkle Behaviors -->
+
+    <!-- _CLA Colorall Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>colorchangeall</Id>
+                <ChainedBehaviors>
+                    <Id>allpixels</Id>
+                    <Id>colorshift</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>colorall</Id>
+                <Inputs>
+                    <Id>onecenter</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>bluecolor</Id>
+                    <Id>mover</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'colorchangeall'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+
+    <!-- _CLA Colorall Behaviors -->
+
+<!-- ****** End Animation Specific Behaviors ****** -->
+
+
+<!-- ****** _EXE Execution Behaviors ****** -->
+
+    <!-- _BAS Body Animation Stack -->
+
+        <Behavior>
+            <Class>behaviors.BehaviorSequence</Class>
+            <Args>
+                <Id>bodysequence</Id>
+                <Sequence>
+                    <Behavior>
+                        <Id>colorall</Id>
+                        <Timeout>10</Timeout>
+                        <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>sparkle</Id>
+                        <Timeout>10</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>passthrough</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>None</OnChange>
+                    </Behavior>
+                </Sequence>
+                <Repeat>True</Repeat>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+
+    <!-- End Body Animation Stack -->
+
+    <!-- _SAS Startup/Shutdown Animation Stack -->
+
+        <Behavior>
+            <Class>behaviors.BehaviorSequence</Class>
+            <Args>
+                <Id>primarysequence</Id>
+                <Sequence>
+                    <Behavior>
+                        <Id>passthrough</Id>
+                        <Timeout>4</Timeout>
+                        <OnChange>None</OnChange>
+                    </Behavior>
+                    <Behavior>
+                        <Id>bodysequence</Id>
+                        <Timeout>3600</Timeout>
+                        <OnChange>Pause</OnChange>
+                    </Behavior>
+                    <Behavior>
+                        <Id>passthrough</Id>
+                        <Timeout>120</Timeout>
+                        <OnChange>None</OnChange>
+                    </Behavior>
+                </Sequence>
+                <Repeat>True</Repeat>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+
+
+    <!-- End Startup/Shutdown Animation Stack -->
+
+<!-- ****** End Execution Behaviors ****** -->
+
+    </BehaviorConfiguration>
+</LightInstallation>
