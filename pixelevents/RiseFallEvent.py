@@ -5,9 +5,7 @@ class RiseFallEvent(PixelEvent):
     """<Duration> -- length of time between first and last light."""
     def state(self, time):
         d = self.Duration
-        if time == 0:
-            print('returning {0}'.format([0, 4./d, -4./d/d]))
-            return [0, 4./d, -4./d/d], d
+        if time == 0: return [0, 4./d, -4./d/d], d
         return None
     
     @staticmethod
