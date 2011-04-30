@@ -86,7 +86,7 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelPulse.xml</InheritsFrom>
 	    <Args>
-	      <Duration>400</Duration>
+	      <Duration>600</Duration>
 	      <Coefficient>0.001</Coefficient>
 	    </Args>
         </Behavior>
@@ -94,7 +94,7 @@
 	  <Class>behaviors.MonitoredMover</Class>
 	  <Args>
 	    <Id>mmover</Id>
-	    <IntervalCount>4</IntervalCount>
+	    <IntervalCount>3</IntervalCount>
 	  </Args>
 	</Behavior>
 
@@ -190,7 +190,7 @@
             <Class>behaviors.RandomSetColorBehavior</Class>
             <Args>
                 <Id>setdimcolor</Id>
-		<Dimness>0.3</Dimness>
+		<Dimness>0.4</Dimness>
             </Args>
         </Behavior>
         <Behavior>

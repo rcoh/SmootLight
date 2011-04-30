@@ -1,7 +1,7 @@
 <Behavior>
     <Class>behaviors.AddPixelEvent</Class>
     <Args>
-        <Class>pixelevents.DecayEvent</Class>
+        <Class>pixelevents.RiseFallEvent</Class>
         <Duration>400</Duration>
 	<Coefficient>.01</Coefficient>
     </Args>
