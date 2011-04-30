@@ -6,4 +6,4 @@ class SingleFrameEvent(PixelEvent):
     queried"""
     def state(self, time):
         if time == 0: return [1, 0, 0], 1 # wait 1 ms
-        else: return None
+        return None
