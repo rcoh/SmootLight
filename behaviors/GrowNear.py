@@ -73,6 +73,7 @@ class GrowNear(Behavior):
             #Set min length
             if opsensory['Location'][1] <= minLength:
                 opsensory['Location'] = (opsensory['Location'][0], minLength)
+            print opsensory['Location']
 
             ret.append(opsensory)
         return (ret, []) 
