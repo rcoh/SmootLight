@@ -41,6 +41,7 @@ class Screen:
         # Shift the quadratic by t
         self.state[0] += t * (self.state[1] + t * self.state[2])
         self.state[1] += t * 2 * self.state[2]
+        print(numpy.max(self.state))
         while self.responseQueue:
             self.processResponse(self.responseQueue.pop(0), currentTime)
         self.processEvents(currentTime)
