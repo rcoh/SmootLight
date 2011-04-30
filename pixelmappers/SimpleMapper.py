@@ -9,4 +9,5 @@ class SimpleMapper(PixelMapper):
             result[:] = 1
         else:    
             result[numpy.argmin(sum(square(loc-screen.locs),-1))] = 1
+
         return result
