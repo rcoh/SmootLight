@@ -17,7 +17,7 @@
         <PixelMapper>
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
-                <Id>gaussmap</Id>
+                <Id>gaussmapfixed</Id>
                 <CutoffDist>20</CutoffDist>
                 <MinWeight>0.1</MinWeight>
                 <Width>8</Width>
@@ -27,7 +27,7 @@
         <PixelMapper>
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
-                <Id>gaussmap1</Id>
+                <Id>gaussmapmove</Id>
                 <CutoffDist>20</CutoffDist>
                 <MinWeight>0.1</MinWeight>
                 <Width>8</Width>
@@ -36,14 +36,6 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <InputConfiguration>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygame</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
-            </Args>
-        </InputElement>
         <InputElement>
             <Class>inputs.RandomLocs</Class>
             <Args>
@@ -61,9 +53,9 @@
 	    <Id>pedsim</Id>
             <MaxX>3000</MaxX>
             <Velocity>200</Velocity>
-            <NumSensors>15</NumSensors>
-            <SensorSpacing>144</SensorSpacing>
-            <NumPeds>1</NumPeds>	   
+            <NumSensors>100</NumSensors>
+            <SensorSpacing>192</SensorSpacing>
+            <NumPeds>500</NumPeds>
 	  </Args>
 	</InputElement>
         <InputElement>
@@ -71,7 +63,7 @@
             <Args>
                 <Id>netloc</Id>
                 <SensorNetworkId>pedsim</SensorNetworkId>
-                <SensorSpacing>144</SensorSpacing>
+                <SensorSpacing>192</SensorSpacing>
 		<Y>15</Y>
 		<RefreshInterval>100</RefreshInterval>
             </Args>
@@ -80,8 +72,8 @@
             <Class>inputs.FixedSensorLocations</Class>
             <Args>
                 <Id>sensorloc</Id>
-                <SensorNumber>15</SensorNumber>		
-                <SensorSpacing>144</SensorSpacing>
+                <SensorNumber>100</SensorNumber>		
+                <SensorSpacing>192</SensorSpacing>
 		<Y>15</Y>
 		<RefreshInterval>500</RefreshInterval>
             </Args>
@@ -92,14 +84,9 @@
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="decay">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <InheritsFrom>behaviors/PixelPulse.xml</InheritsFrom>
 	    <Args>
-	      <Coefficient>0.001</Coefficient>
-	    </Args>
-        </Behavior>
-        <Behavior Id="slowdecay">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-	    <Args>
+	      <Duration>400</Duration>
 	      <Coefficient>0.001</Coefficient>
 	    </Args>
         </Behavior>
@@ -107,7 +94,7 @@
 	  <Class>behaviors.MonitoredMover</Class>
 	  <Args>
 	    <Id>mmover</Id>
-	    <IntervalCount>3</IntervalCount>
+	    <IntervalCount>4</IntervalCount>
 	  </Args>
 	</Behavior>
 
@@ -131,7 +118,7 @@
 	  <Class>behaviors.ModifyMapper</Class>
 	  <Args>
 	    <Id>momapper</Id>
-	    <MapperId>gaussmap1</MapperId>
+	    <MapperId>gaussmapmove</MapperId>
 	    <WidthChange>16</WidthChange>
 	    <CutoffDistChange>30</CutoffDistChange>
 	  </Args>
@@ -189,8 +176,8 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap1</Mapper>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmapmove</Mapper>
             </Args>
         </Behavior>
 
@@ -244,7 +231,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce1'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <Mapper>gaussmapfixed</Mapper>
             </Args>
         </Behavior>
 
