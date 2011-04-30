@@ -6,9 +6,6 @@
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
-    <!--<PixelConfiguration>
-        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
-    </PixelConfiguration>-->
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -38,11 +35,6 @@
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <!--<RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
-    </RendererConfiguration>-->
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PygameInput</Class>
@@ -102,7 +94,7 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
 	    <Args>
-	      <Coefficient>0.004</Coefficient>
+	      <Coefficient>0.001</Coefficient>
 	    </Args>
         </Behavior>
         <Behavior Id="slowdecay">
@@ -111,6 +103,13 @@
 	      <Coefficient>0.001</Coefficient>
 	    </Args>
         </Behavior>
+	<Behavior>
+	  <Class>behaviors.MonitoredMover</Class>
+	  <Args>
+	    <Id>mmover</Id>
+	    <IntervalCount>3</IntervalCount>
+	  </Args>
+	</Behavior>
 
 	<!--BOOM BEHAVIOR-->
         <Behavior>
@@ -186,9 +185,10 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
-                    <Id>mover</Id>
+                    <Id>mmover</Id>
+                    <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
+                <RecursiveHooks>{'mmover':'flashermovebounce'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap1</Mapper>
             </Args>
@@ -239,10 +239,10 @@
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setdimcolor</Id>
-                    <Id>mover1</Id>
+                    <Id>mmover</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover1':'flashermovebounce1'}</RecursiveHooks>
+                <RecursiveHooks>{'mmover':'flashermovebounce1'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
