@@ -70,8 +70,9 @@ class SensorNetworkToLocation(Input):
         if self['Mode'] == 'SensorNetwork':
             tempResponses = []
             for r in self.responses:
+                print r
                 startIndex = 0 #TODO: lookup from table
-                tempResponses += self.parseBinarySensorPacket(r['data'], startIndex) 
+                tempResponses += self.parseSensorBinaryPacket(r['data'], startIndex) 
 
             self.responses = tempResponses
 

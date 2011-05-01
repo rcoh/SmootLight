@@ -37,6 +37,14 @@
     </PixelMapperConfiguration>
     <InputConfiguration>
         <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+        <InputElement>
             <Class>inputs.RandomLocs</Class>
             <Args>
                 <Id>randomLoc</Id>
@@ -53,48 +61,57 @@
 	    <Id>pedsim</Id>
             <MaxX>3000</MaxX>
             <Velocity>200</Velocity>
-            <NumSensors>100</NumSensors>
-            <SensorSpacing>192</SensorSpacing>
-            <NumPeds>500</NumPeds>
+            <NumSensors>400</NumSensors>
+            <SensorSpacing>48</SensorSpacing>
+            <NumPeds>1</NumPeds>
 	  </Args>
 	</InputElement>
         <InputElement>
             <Class>inputs.SensorNetworkToLocation</Class>
             <Args>
                 <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
+                <SensorNetworkId>udp</SensorNetworkId>
+                <SensorSpacing>48</SensorSpacing>
+		<Mode>SensorNetwork</Mode>
+		<Y>15</Y>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+	<!--<InputElement>
+            <Class>inputs.FixedSensorLocations</Class>
+            <Args>
+                <Id>sensorloc</Id>
+                <SensorNumber>20</SensorNumber>		
                 <SensorSpacing>192</SensorSpacing>
 		<Y>15</Y>
 		<RefreshInterval>100</RefreshInterval>
             </Args>
-        </InputElement>
-	<InputElement>
-            <Class>inputs.FixedSensorLocations</Class>
-            <Args>
-                <Id>sensorloc</Id>
-                <SensorNumber>100</SensorNumber>		
-                <SensorSpacing>192</SensorSpacing>
-		<Y>15</Y>
-		<RefreshInterval>500</RefreshInterval>
-            </Args>
-        </InputElement>	
+        </InputElement>	-->
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="decay">
-            <InheritsFrom>behaviors/PixelPulse.xml</InheritsFrom>
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
 	    <Args>
-	      <Duration>600</Duration>
-	      <Coefficient>0.001</Coefficient>
+	      <Duration>1500</Duration>
+	      <Coefficient>0.01</Coefficient>
 	    </Args>
         </Behavior>
 	<Behavior>
 	  <Class>behaviors.MonitoredMover</Class>
 	  <Args>
 	    <Id>mmover</Id>
-	    <IntervalCount>3</IntervalCount>
+	    <IntervalCount>0</IntervalCount>
+	  </Args>
+	</Behavior>
+	<Behavior>
+	  <Class>behaviors.HorizontalClone</Class>
+	  <Args>
+	    <Id>hclone</Id>
+	    <StepSize>48</StepSize>
+	    <Times>6</Times>
 	  </Args>
 	</Behavior>
 
@@ -130,7 +147,7 @@
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>randmovement</Id>
-                <StepSize>5</StepSize>
+                <StepSize>15</StepSize>
             </Args>
         </Behavior>
 	<Behavior>
@@ -158,12 +175,6 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.ResponseMover</Class>
-            <Args>
-                <Id>mover</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>fireflies</Id>
@@ -176,7 +187,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
                 <Mapper>gaussmapmove</Mapper>
             </Args>
         </Behavior>
@@ -197,13 +208,7 @@
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>randmovement1</Id>
-                <StepSize>5</StepSize>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.ResponseMover</Class>
-            <Args>
-                <Id>mover1</Id>
+                <StepSize>15</StepSize>
             </Args>
         </Behavior>
         <Behavior>
@@ -222,9 +227,10 @@
             <Args>
                 <Id>staticfireflies</Id>
                 <Inputs>
-                    <Id>sensorloc</Id>
+                    <Id>netloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
+		    <Id>hclone</Id>
                     <Id>setdimcolor</Id>
                     <Id>mmover</Id>
                     <Id>decay</Id>
