@@ -1,5 +1,7 @@
 from operationscore.Behavior import *
 class GenerateModulate(Behavior):
+    def behaviorInit(self):
+        self.stepIndex = 0
     def processResponse(self, sensors, recurs):
         """If a member of sensors is less than <ThresholdDist> away from 
         a member of recurs, the XStep of recurs is modulated accordingly an
@@ -9,9 +11,11 @@ class GenerateModulate(Behavior):
         The LifeTime of all members of the recurrences are decremented.
 
         The object is moved by XStep"""
+        self.stepIndex += 1
         output = []
         #first, just make a new recurs
         outRecurs = []
+        numObjs = len(recurs)
         for r in recurs:#TODO: could replace with a Map
             newR = dict(r) 
             if(abs(newR['LastObs'] - newR['Location'][0]) < self['MaxDist']):
@@ -19,19 +23,28 @@ class GenerateModulate(Behavior):
 
 
         for newInput in sensors:
-            print 'new input'
+            #print 'new input'
             if newInput['Velocity'] != 0:
                 mergeCandidate = self.mergeable(newInput, outRecurs)
                 if(mergeCandidate != None):
                     self.modulateResponse(mergeCandidate, newInput)
-                    print 'merged'
+                    #print 'merged'
                 else:
-                    print 'initialized'
+                    #nprint 'initialized'
                     newResponse = dict(newInput)
                     newResponse['LastObs'] = newResponse['Location'][0]
                     newResponse['XVel'] = newInput['Velocity']
+                    newResponse['TDMAId'] = numObjs
+                    numObjs += 1
                     outRecurs.append(newResponse)
-        return (recurs, outRecurs)
+        strippedOutput = []
+        for r in recurs:
+            if r['TDMAId'] % 5 == self.stepIndex % 5:
+                strippedOutput.append(r)
+        if len(strippedOutput) > 0:
+            print 'stripedOut', len(strippedOutput)
+            print 'total:', len(recurs) 
+        return (strippedOutput, outRecurs)
     def mergeable(self, newInput, activeResponses):
         if not activeResponses:
             return None
@@ -49,12 +62,12 @@ class GenerateModulate(Behavior):
 
     def modulateResponse(self, mergeCandidate, newInput):
         diff = newInput['Location'][0] - mergeCandidate['Location'][0]
-        print 'loc', mergeCandidate['Location'][0]
-        print 'deltaloc:',diff
-        print 'vel1:', mergeCandidate['XVel']
+        #print 'loc', mergeCandidate['Location'][0]
+        #print 'deltaloc:',diff
+        #print 'vel1:', mergeCandidate['XVel']
         #positive if the newInput is ahead of the propsed merge candidate
         mergeCandidate['XVel'] = (diff+newInput['Velocity']*self['IntersectionTime']) /\
             self['IntersectionTime'] 
-        print 'vel2:', mergeCandidate['XVel']
+        #print 'vel2:', mergeCandidate['XVel']
 #        mergeCandidate['XVel'] = newInput['Velocity']
         mergeCandidate['LastObs'] = mergeCandidate['Location'][0] 

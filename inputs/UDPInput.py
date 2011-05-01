@@ -22,7 +22,7 @@ class UDPInput(Input):
                 dataDict = json.loads(data)
                 dataDict['Address'] = address
             self.respond(dataDict)
-            print 'responding'
+            #print 'data'
             (data, address) = self.sock.recvfrom(1024)
     def run(self):
         self.socketLoop()
