@@ -29,10 +29,10 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
+                <CutoffDist>10</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>20</Width>
-                <Height>10</Height>
+                <Width>5</Width>
+                <Height>5</Height>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
