@@ -6,7 +6,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/test10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -38,9 +38,6 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/60StripSeq.xml</InheritsFrom>
-        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>

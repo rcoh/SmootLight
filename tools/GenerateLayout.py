@@ -79,7 +79,7 @@ def genSectionLayoutStr(section, idCounter, locCounter, reverseStrips, rowToDiff
         
         # Arg:Id
         sectionLayoutStr += tab(1)+'<PixelStrip ' + \
-                            'Id="'+str(i) + '"'
+                            'Id="s'+str(i) + '"'
 
         # Arg:diffuser
         sectionLayoutStr += ' diffuser="' + str(rowToDiffuser[rowCounter]) + '"'
@@ -139,10 +139,10 @@ sections.append( makeSection('Section3', 50, 10, 4, 12, 10) )
 sections.append( makeSection('Section4', 50, 12, 4, 12, 7) )
 # smaller test
 testSections = []
-testSections.append( makeSection('Section1', 20, 4, 4, 12, 1) )
-testSections.append( makeSection('Section2', 20, 9, 4, 12, 1) )
-testSections.append( makeSection('Section3', 20, 10, 4, 12, 1) )
-testSections.append( makeSection('Section4', 20, 12, 4, 12, 1) )
+testSections.append( makeSection('TestSection1', 20, 4, 4, 12, 1) )
+testSections.append( makeSection('TestSection2', 20, 9, 4, 12, 1) )
+testSections.append( makeSection('TestSection3', 20, 10, 4, 12, 1) )
+testSections.append( makeSection('TestSection4', 20, 12, 4, 12, 1) )
 
 #print sections
 
@@ -165,7 +165,7 @@ reverseStrips += range(9, 17) +\
                  range(189, 193)
 #print reverseStrips
 
-rowToDiffuser = {1: '(0, -12)', 2: '(0, 12)', 3: '(0, -12)', 4: '(0, 12)'}
+rowToDiffuser = {1: '(0, -11)', 2: '(0, 11)', 3: '(0, -11)', 4: '(0, 11)'}
 
 
 # ---------------
@@ -180,7 +180,7 @@ for section in sections:
 writeToFile( generateLayoutXml(sections, reverseStrips, rowToDiffuser), dir + '10kLayout.xml' )
 
 # Smaller test
-for section in sections:
-    writeToFile( generateStripXml(section), dir + 'test' + section['Id']+'Strip.xml' )
+for section in testSections:
+    writeToFile( generateStripXml(section), dir + section['Id']+'Strip.xml' )
 
-writeToFile( generateLayoutXml(sections, reverseStrips, rowToDiffuser), dir + 'test10kLayout.xml' )
+writeToFile( generateLayoutXml(testSections, reverseStrips, rowToDiffuser), dir + 'test10kLayout.xml' )
