@@ -4,7 +4,7 @@
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <Renderer>
+        <Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
         <Renderer>
@@ -92,6 +92,24 @@
             </Args>
         </InputElement>
         <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>center</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>.5</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>movingcenter</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>(t/100.0)%1</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
@@ -175,7 +193,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorchange'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <AcceptInputs>True</AcceptInputs>
+                <AcceptInputs>False</AcceptInputs>
                 <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
@@ -267,6 +285,15 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Args>
+                <Id>debugprint</Id>
+                <Output>print</Output>
+                <PassThrough>True</PassThrough>
+                <Quiet>True</Quiet>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.FadeOut</Class>
             <Args>
                 <Id>fadeout</Id>
@@ -281,10 +308,110 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.PassThrough</Class>
+            <Args>
+                <Id>pass</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Gradient</Class>
+            <Args>
+                <Id>startlamp</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <Gradient>
+                    <Color>(255, 255, 255)</Color>
+                    <Peak>.5</Peak>
+                    <Width>.1</Width>
+                    <Min>.2</Min>
+                    <Max>.8</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(204, 102, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.4</Width>
+                    <Min>0</Min>
+                    <Max>.6</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>startlight</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>startlamp</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Gradient</Class>
+            <Args>
+                <Id>colorfall</Id>
+                <Inputs>
+                    <Id>movingcenter</Id>
+                </Inputs>
+                <Gradient>
+                    <Color>(255, 0, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 255, 0)</Color>
+                    <Peak>.333</Peak>
+                    <Width>.333</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 0, 255)</Color>
+                    <Peak>.666</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>waterfall</Id>
+                <Inputs>
+                    <Id>movingcenter</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorfall</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorSequence</Class>
             <Args>
                 <Id>sequence</Id>
                 <Sequence>
+                    <Behavior>
+                        <Id>startlight</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>None</OnChange>
+                        <FadeOutId>pass</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
                     <Behavior>
                         <Id>colorall</Id>
                         <Timeout>5</Timeout>
@@ -304,7 +431,7 @@
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>shiftall</Id>
+                        <Id>waterfall</Id>
                         <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
@@ -313,13 +440,13 @@
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>pedprint</Id>
+                        <Id>pass</Id>
                         <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
     </BehaviorConfiguration>
