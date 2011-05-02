@@ -6,8 +6,8 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-            <!--InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom-->
-            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> 
+            <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+            <!--InheritsFrom>layouts/60StripLayout.xml</InheritsFrom--> 
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -37,7 +37,15 @@
 </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
-        <InputElement>
+ 		<InputElement>
+		    <Class>inputs.TapInput</Class>
+		    <Args>
+			<Id>tap</Id>
+			<Port>22332</Port>
+			<RefreshInterval>50</RefreshInterval>
+		    </Args>
+		</InputElement>
+       <InputElement>
             <Class>inputs.LeftEdgeInput</Class>
             <Args>
                 <Id>leftedge</Id>
@@ -87,7 +95,15 @@
     </InputConfiguration>
 
     <BehaviorConfiguration>
-        <Behavior Id='accelerate'>
+        <Behavior Id="mutation">
+		<Class>behaviors.SystemConfigMutator</Class>
+		<Args><Inputs>
+			<Id>tap</Id>
+		</Inputs>
+		<RenderToScreen>True</RenderToScreen>
+		</Args>
+        </Behavior>
+       <Behavior Id='accelerate'>
             <Class>behaviors.CappedAccelerate</Class>
             <Args>
                 <MaxVelocity>50</MaxVelocity>

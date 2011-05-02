@@ -38,33 +38,18 @@ class SystemConfigMutator(Behavior):
     def doRead(self,packet):
         cb = packet['Callback']
         detail = packet['OperationDetail']
-<<<<<<< HEAD
-        
-=======
          
->>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
         if packet.has_key('OperationArg') and packet['OperationArg'] != None:
             arg = packet['OperationArg']
             if compReg.Registry.has_key(arg):
                 reply = str(compReg.getComponent(arg).argDict)
             else:
                 reply = "null"
-<<<<<<< HEAD
-        else:
-            if detail == 'Renderables':
-                reply = [[x[0],x[1].argDict['RenderToScreen']]for x in compReg.Registry.items() if \
-                    issubclass(type(x[1]),Behavior) and x[1].argDict.has_key('RenderToScreen') and x[0]!='mutation']
-            elif detail == 'Objects':
-                reply = [[x] for x in compReg.Registry.keys()]
-            elif detail == 'Behaviors':
-                reply = [[x[0]] for x in compReg.Registry.items() if issubclass(type(x[1]),Behavior)]
-=======
         else:     
             if detail == 'Objects':
                 reply = compReg.Registry.keys()
             elif detail == 'Behaviors':
                 reply = [x[0] for x in compReg.Registry.items() if issubclass(type(x[1]),Behavior)]
->>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
         cb(json.dumps(reply))
          
     def processResponse(self, data, recurs):
@@ -77,31 +62,13 @@ class SystemConfigMutator(Behavior):
                 if packet['OperationType'] == 'Create':
                     raise Exception('Create is not supported')
                     compFactory.create(packet['Class'], packet['Args'])
-<<<<<<< HEAD
-                elif packet['OperationType'] == 'Read':                    
-=======
                 elif packet['OperationType'] == 'Read':
->>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
                     self.doRead(packet)
                 elif packet['OperationType'] == 'Update':
                     cid = packet['ComponentId']
                     paramName = packet['ParamName']
                     newParamValue = packet['Value'] 
-                    if paramName == 'RenderToScreen':
-                        if newParamValue == True or type(newParamValue) is str and newParamValue[0].lower=='t':
-                            newParamValue = True
-                        elif newParamValue == False or type(newParamValue) is str and newParamValue[0].lower=='f':
-                            newParamValue = False
-                        else:
-                            newParamValue = None
-                        currentObject=compReg.getComponent(cid)
-                        if newParamValue is not None:
-                            currentObject['RenderToScreen'] = newParamValue
-                    else:
-                        raise Exception('Updating non-render parameters is not supported') # don't allow anything else for security purposes
                     #TODO: consider adding lambda evaluation capabilities
-<<<<<<< HEAD
-=======
                     currentObject=compReg.getComponent(cid)
                
                     #if newParamValue.find('[') != -1:
@@ -117,7 +84,6 @@ class SystemConfigMutator(Behavior):
                         print "modified a chain, what do we do now to refresh?"
                         
 
->>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
                 elif packet['OperationType'] == 'Destroy':
                     raise Exception('Destroy not supported')
                     compReg.removeComponent(packet['ComponentId'])
@@ -125,4 +91,5 @@ class SystemConfigMutator(Behavior):
                 print str(e)
                 import pdb; pdb.set_trace()
         return ([],[])
+
 
