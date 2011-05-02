@@ -8,6 +8,8 @@ need to be below that component in the XML
 <Mode> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
 <InputType> -- Simulator OR SensorNetwork  -- Set to [Simulator] for taking data from
 PedestrianSimulator.  Set to SensorNetwork to take data from UDP input.
+<IPIndexTable> -- Python Dictionary of String->Int representing the first ip address from an arduino
+at that address.
 SensorNetworkToLocation takes packets with field <SensorId>int</SensorId>.  It adds a <Location> tag
 to the response which it infers from the SensorId field.
 
@@ -33,32 +35,69 @@ class SensorNetworkToLocation(Input):
         except Exception as ex:
             compReg.getLock().release()
             return False
-    def parseSensorPacket(self, s):
-        sensorId, packetData = s.split(':')
-        packet = packetData.split('|')
+    def grabBits(self, p):
+        return bin(ord(p))[2:].zfill(8) 
+    def parseBinarySensorPacket(self,p, firstBitIndex):
+        #print 'starting to parse'
+        if len(p) != 5:
+            print 'bad length'
+        packet = []
+        for i,hexByte in enumerate(p):
+            bits = self.grabBits(hexByte)
+            packet += bits
         output = []
-        for i,val in enumerate(packet):
-            if val == '1':
-                #print 'responding:',i
-                output.append({'SensorId':int(sensorId)*len(packet)+i, 'Responding':timeOps.time()})
-                
+        #print packet
+        packet = map(int, packet)
+        #print packet
+        #print sum(packet)
+        for j,b in enumerate(packet):
+            if b == 1:
+                #sensorId = firstBitIndex + i*8 + j
+                output.append({'SensorId':j, 'Responding':timeOps.time()})
+                print 'responding', j 
+            #send output as necessary
+        #print 'done parsing'
         return output
+    def parseSensorPacket(self, p):
+        #sensorid:XXXX#sensorid:XXXX#sensorid:XXXX
+        #Packet:
+        #10 Bytes
+        import pdb; pdb.set_trace()
+        packets = p.split('#')
+        output = []
+        for s in packets:
+            if s != '':
+                sensorId, packetData = s.split(':')
+                for i,val in enumerate(packetData):
+                    if val == '1':
+                        #print 'responding:',i
+                        output.append({'SensorId':int(sensorId)*len(packetData)+i, 'Responding':timeOps.time()})
+                        #print 'output'
+        return output
+    def getIndex(self, address):
+        ip, port = address
+        if self['IPIndexTable']:
+            return self['IPIndexTable'][ip]
+        else:
+            return 0
     def sensingLoop(self):
         #TODO: Lock on self.responses
         if not self.boundToInput:
             self.boundToInput = self.makeListener()
         if self['Mode'] == 'SensorNetwork':
+            print 'what?'
             tempResponses = []
             for r in self.responses:
-                tempResponses += self.parseSensorPacket(s) 
+                startIndex = self.getIndex(r['address']) 
+                tempResponses += self.parseBinarySensorPacket(r['data'], startIndex) 
 
             self.responses = tempResponses
 
         for r in self.responses:
             if self['Y']:
-                r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], self['Y'])
+                r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing']+190, self['Y'])
             else:
-                r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
+                r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing']+190, 20)
         if self.responses:
             self.respond(self.responses)
         self.responses = []

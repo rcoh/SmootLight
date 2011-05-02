@@ -22,6 +22,7 @@ class DirectionalPedestrians(Input):
             return False
 
     def sensingLoop(self):
+        self.pruneCache(self.cached)
         if not self.boundToInput:
             self.boundToInput = self.makeListener()
         newCache = []
@@ -34,20 +35,33 @@ class DirectionalPedestrians(Input):
         self.cached += newCache
         self.respond(self.responses)
         self.responses = []
-         
+        print 'cachesize',len(self.cached)
+    
+    def pruneCache(self, cache):
+        currentTime = timeOps.time()
+        rem = []
+        for l,t in cache:
+            if currentTime-t > 5000:
+                rem.append((l,t))
+        for r in rem:
+            cache.remove(r)
     def findClosest(self, cache, location):
         #TODO: numpyify
+        #print len(cache)
         bestMatch = None
         bestDist = sys.maxint
-        bestTime = None
         if cache == []:
-            return location,1 
-        for x,t in cache:
+            return location,timeOps.time() 
+        tcache = list(cache)
+        tcache.reverse()
+        for x,t in tcache:
             if bestMatch == None or abs(x-location)<bestDist:
                 bestDist = abs(x-location)
                 bestMatch = x
                 bestTime = t 
         cache.remove((bestMatch,bestTime))
+        if cache:
+            print 'nonempty cache'
         return bestMatch,t
 
     def processResponse(self, sensorDict, eventDict):

@@ -7,4 +7,4 @@ class LineLayout(PixelAssembler):
     "originLocation" is a tuple (x, y)."""
     def layoutFunc(self):
          return (numpy.arange(self["numPixels"])[:,None]
-                 * self["step"] + self["originLocation"])
+                 * self["step"] + self["originLocation"])[::(1 if self["Reverse"] else -1)] 

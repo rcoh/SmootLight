@@ -8,5 +8,5 @@ class PedMapper(PixelMapper):
         # inp is a dictionary of {sensor location: intensity}
         result = numpy.zeros(len(screen))
         for loc in inp:
-            result += inp[loc] / sum(square(loc-screen.locs),-1)
-        return numpy.minimum(1, sqrt(result) * self.Intensity)
+            result += float(inp[loc]) / numpy.sum(numpy.square(loc-screen.locs),-1)
+        return numpy.minimum(1, numpy.sqrt(result) * self.Intensity)

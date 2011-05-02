@@ -28,7 +28,6 @@ def query(predicateList):
     for behavior in behaviorList: #Consider every behavior
         lastOutput = behavior.getLastOutput()
         for output in lastOutput: #Look at every element it has output
-            #import pdb; pdb.set_trace()
             validOutput = True
             for i in xrange(len(predicateList)):
             #for pred in predicateList: #Evaluate every predicate.  A predicate is a lambda function that
@@ -47,6 +46,13 @@ def getDistLambda(loc, maxDist):
     """Returns a lambda function that checks if for behaviors within maxDist of loc.  Can be passed
     in as an arg to query."""
     return lambda args:Geo.dist(args['Location'], loc) <= maxDist
+
+def getLeftLambda(x):
+    return lambda args:args['Location'][0] < x
+
+def getRightLambda(x):
+    return lambda args:args['Location'][0] > x
+
 
 def getBehaviorsNear(loc, maxdist):
     """A premade method to do the common task of finding behavior near a location."""

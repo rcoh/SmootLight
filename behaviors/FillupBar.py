@@ -5,18 +5,9 @@ class FillupBar(Behavior):
         ret = []
         inputs = list(inputs)
         for inputset in inputs:
-            inputset = dict(inputset) 
-            if 'xLoc' not in inputset:
-                inputset['xLoc'] = inputset['Location'][0]
-            xLoc = inputset['xLoc']
-
-            condition = '{x} < ' + str(xLoc+3)
-            
-            if self['Combine']:
-                inputset['Location'] += ',' + condition
-            else:
-                inputset['Location'] = condition 
-
+            inputset = dict(inputset)
+            #Expecting SquareBlobMapper: ((x,y), distance)
+            inputset['Location'] = ((inputset['Location'][0], 0), 10)
             ret.append(inputset)
         return (ret, [])
 

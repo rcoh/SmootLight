@@ -27,4 +27,7 @@ class IndoorRenderer(Renderer):
             if not ip in self.sockets: #do we have a socket to this
                 self.sockets[ip] = network.getConnectedSocket(ip,sock_port)
             packet = composer.composePixelStripPacket(pixelStrip.values, port)
-            self.sockets[ip].send(packet, 0x00)
+            try:
+                self.sockets[ip].send(packet, 0x00)
+            except:
+                pass
