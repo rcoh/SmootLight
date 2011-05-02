@@ -7,8 +7,7 @@ class FillupBar(Behavior):
         for inputset in inputs:
             inputset = dict(inputset)
             #Expecting SquareBlobMapper: ((x,y), distance)
-            #50 was chosen so that the initial square is tall enough to fill up the bar vertically.
-            inputset['Location'] = ((inputset['Location'][0], 50), 10)
+            inputset['Location'] = ((inputset['Location'][0], 0), 10)
             ret.append(inputset)
         return (ret, [])
 

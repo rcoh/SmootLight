@@ -14,7 +14,7 @@
             <Class>pixelmappers.PedMapper</Class>
             <Args>
                 <Id>pedmap</Id>
-                <Intensity>2</Intensity>
+                <Intensity>10</Intensity>
             </Args>
         </PixelMapper>
         <PixelMapper>
@@ -79,13 +79,16 @@
                 <Id>setbrightcolor</Id>
             </Args>
         </Behavior>
+        <Behavior Id="singleframe">
+            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+        </Behavior>
         <Behavior>
             <Class>behaviors.PedTrack</Class>
             <Args>
                 <Id>pedtrack</Id>
             </Args>
         </Behavior>
-        <Behavior Id="decay" Coefficient=".0025">
+        <Behavior Id="decay" Coefficient=".5">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
        <Behavior>
@@ -98,6 +101,7 @@
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
                     <Id>mover</Id>
+                    <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'pedtrack'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
