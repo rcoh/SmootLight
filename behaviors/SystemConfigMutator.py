@@ -38,21 +38,17 @@ class SystemConfigMutator(Behavior):
     def doRead(self,packet):
         cb = packet['Callback']
         detail = packet['OperationDetail']
-        
         if packet.has_key('OperationArg') and packet['OperationArg'] != None:
             arg = packet['OperationArg']
             if compReg.Registry.has_key(arg):
                 reply = str(compReg.getComponent(arg).argDict)
             else:
                 reply = "null"
-        else:
-            if detail == 'Renderables':
-                reply = [[x[0],x[1].argDict['RenderToScreen']]for x in compReg.Registry.items() if \
-                    issubclass(type(x[1]),Behavior) and x[1].argDict.has_key('RenderToScreen') and x[0]!='mutation']
-            elif detail == 'Objects':
-                reply = [[x] for x in compReg.Registry.keys()]
+        else:     
+            if detail == 'Objects':
+                reply = compReg.Registry.keys()
             elif detail == 'Behaviors':
-                reply = [[x[0]] for x in compReg.Registry.items() if issubclass(type(x[1]),Behavior)]
+                reply = [x[0] for x in compReg.Registry.items() if issubclass(type(x[1]),Behavior)]
         cb(json.dumps(reply))
          
     def processResponse(self, data, recurs):
@@ -65,7 +61,7 @@ class SystemConfigMutator(Behavior):
                 if packet['OperationType'] == 'Create':
                     raise Exception('Create is not supported')
                     compFactory.create(packet['Class'], packet['Args'])
-                elif packet['OperationType'] == 'Read':                    
+                elif packet['OperationType'] == 'Read':
                     self.doRead(packet)
                 elif packet['OperationType'] == 'Update':
                     cid = packet['ComponentId']
@@ -84,6 +80,20 @@ class SystemConfigMutator(Behavior):
                     else:
                         raise Exception('Updating non-render parameters is not supported') # don't allow anything else for security purposes
                     #TODO: consider adding lambda evaluation capabilities
+                    currentObject=compReg.getComponent(cid)
+               
+                    #if newParamValue.find('[') != -1:
+                    #    newParamValue = list(newParamValue.strip('[]').split(','))
+                    if type(currentObject[paramName]) is str:
+                        currentObject[paramName] = newParamValue.strip(""""'""")
+                    else:
+                        currentObject[paramName] = eval(newParamValue)
+                    
+                    if type(currentObject) is LocationBasedEvent.LocationBasedEvent:
+                        currentObject.recalc()
+                    if type(currentObject) is BehaviorChain.BehaviorChain:
+                        print "modified a chain, what do we do now to refresh?"
+                        
                 elif packet['OperationType'] == 'Destroy':
                     raise Exception('Destroy not supported')
                     compReg.removeComponent(packet['ComponentId'])
