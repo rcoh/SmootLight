@@ -95,7 +95,7 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelPulse.xml</InheritsFrom>
 	    <Args>
-	      <Duration>800</Duration>
+	      <Duration>600</Duration>
 	      <Coefficient>0.001</Coefficient>
 	    </Args>
         </Behavior>
@@ -110,14 +110,6 @@
 	  <Class>behaviors.TDMAMover</Class>
 	  <Args>
 	    <Id>tdmamover</Id>
-	  </Args>
-	</Behavior>
-	<Behavior>
-	  <Class>behaviors.HorizontalClone</Class>
-	  <Args>
-	    <Id>hclone</Id>
-	    <StepSize>48</StepSize>
-	    <Times>6</Times>
 	  </Args>
 	</Behavior>
 
@@ -164,9 +156,10 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.RandomSetBrightColorBehavior</Class>
+            <Class>behaviors.RandomSetColorBehavior</Class>
             <Args>
                 <Id>setbrightcolor</Id>
+		<Dimness>1.0</Dimness>
             </Args>
         </Behavior>
         <Behavior>
@@ -189,6 +182,14 @@
 
 
 	<!-- FIXED FIREFLY BEHAVIOR-->	
+	<Behavior>
+	  <Class>behaviors.HorizontalClone</Class>
+	  <Args>
+	    <Id>hclone</Id>
+	    <StepSize>48</StepSize>
+	    <Times>4</Times>
+	  </Args>
+	</Behavior>
         <Behavior Id="recursivedecay1" InitialResponseCount="10">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
