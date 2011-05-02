@@ -136,8 +136,12 @@ class LightInstallation(object):
     def mainLoop(self):
         lastLoopTime = clock.time()
         refreshInterval = 30 
+        runCount = 500
         while not self.dieNow: #dieNow is set if one of its constituents sends a die request.
             loopStart = clock.time()
+            runCount -= 1
+            if runCount < 0:
+                self.dieNow = True
             responses = self.evaluateBehaviors() 
             self.timer.start()
             [self.screen.respond(response) for response in responses if

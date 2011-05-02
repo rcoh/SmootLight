@@ -40,7 +40,7 @@ class GenerateModulate(Behavior):
                         outRecurs.append(newResponse)
         strippedOutput = []
         for i,r in enumerate(recurs):
-            if  i % 20 == self.stepIndex % 20:
+            if  i % 5 == self.stepIndex % 5:
                 strippedOutput.append(r)
         if len(strippedOutput) > 0:
             #print 'stripedOut', len(strippedOutput)
@@ -50,7 +50,8 @@ class GenerateModulate(Behavior):
             pass
             #import pdb; pdb.set_trace()
         if len(strippedOutput) > 10:
-            strippedOutput = strippedOutput[0:10]
+            #strippedOutput = strippedOutput[0:10]
+            pass
         return (strippedOutput, outRecurs)
     def mergeable(self, newInput, activeResponses):
         if not activeResponses:
