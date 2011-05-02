@@ -5,7 +5,7 @@ class LayoutTest(Behavior):
     def behaviorInit(self):
         self.maxX = ComponentRegistry.getComponent('Screen').size[2]
     def processResponse(self, sensors, recurs):
-        if len(recurs) < 20:
+        if len(recurs) < 1:
             recurs.append({'Location':0})
         output = []
         for r in recurs:
