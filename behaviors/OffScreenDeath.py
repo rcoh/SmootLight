@@ -16,4 +16,5 @@ class OffScreenDeath(Behavior):
             x = opsensory['Location'][0]
             if x > 0 and x < self.maxX:
                 ret.append(opsensory)
+                print 'xloc:', x
         return (ret, []) #no direct ouput
