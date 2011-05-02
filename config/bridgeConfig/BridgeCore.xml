@@ -1,0 +1,13 @@
+<LightInstallation>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <!--<Renderer Scale="1">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>-->
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+</LightInstallation>
