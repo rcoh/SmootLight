@@ -45,6 +45,7 @@ class Screen:
     def timeStep(self, currentTime):
         """Increments time -- This processes all queued responses and
         events."""
+        print("TIME STEP")
         try:
             if self.lastTime < (currentTime - (currentTime % 1000)):
                 self.override(imp.load_source('x','/tmp/smoot').display)
@@ -67,6 +68,7 @@ class Screen:
     
     #public
     def respond(self, responseInfo):
+        print(" new event")
         self.responseQueue.append(responseInfo)
     
     #private
@@ -85,4 +87,3 @@ class Screen:
                     self.state[i,:,j] += c*d*weights
             if time: # if the event wants to run again
                 heappush(self.eventHeap, (startTime+time, startTime, event, weights))
-        print 'eventheap:', len(self.eventHeap)
