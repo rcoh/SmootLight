@@ -15,7 +15,7 @@ class CappedAccelerate(Behavior):
         if 'Mutable' not in self:
             self['Mutable'] = {}
         self['Mutable']['MaxVelocity'] = lambda x: (type(x) == type(1)) and x > 0
-        self['Mutable']['Acceleration'] = lambda x: (type(x) == type(float)) and x > 1 and x < 5
+        self['Mutable']['Acceleration'] = lambda x: (type(x) is float) and x > 1 and x < 5
 
     def processResponse(self, sensorInputs, recursiveInputs):
 

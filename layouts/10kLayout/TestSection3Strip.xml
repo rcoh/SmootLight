@@ -1,8 +1,9 @@
 <PixelStrip>
   <Class>layouts.LineLayout</Class>
   <Args OverrideBehavior="Merge">
+    <DefaultColor>(100,50,0)</DefaultColor>
     <pixelToPixelSpacing>10</pixelToPixelSpacing>
     <step>(10, 0)</step>
-    <numPixels>50</numPixels>
+    <numPixels>20</numPixels>
   </Args>
 </PixelStrip>

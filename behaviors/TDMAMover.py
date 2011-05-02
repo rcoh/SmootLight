@@ -9,14 +9,14 @@ class TDMAMover(Behavior):
 
     def processResponse(self, sensorInputs, recursiveInputs):
         numObjs = len(recursiveInputs)
-        recurs = recursiveInputs+self.addUID(sensorInputs), numObjs
+        recurs = recursiveInputs+self.addUIDAndTDMA(sensorInputs, numObjs)
         index = random.randint(0, numObjs)
         output = []
         for r in recursiveInputs:
-            if r['TDMAId']-r % 100 == 0:
+            if r['TDMAId'] % 100 == 0:
                 output.append(r)
         return (output, recurs)
-    def addUIDAndTMDA(self, inputs, numObjs):
+    def addUIDAndTDMA(self, inputs, numObjs):
         for i in inputs:
             i['UniqueResponseIdentifier'] = compReg.getNewId()
             i['TDMAId'] = numObjs
