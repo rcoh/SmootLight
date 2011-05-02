@@ -9,7 +9,7 @@ class CappedAccelerate(Behavior):
         if self['MaxVelocity'] != None:
             maxVelocity = self['MaxVelocity']
         else:
-            maxVelocity = 20 
+            maxVelocity = 10
         if self['Acceleration'] != None:
             accel = self['Acceleration']
         else:

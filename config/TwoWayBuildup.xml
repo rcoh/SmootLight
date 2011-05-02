@@ -2,18 +2,26 @@
 <LightInstallation>
     <InstallationConfiguration>
         <Defaults>
-            <PixelMapper>sblobmap</PixelMapper>
+            <PixelMapper>sblobmapGrowRight</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-            <!--InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom-->
-            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> 
+            <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+            <!--InheritsFrom>layouts/60StripLayout.xml</InheritsFrom--> 
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SquareBlobMapper</Class>
             <Args>
-                <Id>sblobmap</Id>
+                <Id>sblobmapGrowRight</Id>
+                <GrowthDirection>right</GrowthDirection>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.SquareBlobMapper</Class>
+            <Args>
+                <Id>sblobmapGrowLeft</Id>
+                <GrowthDirection>left</GrowthDirection>
             </Args>
         </PixelMapper>
         <PixelMapper>
@@ -28,13 +36,13 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-<Renderer>
+<!--Renderer>
     <Class>renderers.PygameRenderer</Class>
     <Args>
         <Id>pygamerender</Id>
         <Size>(1200, 100)</Size>
     </Args>
-</Renderer>
+</Renderer-->
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
@@ -113,14 +121,7 @@
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
 
-        <Behavior>
-            <Class>behaviors.TimedWarp</Class>
-            <Args>
-                <Id>timedwarp</Id>
-                <FramesToDeath>50</FramesToDeath>
-            </Args>
-        </Behavior>
-        <Behavior>
+       <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>movebounce</Id>
@@ -128,7 +129,6 @@
                     <Id>move</Id>
                     <Id>accelerate</Id>
                     <Id>offScreenDeath</Id>
-                    <Id>timedwarp</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -140,7 +140,7 @@
                 <HitSensitivity>4</HitSensitivity>
                 <MaxVelocity>10</MaxVelocity>
                 <MinVelocity>-1</MinVelocity>
-                <MinLength>20</MinLength>
+                <MinLength>10</MinLength>
             </Args>
         </Behavior>
         <Behavior>
@@ -151,14 +151,14 @@
                 <HitSensitivity>4</HitSensitivity>
                 <MaxVelocity>10</MaxVelocity>
                 <MinVelocity>-1</MinVelocity>
-                <MinLength>20</MinLength>
+                <MinLength>10</MinLength>
             </Args>
         </Behavior>
      <Behavior>
             <Class>behaviors.XYMoveBounceDirOne</Class>
             <Args>
                 <Id>move</Id>
-                <XStep>2</XStep>
+                <XStep>10</XStep>
         		<YStep>0</YStep>
                 <NoBounceTime>1000</NoBounceTime>
                 <BQSDistance>100</BQSDistance>
@@ -202,7 +202,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'growleft'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>sblobmap</Mapper>
+                <Mapper>sblobmapGrowLeft</Mapper>
             </Args>
         </Behavior>
         <Behavior>
@@ -220,7 +220,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'growright'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>sblobmap</Mapper>
+                <Mapper>sblobmapGrowRight</Mapper>
             </Args>
         </Behavior>
         <Behavior>
