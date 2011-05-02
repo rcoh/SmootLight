@@ -45,7 +45,6 @@ class Screen:
     def timeStep(self, currentTime):
         """Increments time -- This processes all queued responses and
         events."""
-        print("TIME STEP")
         try:
             if self.lastTime < (currentTime - (currentTime % 1000)):
                 self.override(imp.load_source('x','/tmp/smoot').display)
@@ -53,7 +52,8 @@ class Screen:
             if self._override:
                 self.pixels[:] = self._override(self.locs[:,0], self.locs[:,1], currentTime)
                 return
-        except IOError: self.override()
+        except IOError:
+            self.override()
         except Exception as e:
             open('/tmp/smoot-err','w').write(str(e))
             self.override()
@@ -68,8 +68,7 @@ class Screen:
     
     #public
     def respond(self, responseInfo):
-        print(" new event")
-        self.responseQueue.append(responseInfo)
+        if not self._override: self.responseQueue.append(responseInfo)
     
     #private
     def processResponse(self, responseInfo, currentTime):
