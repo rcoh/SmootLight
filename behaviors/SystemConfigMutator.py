@@ -1,5 +1,6 @@
 from operationscore.Behavior import *
 import util.ComponentRegistry as compReg
+from util.Config import attemptEval
 import json
 from behaviors import LocationBasedEvent, BehaviorChain
 from logger import main_log
@@ -56,7 +57,7 @@ class SystemConfigMutator(Behavior):
                 reply = [[x[0]] for x in compReg.Registry.items() if issubclass(type(x[1]),Behavior)]
         cb(json.dumps(reply))
     
-    def isValidValue(obj,name,val):
+    def isValidValue(self,obj,val):
         if hasattr(obj, '__call__'):
             valid = obj(val)
         elif type(obj) is type:
@@ -64,14 +65,15 @@ class SystemConfigMutator(Behavior):
         elif type(obj) is list:
             valid = (val in obj)
         else:
-            main_log.debug("invalid validator, need lambda,list,or type: "+str(obj))
+            main_log.error("invalid validator, need lambda,list,or type: "+str(obj))
             
-        
+        return valid
             
     def processResponse(self, data, recurs):
         for packet in data:
             message = ""
-            try:
+            #try:
+            if 1:
                 if not 'OperationType' in packet:
                     packet['OperationType'] = 'Update'
                 
@@ -83,26 +85,31 @@ class SystemConfigMutator(Behavior):
                 elif packet['OperationType'] == 'Update':
                     cid = packet['ComponentId']
                     paramName = packet['ParamName']
-                    newParamValue = packet['Value'] 
+                    newParamValue = attemptEval(str(packet['Value']))
                     currentObject=compReg.getComponent(cid)
                     if paramName == 'RenderToScreen':
-                        if newParamValue == True or type(newParamValue) is str and newParamValue[0].lower=='t':
+                        if newParamValue == True:
                             newParamValue = True
-                        elif newParamValue == False or type(newParamValue) is str and newParamValue[0].lower=='f':
+                        elif newParamValue == False:
                             newParamValue = False
                         else:
                             newParamValue = None
                         if newParamValue is not None:
                             currentObject['RenderToScreen'] = newParamValue
-                    elif currentObject.has_key('Mutable') and currentObject['Mutable'].has_key(paramName):
-                        if is_valid(currentObject['Mutable'][paramName], newParamValue):
+                    elif currentObject.argDict.has_key('Mutable') and currentObject.argDict['Mutable'].has_key(paramName):
+                        if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
                             currentObject[paramName] = newParamValue
+                            main_log.debug("Modified Correctly")
+                        else:
+                            main_log.error("Invalid modifier, type: "+str(type(newParamValue))+" value:"+str(newParamValue))
                     else:
                         raise Exception('Non-mutable parameter specified.') # don't allow anything else for security purposes
                     #TODO: consider adding lambda evaluation capabilities
                 elif packet['OperationType'] == 'Destroy':
                     raise Exception('Destroy not supported')
                     compReg.removeComponent(packet['ComponentId'])
+            try:
+                print 1
             except Exception, e:
                 print str(e)
                 import pdb; pdb.set_trace()
