@@ -28,9 +28,9 @@
             <Class>pixelmappers.GaussianMapper</Class>
             <Args>
                 <Id>gaussmapmove</Id>
-                <CutoffDist>20</CutoffDist>
+                <CutoffDist>25</CutoffDist>
                 <MinWeight>0.1</MinWeight>
-                <Width>8</Width>
+                <Width>12</Width>
                 <Height>1</Height>
             </Args>
         </PixelMapper>
@@ -59,9 +59,9 @@
 	  <Class>inputs.PedestrianSimulator</Class>
 	  <Args>
 	    <Id>pedsim</Id>
-            <MaxX>3000</MaxX>
-            <Velocity>200</Velocity>
-            <NumSensors>400</NumSensors>
+            <MaxX>700</MaxX>
+            <Velocity>20</Velocity>
+            <NumSensors>100</NumSensors>
             <SensorSpacing>48</SensorSpacing>
             <NumPeds>1</NumPeds>
 	  </Args>
@@ -70,9 +70,9 @@
             <Class>inputs.SensorNetworkToLocation</Class>
             <Args>
                 <Id>netloc</Id>
-                <SensorNetworkId>udp</SensorNetworkId>
+                <SensorNetworkId>pedsim</SensorNetworkId>
                 <SensorSpacing>48</SensorSpacing>
-		<Mode>SensorNetwork</Mode>
+		<!--<Mode>SensorNetwork</Mode>-->
 		<Y>15</Y>
                 <RefreshInterval>100</RefreshInterval>
             </Args>
@@ -93,10 +93,10 @@
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="decay">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <InheritsFrom>behaviors/PixelPulse.xml</InheritsFrom>
 	    <Args>
-	      <Duration>1500</Duration>
-	      <Coefficient>0.01</Coefficient>
+	      <Duration>800</Duration>
+	      <Coefficient>0.001</Coefficient>
 	    </Args>
         </Behavior>
 	<Behavior>
@@ -104,6 +104,12 @@
 	  <Args>
 	    <Id>mmover</Id>
 	    <IntervalCount>0</IntervalCount>
+	  </Args>
+	</Behavior>
+	<Behavior>
+	  <Class>behaviors.TDMAMover</Class>
+	  <Args>
+	    <Id>tdmamover</Id>
 	  </Args>
 	</Behavior>
 	<Behavior>
@@ -131,23 +137,14 @@
         </Behavior>
 
 	<!--PED-FIREFLY BEHAVIOR-->
-	<Behavior>
-	  <Class>behaviors.ModifyMapper</Class>
-	  <Args>
-	    <Id>momapper</Id>
-	    <MapperId>gaussmapmove</MapperId>
-	    <WidthChange>16</WidthChange>
-	    <CutoffDistChange>30</CutoffDistChange>
-	  </Args>
-	</Behavior>	      
-        <Behavior Id="recursivedecay" InitialResponseCount="10">
+        <Behavior Id="recursivedecay" InitialResponseCount="6">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>randmovement</Id>
-                <StepSize>15</StepSize>
+                <StepSize>12</StepSize>
             </Args>
         </Behavior>
 	<Behavior>
@@ -162,8 +159,6 @@
                 <Id>flashermovebounce</Id>
                 <ChainedBehaviors>
                     <Id>randmovement</Id>
-		    <Id>flasher</Id>
-		    <Id>momapper</Id>
 		    <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
@@ -201,14 +196,14 @@
             <Class>behaviors.RandomSetColorBehavior</Class>
             <Args>
                 <Id>setdimcolor</Id>
-		<Dimness>0.4</Dimness>
+		<Dimness>0.3</Dimness>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>randmovement1</Id>
-                <StepSize>15</StepSize>
+                <StepSize>8</StepSize>
             </Args>
         </Behavior>
         <Behavior>
@@ -217,7 +212,6 @@
                 <Id>flashermovebounce1</Id>
                 <ChainedBehaviors>
                     <Id>randmovement1</Id>
-		    <Id>flasher</Id>
 		    <Id>recursivedecay1</Id>
                 </ChainedBehaviors>
             </Args>
