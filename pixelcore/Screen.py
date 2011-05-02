@@ -67,3 +67,5 @@ class Screen:
                     self.state[i,:,j] += c*d*weights
             if time: # if the event wants to run again
                 heappush(self.eventHeap, (startTime+time, startTime, event, weights))
+                print 'repush'
+        print len(self.eventHeap)

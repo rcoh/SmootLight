@@ -44,7 +44,7 @@
                 <Velocity>40</Velocity>
                 <NumSensors>400</NumSensors>
                 <SensorSpacing>45</SensorSpacing>
-                <NumPeds>100</NumPeds>
+                <NumPeds>60</NumPeds>
             </Args>
         </InputElement>
         <InputElement>
@@ -85,6 +85,9 @@
                 <Coefficient>.003</Coefficient>
             </Args>
         </Behavior>
+        <Behavior Id="risefall">
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+        </Behavior>
         <Behavior>
             <Class>behaviors.GenerateModulate</Class>
             <Args>
@@ -123,7 +126,7 @@
                 <ChainedBehaviors>
                     <Id>white</Id>
                     <Id>genmod</Id>
-                    <Id>decay</Id>
+                    <Id>risefall</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
                 <Mapper>gaussmap</Mapper>

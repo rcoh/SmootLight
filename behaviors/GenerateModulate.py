@@ -31,19 +31,26 @@ class GenerateModulate(Behavior):
                     #print 'merged'
                 else:
                     #nprint 'initialized'
-                    newResponse = dict(newInput)
-                    newResponse['LastObs'] = newResponse['Location'][0]
-                    newResponse['XVel'] = newInput['Velocity']
-                    newResponse['TDMAId'] = numObjs
-                    numObjs += 1
-                    outRecurs.append(newResponse)
+                    if len(recurs) < 20:
+                        newResponse = dict(newInput)
+                        newResponse['LastObs'] = newResponse['Location'][0]
+                        newResponse['XVel'] = newInput['Velocity']
+                        newResponse['TDMAId'] = numObjs
+                        numObjs += 1
+                        outRecurs.append(newResponse)
         strippedOutput = []
-        for r in recurs:
-            if r['TDMAId'] % 5 == self.stepIndex % 5:
+        for i,r in enumerate(recurs):
+            if  i % 20 == self.stepIndex % 20:
                 strippedOutput.append(r)
         if len(strippedOutput) > 0:
-            print 'stripedOut', len(strippedOutput)
-            print 'total:', len(recurs) 
+            #print 'stripedOut', len(strippedOutput)
+            #print 'total:', len(recurs) 
+            pass
+        elif len(recurs) > 0:
+            pass
+            #import pdb; pdb.set_trace()
+        if len(strippedOutput) > 10:
+            strippedOutput = strippedOutput[0:10]
         return (strippedOutput, outRecurs)
     def mergeable(self, newInput, activeResponses):
         if not activeResponses:
