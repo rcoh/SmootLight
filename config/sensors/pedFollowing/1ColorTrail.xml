@@ -40,19 +40,11 @@
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>2000</MaxX>
+                <MaxX>17000</MaxX>
                 <Velocity>40</Velocity>
-                <NumSensors>40</NumSensors>
+                <NumSensors>400</NumSensors>
                 <SensorSpacing>45</SensorSpacing>
-                <NumPeds>2</NumPeds>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygameclick</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
+                <NumPeds>100</NumPeds>
             </Args>
         </InputElement>
         <InputElement>
@@ -61,6 +53,17 @@
                 <Id>netloc</Id>
                 <SensorNetworkId>pedsim</SensorNetworkId>
                 <SensorSpacing>45</SensorSpacing>
+                <Mode>Sim</Mode>
+                <RefreshInterval>100</RefreshInterval>
+                <IPIndexTable>{'10.32.0.230':0}</IPIndexTable>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInput</Class>
+            <Args>
+                <Id>udp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
         <InputElement>
@@ -99,6 +102,9 @@
                 </ColorList>
             </Args>
         </Behavior>
+        <Behavior Id="rand">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+        </Behavior>
         <Behaviors>
             <Class>behaviors.XYMoveVelocity</Class>
             <Args>
@@ -132,7 +138,7 @@
                     <Id>netloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>white</Id>
+                    <Id>rand</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <Mapper>gaussmap</Mapper>

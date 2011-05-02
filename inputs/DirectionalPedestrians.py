@@ -47,7 +47,7 @@ class DirectionalPedestrians(Input):
             cache.remove(r)
     def findClosest(self, cache, location):
         #TODO: numpyify
-        print len(cache)
+        #print len(cache)
         bestMatch = None
         bestDist = sys.maxint
         if cache == []:
