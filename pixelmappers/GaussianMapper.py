@@ -10,3 +10,4 @@ class GaussianMapper(PixelMapper):
     def mappingFunction(self, loc, screen):
         h, w = self.Height, self.Width
         return h * exp(-sum(square(screen.locs-loc),-1)/2/w/w)
+        #return 10/sum(square(screen.locs-loc),-1)

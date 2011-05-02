@@ -18,10 +18,10 @@ def gaussian(x,height,center,width):
 def dist(l1, l2):
     return math.sqrt((l1[0]-l2[0])**2+(l1[1]-l2[1])**2) #For speed
 
-def randomLoc(boundingBox): #TODO: make less shitty
+def randomLoc(maxBoundingBox, minBoundingBox=(0,0)): #TODO: make less shitty
     loc = []
-    loc.append(random.randint(0, boundingBox[0]))
-    loc.append(random.randint(0, boundingBox[1]))
+    loc.append(random.randint(minBoundingBox[0], maxBoundingBox[0]))
+    loc.append(random.randint(minBoundingBox[1], maxBoundingBox[1]))
     return tuple(loc)
 
 def approxexp(x):

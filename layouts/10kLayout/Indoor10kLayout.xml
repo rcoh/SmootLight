@@ -1,0 +1,27 @@
+<PixelConfiguration>
+  <PixelStrip Id="s33" diffuser="(0, -11)" originLocation="(1600,0)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="s34" diffuser="(0, 11)" originLocation="(1600,12)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="s35" diffuser="(0, -11)" originLocation="(1600,24)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="s36" diffuser="(0, 11)" originLocation="(1600,36)">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="s37" diffuser="(0, -11)" originLocation="(1800,0)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="s38" diffuser="(0, 11)" originLocation="(1800,12)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="s39" diffuser="(0, -11)" originLocation="(1800,24)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+  <PixelStrip Id="s40" diffuser="(0, 11)" originLocation="(1800,36)" Reverse="True">
+    <InheritsFrom>layouts/10kLayout/Section1Strip.xml</InheritsFrom>
+  </PixelStrip>
+
+</PixelConfiguration>
