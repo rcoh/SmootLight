@@ -1,13 +1,14 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+    <InheritsFrom>config/MutateCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>sblobmap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-            <!--InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom-->
-            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> 
+            <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+            <!--InheritsFrom>layouts/60StripLayout.xml</InheritsFrom--> 
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -27,7 +28,7 @@
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <RendererConfiguration>
+    <!--RendererConfiguration>
 <Renderer>
     <Class>renderers.PygameRenderer</Class>
     <Args>
@@ -35,7 +36,7 @@
         <Size>(1200, 100)</Size>
     </Args>
 </Renderer>
-    </RendererConfiguration>
+    </RendererConfiguration-->
     <InputConfiguration>
         <InputElement>
             <Class>inputs.LeftEdgeInput</Class>
