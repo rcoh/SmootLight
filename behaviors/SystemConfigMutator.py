@@ -100,8 +100,10 @@ class SystemConfigMutator(Behavior):
                         if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
                             currentObject[paramName] = newParamValue
                             main_log.debug("Modified Correctly")
+                            packet['Callback']('OK')
                         else:
                             main_log.error("Invalid modifier, type: "+str(type(newParamValue))+" value:"+str(newParamValue))
+                            packet['Callback']('Failed')
                     else:
                         raise Exception('Non-mutable parameter specified.') # don't allow anything else for security purposes
                     #TODO: consider adding lambda evaluation capabilities

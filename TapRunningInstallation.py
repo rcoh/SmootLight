@@ -87,6 +87,8 @@ class MenuTree(object):
         
         cl = command.strip().lower()
         if cl.isdigit():
+            self.lastindex = int(cl)
+            
             if self.nextAction != None:
                 self.nextAction(int(cl))
             else:
@@ -131,7 +133,7 @@ class MenuTree(object):
                     return
                 #print "do some prompting to figure out what needs to be changed"
  
-            self.initiateEdit(None,(cl is "t"))
+            self.initiateEdit(None,(cl[0] == "t"))
 
         elif cl in ["h","?"]: 
             print self.__doc__
@@ -226,7 +228,11 @@ class MenuTree(object):
          else:             
             if index != None:
                 if self.requestSpecificItem(index,False) < 0:
-                    return 
+                    return
+                self.lastindex = index
+            elif self.requestSpecificItem(self.lastindex,False) < 0:
+                    return
+            
             #else:
             #    self.printCurrentObject(False)
          
