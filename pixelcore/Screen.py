@@ -52,8 +52,10 @@ class Screen:
             if self._override:
                 self.pixels[:] = self._override(self.locs[:,0], self.locs[:,1], currentTime)
                 return
-        except IOError: pass
-        except Exception as e: open('/tmp/smoot-err','w').write(str(e))
+        except IOError: self.override()
+        except Exception as e:
+            open('/tmp/smoot-err','w').write(str(e))
+            self.override()
         t, self.lastTime = currentTime - self.lastTime, currentTime
         self.state[0] += t * (self.state[1] + t * self.state[2])
         self.state[1] += t * 2 * self.state[2]
