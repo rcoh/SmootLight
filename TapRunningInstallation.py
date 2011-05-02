@@ -179,7 +179,9 @@ class MenuTree(object):
             
             print "Available %s:\n"%command
             
+            print resp, " "
             for n in range(len(resp)):
+                print "n: ", n
                 print "{:4} {:10}".format(n,resp[n])   
         else:
             self.currentObject = resp
