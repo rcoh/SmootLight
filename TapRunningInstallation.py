@@ -18,22 +18,37 @@ class TapConnection(object):
         self.port = port
         
 
-    def sendMsg(self,outData):
+    def sendMsg(self,outData, maxretry = 5, interval = 1):
 
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
        # s.bind((self.host, self.port+1))
+       
+       # make sure buffer empty
+        while select([s],[],[], 0)[0]:
+                (inData,addy) = s.recvfrom(1024)
         
         s.sendto(outData, (self.host, self.port))
         time.sleep(.1)
-        
+        #s.sendto(outData, (self.host, self.port))
         
         string = ""
         
-        #unlikely, but make sure buffer empty
-        while select([s],[],[], 0)[0]:
-            (inData,addy) = s.recvfrom(1024)
-            string = string + inData
-           
+        while string == "" and maxretry > 0:
+            maxretry -= 1
+            
+            # on last attempt resend the message ? need to protect against json errors
+            #if maxretry == 0:
+            #    interval *= 3
+            #    s.sendto(outData, (self.host, self.port))
+                
+            time.sleep(interval)
+            while select([s],[],[], 0)[0]:
+                    (inData,addy) = s.recvfrom(1024)
+                    string = string + inData
+        #if string == "":
+        #    return ""
+        #return "["+string.split('][')[-1].strip('[]')+']'
+        
         return string
         
     def close(self):
@@ -70,7 +85,7 @@ class MenuTree(object):
             if self.nextAction != None:
                 self.nextAction(int(cl))
             else:
-                print "Got #{} but don't know what to do with it. Try 'h'".format(cl)
+                print "Got #{0} but don't know what to do with it. Try 'h'".format(cl)
             return 0
             
     
@@ -81,7 +96,7 @@ class MenuTree(object):
             return -1
         elif cl in ["a","b", "p"]:
             self.nextAction = lambda x: self.sendCommandInt(cl,x)
-            print "Getting {}, please wait...".format(self.COMMANDS[cl])
+            print "Getting {0}, please wait...".format(self.COMMANDS[cl])
             self.lastAction = self.COMMANDS[cl]
             if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
                 self.sendCommandInt(self.lastAction,int(cs[1]))
@@ -160,12 +175,12 @@ class MenuTree(object):
         self.commandDict['OperationType'] = 'Read'
         self.commandDict['OperationDetail'] = command
         
-        if not(is_quiet):
-            print self.commandDict
+        #if not(is_quiet):
+        #    print self.commandDict
         
         resp = self.connection.sendMsg(json.dumps(self.commandDict))  
         if resp == "":
-            print "No response. Is server running? Is SystemConfigMutator Behavior and tap input in the configuration?"
+            print "Operation timeout. Is server running? Are SystemConfigMutator behavior and tap input in the configuration?"
             return 0
         try: 
             resp = json.loads(resp)   
@@ -180,7 +195,7 @@ class MenuTree(object):
             print "Available %s:\n"%command
             
             for n in range(len(resp)):
-                print "{:4} {:10}".format(n,resp[n])   
+                print "{0:4} {1:10}".format(n,resp[n])   
         else:
             self.currentObject = resp
             if not(is_quiet):
@@ -214,3 +229,4 @@ if __name__ == "__main__":
         main(sys.argv)
     except KeyboardInterrupt:
         print('\nTerminated by keyboard.')
+
