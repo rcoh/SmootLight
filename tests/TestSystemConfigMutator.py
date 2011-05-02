@@ -12,13 +12,13 @@ class TestSCM(unittest.TestCase):
 
     def test_modify_components(self):
         modifier = SystemConfigMutator({'Id':'mutate'})
-        modifier.immediateProcessInput({'OperationType':'Assign',\
+        modifier.immediateProcessInput({'OperationType':'Update',\
                                         'ComponentId':'color','ParamName':'ColorList',
                                         'Value':[(0,0,255)]})
         
         assert compReg.getComponent('color')['ColorList'] == [(0,0,255)]
         
-        modifier.immediatedProcessInput({'OperationType':'Assign',
+        modifier.immediatedProcessInput({'OperationType':'Update',
                                          'ComponentId':'center',
                                          'ParamName':'RefreshInterva',
                                          'Value':800})

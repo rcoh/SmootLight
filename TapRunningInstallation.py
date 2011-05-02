@@ -42,10 +42,15 @@ class TapConnection(object):
 class MenuTree(object):
     """ TapRunning - maintains state for a running LightInstallation 
          commands: 
+<<<<<<< HEAD
            
            p - print all renderable behaviors
            b - print all behaviors
            a - print all objects
+=======
+           a - print all objects
+           p - print all behaviors
+>>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
            (integer) - select number 
            q - go back / quit
            
@@ -54,7 +59,11 @@ class MenuTree(object):
            d - delete
            """
      
+<<<<<<< HEAD
     ObjectTypes = {'p':'Renderables','a':'Objects','b':'Behaviors'}
+=======
+    COMMANDS = {'a':'Objects','b':'Behaviors','p':'Behaviors'}
+>>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
     commandDict = {'OperationArg':None}
     componentList = None
      
@@ -62,6 +71,10 @@ class MenuTree(object):
         self.connection = connection
         self.nextAction = None
         self.currentObject = None
+<<<<<<< HEAD
+=======
+        self.lastAction = None
+>>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
         
     def executeSelection(self,command):
 #        self.commandDict['CurrentCommand'] = command
@@ -78,6 +91,7 @@ class MenuTree(object):
         cs = cl.split(' ')
         cl = cs[0]
          
+<<<<<<< HEAD
         #  should put processing for edit inputs here. if generalized callback exists, try using input  
         # all the following should be special case when input callback = None
         if cl in ["q","x"]:
@@ -114,6 +128,67 @@ class MenuTree(object):
             print "unimplemented"
             self.nextAction = None
         else: 
+=======
+        if cl in ["q","x"]:
+            return -1
+        elif cl in ["a","b", "p"]:
+            self.nextAction = lambda x: self.sendCommandInt(cl,x)
+            print "Getting {}, please wait...".format(self.COMMANDS[cl])
+            self.lastAction = self.COMMANDS[cl]
+            if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
+                self.sendCommandInt(self.lastAction,int(cs[1]))
+            else:
+                self.currentObject = None
+                
+                self.commandDict['OperationArg'] = None
+                self.sendCommand(self.lastAction)
+        elif cl in ["e"]:
+            if len(cs) > 1 and cs[1].isdigit():
+                # if digit known, call command to get details of object first,  invisible mode
+                self.sendCommandInt(self.lastAction, int(cs[1]), True)
+                #print "do some prompting to figure out what needs to be changed"
+            if 1:
+                
+                if self.currentObject == None:
+                    print "Need to specify which object."
+                    return
+               #pdb.set_trace()
+                co=self.currentObject[1:-1]#.rstrip('}').lstrip('{')
+                
+                # split on commas unless inside square brackets
+                co = re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', co)
+                
+                
+                co = [i for i in co if i.find(': <') == -1]
+                for n in range(len(co)):
+                    print n, ": ", co[n].strip()
+            
+                print "edit what?"    
+                i = raw_input("> ")
+                
+                #argDict=eval('{%s}'%','.join(co))                
+                if i.isdigit() and int(i) < len(co):
+                    selection = map(unicode.strip,co[int(i)].split(':'))
+                    value = raw_input("set "+ selection[0]+ " to: " )
+                    
+                    print "setting ", selection[0]," to '",value,"'"      
+                    self.commandDict['OperationType'] = 'Update'
+                    self.commandDict['ComponentId'] = filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
+                    self.commandDict['Value'] = value
+                    self.commandDict['ParamName'] = selection[0].strip("'")
+                    resp = self.connection.sendMsg(json.dumps(self.commandDict)) 
+                    print resp
+                    self.commandDict = {'OperationArg':None}
+                    
+                
+        elif cl in ["h","?"]: 
+            print self.__doc__
+            self.nextAction = None
+            self.lastAction = None
+        elif cl in ["c","d"]:
+            print "unimplemented"
+        else:
+>>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
             if cl != "":
                 print "syntax error, use 'h' for help"
 
@@ -124,6 +199,7 @@ class MenuTree(object):
     def acceptInput(self):
         pass
         
+<<<<<<< HEAD
     def requestSpecificItem(self,index, is_quiet=False):
         if self.componentList == None:
             print "Specify whether you're talking about renderables (p) objects (a) or all behaviors (b)."
@@ -151,6 +227,28 @@ class MenuTree(object):
         resp = self.connection.sendMsg(json.dumps(self.commandDict))  
         if resp == "":
             print "No (timely) response. Is server running? Is SystemConfigMutator Behavior and tap input in the configuration?"
+=======
+    def sendCommandInt(self,command,index, is_quiet=False):
+        if self.componentList == None:
+            print "Specify whether you're talking about all objects or just behaviors (a/b)."
+        elif len(self.componentList)-1 < index:
+            print "No element with that index."
+        else:
+            self.commandDict['OperationArg'] = self.componentList[index] 
+            self.sendCommand(command, is_quiet)
+        
+         
+    def sendCommand(self, command, is_quiet=False):
+        self.commandDict['OperationType'] = 'Read'
+        self.commandDict['OperationDetail'] = command
+        
+        if not(is_quiet):
+            print self.commandDict
+        
+        resp = self.connection.sendMsg(json.dumps(self.commandDict))  
+        if resp == "":
+            print "No response. Is server running? Is SystemConfigMutator Behavior and tap input in the configuration?"
+>>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
             return 0
         try: 
             resp = json.loads(resp)   
@@ -162,6 +260,7 @@ class MenuTree(object):
             
             self.componentList = resp
             
+<<<<<<< HEAD
             self.printComponentList()
             
         else:
@@ -248,6 +347,18 @@ class MenuTree(object):
             #     print resp
             #     self.commandDict = {'OperationArg':None}
             #
+=======
+            print "Available %s:\n"%command
+            
+            for n in range(len(resp)):
+                print "{:4} {:10}".format(n,resp[n])   
+        else:
+            self.currentObject = resp
+            if not(is_quiet):
+                for r in resp.split(','):
+                    print r
+            
+>>>>>>> 89df84f2bcdb2d0769d114cb509bd02080c95786
 class TapRunningInstallation(object):
     """ This is the main class responsible for console IO """
     def __init__(self):
