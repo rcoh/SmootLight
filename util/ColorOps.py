@@ -42,6 +42,14 @@ def randomBrightColor():
     ret = [hue, sat, val]
     return floatToIntColor(ret)
 
+def randomDimColor(value):
+    hue = random.random()
+    sat = random.random()/2.0 + .5
+    val = value
+    hue, sat, val = colorsys.hsv_to_rgb(hue, sat, val)
+    ret = [hue, sat, val]
+    return floatToIntColor(ret)
+
 class Color(object):
     def __init__(self, r,g,b):
         self.rep = [r,g,b]

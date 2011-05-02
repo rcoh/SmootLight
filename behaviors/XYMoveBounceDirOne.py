@@ -11,21 +11,35 @@ class XYMoveBounceDirOne(Behavior):
 
     def processResponse(self, sensor, recurs):
         ret = []
+
+        if self['NoBounceTime'] != None:
+            noBounceTime = self['NoBounceTime']
+        else:
+            noBounceTime = 1000
+        if self['BQSDistance'] != None:
+            BQSDistance = self['BQSDistance']
+        else:
+            BQSDistance = 19
+
+
         for sensory in sensor:
             opsensory = dict(sensory)
+
             isNew = self.insertStepIfMissing(opsensory) 
-            #TODO: update 19 to be a configurable variable
-            if opsensory['isNew'] <= 0:
+            if not 'NoBounceTime' in opsensory:
+                opsensory['NoBounceTime'] = noBounceTime 
+
+            if opsensory['NoBounceTime'] <= 0:
                 results = bqs.query([
                     bqs.getBehaviorIdLambda(self['Id']),\
                     bqs.getDifferentUIDLambda(opsensory['UniqueResponseIdentifier']),\
-                    bqs.getDistLambda(opsensory['Location'], 19)
+                    bqs.getDistLambda(opsensory['Location'], BQSDistance)
                 ])
                 if results:
                     opsensory['XStep'] = -opsensory['XStep']
                     opsensory['Location'] = Geo.addLocations((opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
             else:
-                opsensory['isNew'] -= 1
+                opsensory['NoBounceTime'] -= 1
             if isNew:
                 if opsensory['Direction'] < 0:
                     opsensory['XStep'] = -opsensory['XStep']
@@ -42,10 +56,8 @@ class XYMoveBounceDirOne(Behavior):
         if not 'XStep' in data:
             data['XStep'] = self['XStep']
             isNew = True
-            data['isNew'] = self['NoBounceTime']
         if not 'YStep' in data:
             data['YStep'] = self['YStep']
             isNew = True
-            data['isNew'] = self['NoBounceTime']
         return isNew
 

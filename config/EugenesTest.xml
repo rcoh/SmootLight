@@ -1,13 +1,12 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
+	<InheritsFrom>config/MutateCore.xml</InheritsFrom>
+	<InheritsFrom>config/bridgeConfig/BridgeCore.xml</InheritsFrom>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
-    <PixelConfiguration>
-        <InheritsFrom>layouts/10kLayout/test10kLayout.xml</InheritsFrom>
-    </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
@@ -37,11 +36,7 @@
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <RendererConfiguration>
-        <Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
-    </RendererConfiguration>
+
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PygameInput</Class>
@@ -55,13 +50,18 @@
             <Class>inputs.RandomLocs</Class>
             <Args>
                 <Id>randomLoc</Id>
+		<MinX>1400</MinX>
+		<MinY>0</MinY>
+		<MaxX>2000</MaxX>
+		<MaxY>50</MaxY>
+		<Interval>1000</Interval>
             </Args>
         </InputElement>
 	<InputElement>
 	  <Class>inputs.PedestrianSimulator</Class>
 	  <Args>
 	    <Id>pedsim</Id>
-            <MaxX>1000</MaxX>
+            <MaxX>500</MaxX>
             <Velocity>50</Velocity>
             <NumSensors>40</NumSensors>
             <SensorSpacing>48</SensorSpacing>
@@ -75,8 +75,19 @@
                 <SensorNetworkId>pedsim</SensorNetworkId>
                 <SensorSpacing>48</SensorSpacing>
 		<Y>15</Y>
+		<RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
+	<InputElement>
+            <Class>inputs.FixedSensorLocations</Class>
+            <Args>
+                <Id>sensorloc</Id>
+                <SensorNumber>5</SensorNumber>		
+                <SensorSpacing>144</SensorSpacing>
+		<Y>15</Y>
+		<RefreshInterval>500</RefreshInterval>
+            </Args>
+        </InputElement>	
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior Id="colorchange">
@@ -85,7 +96,7 @@
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
 	    <Args>
-	      <Coefficient>0.9</Coefficient>
+	      <Coefficient>0.004</Coefficient>
 	    </Args>
         </Behavior>
         <Behavior Id="slowdecay">
@@ -106,18 +117,26 @@
 		</Inputs>
 		<MaxRadius>50</MaxRadius>
 		<StepSize>10</StepSize>
-		<RenderToScreen>False</RenderToScreen>		
+		<RenderToScreen>True</RenderToScreen>		
             </Args>
         </Behavior>
 
 	<!--PED-FIREFLY BEHAVIOR-->
+        <Behavior Id="recursivedecay" InitialResponseCount="10">
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>randmovement</Id>
-                <StepSize>20</StepSize>
+                <StepSize>15</StepSize>
             </Args>
         </Behavior>
+        <Behavior Id="recursivedecay" InitialResponseCount="10">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+
 	<Behavior>
 	  <Class>behaviors.Flasher</Class>
 	  <Args>
@@ -131,6 +150,7 @@
                 <ChainedBehaviors>
                     <Id>randmovement</Id>
 		    <Id>flasher</Id>
+		    <Id>recursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -149,20 +169,74 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>runcolordecay</Id>
+                <Id>fireflies</Id>
                 <Inputs>
                     <Id>netloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
                     <Id>mover</Id>
-                    <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'flashermovebounce'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
+
+
+	<!-- FIXED FIREFLY BEHAVIOR-->	
+        <Behavior Id="recursivedecay1" InitialResponseCount="10">
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RandomSetColorBehavior</Class>
+            <Args>
+                <Id>setdimcolor</Id>
+		<Dimness>0.3</Dimness>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>randmovement1</Id>
+                <StepSize>5</StepSize>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.ResponseMover</Class>
+            <Args>
+                <Id>mover1</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>flashermovebounce1</Id>
+                <ChainedBehaviors>
+                    <Id>randmovement1</Id>
+		    <Id>flasher</Id>
+		    <Id>recursivedecay1</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>staticfireflies</Id>
+                <Inputs>
+                    <Id>sensorloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>setdimcolor</Id>
+                    <Id>mover1</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover1':'flashermovebounce1'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap1</Mapper>
+            </Args>
+        </Behavior>
+
 
 	<!--CHARGING-->
 	<Behavior>
@@ -176,18 +250,38 @@
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
+                <Id>charge</Id>
+                <ChainedBehaviors>
+                    <Id>momapper</Id>
+		    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
                 <Id>charging</Id>
                 <Inputs>
                     <Id>netloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
-		    <Id>momapper</Id>
-                    <Id>slowdecay</Id>
+		    <Id>mover</Id>
+		    <Id>decay</Id>
                 </ChainedBehaviors>
-                <RenderToScreen>True</RenderToScreen>
+                <RecursiveHooks>{'mover':'charge'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>gaussmap1</Mapper>
             </Args>
         </Behavior>
+
+        <Behavior>
+            <Class>behaviors.SynchTest</Class>
+            <Args>
+                <Id>synch</Id>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+
     </BehaviorConfiguration>
 </LightInstallation>

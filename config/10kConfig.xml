@@ -22,7 +22,7 @@ TABLE OF SECTIONS
         _BAS Main Animation Stack
         _SAS Startup/Shutdown Animation Stack
 
-WHERE TO PUT YOUR CODE (Please read this)
+WHERE TO PUT YOUR CODE (Please, please read this)
 
 When adding a new animation into the body animation stack, please try to keep
 this file organized and with as little behavior/input repitition as possible. 
@@ -39,6 +39,9 @@ included them in the table of sections. They should only be found in those two
 places, so that you can use them to quickly jump back and forth between the
 ToS and various sections of code. (Key * with your cursor over the _XXX in vim)
 
+<AcceptInputs>True Add this tag to your root animation behavior so that your
+animations will receive inputs and will actually run
+
 For additional instruction on adding your animation to BehaviorSequence, please
 see BehaviorSequnce.py documentation.
 -->
@@ -48,9 +51,9 @@ see BehaviorSequnce.py documentation.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <Renderer>
+        <!--Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
+        </Renderer-->
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>

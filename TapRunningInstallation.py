@@ -18,23 +18,40 @@ class TapConnection(object):
         self.port = port
         
 
-    def sendMsg(self,outData):
+    def sendMsg(self,outData, maxretry = 5, interval = 1):
 
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-       # s.bind((self.host, self.port+1))
-        
+        # s.bind((self.host, self.port+1))
+
+        # make sure buffer empty
+        while select([s],[],[], 0)[0]:
+                (inData,addy) = s.recvfrom(1024)
+
         s.sendto(outData, (self.host, self.port))
         time.sleep(.1)
-        
-        
+        #s.sendto(outData, (self.host, self.port))
+
         string = ""
-        
-        #unlikely, but make sure buffer empty
-        while select([s],[],[], 0)[0]:
-            (inData,addy) = s.recvfrom(1024)
-            string = string + inData
-           
+
+        while string == "" and maxretry > 0:
+            maxretry -= 1
+
+            # on last attempt resend the message ? need to protect against json errors
+            #if maxretry == 0:
+            #    interval *= 3
+            #    s.sendto(outData, (self.host, self.port))
+
+            time.sleep(interval)
+            while select([s],[],[], 0)[0]:
+                    (inData,addy) = s.recvfrom(1024)
+                    string = string + inData
+         #if string == "":
+         #    return ""
+         #return "["+string.split('][')[-1].strip('[]')+']'
+
         return string
+
+
         
     def close(self):
         pass
@@ -49,6 +66,7 @@ class MenuTree(object):
            (integer) - select number 
            q - go back / quit
            
+           t - toggle renderable flag
            e - edit 
            c - create
            d - delete
@@ -62,16 +80,19 @@ class MenuTree(object):
         self.connection = connection
         self.nextAction = None
         self.currentObject = None
+        self.lastcl = ""
         
     def executeSelection(self,command):
 #        self.commandDict['CurrentCommand'] = command
         
         cl = command.strip().lower()
         if cl.isdigit():
+            self.lastindex = int(cl)
+            
             if self.nextAction != None:
                 self.nextAction(int(cl))
             else:
-                print "Got #{} but don't know what to do with it. Try 'h'".format(cl)
+                print "Got #{0} but don't know what to do with it. Try 'h'".format(cl)
             return 0
             
     
@@ -83,19 +104,26 @@ class MenuTree(object):
         if cl in ["q","x"]:
             return -1
         elif cl in self.ObjectTypes.keys(): 
+            
+            if self.lastcl != cl:
+                self.componentList = None
+                
+            self.lastcl = cl
+            
             self.commandDict['OperationDetail'] = self.ObjectTypes[cl]
             
             self.nextAction = lambda x: self.requestSpecificItem(x)
             
             if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
+               
                 self.requestSpecificItem(int(cs[1]))
             else:
-                print "Getting {}, please wait...".format(self.ObjectTypes[cl])
+                print "Getting {0}, please wait...".format(self.ObjectTypes[cl])
                 self.currentObject = None
                 
                 self.commandDict['OperationArg'] = None
                 self.requestItems()
-        elif cl in ["e"]:
+        elif cl in ["e","t"]:
             
             self.nextAction = lambda x: self.initiateEdit(x)
             
@@ -105,7 +133,7 @@ class MenuTree(object):
                     return
                 #print "do some prompting to figure out what needs to be changed"
  
-            self.initiateEdit()
+            self.initiateEdit(None,(cl[0] == "t"))
 
         elif cl in ["h","?"]: 
             print self.__doc__
@@ -129,13 +157,13 @@ class MenuTree(object):
             print "Specify whether you're talking about renderables (p) objects (a) or all behaviors (b)."
             return -1
         elif len(self.componentList)-1 < index:
-            print "No element with index {}.".format(index)
+            print "No element with index {0}.".format(index)
             self.commandDict['OperationArg'] = None
             self.nextAction = None
             return -1
         else:
             if not is_quiet:
-                print "Retrieving specific {}...\n".format(self.commandDict['OperationDetail'][:-1])
+                print "Retrieving specific {0}...\n".format(self.commandDict['OperationDetail'][:-1])
             self.commandDict['OperationArg'] = self.componentList[index][0] 
             self.requestItems(is_quiet)
             return 0
@@ -153,7 +181,12 @@ class MenuTree(object):
             print "No (timely) response. Is server running? Is SystemConfigMutator Behavior and tap input in the configuration?"
             return 0
         try: 
-            resp = json.loads(resp)   
+            resp = resp.replace('<lambda>','').replace('>',">'").replace('<',"'<")#bb=resp.find('>')
+            #if aa != -1 and bb != -1:
+            #    resp = resp[:aa-1]+resp[bb+2:]
+            resp = json.loads(str(resp))   
+            if type(resp) is str or type(resp) is unicode:
+                resp = eval(resp)
         except:       
             print "couldn't parse response- not json? <",resp, ">" 
             return 0
@@ -173,57 +206,96 @@ class MenuTree(object):
         resp = self.componentList
         for n in range(len(resp)):
             if len(resp[n]) > 1:
-                print "{:4}  {:15} {:5}".format(n,resp[n][0], resp[n][1] and 'True' or 'False') 
+                print "{0:4}  {1:15} {2:5}".format(n,resp[n][0], resp[n][1] and 'True' or 'False') 
             else:
-                print "{:4}  {:10}".format(n,resp[n][0])
+                print "{0:4}  {1:10}".format(n,resp[n][0])
                 
     def printCurrentObject(self,is_quiet):
         if not(is_quiet):
-            for r in re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', self.currentObject[1:-1]): #   resp.split(','):
-                if r.find('parentScope') == -1:
-                    print " "+r.replace("'","").strip()
+            for k,v in self.currentObject.items():#re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', self.currentObject[1:-1]): #   resp.split(','):
+                if k != 'parentScope':
+                    print k,":",v
             
-    def initiateEdit(self, index=None):
+    def initiateEdit(self, index=None, is_toggle = False):
          #pdb.set_trace()
          #print self.commandDict,"\n\n",index
          if self.currentObject == None or self.commandDict['OperationArg'] == None:
              print "Need to specify which object."
              return 0
-         elif self.currentObject.find('RenderToScreen') == -1:
-             print "Object not renderable."
-             return 0
+         #elif self.currentObject.find('RenderToScreen') == -1:
+         #    print "Object not renderable."
+         #    return 0
          else:             
             if index != None:
                 if self.requestSpecificItem(index,False) < 0:
-                    return 
-            else:
-                self.printCurrentObject(False)
+                    return
+                self.lastindex = index
+            elif self.requestSpecificItem(self.lastindex,False) < 0:
+                    return
+            
+            #else:
+            #    self.printCurrentObject(False)
          
-            co=self.currentObject[1:-1]#.rstrip('}').lstrip('{')
+            #co=self.currentObject[1:-1]#.rstrip('}').lstrip('{')
                             
             # split on commas unless inside square brackets
-            co = re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', co)
+            #co = re.split(''',(?=(?:[^\[\]]|\[[^\[]*\])*$)''', co)
+            #co = re.split(''',(?=(?:[^{}]|\[[^{}]*})*$)''', co)
             
+            if is_toggle:
+                
+                if not self.currentObject.has_key('RenderToScreen'):
+                    print "Object not renderable."
+                    return 0
             
-            currentRender = [map(unicode.strip,i.replace("'","").split(':')) for i in co if i.find('RenderToScreen') != -1][0]
-            #pdb.set_trace()
-            print self.commandDict['OperationArg']+"'s "+str(currentRender[0])+" is "+str(currentRender[1])+" -- ",
+                currentRender = self.currentObject['RenderToScreen']
+                #pdb.set_trace()
+                print self.commandDict['OperationArg']+"'s RenderToScreen is "+str(currentRender)+" -- ",
             
-            if currentRender[1][0].lower() == 'f':
-                value = False
-                confirm = raw_input("activate (y/N)? ")
+                if not currentRender:
+                    value = False
+                    confirm = raw_input("activate (y/N)? ")
+                else:
+                    value = True
+                    confirm = raw_input("deactivate (y/N)? ")
+                
+                if confirm != "" and confirm[0] == 'y':
+                    value = not value
+                
+                self.commandDict['OperationType'] = 'Update'
+                self.commandDict['ComponentId'] = self.currentObject['Id'] #filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
+                self.commandDict['Value'] = value
+                self.commandDict['ParamName'] = "RenderToScreen"#selection[0].strip("'")
+                resp = self.connection.sendMsg(json.dumps(self.commandDict))
             else:
-                value = True
-                confirm = raw_input("deactivate (y/N)? ")
                 
-            if confirm != "" and confirm[0] == 'y':
-                value = not value
+                if not self.currentObject.has_key('Mutable'):
+                    print "Object not mutable."
+                    return 0
+                    
+                print self.commandDict['OperationArg']+"'s Mutables: "
+                n = -1
+                mkeys= self.currentObject['Mutable'].keys()
+                for m in mkeys:
+                    n+=1
+                    print "{0:4}  {1:12} {2}".format(n,m,self.currentObject[m])
                 
-            self.commandDict['OperationType'] = 'Update'
-            self.commandDict['ComponentId'] = filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
-            self.commandDict['Value'] = value
-            self.commandDict['ParamName'] = "RenderToScreen"#selection[0].strip("'")
-            resp = self.connection.sendMsg(json.dumps(self.commandDict))
+                print "edit what?"    
+                i = raw_input("> ")
+                
+                if i.isdigit() and int(i) < len(self.currentObject):
+                    selection = mkeys[int(i)]#map(unicode.strip,co[int(i)].split(':'))
+                    value = raw_input("set "+ selection+ " to: " )
+                    
+                    print "setting ", selection," to '",value,"'"    
+                      
+                    self.commandDict['OperationType'] = 'Update'
+                    self.commandDict['ComponentId'] = self.currentObject['Id']#filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
+                    self.commandDict['Value'] = value
+                    self.commandDict['ParamName'] = selection.strip("'")
+                    resp = self.connection.sendMsg(json.dumps(self.commandDict)) 
+                    print resp
+                #print "unimplemented, sorry"
             
             self.commandDict = {'OperationArg':self.commandDict['OperationArg'],
                                 'OperationDetail':self.commandDict['OperationDetail']}
@@ -258,8 +330,8 @@ class TapRunningInstallation(object):
         while not self.dieNow: 
             m.showMenu()
             m.acceptInput()
-            select = raw_input("> ") 
-            if m.executeSelection(select) == -1:
+            rin = raw_input("> ") 
+            if m.executeSelection(rin) == -1:
                 self.dieNow = True               
     
         m.connection.close()

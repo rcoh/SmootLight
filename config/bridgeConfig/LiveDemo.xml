@@ -1,16 +1,6 @@
 <LightInstallation>
 
-    <PixelConfiguration>
-        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
-    </PixelConfiguration>
-    <RendererConfiguration>
-        <Renderer Scale="3">
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
-        <Renderer>
-            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
-        </Renderer>
-    </RendererConfiguration>
+    <InheritsFrom>config/bridgeConfig/BridgeCore.xml</InheritsFrom>
 
     <InstallationConfiguration>
         <Defaults>
@@ -39,27 +29,6 @@
     </PixelMapperConfiguration>
 
     <InputConfiguration>
-
-        <!-- Pygame Inputs -->
-
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygameclick</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
-            <Args>
-                <Id>pygamekey</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Keyboard>True</Keyboard>
-            </Args>
-        </InputElement>
-
-        <!-- End Pygame Inputs -->
         <!-- Pedestrian Inputs -->
 
         <InputElement>
@@ -113,51 +82,15 @@
         </InputElement>
 
         <!-- End OSC Inputs -->
-        <!-- Mobile Inputs -->
-
-        <InputElement>
-            <Class>inputs.UDPInput</Class>
-            <Args>
-                <Id>udp1</Id>
-                <Port>2001</Port>
-                <RefreshInterval>50</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.UDPInput</Class>
-            <Args>
-                <Id>udp2</Id>
-                <Port>2002</Port>
-                <RefreshInterval>50</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.UDPInput</Class>
-            <Args>
-                <Id>udp3</Id>
-                <Port>2003</Port>
-                <RefreshInterval>50</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.UDPInput</Class>
-            <Args>
-                <Id>udp4</Id>
-                <Port>2004</Port>
-                <RefreshInterval>50</RefreshInterval>
-            </Args>
-        </InputElement>
-
-        <!-- End Mobile Inputs -->
         <!-- Common Inputs -->
 
         <InputElement>
             <Class>inputs.ParametricLocationInput</Class>
             <Args>
                 <Id>randomloc</Id>
-                <RefreshInterval>10</RefreshInterval>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
 
@@ -191,7 +124,7 @@
         <Behavior Id="slowdecay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
             <Args>
-                <Coefficient>.003</Coefficient>
+                <Coefficient>.006</Coefficient>
             </Args>
         </Behavior>
 
@@ -201,16 +134,16 @@
         <Behavior Id="colorchange">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Args>
-                <ColorList>
+                <!--ColorList>
                     <Val>(0,0,255)</Val>
-                </ColorList>
+                </ColorList-->
             </Args>
         </Behavior>
        <Behavior>
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
-                <Increment>0.04</Increment>
+                <Increment>.006</Increment>
             </Args>
         </Behavior>
        <Behavior>
@@ -271,7 +204,6 @@
         <!-- End Common Behaviors -->
         <!-- OSC Behaviors -->
 
-        <!--
         <Behavior>
             <Args>
                 <Id>touchosc</Id>
@@ -294,116 +226,8 @@
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
-        -->
 
         <!-- End OSC Behaviors -->
-        <!-- Mobile Behaviors -->
-
-        <Behavior>
-            <Class>behaviors.MoveBehavior</Class>
-            <Args>
-                <Id>move1</Id>
-	        <XStep>3</XStep>
-	        <YStep>3</YStep>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.MoveBehavior</Class>
-            <Args>
-                <Id>move2</Id>
-	        <XStep>3</XStep>
-	        <YStep>3</YStep>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.MoveBehavior</Class>
-            <Args>
-                <Id>move3</Id>
-	        <XStep>3</XStep>
-	        <YStep>3</YStep>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.MoveBehavior</Class>
-            <Args>
-                <Id>move4</Id>
-	        <XStep>3</XStep>
-	        <YStep>3</YStep>
-            </Args>
-        </Behavior>
-	<Behavior>
-	  <Class>behaviors.MobileShakeBehavior</Class>
-	  <Args>
-	    <Id>mobileshake</Id>
-	    <SizeMult>3</SizeMult>
-	  </Args>
-	</Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>moveanddecay1</Id>
-                <Inputs>
-                    <Id>udp1</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>move1</Id>
-		    <!--<Id>mobileshake</Id>-->
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RenderToScreen>False</RenderToScreen>		
-                <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>moveanddecay2</Id>
-                <Inputs>
-                    <Id>udp2</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>move2</Id>
-		    <!--<Id>mobileshake</Id>-->
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RenderToScreen>False</RenderToScreen>		
-                <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>moveanddecay3</Id>
-                <Inputs>
-                    <Id>udp3</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>move3</Id>
-		    <!--<Id>mobileshake</Id>-->
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RenderToScreen>False</RenderToScreen>		
-                <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>moveanddecay4</Id>
-                <Inputs>
-                    <Id>udp4</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>move4</Id>
-		    <!--<Id>mobileshake</Id>-->
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RenderToScreen>False</RenderToScreen>		
-                <Mapper>gaussmap</Mapper>
-            </Args>
-        </Behavior>
-
-        <!-- End Mobile Behaviors -->
         <!-- Pedtracker Behaviors -->
 
         <Behavior>
@@ -412,7 +236,7 @@
                 <Id>dimcolor</Id>
                 <ParamType>Sensor</ParamType>
                 <ParamName>Color</ParamName>
-                <ParamOp>'[chan*.97 for chan in {val}]'</ParamOp>
+                <ParamOp>'[chan*.94 for chan in {val}]'</ParamOp>
             </Args>
         </Behavior>
         <Behavior>
@@ -453,10 +277,10 @@
                     <Id>pygameclick</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>debugprint</Id>
+                    <!--Id>debugprint</Id-->
                     <Id>colorchange</Id>
                     <Id>mover</Id>
-                    <Id>colorshift</Id>
+                    <!--Id>colorshift</Id-->
                     <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'circle_expand'}</RecursiveHooks>
@@ -480,8 +304,8 @@
             <Args>
                 <Id>colorbar</Id>
                 <ChainedBehaviors>
-                    <Id>vbar</Id>
-                    <Id>slowcolorshift</Id>
+		    <Id>vbar</Id>
+		    <Id>slowcolorshift</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -493,10 +317,9 @@
                     <Id>onehorizontal</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>color</Id>
-                    <Id>mover</Id>
-                    <!--Id>flicker</Id-->
-                    <Id>singleframe</Id>
+		    <Id>color</Id>
+		    <Id>mover</Id>
+		    <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorbar'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
@@ -558,7 +381,7 @@
                 <MainId>shiftingcolors</MainId>
                 <OnChange>None</OnChange>
                 <InterruptId>pedtracker</InterruptId>
-                <Timeout>1</Timeout>
+                <Timeout>2</Timeout>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -568,7 +391,7 @@
                 <Id>maininterrupt</Id>
                 <MainId>subinterrupt</MainId>
                 <OnChange>None</OnChange>
-                <InterruptId>moveanddecay4</InterruptId>
+                <InterruptId>OSCTouchChase</InterruptId>
                 <Timeout>1</Timeout>
                 <RenderToScreen>True</RenderToScreen>
             </Args>

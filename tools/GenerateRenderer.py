@@ -35,12 +35,14 @@ def generateRendererXml(className, ipSubnet, stripNum):
         xmlStr += tab(2) + '<PowerSupply>\n'
         xmlStr += tab(3) + toXmlArgNode('IP', ipSubnet + str(i)) + '\n'
         xmlStr += tab(3) + '<PortMapping>{'
-        xmlStr += '\'' + str(2*i-1) + '\':' + str(1) + ', \'' + str(2*i) + '\':' + str(2)
+        xmlStr += '\'s' + str(2*i-1) + '\':' + str(1) + ', \'s' + str(2*i) + '\':' + str(2)
         xmlStr += '}</PortMapping>\n'
         xmlStr += tab(2) + '</PowerSupply>\n'
         
     xmlStr += tab(1) + '</Args>\n'
     xmlStr += '</Renderer>\n'
+
+    print(xmlStr)
     return xmlStr
 
 ## -----------

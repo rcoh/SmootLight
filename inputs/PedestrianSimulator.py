@@ -37,7 +37,7 @@ class PedestrianSimulator(Input):
     def getLocs(self):
         return [ped['Loc'] for ped in self.peds]
     def addPedestrian(self, loc, vel):
-        self.peds.append({'Loc':loc,'Vel':vel})
+        self.peds.append({'Loc':loc,'Vel':vel+random.randint(-5,5)})
     def evaluateSensors(self):
         for s in self.sensors:
             s.sensingLoop()
@@ -52,6 +52,7 @@ class PedestrianSimulator(Input):
         self.responses.append(sensorInput)
     def movePedestrians(self, dt):
         for ped in self.peds:
+            ped['Vel'] += random.randint(-5,5) #random velocity changes
             ped['Loc'] += ped['Vel'] * dt/1000
             #Bounce pedestrians that turn
             if ped['Loc'] < 0:

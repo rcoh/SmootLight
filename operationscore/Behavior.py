@@ -82,12 +82,15 @@ class Behavior(SmootCoreObject):
                 (out, recurs) = responses
                 return (self.addMapperToResponse(out), self.addMapperToResponse(recurs))
             if isinstance(responses, list):
-                    for r in responses:
+                    for r in responses:                        
                         if not 'Mapper' in r:
                             r['Mapper'] = self['Mapper']
+                        # WHAT DOES THIS DO?
+                        """ 
                         else:
                             print 'here'
                             main_log.error('Here')
+                        """
                     return responses
         return responses
 
