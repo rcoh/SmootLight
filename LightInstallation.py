@@ -147,7 +147,6 @@ class LightInstallation(object):
             loopElapsed = clock.time()-loopStart
             print loopElapsed
             sleepTime = max(0,refreshInterval-loopElapsed)
-            print 1000/loopElapsed
             main_log.debug('Loop complete in {0} ms.  Sleeping for {1} ms.'.format(loopElapsed, sleepTime))
             self.timer.stop()
             if sleepTime > 0:
