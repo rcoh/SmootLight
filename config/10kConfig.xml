@@ -139,8 +139,9 @@ see BehaviorSequnce.py documentation.
 
         <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
+            <Doc>simulated pedestrian data</Doc>
             <Args>
-                <Id>pedsim</Id>
+                <Id>simulatedpeds</Id>
                 <MaxX>900</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
@@ -149,29 +150,12 @@ see BehaviorSequnce.py documentation.
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.UDPInput</Class>
+            <Class>inputs.UDPInputWithDirPeds</Class>
+            <Doc>Live pedestrian data</Doc>
             <Args>
-                <Id>sensorudp</Id>
+                <Id>livepeds</Id>
                 <Port>3344</Port>
                 <RefreshInterval>100</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.SensorNetworkToLocation</Class>
-            <Args>
-                <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
-                <!--SensorNetworkId>sensorudp</SensorNetworkId>
-                <Mode>SensorNetwork</Mode-->
-                <SensorSpacing>48</SensorSpacing>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.DirectionalPedestrians</Class>
-            <Doc>Use this as actual input for dirped</Doc>
-            <Args>
-                <Id>dirped</Id>
-                <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
 
@@ -252,7 +236,7 @@ see BehaviorSequnce.py documentation.
             <Args>
                 <Doc>Outputs a random color with dimness 1.0</Doc>
                 <Id>setbrightcolor</Id>
-		<Dimness>1.0</Dimness>
+                <Dimness>1.0</Dimness>
             </Args>
         </Behavior>
         <Behavior>
@@ -263,7 +247,27 @@ see BehaviorSequnce.py documentation.
 		<Dimness>0.3</Dimness>
             </Args>
         </Behavior>
-
+        <Behavior>
+            <Class>behaviors.DirectionalColor</Class>
+            <Doc>Outputs a color depending on your direction</Doc>
+            <Args>
+                <Id>dircolor</Id>
+                <PositiveColor>(255,0,0)</PositiveColor>
+                <NegativeColor>(0,0,255)</NegativeColor>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.VelocityBasedColor</Class>
+            <Doc>changes color based on velocity.  Vel is max expected speed in MPH.</Doc>
+            <Args>
+                <Id>velcolor</Id>
+                <MinHue>0</MinHue>
+                <MaxHue>1</MaxHue>
+                <MinVel>${Vel}$*-.0176</MinVel> <!--convert from mph-->
+                <MaxVel>${Vel}$*.0176</MaxVel>
+                <Vel>5</Vel> 
+            </Args>
+        </Behavior>
     <!-- End Color Behaviors -->
 
     <!-- _PXE Pixel Events -->
@@ -293,8 +297,12 @@ see BehaviorSequnce.py documentation.
             </Args>
         </Behavior>
         <Behavior Id="singleframe">
-	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
 	    </Behavior>
+        <Behavior Id="risefall">
+            <Doc>Risefall event for tdma behaviors</Doc>
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+        </Behavior>
 
     <!-- End Pixel Events -->
 
@@ -524,7 +532,93 @@ see BehaviorSequnce.py documentation.
         </Behavior>
 
     <!-- End Firefly Behaviors -->
-
+    <!-- _PED Pedestrian Tracking Behaviors -->
+    <Behavior>
+        <Class>behaviors.GenerateModulate</Class>
+        <Doc>pedestrian tracking behavior -- implements its own mover</Doc>
+        <Args>
+            <Id>genmod</Id>
+            <ThresholdDist>60</ThresholdDist>
+            <MaxDist>100</MaxDist>
+            <IntersectionTime>5000</IntersectionTime>
+        </Args>
+    </Behavior>
+    <Behaviors>
+        <Class>behaviors.XYMoveVelocity</Class>
+        <Doc>a time-intelligent motion behavior</Doc>
+        <Args>
+            <Id>xymovevel</Id>
+            <XVel>5</XVel>
+            <YVel>0</YVel>
+        </Args>
+    </Behaviors>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>trackingwhite</Id>
+            <Inputs>
+                <Id>pedsim</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>white</Id>
+                <Id>genmod</Id>
+                <Id>risefall</Id>
+            </ChainedBehaviors>
+            <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
+            <Mapper>gaussmap</Mapper>
+            <AcceptInputs>True</AcceptInputs>
+        </Args>
+    </Behavior>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>trackingdirectional</Id>
+            <Inputs>
+                <Id>dirped</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>genmod</Id>
+                <Id>dircolor</Id>
+                <Id>decay</Id>
+            </ChainedBehaviors>
+            <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
+            <Mapper>gaussmap</Mapper>
+            <AcceptInputs>True</AcceptInputs>
+        </Args>
+    </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>trackingvelocity</Id>
+                <Inputs>
+                    <Id>dirped</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>genmod</Id>
+                    <Id>velcolor</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
+                <Mapper>gaussmap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>sensordebug</Id>
+                <Inputs>
+                    <Id>netloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>white</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>False</RenderToScreen>
+            </Args>
+        </Behavior>
+    <!-- End Pedestrian Tracking Behaviors -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
@@ -538,6 +632,15 @@ see BehaviorSequnce.py documentation.
             <Args>
                 <Id>bodysequence</Id>
                 <Sequence>
+                    <Behavior>
+                        <Id>trackingwhite</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
                     <Behavior>
                         <Id>colorall</Id>
                         <Timeout>10</Timeout>

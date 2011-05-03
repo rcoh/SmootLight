@@ -137,6 +137,7 @@ class LightInstallation(object):
         lastLoopTime = clock.time()
         refreshInterval = 30 
         runCount = 0
+        print 'Starting Main Loop'
         while not self.dieNow: #dieNow is set if one of its constituents sends a die request.
             runCount += 1
             runCount = runCount % 30
