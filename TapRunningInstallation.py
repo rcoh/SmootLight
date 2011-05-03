@@ -43,7 +43,7 @@ class TapConnection(object):
 
             time.sleep(interval)
             while select([s],[],[], 0)[0]:
-                    (inData,addy) = s.recvfrom(1024)
+                    (inData,addy) = s.recvfrom(2048)
                     string = string + inData
          #if string == "":
          #    return ""

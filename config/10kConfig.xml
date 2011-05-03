@@ -325,8 +325,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Coefficient>.02</Coefficient>
             </Args>
-        </Behavior>
-        <Behavior Id="singleframe">
+       </Behavior>
+                <Behavior Id="decay" Coefficient=".5">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+       </Behavior>
+       <Behavior Id="singleframe">
             <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
 	    </Behavior>
         <Behavior Id="risefall">
