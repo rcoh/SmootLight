@@ -89,13 +89,19 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </PixelMapper>
         <PixelMapper>
-            <Class>pixelmappers.GaussianMapper</Class>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Args>
-                <Id>fireflymap</Id>
-                <CutoffDist>20</CutoffDist>
-                <MinWeight>0.1</MinWeight>
-                <Width>14</Width>
-                <Height>1</Height>
+                <Id>ffireflymap</Id>
+                <Width>500</Width>
+		<Intensity>1</Intensity>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>bgfireflymap</Id>
+                <Width>300</Width>
+                <Intensity>0.3</Intensity>
             </Args>
         </PixelMapper>
 
@@ -397,7 +403,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 	    <Args>
 	        <Doc>Only admit inputs after every interval</Doc>
 	        <Id>mmover</Id>
-	        <IntervalCount>0</IntervalCount>
+	        <IntervalCount>1</IntervalCount>
 	    </Args>
 	</Behavior>
 
@@ -588,7 +594,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>fireflymap</Mapper>
+                <Mapper>ffireflymap</Mapper>
             </Args>
         </Behavior>
 	
@@ -615,13 +621,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>hclone</Id>
                 <StepSize>48</StepSize>
-                <Times>4</Times>
+                <Times>6</Times>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>staticfireflies</Id>
+                <Id>bgfireflies</Id>
                 <Inputs>
                     <Id>netloc</Id>
                 </Inputs>
@@ -633,11 +639,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <Mapper>bgfireflymap</Mapper>
             </Args>
         </Behavior>
 
     <!-- End Firefly Behaviors -->
+
     <!-- _PED Pedestrian Tracking Behaviors -->
     <Behavior>
         <Class>behaviors.GenerateModulate</Class>
@@ -792,6 +799,25 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
+		    <!-- TODO: multiple behaviors in the same phase?
+                    <Behavior>
+                        <Id>fireflies</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>bgfireflies</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>-->
                     <Behavior>
                         <Id>passthrough</Id>
                         <Timeout>5</Timeout>
