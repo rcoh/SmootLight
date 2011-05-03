@@ -326,9 +326,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Coefficient>.02</Coefficient>
             </Args>
        </Behavior>
-       <Behavior Id="decay" Coefficient=".5">
-            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
-       </Behavior>
        <Behavior Id="singleframe">
             <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
 	    </Behavior>
@@ -704,7 +701,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>dircolor</Id>
-                <Id>decay</Id>
+                <Id>flashdecay</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
@@ -721,7 +718,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>velcolor</Id>
-                <Id>decay</Id>
+                <Id>flashdecay</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
@@ -737,7 +734,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Inputs>
             <ChainedBehaviors>
                 <Id>white</Id>
-                <Id>decay</Id>
+                <Id>flashdecay</Id>
             </ChainedBehaviors>
             <Mapper>gaussmap</Mapper>
             <RenderToScreen>False</RenderToScreen>

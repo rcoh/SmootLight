@@ -232,7 +232,7 @@ class MenuTree(object):
             if index != None:
                 if self.requestSpecificItem(index,False) < 0:
                     return
-            elif self.requestSpecificItem(self.lastindex,False) < 0:
+            elif self.requestSpecificItem(self.lastindex,True) < 0:
                     return
             
             #else:
@@ -275,7 +275,7 @@ class MenuTree(object):
                     print "Object not mutable."
                     return 0
                     
-                print self.commandDict['OperationArg']+"'s Mutables: "
+                print self.commandDict['OperationArg']+"'s API: "
                 n = -1
                 mkeys= self.currentObject['Mutable'].keys()
                 functions = []
@@ -313,7 +313,9 @@ class MenuTree(object):
                     resp = self.connection.sendMsg(json.dumps(self.commandDict)) 
                     print resp
                 else:
-                    if not i.isdigit():
+                    if i =="":
+                        print "cancelled"
+                    elif not i.isdigit():
                         print "syntax error"
                     else:
                         print "index out of range"

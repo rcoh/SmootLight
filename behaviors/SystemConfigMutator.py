@@ -66,7 +66,7 @@ class SystemConfigMutator(Behavior):
             valid = (val in obj)
         else:
             main_log.error("invalid validator, need lambda,list,or type: "+str(obj))
-            
+            return -1
         return valid
             
     def processResponse(self, data, recurs):
@@ -97,14 +97,14 @@ class SystemConfigMutator(Behavior):
                         if newParamValue is not None:
                             currentObject['RenderToScreen'] = newParamValue
                     elif currentObject.argDict.has_key('Mutable') and currentObject.argDict['Mutable'].has_key(paramName):
-                        if paramName == 'command_reset' or paramName == 'command_skip':
+                        if paramName in dir(currentObject): #paramName == 'command_reset' or paramName == 'command_skip':
                             if newParamValue:
                                 try:
                                     eval("currentObject."+paramName+'()')
                                     packet['Callback'](paramName[8:])
                                 except:
                                     packet['Callback']('no '+paramName[8:])
-                        else:
+                        elif currentObject.argDict.has_key(paramName):
                                 if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
                                     currentObject[paramName] = newParamValue
                                     main_log.debug("Modified Correctly")
@@ -112,6 +112,9 @@ class SystemConfigMutator(Behavior):
                                 else:
                                     main_log.error("Invalid modifier, type: "+str(type(newParamValue))+" value:"+str(newParamValue))
                                     packet['Callback']('Failed')
+                        else:
+                            main_log.error("Invalid mutable for this object.")
+                            packet['Callback']("'"+paramName+"' is an invalid method or argDict parameter")
                     else:
                         raise Exception('Non-mutable parameter specified.') # don't allow anything else for security purposes
                     #TODO: consider adding lambda evaluation capabilities
