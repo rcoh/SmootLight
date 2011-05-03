@@ -87,6 +87,17 @@ see BehaviorSequnce.py documentation.
                 <Height>1</Height>
             </Args>
         </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>fireflymap</Id>
+                <CutoffDist>20</CutoffDist>
+                <MinWeight>0.1</MinWeight>
+                <Width>14</Width>
+                <Height>1</Height>
+            </Args>
+        </PixelMapper>
+
     </PixelMapperConfiguration>
     <InputConfiguration>
 
@@ -236,6 +247,22 @@ see BehaviorSequnce.py documentation.
                 <Increment>0.02</Increment>
             </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.RandomSetColorBehavior</Class>
+            <Args>
+                <Doc>Outputs a random color with dimness 1.0</Doc>
+                <Id>setbrightcolor</Id>
+		<Dimness>1.0</Dimness>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RandomSetColorBehavior</Class>
+            <Args>
+                <Doc>Outputs a random color with dimness 0.3</Doc>
+                <Id>setdimcolor</Id>
+		<Dimness>0.3</Dimness>
+            </Args>
+        </Behavior>
 
     <!-- End Color Behaviors -->
 
@@ -343,6 +370,14 @@ see BehaviorSequnce.py documentation.
                 <Id>passthrough</Id>
             </Args>
         </Behavior>
+	<Behavior>
+	    <Class>behaviors.MonitoredMover</Class>
+	    <Args>
+	        <Doc>Only admit inputs after every interval</Doc>
+	        <Id>mmover</Id>
+	        <IntervalCount>0</IntervalCount>
+	    </Args>
+	</Behavior>
 
     <!-- End Chaining Behaviors -->
 
@@ -404,6 +439,92 @@ see BehaviorSequnce.py documentation.
         </Behavior>
 
     <!-- _CLA Colorall Behaviors -->
+
+
+    <!-- _FLY Firefly Behaviors -->
+        <!-- BRIGHT PED-TRACKING FIREFLIES -->
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>frontrandmovement</Id>
+                <StepSize>12</StepSize>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>frontflymove</Id>
+                <ChainedBehaviors>
+                    <Id>frontrandmovement</Id>
+		    <Id>shortrecursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>fireflies</Id>
+                <Inputs>
+                    <Id>netloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>setbrightcolor</Id>
+                    <Id>mmover</Id>
+                    <Id>flashdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>fireflymap</Mapper>
+            </Args>
+        </Behavior>
+	
+	<!-- BACKGROUND FIREFLIES -->
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>bgrandmovement</Id>
+                <StepSize>8</StepSize>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>bgflymove</Id>
+                <ChainedBehaviors>
+                    <Id>bgrandmovement</Id>
+		    <Id>shortrecursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+	<Behavior>
+	    <Class>behaviors.HorizontalClone</Class>
+	    <Args>
+	        <Id>hclone</Id>
+	        <StepSize>48</StepSize>
+	        <Times>4</Times>
+	    </Args>
+	</Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>staticfireflies</Id>
+                <Inputs>
+                    <Id>netloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+		    <Id>hclone</Id>
+                    <Id>setdimcolor</Id>
+                    <Id>mmover</Id>
+                    <Id>flashdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+
+    <!-- End Firefly Behaviors -->
+
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
