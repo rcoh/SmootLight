@@ -34,6 +34,22 @@
                 <Height>1</Height>
             </Args>
         </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>pgaussmapfixed</Id>
+                <Width>300</Width>
+		<Intensity>0.3</Intensity>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>pgaussmapmove</Id>
+                <Width>500</Width>
+		<Intensity>1</Intensity>
+            </Args>
+        </PixelMapper>
     </PixelMapperConfiguration>
     <InputConfiguration>
         <InputElement>
@@ -93,10 +109,10 @@
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="decay">
-            <InheritsFrom>behaviors/PixelPulse.xml</InheritsFrom>
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
 	    <Args>
 	      <Duration>600</Duration>
-	      <Coefficient>0.001</Coefficient>
+	      <Coefficient>0.02</Coefficient>
 	    </Args>
         </Behavior>
 	<Behavior>
@@ -176,7 +192,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmapmove</Mapper>
+                <Mapper>pgaussmapmove</Mapper>
             </Args>
         </Behavior>
 
@@ -187,7 +203,7 @@
 	  <Args>
 	    <Id>hclone</Id>
 	    <StepSize>48</StepSize>
-	    <Times>4</Times>
+	    <Times>6</Times>
 	  </Args>
 	</Behavior>
         <Behavior Id="recursivedecay1" InitialResponseCount="10">
@@ -232,7 +248,7 @@
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce1'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmapfixed</Mapper>
+                <Mapper>pgaussmapfixed</Mapper>
             </Args>
         </Behavior>
 
