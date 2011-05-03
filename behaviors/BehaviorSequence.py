@@ -10,13 +10,13 @@ class BehaviorSequence(Behavior):
         <Id>...</Id>
         <Sequence>
             <Behavior> # Sequence of definition is sequence of display
-                <Id>...</Id>
-                <Timeout>...</Timeout> # in seconds
+                <Id>...</Id> # Id of root animation behavior
+                <Timeout>...</Timeout> # in seconds, run time for behavior
                 <OnChange>[ None | Pause | Restart ]</OnChange>
                 # During the time in which this behavior is not active, what
                 # should be going on?
                 # Pause: No inputs will be added to it's queue when inactive
-                # Restart: Behavior restarts
+                # Restart: Behavior restarts when reactivated
                 # None: Behavior will keep State and will accrue inputs
                 <FadeInId>...</FadeInId> # optional behavior to modulate fadein
                 <FadeInTime>...</FadeInTime> # fade in time in seconds
@@ -34,7 +34,10 @@ class BehaviorSequence(Behavior):
     </Args>
     Behaviors will change when either the last output of the currently
     executing behavior is {BehaviorComplete: True}, or the behavior runs to 
-    the specified timeout."""
+    the specified timeout.
+    Note that BehaviorSequence itself does not accept inputs; instead, inputs
+    should be specified in the root animation behavior, i.e. if BehaviorSeq.
+    does not exist."""
 
     behaviorComplete = {'BehaviorComplete': True}
 

@@ -18,6 +18,10 @@ TABLE OF SECTIONS
         _SPK Sparkle Behaviors
         _CLA Colorall Behaviors
         _PED Pedestrian Tracking Behaviors
+        _LMP Lamp Behaviors
+        _WFL Waterfall Behaviors
+        _FLY Firefly Behaviors
+
     _EXE Execution Behaviors
         _BAS Main Animation Stack
         _SAS Startup/Shutdown Animation Stack
@@ -30,20 +34,17 @@ To help with this, please put B/I's which should/can not be reused by others
 in the animation's B/I section, and put any B/I's that will be used by others
 in the common area.
 
-<Doc> tags are useful for describing non-intuitive behaviors to help
-others see what is going on. Run XmlInfo.py <config-file> to generate a quick
-help text of the various Behaviors/Inputs 
-
 I've added three-letter tags for each section header, and have also
 included them in the table of sections. They should only be found in those two
 places, so that you can use them to quickly jump back and forth between the
 ToS and various sections of code. (Key * with your cursor over the _XXX in vim)
 
 <AcceptInputs>True Add this tag to your root animation behavior so that your
-animations will receive inputs and will actually run
+animations will receive inputs and will actually run in the Sequence. This 
+replaces the <RenderToScreen> functionality.
 
-For additional instruction on adding your animation to BehaviorSequence, please
-see BehaviorSequnce.py documentation.
+For instruction on adding your animation to BehaviorSequence, read the
+BehaviorSequnce.py documentation. Seriously, it helps.
 -->
 
 <LightInstallation>
@@ -106,10 +107,11 @@ see BehaviorSequnce.py documentation.
     <!-- _CIO Common Inputs - Once Only -->
 
         <InputElement>
-            <Class>inputs.OneHorizontalInput</Class>
-            <Doc>Generates an event for every inch from left to right, once</Doc>
+            <Class>inputs.InitialLocationInput</Class>
             <Args>
-                <Id>onehorizontal</Id>
+                <Id>onecenter</Id>
+                <xPos>.5</xPos>
+                <yPos>.5</yPos>
             </Args>
         </InputElement>
 
@@ -126,6 +128,24 @@ see BehaviorSequnce.py documentation.
                 <yEquation>random.random()</yEquation>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>center</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>.5</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>movingmiddle</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>(t/100.0)%1</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
 
     <!-- End Common Inputs - Continuous -->
 
@@ -136,9 +156,9 @@ see BehaviorSequnce.py documentation.
             <Doc>simulated pedestrian data</Doc>
             <Args>
                 <Id>simulatedpeds</Id>
-                <MaxX>900</MaxX>
+                <MaxX>17000</MaxX>
                 <Velocity>40</Velocity>
-                <NumSensors>40</NumSensors>
+                <NumSensors>400</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
                 <NumPeds>50</NumPeds>
             </Args>
@@ -442,8 +462,100 @@ see BehaviorSequnce.py documentation.
 
     <!-- _CLA Colorall Behaviors -->
 
+    <!-- _LMP Lamp Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.Gradient</Class>
+            <Args>
+                <Id>lampgradient</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <Gradient>
+                    <Color>(255, 255, 255)</Color>
+                    <Peak>.5</Peak>
+                    <Width>.1</Width>
+                    <Min>.2</Min>
+                    <Max>.8</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(204, 102, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.4</Width>
+                    <Min>0</Min>
+                    <Max>.6</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>lamp</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>lampgradient</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+
+    <!-- End Lamp Behaviors -->
+
+    <!-- _WFL Waterfall Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.Gradient</Class>
+            <Args>
+                <Id>waterfallgradient</Id>
+                <Gradient>
+                    <Color>(255, 0, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 255, 0)</Color>
+                    <Peak>.333</Peak>
+                    <Width>.333</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 0, 255)</Color>
+                    <Peak>.666</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>waterfall</Id>
+                <Inputs>
+                    <Id>movingmiddle</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>waterfallgradient</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+
+    <!-- End Waterfall Behaviors -->
 
     <!-- _FLY Firefly Behaviors -->
+
         <!-- BRIGHT PED-TRACKING FIREFLIES -->
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
@@ -458,7 +570,7 @@ see BehaviorSequnce.py documentation.
                 <Id>frontflymove</Id>
                 <ChainedBehaviors>
                     <Id>frontrandmovement</Id>
-                <Id>shortrecursivedecay</Id>
+                    <Id>shortrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -480,7 +592,7 @@ see BehaviorSequnce.py documentation.
             </Args>
         </Behavior>
 	
-	<!-- BACKGROUND FIREFLIES -->
+        <!-- BACKGROUND FIREFLIES -->
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
@@ -494,18 +606,18 @@ see BehaviorSequnce.py documentation.
                 <Id>bgflymove</Id>
                 <ChainedBehaviors>
                     <Id>bgrandmovement</Id>
-		    <Id>shortrecursivedecay</Id>
+                    <Id>shortrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
-	<Behavior>
-	    <Class>behaviors.HorizontalClone</Class>
-	    <Args>
-	        <Id>hclone</Id>
-	        <StepSize>48</StepSize>
-	        <Times>4</Times>
-	    </Args>
-	</Behavior>
+        <Behavior>
+            <Class>behaviors.HorizontalClone</Class>
+            <Args>
+                <Id>hclone</Id>
+                <StepSize>48</StepSize>
+                <Times>4</Times>
+            </Args>
+        </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
@@ -628,7 +740,7 @@ see BehaviorSequnce.py documentation.
                 <Sequence>
                     <Behavior>
                         <Id>trackingwhite</Id>
-                        <Timeout>5</Timeout>
+                        <Timeout>50</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -648,6 +760,15 @@ see BehaviorSequnce.py documentation.
                         <Id>sparkle</Id>
                         <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>waterfall</Id>
+                        <Timeout>10</Timeout>
+                        <OnChange>None</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
@@ -674,9 +795,13 @@ see BehaviorSequnce.py documentation.
                 <Id>primarysequence</Id>
                 <Sequence>
                     <Behavior>
-                        <Id>passthrough</Id>
-                        <Timeout>4</Timeout>
+                        <Id>lamp</Id>
+                        <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
+                        <FadeOutId>passthrough</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>

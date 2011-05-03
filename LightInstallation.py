@@ -142,8 +142,8 @@ class LightInstallation(object):
         while not self.dieNow: #dieNow is set if one of its constituents sends a die request.
             runCount += 1
             dieCount -= 1
-            if dieCount < 0:
-                self.dieNow = True
+            #if dieCount < 0:
+            #    self.dieNow = True
             runCount = runCount % 30
             loopStart = clock.time()
             responses = self.evaluateBehaviors() 
