@@ -19,6 +19,7 @@ TABLE OF SECTIONS
         _CLA Colorall Behaviors
         _LMP Lamp Behaviors
         _WFL Waterfall Behaviors
+        _FLY Firefly Behaviors
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -543,6 +544,91 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Waterfall Behaviors -->
+
+    <!-- _FLY Firefly Behaviors -->
+
+        <!-- BRIGHT PED-TRACKING FIREFLIES -->
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>frontrandmovement</Id>
+                <StepSize>12</StepSize>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>frontflymove</Id>
+                <ChainedBehaviors>
+                    <Id>frontrandmovement</Id>
+                    <Id>shortrecursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>fireflies</Id>
+                <Inputs>
+                    <Id>netloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>setbrightcolor</Id>
+                    <Id>mmover</Id>
+                    <Id>flashdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>fireflymap</Mapper>
+            </Args>
+        </Behavior>
+	
+        <!-- BACKGROUND FIREFLIES -->
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>bgrandmovement</Id>
+                <StepSize>8</StepSize>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>bgflymove</Id>
+                <ChainedBehaviors>
+                    <Id>bgrandmovement</Id>
+                    <Id>shortrecursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.HorizontalClone</Class>
+            <Args>
+                <Id>hclone</Id>
+                <StepSize>48</StepSize>
+                <Times>4</Times>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>staticfireflies</Id>
+                <Inputs>
+                    <Id>netloc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>hclone</Id>
+                    <Id>setdimcolor</Id>
+                    <Id>mmover</Id>
+                    <Id>flashdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+
+    <!-- End Firefly Behaviors -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
