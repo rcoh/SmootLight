@@ -5,7 +5,8 @@ TABLE OF SECTIONS
         _CIO Common Inputs - Once Only
         _CIC Common Inputs - Continuous
         _PSI Pedestrian Sensor Inputs
-    
+        _TAP TapRunning Input
+     
     _CRB Common Reusable Behaviors
         _CLR Color Behaviors
         _PXE Pixel Events
@@ -25,6 +26,8 @@ TABLE OF SECTIONS
     _EXE Execution Behaviors
         _BAS Main Animation Stack
         _SAS Startup/Shutdown Animation Stack
+
+    _TPB Tap behavior
 
 WHERE TO PUT YOUR CODE (Please, please read this)
 
@@ -174,6 +177,19 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </InputElement>
 
     <!-- End Pedestrian Sensor Inputs -->
+
+    <!-- _TAP Pedestrian Sensor Inputs -->
+   
+		<InputElement>
+		    <Class>inputs.TapInput</Class>
+		    <Args>
+			<Id>tap</Id>
+			<Port>22332</Port>
+			<RefreshInterval>50</RefreshInterval>
+		    </Args>
+		</InputElement>
+
+    <!-- End Tap Input -->
 
 <!-- ****** End Inputs ****** -->
 
@@ -729,7 +745,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
-<!-- ****** _EXE Execution Behaviors ****** -->
+<!-- ****** B_EXE Execution Behaviors ****** -->
 
     <!-- _BAS Body Animation Stack -->
 
@@ -841,6 +857,19 @@ BehaviorSequnce.py documentation. Seriously, it helps.
     <!-- End Startup/Shutdown Animation Stack -->
 
 <!-- ****** End Execution Behaviors ****** -->
+
+
+<!-- ****** _TBP Tap Mutator Behavior ****** -->
+        <Behavior Id="mutation">
+		<Class>behaviors.SystemConfigMutator</Class>
+		<Args><Inputs>
+			<Id>tap</Id>
+		</Inputs>
+		<RenderToScreen>True</RenderToScreen>
+		</Args>
+        </Behavior>
+
+<!-- ****** End Tap Mutator Behavior ****** -->
 
     </BehaviorConfiguration>
 </LightInstallation>
