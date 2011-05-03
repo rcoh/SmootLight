@@ -326,7 +326,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Coefficient>.02</Coefficient>
             </Args>
        </Behavior>
-                <Behavior Id="decay" Coefficient=".5">
+       <Behavior Id="decay" Coefficient=".5">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
        </Behavior>
        <Behavior Id="singleframe">
@@ -862,7 +862,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 <!-- ****** End Execution Behaviors ****** -->
 
 
-<!-- ****** _TBP Tap Mutator Behavior ****** -->
+<!-- ****** _TPB Tap Mutator Behavior ****** -->
         <Behavior Id="mutation">
 		<Class>behaviors.SystemConfigMutator</Class>
 		<Args><Inputs>

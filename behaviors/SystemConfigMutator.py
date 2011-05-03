@@ -97,18 +97,13 @@ class SystemConfigMutator(Behavior):
                         if newParamValue is not None:
                             currentObject['RenderToScreen'] = newParamValue
                     elif currentObject.argDict.has_key('Mutable') and currentObject.argDict['Mutable'].has_key(paramName):
-                        if paramName == 'command_reset':
-                            try:
-                                currentObject.command_reset()
-                                packet['Callback']('reset')
-                            except:
-                                packet['Callback']('no reset')
-                        elif paramName == 'command_skip':
-                            try:
-                                currentObject.command_skip()`
-                                packet['Callback']('skipped')
-                            except:
-                                packet['Callback']('no skip')
+                        if paramName == 'command_reset' or paramName == 'command_skip':
+                            if newParamValue:
+                                try:
+                                    eval("currentObject."+paramName+'()')
+                                    packet['Callback'](paramName[8:])
+                                except:
+                                    packet['Callback']('no '+paramName[8:])
                         else:
                                 if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
                                     currentObject[paramName] = newParamValue
