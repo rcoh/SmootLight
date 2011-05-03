@@ -17,6 +17,8 @@ TABLE OF SECTIONS
     _ANM Animation Specific Behaviors
         _SPK Sparkle Behaviors
         _CLA Colorall Behaviors
+        _LMP Lamp Behaviors
+        _WFL Waterfall Behaviors
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -130,6 +132,24 @@ see BehaviorSequnce.py documentation.
                 <RefreshInterval>100</RefreshInterval>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>center</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>.5</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>movingmiddle</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>(t/100.0)%1</xEquation>
+                <yEquation>.5</yEquation>
             </Args>
         </InputElement>
 
@@ -440,91 +460,100 @@ see BehaviorSequnce.py documentation.
 
     <!-- _CLA Colorall Behaviors -->
 
+    <!-- _LMP Lamp Behaviors -->
 
-    <!-- _FLY Firefly Behaviors -->
-        <!-- BRIGHT PED-TRACKING FIREFLIES -->
         <Behavior>
-            <Class>behaviors.RandomWalk</Class>
+            <Class>behaviors.Gradient</Class>
             <Args>
-                <Id>frontrandmovement</Id>
-                <StepSize>12</StepSize>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>frontflymove</Id>
-                <ChainedBehaviors>
-                    <Id>frontrandmovement</Id>
-		    <Id>shortrecursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>fireflies</Id>
+                <Id>lampgradient</Id>
                 <Inputs>
-                    <Id>netloc</Id>
+                    <Id>center</Id>
+                </Inputs>
+                <Gradient>
+                    <Color>(255, 255, 255)</Color>
+                    <Peak>.5</Peak>
+                    <Width>.1</Width>
+                    <Min>.2</Min>
+                    <Max>.8</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(204, 102, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.4</Width>
+                    <Min>0</Min>
+                    <Max>.6</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>lamp</Id>
+                <Inputs>
+                    <Id>center</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>setbrightcolor</Id>
-                    <Id>mmover</Id>
-                    <Id>flashdecay</Id>
+                    <Id>lampgradient</Id>
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>fireflymap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
-	
-	<!-- BACKGROUND FIREFLIES -->
+
+    <!-- End Lamp Behaviors -->
+
+    <!-- _WFL Waterfall Behaviors -->
+
         <Behavior>
-            <Class>behaviors.RandomWalk</Class>
+            <Class>behaviors.Gradient</Class>
             <Args>
-                <Id>bgrandmovement</Id>
-                <StepSize>8</StepSize>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>bgflymove</Id>
-                <ChainedBehaviors>
-                    <Id>bgrandmovement</Id>
-		    <Id>shortrecursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-	<Behavior>
-	    <Class>behaviors.HorizontalClone</Class>
-	    <Args>
-	        <Id>hclone</Id>
-	        <StepSize>48</StepSize>
-	        <Times>4</Times>
-	    </Args>
-	</Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>staticfireflies</Id>
+                <Id>waterfallgradient</Id>
                 <Inputs>
-                    <Id>netloc</Id>
+                    <Id>movingcenter</Id>
+                </Inputs>
+                <Gradient>
+                    <Color>(255, 0, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 255, 0)</Color>
+                    <Peak>.333</Peak>
+                    <Width>.333</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 0, 255)</Color>
+                    <Peak>.666</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>waterfall</Id>
+                <Inputs>
+                    <Id>movingcenter</Id>
                 </Inputs>
                 <ChainedBehaviors>
-		    <Id>hclone</Id>
-                    <Id>setdimcolor</Id>
-                    <Id>mmover</Id>
-                    <Id>flashdecay</Id>
+                    <Id>waterfallgradient</Id>
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
 
-    <!-- End Firefly Behaviors -->
-
+    <!-- End Waterfall Behaviors -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
@@ -557,6 +586,15 @@ see BehaviorSequnce.py documentation.
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
+                        <Id>waterfall</Id>
+                        <Timeout>10</Timeout>
+                        <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
+                    <Behavior>
                         <Id>passthrough</Id>
                         <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
@@ -577,9 +615,13 @@ see BehaviorSequnce.py documentation.
                 <Id>primarysequence</Id>
                 <Sequence>
                     <Behavior>
-                        <Id>passthrough</Id>
-                        <Timeout>4</Timeout>
+                        <Id>lamp</Id>
+                        <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
+                        <FadeOutId>passthrough</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>
