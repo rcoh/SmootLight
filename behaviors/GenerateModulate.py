@@ -44,7 +44,6 @@ class GenerateModulate(Behavior):
                 strippedOutput.append(r)
         if len(strippedOutput) > 0:
             #print 'stripedOut', len(strippedOutput)
-            print 'tracking:', len(recurs) 
             pass
         elif len(recurs) > 0:
             pass
