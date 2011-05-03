@@ -4,9 +4,6 @@
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <Renderer Scale="1">
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -48,29 +45,11 @@
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.SensorNetworkToLocation</Class>
-            <Args>
-                <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
-                <SensorSpacing>45</SensorSpacing>
-                <Mode>Sim</Mode>
-                <RefreshInterval>100</RefreshInterval>
-                <IPIndexTable>{'10.32.0.230':0}</IPIndexTable>
-            </Args>
-        </InputElement>
-        <InputElement>
             <Class>inputs.UDPInput</Class>
             <Args>
                 <Id>udp</Id>
                 <Port>3344</Port>
                 <RefreshInterval>100</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.DirectionalPedestrians</Class>
-            <Args>
-                <Id>dirped</Id>
-                <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
     </InputConfiguration>
@@ -121,7 +100,7 @@
             <Args>
                 <Id>genmodChain</Id>
                 <Inputs>
-                    <Id>dirped</Id>
+                    <Id>pedsim</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>white</Id>
