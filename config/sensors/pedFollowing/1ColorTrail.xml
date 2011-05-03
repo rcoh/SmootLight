@@ -41,7 +41,7 @@
                 <Velocity>40</Velocity>
                 <NumSensors>400</NumSensors>
                 <SensorSpacing>45</SensorSpacing>
-                <NumPeds>60</NumPeds>
+                <NumPeds>100</NumPeds>
             </Args>
         </InputElement>
         <InputElement>
