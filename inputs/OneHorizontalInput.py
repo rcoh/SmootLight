@@ -6,7 +6,7 @@ from operationscore.Input import *
 class OneHorizontalInput(Input):
     def inputInit(self):
         compReg.getLock().acquire()
-        self.minX, self.minY, self.maxX, self.maxY = compReg.getComponent('Screen').getSize()
+        self.minX, self.minY, self.maxX, self.maxY = compReg.getComponent('Screen').size
         compReg.getLock().release()
     def sensingLoop(self):
 	time.sleep(0.5)

@@ -7,7 +7,7 @@ class OneCenterInput(Input):
     def inputInit(self):
 	self.isRun = False
         compReg.getLock().acquire()
-        minX,minY,maxX,maxY = compReg.getComponent('Screen').getSize()
+        minX,minY,maxX,maxY = compReg.getComponent('Screen').size
         compReg.getLock().release()
         self.center = ((minX+maxX) / 2, (minY+maxY) / 2)
     def sensingLoop(self):
