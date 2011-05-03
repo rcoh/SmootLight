@@ -53,9 +53,9 @@ see BehaviorSequnce.py documentation.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <!--Renderer Scale=".5">
+        <Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -108,16 +108,11 @@ see BehaviorSequnce.py documentation.
     <!-- _CIO Common Inputs - Once Only -->
 
         <InputElement>
-            <Class>inputs.OneCenterInput</Class>
+            <Class>inputs.InitialLocationInput</Class>
             <Args>
                 <Id>onecenter</Id>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.OneHorizontalInput</Class>
-            <Doc>Generates an event for every inch from left to right, once</Doc>
-            <Args>
-                <Id>onehorizontal</Id>
+                <xPos>.5</xPos>
+                <yPos>.5</yPos>
             </Args>
         </InputElement>
 
@@ -510,9 +505,6 @@ see BehaviorSequnce.py documentation.
             <Class>behaviors.Gradient</Class>
             <Args>
                 <Id>waterfallgradient</Id>
-                <Inputs>
-                    <Id>movingcenter</Id>
-                </Inputs>
                 <Gradient>
                     <Color>(255, 0, 0)</Color>
                     <Peak>0</Peak>
@@ -541,7 +533,7 @@ see BehaviorSequnce.py documentation.
             <Args>
                 <Id>waterfall</Id>
                 <Inputs>
-                    <Id>movingcenter</Id>
+                    <Id>movingmiddle</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>waterfallgradient</Id>
