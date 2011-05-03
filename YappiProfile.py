@@ -2,6 +2,6 @@ if __name__ == "__main__":
     import yappi
     from LightInstallation import main
     yappi.start()
-    main(['','config/sensors/pedFollowing/1ColorTrail.xml'])
+    main(['','config/10kConfig.xml'])
     yappi.stop()
     yappi.print_stats()

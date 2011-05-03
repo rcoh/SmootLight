@@ -1,5 +1,5 @@
 from inputs.SynchDirPeds import *
-from inputs.SynchNetSenseLoc import *
+from inputs.SynchSenseNetLoc import *
 from operationscore.Input import *
 import socket
 import json

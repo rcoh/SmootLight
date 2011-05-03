@@ -17,7 +17,7 @@ TABLE OF SECTIONS
     _ANM Animation Specific Behaviors
         _SPK Sparkle Behaviors
         _CLA Colorall Behaviors
-
+        _PED Pedestrian Tracking Behaviors
     _EXE Execution Behaviors
         _BAS Main Animation Stack
         _SAS Startup/Shutdown Animation Stack
@@ -51,9 +51,9 @@ see BehaviorSequnce.py documentation.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <!--Renderer Scale=".5">
+        <Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -106,12 +106,6 @@ see BehaviorSequnce.py documentation.
     <!-- _CIO Common Inputs - Once Only -->
 
         <InputElement>
-            <Class>inputs.OneCenterInput</Class>
-            <Args>
-                <Id>onecenter</Id>
-            </Args>
-        </InputElement>
-        <InputElement>
             <Class>inputs.OneHorizontalInput</Class>
             <Doc>Generates an event for every inch from left to right, once</Doc>
             <Args>
@@ -146,7 +140,7 @@ see BehaviorSequnce.py documentation.
                 <Velocity>40</Velocity>
                 <NumSensors>40</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
-                <NumPeds>1</NumPeds>
+                <NumPeds>50</NumPeds>
             </Args>
         </InputElement>
         <InputElement>
@@ -464,7 +458,7 @@ see BehaviorSequnce.py documentation.
                 <Id>frontflymove</Id>
                 <ChainedBehaviors>
                     <Id>frontrandmovement</Id>
-		    <Id>shortrecursivedecay</Id>
+                <Id>shortrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -520,7 +514,7 @@ see BehaviorSequnce.py documentation.
                     <Id>netloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
-		    <Id>hclone</Id>
+                    <Id>hclone</Id>
                     <Id>setdimcolor</Id>
                     <Id>mmover</Id>
                     <Id>flashdecay</Id>
@@ -557,7 +551,7 @@ see BehaviorSequnce.py documentation.
         <Args>
             <Id>trackingwhite</Id>
             <Inputs>
-                <Id>pedsim</Id>
+                <Id>simulatedpeds</Id>
             </Inputs>
             <ChainedBehaviors>
                 <Id>white</Id>
@@ -574,7 +568,7 @@ see BehaviorSequnce.py documentation.
         <Args>
             <Id>trackingdirectional</Id>
             <Inputs>
-                <Id>dirped</Id>
+                <Id>simulatedpeds</Id>
             </Inputs>
             <ChainedBehaviors>
                 <Id>genmod</Id>
@@ -586,38 +580,38 @@ see BehaviorSequnce.py documentation.
             <AcceptInputs>True</AcceptInputs>
         </Args>
     </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>trackingvelocity</Id>
-                <Inputs>
-                    <Id>dirped</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>genmod</Id>
-                    <Id>velcolor</Id>
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
-                <Mapper>gaussmap</Mapper>
-                <AcceptInputs>True</AcceptInputs>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>sensordebug</Id>
-                <Inputs>
-                    <Id>netloc</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>white</Id>
-                    <Id>decay</Id>
-                </ChainedBehaviors>
-                <Mapper>gaussmap</Mapper>
-                <RenderToScreen>False</RenderToScreen>
-            </Args>
-        </Behavior>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>trackingvelocity</Id>
+            <Inputs>
+                <Id>simulatedpeds</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>genmod</Id>
+                <Id>velcolor</Id>
+                <Id>decay</Id>
+            </ChainedBehaviors>
+            <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
+            <Mapper>gaussmap</Mapper>
+            <AcceptInputs>True</AcceptInputs>
+        </Args>
+    </Behavior>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>sensordebug</Id>
+            <Inputs>
+                <Id>livepeds</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>white</Id>
+                <Id>decay</Id>
+            </ChainedBehaviors>
+            <Mapper>gaussmap</Mapper>
+            <RenderToScreen>False</RenderToScreen>
+        </Args>
+    </Behavior>
     <!-- End Pedestrian Tracking Behaviors -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
