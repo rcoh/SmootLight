@@ -32,20 +32,17 @@ To help with this, please put B/I's which should/can not be reused by others
 in the animation's B/I section, and put any B/I's that will be used by others
 in the common area.
 
-<Doc> tags are useful for describing non-intuitive behaviors to help
-others see what is going on. Run XmlInfo.py <config-file> to generate a quick
-help text of the various Behaviors/Inputs 
-
 I've added three-letter tags for each section header, and have also
 included them in the table of sections. They should only be found in those two
 places, so that you can use them to quickly jump back and forth between the
 ToS and various sections of code. (Key * with your cursor over the _XXX in vim)
 
 <AcceptInputs>True Add this tag to your root animation behavior so that your
-animations will receive inputs and will actually run
+animations will receive inputs and will actually run in the Sequence. This 
+replaces the <RenderToScreen> functionality.
 
-For additional instruction on adding your animation to BehaviorSequence, please
-see BehaviorSequnce.py documentation.
+For instruction on adding your animation to BehaviorSequence, read the
+BehaviorSequnce.py documentation. Seriously, it helps.
 -->
 
 <LightInstallation>
