@@ -97,13 +97,26 @@ class SystemConfigMutator(Behavior):
                         if newParamValue is not None:
                             currentObject['RenderToScreen'] = newParamValue
                     elif currentObject.argDict.has_key('Mutable') and currentObject.argDict['Mutable'].has_key(paramName):
-                        if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
-                            currentObject[paramName] = newParamValue
-                            main_log.debug("Modified Correctly")
-                            packet['Callback']('OK')
+                        if paramName == 'command_reset':
+                            try:
+                                currentObject.command_reset()
+                                packet['Callback']('reset')
+                            except:
+                                packet['Callback']('no reset')
+                        elif paramName == 'command_skip':
+                            try:
+                                currentObject.command_skip()`
+                                packet['Callback']('skipped')
+                            except:
+                                packet['Callback']('no skip')
                         else:
-                            main_log.error("Invalid modifier, type: "+str(type(newParamValue))+" value:"+str(newParamValue))
-                            packet['Callback']('Failed')
+                                if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
+                                    currentObject[paramName] = newParamValue
+                                    main_log.debug("Modified Correctly")
+                                    packet['Callback']('OK')
+                                else:
+                                    main_log.error("Invalid modifier, type: "+str(type(newParamValue))+" value:"+str(newParamValue))
+                                    packet['Callback']('Failed')
                     else:
                         raise Exception('Non-mutable parameter specified.') # don't allow anything else for security purposes
                     #TODO: consider adding lambda evaluation capabilities
