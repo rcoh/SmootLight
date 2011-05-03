@@ -20,17 +20,4 @@ class PedTrack(Behavior):
                 else:
                     opsensory["Location"] = {opsensory["Location"].keys()[0]:max(opsensory["Location"].values()[0] - 1, 0)}
             ret.append(opsensory)
-        print ret
-        locDict = {}
-        for r in ret:
-            if 'Location' in r:
-                locDict = r['Location']
-                for key in locDict:
-                    locDict[key]=locDict[key]
-        if ret:
-            outputDict['Color'] = ret[0]['Color']
-            outputDict['Location'] = locDict
-            return ([outputDict], []) 
-        else:
-            return ([],[])
-
+        return (ret, [])
