@@ -169,3 +169,26 @@ class BehaviorSequence(Behavior):
         for behavior in self['Sequence']:
             if behavior['OnChange'] == 'Pause':
                 compReg.getComponent(behavior['Id']).resumeInputs()
+
+    # For those of you who need to control BehaviorSequence - this should
+    # allow you to 
+    def command_reset(self):
+        print self['Id'], "COMMAND - reset!"
+        self.behaviorInit()
+        self.startBehavior()
+
+    def command_skip(self):
+        print self['Id'], "COMMAND - skip!"
+        try:
+            if self.transition:
+                self.transitionOut()
+            if self.transin:
+                self.transitionIn()
+            self.stopBehavior()
+            self.startBehavior()
+        except StopIteration:
+            if self['Repeat']:
+                self.behaviorInit()
+                self.startBehavior()
+            else:
+                self.behavior = None 
