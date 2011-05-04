@@ -371,6 +371,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <TimeOut>1</TimeOut>
             </Args>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.Curtain</Class>
+            <Args>
+                <Id>curtain</Id>
+                <tEquation>t/30.0</tEquation>
+            </Args>
+        </Behavior>
 
     <!-- End Transition Behaviors -->
 
@@ -510,7 +517,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>lampgradient</Id>
-                    <Id>lampflicker</Id>
+                    <!--Id>lampflicker</Id-->
                     <Id>printdebug</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
@@ -852,7 +859,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <Id>lamp</Id>
                         <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
-                        <FadeOutId>passthrough</FadeOutId>
+                        <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
