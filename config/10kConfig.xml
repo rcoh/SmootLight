@@ -21,6 +21,7 @@ TABLE OF SECTIONS
         _LMP Lamp Behaviors
         _WFL Waterfall Behaviors
         _FLY Firefly Behaviors
+        _SIN Sinusoid Ripple Behaviors
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -517,7 +518,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>lampgradient</Id>
-                    <!--Id>lampflicker</Id-->
+                    <Id>lampflicker</Id>
                     <Id>printdebug</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
@@ -748,7 +749,35 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <RenderToScreen>False</RenderToScreen>
         </Args>
     </Behavior>
+
     <!-- End Pedestrian Tracking Behaviors -->
+
+    <!-- _SIN Sinusoid Ripple Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.SinusoidRipple</Class>
+            <Args>
+                <Id>sinripple</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>ripplechain</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>white</Id>
+                    <Id>sinripple</Id>
+                </ChainedBehaviors>
+                <Mapper>functionmap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+            </Args>
+        </Behavior>
+
+    <!-- End Sinusoid Ripple Behaviors -->
+            
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
@@ -858,7 +887,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Behavior>
                         <Id>lamp</Id>
                         <Timeout>5</Timeout>
-                        <OnChange>None</OnChange>
+                        <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
@@ -866,13 +895,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>
-                        <Timeout>3600</Timeout>
+                        <Timeout>120</Timeout>
                         <OnChange>Pause</OnChange>
                     </Behavior>
                     <Behavior>
-                        <Id>passthrough</Id>
-                        <Timeout>120</Timeout>
-                        <OnChange>None</OnChange>
+                        <Id>ripplechain</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>curtain</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>

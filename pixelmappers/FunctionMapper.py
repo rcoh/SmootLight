@@ -1,5 +1,6 @@
 from operationscore.PixelMapper import *
 import numpy
+import math
 
 # the location argument is a function of x and y
 
