@@ -20,7 +20,6 @@ class CappedAccelerate(Behavior):
     def processResponse(self, sensorInputs, recursiveInputs):
 
         ret = []
-        print self['Mutable']
         for sensory in sensorInputs:
             opsensory = dict(sensory)
             opsensory['XStep'] = min(self.maxVelocity, self.accel * opsensory['XStep'])

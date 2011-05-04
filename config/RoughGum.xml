@@ -6,8 +6,8 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-<!--        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>-->
-            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+            <!--InheritsFrom>layouts/60StripLayout.xml</InheritsFrom-->
     </PixelConfiguration>
     <PixelMapperConfiguration>
          <PixelMapper>
@@ -36,15 +36,24 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-<Renderer>
+<!--Renderer>
     <Class>renderers.PygameRenderer</Class>
     <Args>
         <Id>pygamerender</Id>
         <Size>(1200, 50)</Size>
     </Args>
-</Renderer>
+</Renderer-->
     </RendererConfiguration>
     <InputConfiguration>
+        <InputElement>
+		    <Class>inputs.TapInput</Class>
+		    <Args>
+			<Id>tap</Id>
+			<Port>22332</Port>
+			<RefreshInterval>50</RefreshInterval>
+		    </Args>
+		</InputElement>
+
         <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
@@ -73,6 +82,19 @@
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
+        <Behavior Id="mutation">
+		<Class>behaviors.SystemConfigMutator</Class>
+		<Args><Inputs>
+			<Id>tap</Id>
+		</Inputs>
+		<RenderToScreen>True</RenderToScreen>
+		</Args>
+        </Behavior>
+        <Behavior Id="recursivedecay" InitialResponseCount="5">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+
         <Behavior>
             <Class>behaviors.RandomSetBrightColorBehavior</Class>
             <Args>
@@ -91,7 +113,17 @@
         <Behavior Id="decay" Coefficient=".5">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
-       <Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>trackanddie</Id>
+                <ChainedBehaviors>
+                    <Id>pedtrack</Id>
+                    <Id>recursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+      <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>runcolordecay</Id>
@@ -103,7 +135,7 @@
                     <Id>mover</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'pedtrack'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'trackanddie'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
                 <Mapper>pedmap</Mapper>
             </Args>

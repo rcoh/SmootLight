@@ -13,6 +13,7 @@ from logger import main_log
 class LightInstallation(object):
     def __init__(self, configFileName):
         main_log.info("System Initialization began based on: " + str(configFileName))
+        self.minFPS = 10000000
         self.timer = clock.Stopwatch()
         self.timer.start()
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
@@ -145,7 +146,10 @@ class LightInstallation(object):
             self.screen.timeStep(loopStart)
             [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
-            print loopElapsed
+            FPS = 1000.0/loopElapsed
+            if FPS < self.minFPS:
+                self.minFPS = FPS
+            print "minFPS: ", self.minFPS 
             sleepTime = max(0,refreshInterval-loopElapsed)
             main_log.debug('Loop complete in {0} ms.  Sleeping for {1} ms.'.format(loopElapsed, sleepTime))
             self.timer.stop()

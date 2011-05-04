@@ -35,7 +35,6 @@ class DirectionalPedestrians(Input):
         self.cached += newCache
         self.respond(self.responses)
         self.responses = []
-        print 'cachesize',len(self.cached)
     
     def pruneCache(self, cache):
         currentTime = timeOps.time()
@@ -47,7 +46,6 @@ class DirectionalPedestrians(Input):
             cache.remove(r)
     def findClosest(self, cache, location):
         #TODO: numpyify
-        print len(cache)
         bestMatch = None
         bestDist = sys.maxint
         if cache == []:
@@ -60,8 +58,6 @@ class DirectionalPedestrians(Input):
                 bestMatch = x
                 bestTime = t 
         cache.remove((bestMatch,bestTime))
-        if cache:
-            print 'nonempty cache'
         return bestMatch,t
 
     def processResponse(self, sensorDict, eventDict):
