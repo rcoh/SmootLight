@@ -157,7 +157,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
     <!-- _PSI Pedestrian Sensor Inputs -->
 
-        <InputElement>
+    <!--<InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Doc>simulated pedestrian data</Doc>
             <Args>
@@ -168,7 +168,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <SensorSpacing>48</SensorSpacing>
                 <NumPeds>50</NumPeds>
             </Args>
-        </InputElement>
+        </InputElement>-->
         <InputElement>
             <Class>inputs.UDPInputWithDirPeds</Class>
             <Doc>Live pedestrian data</Doc>

@@ -41,7 +41,7 @@ class SynchSenseNetLoc(SmootCoreObject):
             if b == 1:
                 #sensorId = firstBitIndex + i*8 + j
                 output.append({'SensorId':j, 'Responding':timeOps.time()})
-                print 'responding', j 
+                #print 'responding', j 
             #send output as necessary
         #print 'done parsing'
         return output
@@ -69,9 +69,8 @@ class SynchSenseNetLoc(SmootCoreObject):
             return 0
     def processInput(self, inp):
         #TODO: Lock on self.responses
-        self.responses = inp
+        self.responses = [inp]
         if self['Mode'] == 'SensorNetwork':
-            print 'what?'
             tempResponses = []
             for r in self.responses:
                 startIndex = self.getIndex(r['address']) 
