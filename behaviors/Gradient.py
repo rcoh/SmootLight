@@ -52,14 +52,14 @@ class Gradient (Behavior):
                 output = dict(inp)
                 output['Color'] = color
                 location = \
-                    "lambda x,y: " + str(mincol) + "-(" + \
+                    str(mincol) + "-(" + \
                         "(abs( (x + " + str(width + offset + xLoc) + ") % " + \
                             str(self.scrwid) + " - " + str(width) + ") / " + \
                             str(width) + " - 1) * " + \
-                        "( " + str(height) + " * ((sign(" + \
+                        "( " + str(height) + " * ((numpy.sign(" + \
                             "(2*" + str(width) + "- ((x + " + \
                                 str(width + offset + xLoc) + ") % " + \
                                 str(self.scrwid) + ")))+1)/2)))"
-                output['Location'] = eval(location)
+                output['Location'] = location
                 outputs.append(output)
         return (outputs, state)
