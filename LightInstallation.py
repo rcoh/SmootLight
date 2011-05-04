@@ -13,7 +13,6 @@ from logger import main_log
 class LightInstallation(object):
     def __init__(self, configFileName):
         main_log.info("System Initialization began based on: " + str(configFileName))
-        self.minFPS = 10000000
         self.timer = clock.Stopwatch()
         self.timer.start()
         self.inputs = {} #dict of inputs and their bound behaviors, keyed by InputId
@@ -137,7 +136,15 @@ class LightInstallation(object):
     def mainLoop(self):
         lastLoopTime = clock.time()
         refreshInterval = 30 
+        runCount = 0
+        dieCount = -1 
+        print 'Starting Main Loop'
         while not self.dieNow: #dieNow is set if one of its constituents sends a die request.
+            runCount += 1
+            dieCount -= 1
+            if dieCount == 0:
+                self.dieNow = True
+            runCount = runCount % 30
             loopStart = clock.time()
             responses = self.evaluateBehaviors() 
             self.timer.start()
@@ -146,11 +153,13 @@ class LightInstallation(object):
             self.screen.timeStep(loopStart)
             [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
-            FPS = 1000.0/loopElapsed
-            if FPS < self.minFPS:
-                self.minFPS = FPS
-            print "minFPS: ", self.minFPS 
+            if runCount == 0:
+                print 'FPS: ', 1000 / loopElapsed
             sleepTime = max(0,refreshInterval-loopElapsed)
+            #print 1000/loopElapsed
+            if loopElapsed > 100:
+                print 'SLOOOWWWW!'
+                print 1000 / loopElapsed
             main_log.debug('Loop complete in {0} ms.  Sleeping for {1} ms.'.format(loopElapsed, sleepTime))
             self.timer.stop()
             if sleepTime > 0:
@@ -196,7 +205,7 @@ class LightInstallation(object):
                     c = compReg.getComponent(b)
                     # Only accept inputs to rendering behaviors, since they can pile up
                     # MAY CAUSE DISCONTINUITY if behavior continuity is dependent on input continuity
-                    if c['RenderToScreen']:
+                    if c['RenderToScreen'] or c['AcceptInputs']:
                         c.addInput(r)
         except:
             pass

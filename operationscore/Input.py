@@ -33,25 +33,24 @@ class Input(ThreadedSmootCoreObject):
         
     def parentAlive(self):
         try:
+            print 'calling parent alive_________________________________'            
             parentAlive = self.parentScope.alive()
             return parentAlive
         except:
             return False
-            
     def run(self):
         while 1:
             #print self['Id'], 'topofloop'
-            try:
-                die = self.parentAlive()
-            except:
-                break
+            #try:
+            #    die = self.parentAlive()
+            #except:
+            #    break
             self.acquireLock()
             self.sensingLoop()
             self.releaseLock()
             #print self['Id'], self.argDict['RefreshInterval']
             time.sleep(self.argDict['RefreshInterval']/float(1000))
             if self.done:
-                print 'breaking'
                 break
             
     def sensingLoop(self):

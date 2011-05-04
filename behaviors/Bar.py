@@ -11,16 +11,16 @@ class Bar(Behavior):
         slope = self['Slope']
 
         if slope == None:
-            self.cond = '{x} == '
+            self.cond = 'x == '
             self.cons = (1, 0)
         elif slope > 1 or slope < -1:
-            self.cond = 'int({x} + ' + str(slope) + ' * {y}) == '
+            self.cond = 'int(x + ' + str(slope) + ' * y) == '
             self.cons = (1, slope)
         elif slope != 0:
-            self.cond = 'int({y} + ' + str(1/slope) + ' * {x}) == '
+            self.cond = 'int(y + ' + str(1/slope) + ' * x) == '
             self.cons = (1/slope, 1)
         else:
-            self.cond = '{y} == '
+            self.cond = 'y == '
             self.cons = (0, 1)
 
         print self.cond
@@ -40,11 +40,9 @@ class Bar(Behavior):
 
             condition = self.cond + str(self.cons[0]*xLoc + self.cons[1]*yLoc)
 
-            if self['Combine']:
-                inputset['Location'] += ',' + condition
-            else:
-                inputset['Location'] = condition 
+            inputset['Location'] = eval('lambda x, y: ' + condition)
 
             ret.append(inputset)
+
         return (ret, [])
 

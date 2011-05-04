@@ -1,7 +1,7 @@
 <Behavior>
-    <Class>behaviors.RiseFall</Class>
+    <Class>behaviors.AddPixelEvent</Class>
     <Args>
-        <Period>2000</Period>
-        <MaxHeight>50</MaxHeight>
+        <Class>pixelevents.RiseFallEvent</Class>
+        <Duration>1000</Duration>
     </Args>
 </Behavior>

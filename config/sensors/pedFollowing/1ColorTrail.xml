@@ -4,9 +4,6 @@
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <!--<Renderer Scale="1">
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>-->
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -40,34 +37,19 @@
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>2000</MaxX>
+                <MaxX>17000</MaxX>
                 <Velocity>40</Velocity>
-                <NumSensors>40</NumSensors>
+                <NumSensors>400</NumSensors>
                 <SensorSpacing>45</SensorSpacing>
-                <NumPeds>2</NumPeds>
+                <NumPeds>100</NumPeds>
             </Args>
         </InputElement>
         <InputElement>
-            <Class>inputs.PygameInput</Class>
+            <Class>inputs.UDPInput</Class>
             <Args>
-                <Id>pygameclick</Id>
-                <RefreshInterval>10</RefreshInterval>
-                <Clicks>True</Clicks>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.SensorNetworkToLocation</Class>
-            <Args>
-                <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
-                <SensorSpacing>45</SensorSpacing>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.DirectionalPedestrians</Class>
-            <Args>
-                <Id>dirped</Id>
-                <LocSensorId>netloc</LocSensorId>
+                <Id>udp</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
             </Args>
         </InputElement>
     </InputConfiguration>
@@ -81,6 +63,9 @@
             <Args>
                 <Coefficient>.003</Coefficient>
             </Args>
+        </Behavior>
+        <Behavior Id="risefall">
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.GenerateModulate</Class>
@@ -99,6 +84,9 @@
                 </ColorList>
             </Args>
         </Behavior>
+        <Behavior Id="rand">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+        </Behavior>
         <Behaviors>
             <Class>behaviors.XYMoveVelocity</Class>
             <Args>
@@ -112,12 +100,12 @@
             <Args>
                 <Id>genmodChain</Id>
                 <Inputs>
-                    <Id>dirped</Id>
+                    <Id>pedsim</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>white</Id>
                     <Id>genmod</Id>
-                    <Id>decay</Id>
+                    <Id>risefall</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
                 <Mapper>gaussmap</Mapper>
@@ -132,7 +120,7 @@
                     <Id>netloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>white</Id>
+                    <Id>rand</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <Mapper>gaussmap</Mapper>
