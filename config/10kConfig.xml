@@ -17,6 +17,7 @@ TABLE OF SECTIONS
     _ANM Animation Specific Behaviors
         _SPK Sparkle Behaviors
         _CLA Colorall Behaviors
+        _PED Pedestrian Tracking Behaviors
         _LMP Lamp Behaviors
         _WFL Waterfall Behaviors
         _FLY Firefly Behaviors
@@ -51,9 +52,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <Renderer Scale=".5">
+        <!--Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
+        </Renderer-->
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -88,13 +89,19 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </PixelMapper>
         <PixelMapper>
-            <Class>pixelmappers.GaussianMapper</Class>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Args>
-                <Id>fireflymap</Id>
-                <CutoffDist>20</CutoffDist>
-                <MinWeight>0.1</MinWeight>
-                <Width>14</Width>
-                <Height>1</Height>
+                <Id>ffireflymap</Id>
+                <Width>500</Width>
+		<Intensity>1</Intensity>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>bgfireflymap</Id>
+                <Width>300</Width>
+                <Intensity>0.3</Intensity>
             </Args>
         </PixelMapper>
 
@@ -150,41 +157,25 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
     <!-- _PSI Pedestrian Sensor Inputs -->
 
-        <InputElement>
+    <!--<InputElement>
             <Class>inputs.PedestrianSimulator</Class>
+            <Doc>simulated pedestrian data</Doc>
             <Args>
-                <Id>pedsim</Id>
-                <MaxX>900</MaxX>
+                <Id>simulatedpeds</Id>
+                <MaxX>17000</MaxX>
                 <Velocity>40</Velocity>
-                <NumSensors>40</NumSensors>
+                <NumSensors>400</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
-                <NumPeds>1</NumPeds>
+                <NumPeds>50</NumPeds>
             </Args>
-        </InputElement>
+        </InputElement>-->
         <InputElement>
-            <Class>inputs.UDPInput</Class>
+            <Class>inputs.UDPInputWithDirPeds</Class>
+            <Doc>Live pedestrian data</Doc>
             <Args>
-                <Id>sensorudp</Id>
+                <Id>livepeds</Id>
                 <Port>3344</Port>
                 <RefreshInterval>100</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.SensorNetworkToLocation</Class>
-            <Args>
-                <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
-                <!--SensorNetworkId>sensorudp</SensorNetworkId>
-                <Mode>SensorNetwork</Mode-->
-                <SensorSpacing>48</SensorSpacing>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.DirectionalPedestrians</Class>
-            <Doc>Use this as actual input for dirped</Doc>
-            <Args>
-                <Id>dirped</Id>
-                <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
 
@@ -265,7 +256,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Doc>Outputs a random color with dimness 1.0</Doc>
                 <Id>setbrightcolor</Id>
-		<Dimness>1.0</Dimness>
+                <Dimness>1.0</Dimness>
             </Args>
         </Behavior>
         <Behavior>
@@ -276,7 +267,27 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 		<Dimness>0.3</Dimness>
             </Args>
         </Behavior>
-
+        <Behavior>
+            <Class>behaviors.DirectionalColor</Class>
+            <Doc>Outputs a color depending on your direction</Doc>
+            <Args>
+                <Id>dircolor</Id>
+                <PositiveColor>(255,0,0)</PositiveColor>
+                <NegativeColor>(0,0,255)</NegativeColor>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.VelocityBasedColor</Class>
+            <Doc>changes color based on velocity.  Vel is max expected speed in MPH.</Doc>
+            <Args>
+                <Id>velcolor</Id>
+                <MinHue>0</MinHue>
+                <MaxHue>1</MaxHue>
+                <MinVel>${Vel}$*-.0176</MinVel> <!--convert from mph-->
+                <MaxVel>${Vel}$*.0176</MaxVel>
+                <Vel>5</Vel> 
+            </Args>
+        </Behavior>
     <!-- End Color Behaviors -->
 
     <!-- _PXE Pixel Events -->
@@ -306,8 +317,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior Id="singleframe">
-	    <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
 	    </Behavior>
+        <Behavior Id="risefall">
+            <Doc>Risefall event for tdma behaviors</Doc>
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+        </Behavior>
 
     <!-- End Pixel Events -->
 
@@ -388,7 +403,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 	    <Args>
 	        <Doc>Only admit inputs after every interval</Doc>
 	        <Id>mmover</Id>
-	        <IntervalCount>0</IntervalCount>
+	        <IntervalCount>1</IntervalCount>
 	    </Args>
 	</Behavior>
 
@@ -579,7 +594,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>fireflymap</Mapper>
+                <Mapper>ffireflymap</Mapper>
             </Args>
         </Behavior>
 	
@@ -606,13 +621,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>hclone</Id>
                 <StepSize>48</StepSize>
-                <Times>4</Times>
+                <Times>6</Times>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>staticfireflies</Id>
+                <Id>bgfireflies</Id>
                 <Inputs>
                     <Id>netloc</Id>
                 </Inputs>
@@ -624,11 +639,99 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <Mapper>bgfireflymap</Mapper>
             </Args>
         </Behavior>
 
     <!-- End Firefly Behaviors -->
+
+    <!-- _PED Pedestrian Tracking Behaviors -->
+    <Behavior>
+        <Class>behaviors.GenerateModulate</Class>
+        <Doc>pedestrian tracking behavior -- implements its own mover</Doc>
+        <Args>
+            <Id>genmod</Id>
+            <ThresholdDist>60</ThresholdDist>
+            <MaxDist>100</MaxDist>
+            <IntersectionTime>5000</IntersectionTime>
+        </Args>
+    </Behavior>
+    <Behaviors>
+        <Class>behaviors.XYMoveVelocity</Class>
+        <Doc>a time-intelligent motion behavior</Doc>
+        <Args>
+            <Id>xymovevel</Id>
+            <XVel>5</XVel>
+            <YVel>0</YVel>
+        </Args>
+    </Behaviors>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>trackingwhite</Id>
+            <Inputs>
+                <Id>simulatedpeds</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>white</Id>
+                <Id>genmod</Id>
+                <Id>risefall</Id>
+            </ChainedBehaviors>
+            <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
+            <Mapper>gaussmap</Mapper>
+            <AcceptInputs>True</AcceptInputs>
+        </Args>
+    </Behavior>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>trackingdirectional</Id>
+            <Inputs>
+                <Id>simulatedpeds</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>genmod</Id>
+                <Id>dircolor</Id>
+                <Id>decay</Id>
+            </ChainedBehaviors>
+            <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
+            <Mapper>gaussmap</Mapper>
+            <AcceptInputs>True</AcceptInputs>
+        </Args>
+    </Behavior>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>trackingvelocity</Id>
+            <Inputs>
+                <Id>simulatedpeds</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>genmod</Id>
+                <Id>velcolor</Id>
+                <Id>decay</Id>
+            </ChainedBehaviors>
+            <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
+            <Mapper>gaussmap</Mapper>
+            <AcceptInputs>True</AcceptInputs>
+        </Args>
+    </Behavior>
+    <Behavior>
+        <Class>behaviors.BehaviorChain</Class>
+        <Args>
+            <Id>sensordebug</Id>
+            <Inputs>
+                <Id>livepeds</Id>
+            </Inputs>
+            <ChainedBehaviors>
+                <Id>white</Id>
+                <Id>decay</Id>
+            </ChainedBehaviors>
+            <Mapper>gaussmap</Mapper>
+            <RenderToScreen>False</RenderToScreen>
+        </Args>
+    </Behavior>
+    <!-- End Pedestrian Tracking Behaviors -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
@@ -669,6 +772,52 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
+                    <Behavior>
+                        <Id>trackingwhite</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>trackingdirectional</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>trackingvelocity</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+		    <!-- TODO: multiple behaviors in the same phase?
+                    <Behavior>
+                        <Id>fireflies</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>bgfireflies</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>-->
                     <Behavior>
                         <Id>passthrough</Id>
                         <Timeout>5</Timeout>

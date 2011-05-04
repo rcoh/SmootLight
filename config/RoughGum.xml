@@ -6,8 +6,8 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-<!--        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>-->
-            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+        <!--            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>-->
     </PixelConfiguration>
     <PixelMapperConfiguration>
          <PixelMapper>
@@ -36,39 +36,17 @@
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-<Renderer>
-    <Class>renderers.PygameRenderer</Class>
-    <Args>
-        <Id>pygamerender</Id>
-        <Size>(1200, 50)</Size>
-    </Args>
-</Renderer>
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>1200</MaxX>
+                <MaxX>17000</MaxX>
                 <Velocity>40</Velocity>
-                <NumSensors>40</NumSensors>
+                <NumSensors>400</NumSensors>
                 <SensorSpacing>48</SensorSpacing>
-                <NumPeds>1</NumPeds>
-            </Args>
-        </InputElement>
-         <InputElement>
-            <Class>inputs.SensorNetworkToLocation</Class>
-            <Args>
-                <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
-                <SensorSpacing>48</SensorSpacing>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.DirectionalPedestrians</Class>
-            <Args>
-                <Id>dirped</Id>
-                <LocSensorId>netloc</LocSensorId>
+                <NumPeds>10</NumPeds>
             </Args>
         </InputElement>
     </InputConfiguration>
@@ -99,15 +77,22 @@
             </Args>
        </Behavior>
        <Behavior>
+           <Class>behaviors.AggregateResponse</Class>
+           <Args>
+               <Id>agg</Id>
+            </Args>
+       </Behavior>
+       <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>runcolordecay</Id>
                 <Inputs>
-                    <Id>dirped</Id>
+                    <Id>pedsim</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
                     <Id>mover</Id>
+                    <Id>agg</Id>
                     <Id>discard</Id>
                     <Id>decay</Id>
                 </ChainedBehaviors>

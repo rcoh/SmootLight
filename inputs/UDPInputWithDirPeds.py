@@ -1,5 +1,5 @@
 from inputs.SynchDirPeds import *
-from inputs.SynchNetSenseLoc import *
+from inputs.SynchSenseNetLoc import *
 from operationscore.Input import *
 import socket
 import json
@@ -15,7 +15,7 @@ class UDPInputWithDirPeds(Input):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((HOST, PORT))
         self.dirPeds = SynchDirPeds({})
-        self.sensNetLoc = SynchSenseNetLoc({'SensorSpacing':45})
+        self.sensNetLoc = SynchSenseNetLoc({'SensorSpacing':45, 'Mode':'SensorNetwork'})
     
     def socketLoop(self):
         (data,address) = self.sock.recvfrom(1024)
@@ -25,8 +25,8 @@ class UDPInputWithDirPeds(Input):
             else:
                 dataDict = json.loads(data)
                 dataDict['Address'] = address
-            pedData = self.processPed(data)
-            self.respond(pedDict)
+            pedData = self.processPed(dataDict)
+            self.respond(pedData)
             #print 'data'
             (data, address) = self.sock.recvfrom(1024)
     
