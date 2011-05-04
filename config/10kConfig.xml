@@ -578,6 +578,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
     <!-- End Waterfall Behaviors -->
 
     <!-- _FLY Firefly Behaviors -->
+	<Behavior>
+	  <Class>behaviors.Flasher</Class>
+	  <Args>
+	    <Id>flasher</Id>
+	  </Args>
+	</Behavior>
 
         <!-- BRIGHT PED-TRACKING FIREFLIES -->
         <Behavior>
@@ -593,6 +599,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>frontflymove</Id>
                 <ChainedBehaviors>
                     <Id>frontrandmovement</Id>
+                    <Id>flasher</Id>
                     <Id>shortrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
@@ -600,7 +607,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>fireflies</Id>
+                <Id>ffireflies</Id>
                 <Inputs>
                     <Id>netloc</Id>
                 </Inputs>
@@ -610,7 +617,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>flashdecay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+		<AcceptInputs>True</AcceptInputs>
                 <Mapper>ffireflymap</Mapper>
             </Args>
         </Behavior>
@@ -629,6 +636,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>bgflymove</Id>
                 <ChainedBehaviors>
                     <Id>bgrandmovement</Id>
+                    <Id>flasher</Id>
                     <Id>shortrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
@@ -655,10 +663,21 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>flashdecay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+		<AcceptInputs>True</AcceptInputs>
                 <Mapper>bgfireflymap</Mapper>
             </Args>
         </Behavior>
+	<Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>fireflies</Id>
+                <BehaviorList>
+                    <Id>ffireflies</Id>
+                    <Id>bgfireflies</Id>
+                </BehaviorList>
+		<AcceptInputs>True</AcceptInputs>
+            </Args>
+	</Behavior>
 
     <!-- End Firefly Behaviors -->
 
@@ -851,7 +870,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-		    <!-- TODO: multiple behaviors in the same phase?
                     <Behavior>
                         <Id>fireflies</Id>
                         <Timeout>50</Timeout>
@@ -861,15 +879,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-                    <Behavior>
-                        <Id>bgfireflies</Id>
-                        <Timeout>50</Timeout>
-                        <OnChange>Pause</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
-                    </Behavior>-->
                     <Behavior>
                         <Id>passthrough</Id>
                         <Timeout>5</Timeout>
