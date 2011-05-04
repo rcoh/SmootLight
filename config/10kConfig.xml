@@ -747,7 +747,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>dircolor</Id>
-                <Id>decay</Id>
+                <Id>meddecay</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
@@ -764,7 +764,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>velcolor</Id>
-                <Id>decay</Id>
+                <Id>meddecay</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
@@ -780,7 +780,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Inputs>
             <ChainedBehaviors>
                 <Id>white</Id>
-                <Id>decay</Id>
+                <Id>meddecay</Id>
             </ChainedBehaviors>
             <Mapper>gaussmap</Mapper>
             <RenderToScreen>False</RenderToScreen>
