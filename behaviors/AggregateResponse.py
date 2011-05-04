@@ -3,13 +3,20 @@ class AggregateResponse(Behavior):
     def processResponse(self, inputs, state):
         totalLocDict = {}
         outputDict = {}
-        for r in inputs:
+        inputIndex = len(inputs) 
+        for i,r in enumerate(inputs):
             if 'Location' in r:
                 locDict = r['Location']
                 for key in locDict:
-                    totalLocDict[key]=locDict[key]
+                    if locDict[key] > 0:
+                        totalLocDict[key]=locDict[key]
+                        if i < inputIndex:
+                            inputIndex = i
+                        
         if inputs:
-            outputDict['Color'] = inputs[-1]['Color']
+            print inputIndex
+            outputDict['Color'] = inputs[inputIndex]['Color']
+            print outputDict['Color']
             outputDict['Location'] = totalLocDict
             return ([outputDict], []) 
         else:

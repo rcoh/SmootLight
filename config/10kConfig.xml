@@ -21,7 +21,7 @@ TABLE OF SECTIONS
         _LMP Lamp Behaviors
         _WFL Waterfall Behaviors
         _FLY Firefly Behaviors
-
+        _GUM Chewing Gum Behaviors
     _EXE Execution Behaviors
         _BAS Main Animation Stack
         _SAS Startup/Shutdown Animation Stack
@@ -93,7 +93,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>ffireflymap</Id>
                 <Width>500</Width>
-		<Intensity>1</Intensity>
+                <Intensity>1</Intensity>
             </Args>
         </PixelMapper>
         <PixelMapper>
@@ -104,7 +104,14 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Intensity>0.3</Intensity>
             </Args>
         </PixelMapper>
-
+         <PixelMapper>
+            <Class>pixelmappers.PedMapper</Class>
+            <Doc>mapper for Chewing Gum</Doc>
+            <Args>
+                <Id>pedmap</Id>
+                <Intensity>10</Intensity>
+            </Args>
+        </PixelMapper>
     </PixelMapperConfiguration>
     <InputConfiguration>
 
@@ -157,7 +164,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
     <!-- _PSI Pedestrian Sensor Inputs -->
 
-    <!--<InputElement>
+        <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Doc>simulated pedestrian data</Doc>
             <Args>
@@ -165,10 +172,10 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <MaxX>17000</MaxX>
                 <Velocity>40</Velocity>
                 <NumSensors>400</NumSensors>
-                <SensorSpacing>48</SensorSpacing>
+                <SensorSpacing>45</SensorSpacing>
                 <NumPeds>50</NumPeds>
             </Args>
-        </InputElement>-->
+        </InputElement>
         <InputElement>
             <Class>inputs.UDPInputWithDirPeds</Class>
             <Doc>Live pedestrian data</Doc>
@@ -240,6 +247,16 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </ColorList>
             </Args>
         </Behavior>
+        <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs purple</Doc>
+            <Args>
+                <Id>purplecolor</Id>
+                <ColorList>
+                    <Val>(200,55,200)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
         <Behavior Id="randomcolor">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Doc>Inputs a random color</Doc>
@@ -264,7 +281,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Doc>Outputs a random color with dimness 0.3</Doc>
                 <Id>setdimcolor</Id>
-		<Dimness>0.3</Dimness>
+                <Dimness>0.3</Dimness>
             </Args>
         </Behavior>
         <Behavior>
@@ -732,6 +749,32 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Args>
     </Behavior>
     <!-- End Pedestrian Tracking Behaviors -->
+    <!-- _GUM Start Chewing Gum Behaviors -->
+       <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>chewinggum</Id>
+                <Inputs>
+                    <Id>simulatedpeds</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>greencolor</Id>
+                    <Id>pedtrack</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'pedtrack':'colorshift'}</RecursiveHooks>
+                <Mapper>pedmap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Doc>The actual pedestrian tracking behavior</Doc>
+            <Class>behaviors.PedTrack</Class>
+            <Args>
+                <Id>pedtrack</Id>
+            </Args>
+        </Behavior>
+    <!-- End Chewing Gum Behaviors -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
@@ -792,6 +835,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>trackingvelocity</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>chewinggum</Id>
                         <Timeout>50</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>

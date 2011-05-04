@@ -69,7 +69,10 @@ class SynchSenseNetLoc(SmootCoreObject):
             return 0
     def processInput(self, inp):
         #TODO: Lock on self.responses
-        self.responses = [inp]
+        if not isinstance(inp, list):
+            self.responses = [inp]
+        else:
+            self.responses = inp
         if self['Mode'] == 'SensorNetwork':
             tempResponses = []
             for r in self.responses:
