@@ -136,7 +136,15 @@ class LightInstallation(object):
     def mainLoop(self):
         lastLoopTime = clock.time()
         refreshInterval = 30 
+        runCount = 0
+        dieCount = -1 
+        print 'Starting Main Loop'
         while not self.dieNow: #dieNow is set if one of its constituents sends a die request.
+            runCount += 1
+            dieCount -= 1
+            if dieCount == 0:
+                self.dieNow = True
+            runCount = runCount % 30
             loopStart = clock.time()
             responses = self.evaluateBehaviors() 
             self.timer.start()
@@ -145,8 +153,13 @@ class LightInstallation(object):
             self.screen.timeStep(loopStart)
             [r.render(self.screen, loopStart) for r in self.renderers]
             loopElapsed = clock.time()-loopStart
+            if runCount == 0:
+                print 'FPS: ', 1000 / loopElapsed
             sleepTime = max(0,refreshInterval-loopElapsed)
-            print 'eventHeap: ', len(self.screen.eventHeap), '; FPS: ', 1000/loopElapsed
+            #print 1000/loopElapsed
+            if loopElapsed > 100:
+                print 'SLOOOWWWW!'
+                print 1000 / loopElapsed
             main_log.debug('Loop complete in {0} ms.  Sleeping for {1} ms.'.format(loopElapsed, sleepTime))
             self.timer.stop()
             if sleepTime > 0:
@@ -192,7 +205,7 @@ class LightInstallation(object):
                     c = compReg.getComponent(b)
                     # Only accept inputs to rendering behaviors, since they can pile up
                     # MAY CAUSE DISCONTINUITY if behavior continuity is dependent on input continuity
-                    if c['RenderToScreen']:
+                    if c['RenderToScreen'] or c['AcceptInputs']:
                         c.addInput(r)
         except:
             pass

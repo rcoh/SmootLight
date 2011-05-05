@@ -2,26 +2,33 @@ from operationscore.Behavior import *
 import util.Geo as Geo
 
 class PedTrack(Behavior):
-
     def processResponse(self, sensor, recurs):
-        #Initialize dictionary. Keys: sensor_ids, Values: indicator of ped presence
-        try:
-            self.peds
-        except:
-            self.peds = {}
-        print self.peds
         ret = []
-        #Decrease all presence levels to a minimum of 0
-        for v in self.peds.keys():
-            self.peds[v] = max(0, self.peds[v] - 1)
-        for sensory in sensor:
-            opsensory = dict(sensory)
-            if "SensorId" in opsensory:
-                if "detected" not in opsensory:
-                    opsensory["detected"] = True
-                    sid = opsensory["SensorId"]
-                    self.peds[sid] = 10
-            ret.append(opsensory)
-
-        return (ret, []) 
-
+        if self['MaxIntensity'] != None:
+            maxIntensity = self['MaxIntensity']
+        else:
+            maxIntensity = 10
+        if recurs:
+            outputDict, colorDict = recurs
+        else:
+            outputDict = {}
+            colorDict = {}
+        dimKeys = []
+        for key in outputDict:
+            outputDict[key] -= .1
+            if outputDict[key] < 0:
+                dimKeys.append(key)
+        for key in dimKeys:
+            del outputDict[key]
+        for inp in sensor:
+            if inp['Location'] in outputDict:
+                outputDict[inp['Location']] += 1
+            else:
+                outputDict[inp['Location']] = 1
+        if sensor or recurs:
+            if not 'Color' in colorDict:
+                colorDict['Color'] = sensor[0]['Color'] 
+            directOut = {'Location':outputDict, 'Color': colorDict['Color']}
+            return ([directOut], [outputDict, colorDict])
+        else:
+            return ([],[])

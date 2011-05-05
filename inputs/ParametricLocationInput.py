@@ -37,7 +37,7 @@ class ParametricLocationInput(Input):
             self.getTime = self.callTick
 
         self.x_eqn = eval('lambda t:' + str(xmin) + '+' + str(xlen) + '*(' + str(self['xEquation']) + ')')
-        self.y_eqn = eval('lambda t:' + str(xmin) + '+' + str(xlen) + '*(' + str(self['yEquation']) + ')')
+        self.y_eqn = eval('lambda t:' + str(ymin) + '+' + str(ylen) + '*(' + str(self['yEquation']) + ')')
 
     def sensingLoop(self):
         #print {Strings.LOCATION: (self.x_eqn(self.t), self.y_eqn(self.t))}

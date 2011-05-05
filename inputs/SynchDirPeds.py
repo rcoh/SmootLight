@@ -1,30 +1,17 @@
 from operationscore.Input import *
 import util.ComponentRegistry as compReg
-import thread
 from logger import main_log
 import util.TimeOps as timeOps
+from operationscore.SmootCoreObject import *
 import sys
 import time
-class DirectionalPedestrians(Input):
-    def inputInit(self):
-        self.lock = thread.allocate_lock()
+class SynchDirPeds(SmootCoreObject):
+    def init(self):
+        self.cached = []
         self.responses = []
-        self.boundToInput = self.makeListener()
-        self.cached = [] 
-    def makeListener(self):
-        try:
-            compReg.getLock().acquire()
-            compReg.getComponent(self['LocSensorId']).addListener(self)
-            compReg.getLock().release()
-            return True
-        except Exception as ex:
-            compReg.getLock().release()
-            return False
-
-    def sensingLoop(self):
+    def processInput(self, inp):
+        self.responses = inp
         self.pruneCache(self.cached)
-        if not self.boundToInput:
-            self.boundToInput = self.makeListener()
         newCache = []
         for r in self.responses:
             bestMatch,t = self.findClosest(self.cached, r['Location'][0]) 
@@ -33,9 +20,8 @@ class DirectionalPedestrians(Input):
             newCache.append((r['Location'][0], r['Responding'])) 
 
         self.cached += newCache
-        self.respond(self.responses)
-        self.responses = []
-        print 'cachesize',len(self.cached)
+        respCopy = list(self.responses)
+        return respCopy 
     
     def pruneCache(self, cache):
         currentTime = timeOps.time()
@@ -50,6 +36,7 @@ class DirectionalPedestrians(Input):
         #print len(cache)
         bestMatch = None
         bestDist = sys.maxint
+        bestTime = None
         if cache == []:
             return location,timeOps.time() 
         tcache = list(cache)
@@ -60,9 +47,5 @@ class DirectionalPedestrians(Input):
                 bestMatch = x
                 bestTime = t 
         cache.remove((bestMatch,bestTime))
-        if cache:
-            print 'nonempty cache'
         return bestMatch,t
 
-    def processResponse(self, sensorDict, eventDict):
-        self.responses += eventDict

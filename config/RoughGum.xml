@@ -2,75 +2,59 @@
 <LightInstallation>
     <InstallationConfiguration>
         <Defaults>
-            <PixelMapper>simplemap</PixelMapper>
+            <PixelMapper>pedmap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
-<!--            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> -->
+        <!--            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom>-->
     </PixelConfiguration>
     <PixelMapperConfiguration>
-        <PixelMapper>
-            <Class>pixelmappers.SimpleMapper</Class>
+         <PixelMapper>
+            <Class>pixelmappers.PedMapper</Class>
             <Args>
-                <Id>simplemap</Id>
-                <CutoffDist>20</CutoffDist>
-            </Args>
-        </PixelMapper>
-        <PixelMapper>
-            <Class>pixelmappers.GaussianMapper</Class>
-            <Args>
-                <Id>gaussmap</Id>
-                <CutoffDist>30</CutoffDist>
-                <MinWeight>0.1</MinWeight>
-                <Width>10</Width>
-                <Height>1</Height>
+                <Id>pedmap</Id>
+                <Intensity>10</Intensity>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-<Renderer>
-    <Class>renderers.PygameRenderer</Class>
-    <Args>
-        <Id>pygamerender</Id>
-        <Size>(1200, 50)</Size>
-    </Args>
-</Renderer>
+        <!--Renderer Scale=".5">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer-->
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
-                <MaxX>1200</MaxX>
+                <MaxX>17000</MaxX>
                 <Velocity>40</Velocity>
-                <NumSensors>40</NumSensors>
-                <SensorSpacing>48</SensorSpacing>
-                <NumPeds>1</NumPeds>
-            </Args>
-        </InputElement>
-         <InputElement>
-            <Class>inputs.SensorNetworkToLocation</Class>
-            <Args>
-                <Id>netloc</Id>
-                <SensorNetworkId>pedsim</SensorNetworkId>
-                <SensorSpacing>48</SensorSpacing>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.DirectionalPedestrians</Class>
-            <Args>
-                <Id>dirped</Id>
-                <LocSensorId>netloc</LocSensorId>
+                <NumSensors>400</NumSensors>
+                <SensorSpacing>45</SensorSpacing>
+                <NumPeds>50</NumPeds>
             </Args>
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior>
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Doc>always outputs green</Doc>
+            <Args>
+                <Id>greencolor</Id>
+                <ColorList>
+                    <Val>(200,55,200)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.RandomSetBrightColorBehavior</Class>
             <Args>
                 <Id>setbrightcolor</Id>
             </Args>
+        </Behavior>
+        <Behavior Id="singleframe">
+            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
         </Behavior>
         <Behavior>
             <Class>behaviors.PedTrack</Class>
@@ -78,23 +62,44 @@
                 <Id>pedtrack</Id>
             </Args>
         </Behavior>
-        <Behavior Id="decay" Coefficient=".0025">
+        <Behavior Id="decay" Coefficient=".5">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
         </Behavior>
+        <Behavior>
+            <Class>behaviors.DiscardData</Class>
+            <Args>
+                <Id>discard</Id>
+                <Keep>1</Keep>
+            </Args>
+       </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>colorshift</Id>
+                <Increment>0.02</Increment>
+            </Args>
+        </Behavior>
+       <Behavior>
+           <Class>behaviors.AggregateResponse</Class>
+           <Args>
+               <Id>agg</Id>
+            </Args>
+       </Behavior>
        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>runcolordecay</Id>
+                <Id>chewinggum</Id>
                 <Inputs>
-                    <Id>dirped</Id>
+                    <Id>pedsim</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>setbrightcolor</Id>
-                    <Id>mover</Id>
+                    <Id>greencolor</Id>
+                    <Id>pedtrack</Id>
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mover':'pedtrack'}</RecursiveHooks>
+                <RecursiveHooks>{'pedtrack':'colorshift'}</RecursiveHooks>
                 <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmap</Mapper>
+                <Mapper>pedmap</Mapper>
             </Args>
         </Behavior>
       <Behavior>

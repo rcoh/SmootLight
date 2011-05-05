@@ -13,6 +13,7 @@ class PixelMapper(SmootCoreObject):
         """
         self.totalCalls += 1
         return self.mappingFunction(eventLocation, screen)
+        print 'funky'
         if self.totalCalls % 100 == 0:
             main_log.info('Cache percentage for :', self['Id'], self.cachehits /\
                 float(self.totalCalls))        

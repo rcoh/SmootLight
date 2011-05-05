@@ -191,7 +191,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>pgaussmapmove</Mapper>
             </Args>
         </Behavior>
@@ -247,10 +247,22 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce1'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
                 <Mapper>pgaussmapfixed</Mapper>
             </Args>
         </Behavior>
+
+    <Behavior>
+        <Class>behaviors.SplitBehavior</Class>
+        <Args>
+            <Id>splitbehavior</Id>
+            <BehaviorList>
+                <Id>staticfireflies</Id>
+                <Id>fireflies</Id>
+            </BehaviorList>
+            <RenderToScreen>True</RenderToScreen>
+        </Args>
+    </Behavior>
 
     </BehaviorConfiguration>
 </LightInstallation>
