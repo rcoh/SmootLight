@@ -32,16 +32,16 @@
                 <Id>windgaussmap</Id>
                 <CutoffDist>10</CutoffDist>
                 <MinWeight>0.005</MinWeight>
-                <Width>10</Width>
+                <Width>50</Width>
                 <Height>1</Height>
 		<Intensity>1.0</Intensity>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
     <RendererConfiguration>
-        <!--<Renderer>
+        <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>

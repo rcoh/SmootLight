@@ -26,7 +26,7 @@ class SmootWind(Behavior):
 	    if 'WindSpeed' in sensory and 'WindDir' in sensory:
                 windSpeed = sensory['WindSpeed']
                 windDir = sensory['WindDir']
-                self.mapper.Width = float(windSpeed)*2+5
+                self.mapper.Width = float(windSpeed)*2+15
                 self.xymove.XStep = float(windSpeed)+10*random.random();
                 self.xymove.YStep = float(windSpeed)/3.*random.uniform(-1,1); 
                 #print 'Width: ' , self.mapper.Width
