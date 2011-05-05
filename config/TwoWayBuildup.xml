@@ -27,7 +27,7 @@
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <!--RendererConfiguration>
+    <RendererConfiguration>
 <Renderer>
     <Class>renderers.PygameRenderer</Class>
     <Args>
@@ -35,7 +35,7 @@
         <Size>(1200, 100)</Size>
     </Args>
 </Renderer>
-    </RendererConfiguration-->
+    </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.LeftEdgeInput</Class>
