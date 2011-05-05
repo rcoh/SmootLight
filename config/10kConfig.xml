@@ -23,6 +23,7 @@ TABLE OF SECTIONS
         _FLY Firefly Behaviors
         _GUM Chewing Gum Behaviors
         _SIN Sinusoid Ripple Behaviors
+        _WFS Waterfall Sparks Behaviors
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -966,6 +967,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
 
+    <!-- End Waterfall Sparks -->
+
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
@@ -978,15 +981,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>bodysequence</Id>
                 <Sequence>
-                    <Behavior>
-                        <Id>waterfallspark</Id>
-                        <Timeout>5</Timeout>
-                        <OnChange>Pause</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>5</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>5</FadeInTime>
-                    </Behavior>
                     <Behavior>
                         <Id>colorall</Id>
                         <Timeout>10</Timeout>
@@ -1067,6 +1061,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>waterfallspark</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>passthrough</Id>
