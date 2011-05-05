@@ -23,6 +23,7 @@ TABLE OF SECTIONS
         _FLY Firefly Behaviors
         _GUM Chewing Gum Behaviors
         _SIN Sinusoid Ripple Behaviors
+        _FIL Fillup Behaviors
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -114,6 +115,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Intensity>10</Intensity>
             </Args>
         </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.SquareBlobMapper</Class>
+            <Args>
+                <Id>sblobmap</Id>
+            </Args>
+        </PixelMapper>
+
     </PixelMapperConfiguration>
     <InputConfiguration>
 
@@ -127,6 +135,18 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>onecenter</Id>
                 <xPos>.5</xPos>
                 <yPos>.5</yPos>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.LeftEdgeInput</Class>
+            <Args>
+                <Id>leftedge</Id>
+            </Args>
+        </InputElement>
+         <InputElement>
+            <Class>inputs.RightEdgeInput</Class>
+            <Args>
+                <Id>rightedge</Id>
             </Args>
         </InputElement>
 
@@ -843,7 +863,141 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Sinusoid Ripple Behaviors -->
-            
+    <!-- _FIL Fillup Behaviors -->
+         <Behavior Id='accelerate'>
+            <Class>behaviors.CappedAccelerate</Class>
+            <Args>
+                <MaxVelocity>500</MaxVelocity>
+                <Acceleration>1.1</Acceleration>
+            </Args>
+        </Behavior>
+        <Behavior> 
+            <Class>behaviors.OffScreenDeath</Class>
+            <Args>
+                <Id>offScreenDeath</Id>
+            </Args>
+        </Behavior>
+         <Behavior>
+            <Class>behaviors.TimedWarp</Class>
+            <Args>
+                <Id>timedwarp</Id>
+                <FramesToDeath>500</FramesToDeath>
+            </Args>
+        </Behavior>
+         <Behavior>
+            <Class>behaviors.DiscardData</Class>
+            <Args>
+                <Id>discard</Id>
+                <Keep>150</Keep>
+            </Args>
+       </Behavior>
+       <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>movebounce</Id>
+                <ChainedBehaviors>
+                    <Id>move</Id>
+                    <Id>accelerate</Id>
+                    <Id>offScreenDeath</Id>
+                    <Id>timedwarp</Id>
+                    <Id>discard</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.GrowNear</Class>
+            <Args>
+                <Id>growright</Id>
+                <GrowthDirection>right</GrowthDirection>
+                <HitSensitivity>4</HitSensitivity>
+                <MaxVelocity>10</MaxVelocity>
+                <MinVelocity>-1</MinVelocity>
+                <MinLength>20</MinLength>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.GrowNear</Class>
+            <Args>
+                <Id>growleft</Id>
+                <GrowthDirection>left</GrowthDirection>
+                <HitSensitivity>4</HitSensitivity>
+                <MaxVelocity>10</MaxVelocity>
+                <MinVelocity>-1</MinVelocity>
+                <MinLength>20</MinLength>
+            </Args>
+        </Behavior>
+     <Behavior>
+            <Class>behaviors.XYMoveBounceDirOne</Class>
+            <Args>
+                <Id>move</Id>
+                <XVel>10</XVel>
+        		<YVel>0</YVel>
+                <NoBounceTime>1000</NoBounceTime>
+                <BQSDistance>100</BQSDistance>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>shootingstars</Id>
+                <Inputs>
+                    <Id>simulatedpeds</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>mover</Id>
+                    <Id>dircolor</Id>
+                    <Id>slowdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.FillupBar</Class>
+            <Args>
+                <Id>fbar</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>fillupleft</Id>
+                <Inputs>
+                    <Id>rightedge</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>greencolor</Id>
+                    <Id>fbar</Id>
+                    <Id>mover</Id>
+                    <Id>fastdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'growleft'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>sblobmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>fillupright</Id>
+                <Inputs>
+                    <Id>leftedge</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>setbrightcolor</Id>
+                    <Id>fbar</Id>
+                    <Id>mover</Id>
+                    <Id>fastdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'growright'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>sblobmap</Mapper>
+            </Args>
+        </Behavior>
+          
+    <!-- End Fillup Behaviors -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
@@ -857,7 +1011,16 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>bodysequence</Id>
                 <Sequence>
-                    <Behavior>
+                      <Behavior>
+                        <Id>shootingstars</Id>
+                        <Timeout>20</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                   <Behavior>
                         <Id>colorall</Id>
                         <Timeout>10</Timeout>
                         <OnChange>None</OnChange>
@@ -949,7 +1112,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>primarysequence</Id>
                 <Sequence>
-                    <Behavior>
+                  <Behavior>
                         <Id>lamp</Id>
                         <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>

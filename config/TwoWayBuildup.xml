@@ -6,8 +6,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-            <!--InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom-->
-            <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> 
+            <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -158,8 +157,8 @@
             <Class>behaviors.XYMoveBounceDirOne</Class>
             <Args>
                 <Id>move</Id>
-                <XStep>2</XStep>
-        		<YStep>0</YStep>
+                <XVel>2</XVel>
+        		<YVel>0</YVel>
                 <NoBounceTime>1000</NoBounceTime>
                 <BQSDistance>100</BQSDistance>
             </Args>

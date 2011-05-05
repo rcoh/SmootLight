@@ -18,7 +18,7 @@ class CappedAccelerate(Behavior):
 
         for sensory in sensorInputs:
             opsensory = dict(sensory)
-            opsensory['XStep'] = min(self.maxVelocity, self.accel * opsensory['XStep'])
+            opsensory['XVel'] = min(self.maxVelocity, self.accel * opsensory['XVel'])
             ret.append(opsensory)
 
         return (ret, [])
