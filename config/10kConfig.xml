@@ -940,6 +940,32 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
     <!-- End SmootWind Behaviors -->
 
+    <!-- _WFS Waterfall Sparks -->
+
+        <Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>waterfallspark</Id>
+                <Inputs>
+                    <Id>movingmiddle</Id>
+                    <Id>randomloc</Id>
+                </Inputs>
+                <BehaviorList>
+                    <Id>waterfall</Id>
+                    <Id>sparkle</Id>
+                </BehaviorList>
+                <InputMap>
+                    <movingmiddle>
+                        <Id>waterfall</Id>
+                    </movingmiddle>
+                    <randomloc>
+                        <Id>sparkle</Id>
+                    </randomloc>
+                </InputMap>
+                <AcceptInputs>True</AcceptInputs>
+            </Args>
+        </Behavior>
+
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
@@ -952,6 +978,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>bodysequence</Id>
                 <Sequence>
+                    <Behavior>
+                        <Id>waterfallspark</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
                     <Behavior>
                         <Id>colorall</Id>
                         <Timeout>10</Timeout>
@@ -973,7 +1008,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Behavior>
                         <Id>waterfall</Id>
                         <Timeout>10</Timeout>
-                        <OnChange>None</OnChange>
+                        <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
