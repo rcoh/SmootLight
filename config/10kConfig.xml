@@ -55,9 +55,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <Renderer Scale=".5">
+        <!--Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer>
+        </Renderer-->
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -148,7 +148,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>inputs.ParametricLocationInput</Class>
             <Args>
                 <Id>randomloc</Id>
-                <RefreshInterval>100</RefreshInterval>
+                <RefreshInterval>30</RefreshInterval>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
             </Args>
@@ -157,7 +157,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>inputs.ParametricLocationInput</Class>
             <Args>
                 <Id>center</Id>
-                <RefreshInterval>100</RefreshInterval>
+                <RefreshInterval>30</RefreshInterval>
                 <xEquation>.5</xEquation>
                 <yEquation>.5</yEquation>
             </Args>
@@ -166,8 +166,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>inputs.ParametricLocationInput</Class>
             <Args>
                 <Id>movingmiddle</Id>
-                <RefreshInterval>100</RefreshInterval>
-                <xEquation>(t/100.0)%1</xEquation>
+                <RefreshInterval>30</RefreshInterval>
+                <xEquation>(t/300.0)%1</xEquation>
                 <yEquation>.5</yEquation>
             </Args>
         </InputElement>
@@ -228,6 +228,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
 <!-- ****** _CRB Common Reusable Behaviors ****** -->
 
+        <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinput</Id>
+            </Args>
+        </Behavior>
         <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Doc>insert this into any behavior chain to see the input stream there</Doc>
@@ -298,7 +304,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
-                <Increment>0.02</Increment>
+                <Increment>0.005</Increment>
             </Args>
         </Behavior>
         <Behavior>
@@ -411,21 +417,21 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.FadeOut</Class>
             <Args>
                 <Id>fadeout</Id>
-                <TimeOut>1</TimeOut>
+                <TimeOut>5</TimeOut>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.FadeIn</Class>
             <Args>
                 <Id>fadein</Id>
-                <TimeOut>1</TimeOut>
+                <TimeOut>5</TimeOut>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.Curtain</Class>
             <Args>
                 <Id>curtain</Id>
-                <tEquation>t/30.0</tEquation>
+                <tEquation>t/150.0</tEquation>
             </Args>
         </Behavior>
 
@@ -482,7 +488,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>white</Id>
-                    <Id>flashdecay</Id>
+                    <Id>slowdecay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
                 <AcceptInputs>True</AcceptInputs>
@@ -512,6 +518,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>onecenter</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>lastinput</Id>
                     <Id>bluecolor</Id>
                     <Id>mover</Id>
                     <Id>singleframe</Id>
@@ -537,7 +544,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Gradient>
                     <Color>(255, 255, 255)</Color>
                     <Peak>.5</Peak>
-                    <Width>.1</Width>
+                    <Width>.05</Width>
                     <Min>.2</Min>
                     <Max>.8</Max>
                 </Gradient>
@@ -566,9 +573,10 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>center</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>lastinput</Id>
                     <Id>lampgradient</Id>
-                    <Id>lampflicker</Id>
-                    <Id>printdebug</Id>
+                    <!--Id>lampflicker</Id-->
+                    <!--Id>printdebug</Id-->
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
@@ -616,6 +624,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>movingmiddle</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>lastinput</Id>
                     <Id>waterfallgradient</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
@@ -807,7 +816,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <Args>
             <Id>sensordebug</Id>
             <Inputs>
-                <Id>livepeds</Id>
+                <Id>simulatedpeds</Id>
             </Inputs>
             <ChainedBehaviors>
                 <Id>white</Id>
@@ -983,7 +992,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Sequence>
                     <Behavior>
                         <Id>colorall</Id>
-                        <Timeout>10</Timeout>
+                        <Timeout>20</Timeout>
                         <OnChange>None</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -992,7 +1001,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>sparkle</Id>
-                        <Timeout>10</Timeout>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1001,7 +1010,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>waterfall</Id>
-                        <Timeout>10</Timeout>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1009,42 +1018,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>trackingwhite</Id>
-                        <Timeout>50</Timeout>
-                        <OnChange>Pause</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
-                    </Behavior>
-                    <Behavior>
-                        <Id>trackingdirectional</Id>
-                        <Timeout>50</Timeout>
-                        <OnChange>Pause</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
-                    </Behavior>
-                    <Behavior>
-                        <Id>trackingvelocity</Id>
-                        <Timeout>50</Timeout>
-                        <OnChange>Pause</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
-                    </Behavior>
-                    <Behavior>
                         <Id>chewinggum</Id>
-                        <Timeout>50</Timeout>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-                    <Behavior>
+                    <!--Behavior>
                         <Id>fireflies</Id>
                         <Timeout>50</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1055,7 +1037,25 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>smootwind</Id>
-                        <Timeout>50</Timeout>
+                        <Timeout>20</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior-->
+                    <Behavior>
+                        <Id>waterfallspark</Id>
+                        <Timeout>20</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>trackingwhite</Id>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1063,13 +1063,22 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>waterfallspark</Id>
-                        <Timeout>5</Timeout>
+                        <Id>trackingdirectional</Id>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>5</FadeOutTime>
+                        <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
-                        <FadeInTime>5</FadeInTime>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>trackingvelocity</Id>
+                        <Timeout>20</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>passthrough</Id>
@@ -1102,11 +1111,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>
-                        <Timeout>120</Timeout>
+                        <Timeout>720</Timeout>
                         <OnChange>Pause</OnChange>
                     </Behavior>
                     <Behavior>
-                        <Id>ripplechain</Id>
+                        <Id>lamp</Id>
                         <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>curtain</FadeOutId>

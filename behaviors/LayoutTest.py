@@ -9,10 +9,10 @@ class LayoutTest(Behavior):
             recurs.append({'Location':0})
         output = []
         for r in recurs:
-            r['Location'] += 10
+            r['Location'] += -7
             r['Location'] = r['Location'] % self.maxX
             outDict = dict(r)
-            outDict['PixelEvent'] = DecayEvent({'Color':(255,255,255), 'Coefficient':.01}) 
+            outDict['PixelEvent'] = DecayEvent({'Color':(255,50,160), 'Coefficient':.01}) 
             outDict['Location'] = lambda x,y: abs(x-r['Location']) < 30
             output.append(outDict)
         return (output, recurs)
