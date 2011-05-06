@@ -34,6 +34,22 @@
                 <Height>1</Height>
             </Args>
         </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>pgaussmapfixed</Id>
+                <Width>300</Width>
+		<Intensity>0.3</Intensity>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>pgaussmapmove</Id>
+                <Width>500</Width>
+		<Intensity>1</Intensity>
+            </Args>
+        </PixelMapper>
     </PixelMapperConfiguration>
     <InputConfiguration>
         <InputElement>
@@ -93,10 +109,10 @@
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="decay">
-            <InheritsFrom>behaviors/PixelPulse.xml</InheritsFrom>
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
 	    <Args>
-	      <Duration>800</Duration>
-	      <Coefficient>0.001</Coefficient>
+	      <Duration>600</Duration>
+	      <Coefficient>0.02</Coefficient>
 	    </Args>
         </Behavior>
 	<Behavior>
@@ -110,14 +126,6 @@
 	  <Class>behaviors.TDMAMover</Class>
 	  <Args>
 	    <Id>tdmamover</Id>
-	  </Args>
-	</Behavior>
-	<Behavior>
-	  <Class>behaviors.HorizontalClone</Class>
-	  <Args>
-	    <Id>hclone</Id>
-	    <StepSize>48</StepSize>
-	    <Times>6</Times>
 	  </Args>
 	</Behavior>
 
@@ -164,9 +172,10 @@
             </Args>
         </Behavior>
         <Behavior>
-            <Class>behaviors.RandomSetBrightColorBehavior</Class>
+            <Class>behaviors.RandomSetColorBehavior</Class>
             <Args>
                 <Id>setbrightcolor</Id>
+		<Dimness>1.0</Dimness>
             </Args>
         </Behavior>
         <Behavior>
@@ -182,13 +191,21 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmapmove</Mapper>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>pgaussmapmove</Mapper>
             </Args>
         </Behavior>
 
 
 	<!-- FIXED FIREFLY BEHAVIOR-->	
+	<Behavior>
+	  <Class>behaviors.HorizontalClone</Class>
+	  <Args>
+	    <Id>hclone</Id>
+	    <StepSize>48</StepSize>
+	    <Times>6</Times>
+	  </Args>
+	</Behavior>
         <Behavior Id="recursivedecay1" InitialResponseCount="10">
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
@@ -230,10 +247,22 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce1'}</RecursiveHooks>
-                <RenderToScreen>True</RenderToScreen>
-                <Mapper>gaussmapfixed</Mapper>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>pgaussmapfixed</Mapper>
             </Args>
         </Behavior>
+
+    <Behavior>
+        <Class>behaviors.SplitBehavior</Class>
+        <Args>
+            <Id>splitbehavior</Id>
+            <BehaviorList>
+                <Id>staticfireflies</Id>
+                <Id>fireflies</Id>
+            </BehaviorList>
+            <RenderToScreen>True</RenderToScreen>
+        </Args>
+    </Behavior>
 
     </BehaviorConfiguration>
 </LightInstallation>

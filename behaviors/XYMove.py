@@ -18,7 +18,7 @@ class XYMove(Behavior):
         return (ret, []) 
     def insertVelIfMissing(self, data):
         if not 'XVel' in data:
-            data['XVel'] = self['XStep']
+            data['XVel'] = self.XStep
         if not 'YVel' in data:
-            data['YVel'] = self['YStep']
+            data['YVel'] = self.YStep
 

@@ -37,11 +37,12 @@ class SynchSenseNetLoc(SmootCoreObject):
         packet = map(int, packet)
         #print packet
         #print sum(packet)
+	#import pdb; pdb.set_trace()
         for j,b in enumerate(packet):
             if b == 1:
                 #sensorId = firstBitIndex + i*8 + j
                 output.append({'SensorId':j, 'Responding':timeOps.time()})
-                print 'responding', j 
+                #print 'responding', j 
             #send output as necessary
         #print 'done parsing'
         return output
@@ -69,9 +70,11 @@ class SynchSenseNetLoc(SmootCoreObject):
             return 0
     def processInput(self, inp):
         #TODO: Lock on self.responses
-        self.responses = inp
+        if not isinstance(inp, list):
+            self.responses = [inp]
+        else:
+            self.responses = inp
         if self['Mode'] == 'SensorNetwork':
-            print 'what?'
             tempResponses = []
             for r in self.responses:
                 startIndex = self.getIndex(r['address']) 
@@ -84,5 +87,6 @@ class SynchSenseNetLoc(SmootCoreObject):
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], self['Y'])
             else:
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
+		#print r['Location']
         retResps = list(self.responses)
         return retResps

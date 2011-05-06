@@ -2,35 +2,33 @@ from operationscore.Behavior import *
 import util.Geo as Geo
 
 class PedTrack(Behavior):
-
     def processResponse(self, sensor, recurs):
         ret = []
-
         if self['MaxIntensity'] != None:
             maxIntensity = self['MaxIntensity']
         else:
             maxIntensity = 10
-        outputDict = {} 
-        for sensory in sensor:
-            opsensory = dict(sensory)
-            if "SensorId" in opsensory:
-                if "detected" not in opsensory:
-                    opsensory["detected"] = True
-                    opsensory["Location"] = {opsensory["Location"]:maxIntensity}
-                else:
-                    opsensory["Location"] = {opsensory["Location"].keys()[0]:max(opsensory["Location"].values()[0] - 1, 0)}
-            ret.append(opsensory)
-        print ret
-        locDict = {}
-        for r in ret:
-            if 'Location' in r:
-                locDict = r['Location']
-                for key in locDict:
-                    locDict[key]=locDict[key]
-        if ret:
-            outputDict['Color'] = ret[0]['Color']
-            outputDict['Location'] = locDict
-            return ([outputDict], []) 
+        if recurs:
+            outputDict, colorDict = recurs
+        else:
+            outputDict = {}
+            colorDict = {}
+        dimKeys = []
+        for key in outputDict:
+            outputDict[key] -= .1
+            if outputDict[key] < 0:
+                dimKeys.append(key)
+        for key in dimKeys:
+            del outputDict[key]
+        for inp in sensor:
+            if inp['Location'] in outputDict:
+                outputDict[inp['Location']] += 1
+            else:
+                outputDict[inp['Location']] = 1
+        if sensor or recurs:
+            if not 'Color' in colorDict:
+                colorDict['Color'] = sensor[0]['Color'] 
+            directOut = {'Location':outputDict, 'Color': colorDict['Color']}
+            return ([directOut], [outputDict, colorDict])
         else:
             return ([],[])
-
