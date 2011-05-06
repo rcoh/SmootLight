@@ -21,7 +21,7 @@ class SinusoidRipple (Behavior):
         if 'tEquation' in self.argDict:
             self.tEq = eval("lambda t: " + self['tEquation'])
         else:
-            self.tEq = lambda t: 300 * math.sin((2 * math.pi * t)/300)
+            self.tEq = lambda t: 300 * math.sin((2 * math.pi * t)/1000)
         return [0]
 
     def processResponse (self, inputs, state):

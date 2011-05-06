@@ -37,6 +37,7 @@ class SynchSenseNetLoc(SmootCoreObject):
         packet = map(int, packet)
         #print packet
         #print sum(packet)
+	#import pdb; pdb.set_trace()
         for j,b in enumerate(packet):
             if b == 1:
                 #sensorId = firstBitIndex + i*8 + j
@@ -86,5 +87,6 @@ class SynchSenseNetLoc(SmootCoreObject):
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], self['Y'])
             else:
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
+		#print r['Location']
         retResps = list(self.responses)
         return retResps
