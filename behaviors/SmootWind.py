@@ -5,39 +5,32 @@ import random
 class SmootWind(Behavior):
     def behaviorInit(self):
         self.mapper = None
-        self.xFor = None
+        self.xymove = None
 
-    def processResponse(self, sensorInputs, recursiveInputs):
+    def processResponse(self, sensorInputs, recursiveInputs):        
 	if self.mapper == None:
             try:
                 self.mapper = compReg.getComponent('windgaussmap')
             except KeyError:
                 pass
-        if self.xFor == None:
+        if self.xymove == None:
             try:
-                self.xFor = compReg.getComponent('xfor')
+                self.xymove = compReg.getComponent('xymove')
             except KeyError:
                 pass
 
+        outs = []
         for sensory in sensorInputs:
-            print sensory
+            #print sensory
             # input[0] is windspeed, [1] is dir
 	    if 'WindSpeed' in sensory and 'WindDir' in sensory:
-		    windSpeed = sensory['WindSpeed']
-		    windDir = sensory['WindDir']
-		    #print self.mapper.argDict
-		    self.mapper.argDict['Width'] = self.mapper.argDict['Width']+float(windSpeed)*2+20
-		    self.xFor.argDict['ParamOp'] = self.xFor.argDict['ParamOp']+float(windSpeed)*3+10*random.random(); 
-		    #print 'Width: ' + str(self.mapper.argDict['Width'])
-		    #print 'xFor: ' + str(self.xFor.argDict['ParamOp'])
-
-	    elif 'Key' in sensory:
-		    if sensory['Key'] == 273:
-			    self.mapper.argDict['Width'] = self.mapper.argDict['Width']+10;
-			    self.xFor.argDict['ParamOp'] = self.xFor.argDict['ParamOp']+5;
-		   
-		    elif sensory['Key'] == 274:
-			    self.mapper.argDict['Width'] = self.mapper.argDict['Width']-10;
-			    self.xFor.argDict['ParamOp'] = self.xFor.argDict['ParamOp']-5;
-
-        return (sensorInputs, recursiveInputs)
+                windSpeed = sensory['WindSpeed']
+                windDir = sensory['WindDir']
+                self.mapper.Width = float(windSpeed)*2+15
+                self.xymove.XStep = float(windSpeed)+10*random.random();
+                self.xymove.YStep = float(windSpeed)/3.*random.uniform(-1,1); 
+                #print 'Width: ' , self.mapper.Width
+                #print 'xymove: (' , self.xymove.XStep, ', ', self.xymove.YStep, ')'
+            else:
+                outs.append(sensory)
+        return (outs, [])

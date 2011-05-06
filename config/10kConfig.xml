@@ -24,6 +24,8 @@ TABLE OF SECTIONS
         _GUM Chewing Gum Behaviors
         _SIN Sinusoid Ripple Behaviors
         _FIL Fillup Behaviors
+        _SWB Smootwind Behaviors
+        _WFS Waterfall Sparks Behaviors
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -121,7 +123,14 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>sblobmap</Id>
             </Args>
         </PixelMapper>
-
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Doc>mapper for SmootWind</Doc>
+            <Args>
+                <Id>windgaussmap</Id>
+                <Width>50</Width>
+		<Intensity>1.0</Intensity>
+            </Args>
+        </PixelMapper>
     </PixelMapperConfiguration>
     <InputConfiguration>
 
@@ -181,6 +190,27 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <yEquation>.5</yEquation>
             </Args>
         </InputElement>
+	<InputElement>
+	  <Class>inputs.HTMLInput</Class>
+	  <Doc>input from MIT sailing describing wind speed</Doc>
+	  <Args>
+	    <Id>weatherinput</Id>
+	    <Src>'http://sailing.mit.edu/weather/'</Src>
+	    <Regex>'rtWindSpeed = (\d+).*\s.*\s.*rtWindDir = (\d+)'</Regex>
+	    <RefreshInterval>30000</RefreshInterval>
+	  </Args>
+	</InputElement>
+        <InputElement>
+            <Class>inputs.RandomLocs</Class>
+	    <Doc>Random Locatino input for SmootWind.</Doc>
+            <Args>
+                <Id>windrandomloc</Id>
+		<MaxX>1000</MaxX>
+		<MaxY>50</MaxY>		   
+		<RefreshInterval>2000</RefreshInterval>
+            </Args>
+        </InputElement>
+
 
     <!-- End Common Inputs - Continuous -->
 
@@ -205,6 +235,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>livepeds</Id>
                 <Port>3344</Port>
                 <RefreshInterval>100</RefreshInterval>
+                <IPIndexTable>{'10.32.1.1':0,
+                    '10.32.1.2':40,'10.32.1.3':80,'10.32.1.4':120,'10.32.1.5':160,'10.32.1.6':200,'10.32.1.7':240,'10.32.1.8':280,'10.32.1.9':320,'10.32.1.10':360,'10.32.1.11':400}</IPIndexTable>
             </Args>
         </InputElement>
 
@@ -767,7 +799,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>dircolor</Id>
-                <Id>meddecay</Id>
+                <Id>risefall</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
@@ -784,7 +816,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>velcolor</Id>
-                <Id>meddecay</Id>
+                <Id>risefall</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
@@ -863,6 +895,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Sinusoid Ripple Behaviors -->
+
     <!-- _FIL Fillup Behaviors -->
          <Behavior Id='accelerate'>
             <Class>behaviors.CappedAccelerate</Class>
@@ -950,7 +983,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <AcceptInputs>True</AcceptInputs>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -996,8 +1028,115 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Mapper>sblobmap</Mapper>
             </Args>
         </Behavior>
-          
+ 	<Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>fillupbar</Id>
+                <BehaviorList>
+                    <Id>shootingstars</Id>
+                    <Id>fillupleft</Id>
+                    <Id>fillupright</Id>
+                </BehaviorList>
+        		<AcceptInputs>True</AcceptInputs>
+            </Args>
+	</Behavior>
+
+         
     <!-- End Fillup Behaviors -->
+            
+    <!-- _SWB Start SmootWind Behaviors -->
+        <Behavior>
+            <Class>behaviors.XYMove</Class>
+            <Args>
+                <Id>windxymove</Id>
+                <XStep>5</XStep>
+                <YStep>0</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Timeout</Class>
+            <Args>
+                <Id>windtimeout</Id>
+                <Timeout>20000</Timeout>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>		
+                <Id>windmovebounce</Id>
+                <ChainedBehaviors>
+                    <Id>windxymove</Id>
+                    <Id>windtimeout</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+
+	<Behavior>
+	    <Class>behaviors.SmootWind</Class>    
+	    <Args>
+		<Id>smootwindprep</Id>		
+	    </Args>
+	</Behavior>
+	<Behavior Id="windstaticcolor">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+	    <Args>
+            	<ColorList>
+		    <Val>(100,200,255)</Val>
+		    <Val>(50,200,255)</Val>
+		    <Val>(0,200,255)</Val>
+		    <Val>(0,150,255)</Val>
+		</ColorList>
+	    </Args>
+	</Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>smootwind</Id>
+                <Inputs>
+		    <Id>windrandomloc</Id>
+		    <Id>weatherinput</Id>
+		</Inputs>
+                <ChainedBehaviors>
+		    <Id>smootwindprep</Id>
+                    <Id>windstaticcolor</Id>
+                    <Id>mover</Id>
+                    <Id>fastdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'windmovebounce'}</RecursiveHooks>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>windgaussmap</Mapper>
+           </Args>
+       </Behavior>
+
+    <!-- End SmootWind Behaviors -->
+
+    <!-- _WFS Waterfall Sparks -->
+
+        <Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>waterfallspark</Id>
+                <Inputs>
+                    <Id>movingmiddle</Id>
+                    <Id>randomloc</Id>
+                </Inputs>
+                <BehaviorList>
+                    <Id>waterfall</Id>
+                    <Id>sparkle</Id>
+                </BehaviorList>
+                <InputMap>
+                    <movingmiddle>
+                        <Id>waterfall</Id>
+                    </movingmiddle>
+                    <randomloc>
+                        <Id>sparkle</Id>
+                    </randomloc>
+                </InputMap>
+                <AcceptInputs>True</AcceptInputs>
+            </Args>
+        </Behavior>
+
+    <!-- End Waterfall Sparks -->
 
 <!-- ****** End Animation Specific Behaviors ****** -->
 
@@ -1012,7 +1151,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>bodysequence</Id>
                 <Sequence>
                       <Behavior>
-                        <Id>shootingstars</Id>
+                        <Id>fillupbar</Id>
                         <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
@@ -1041,7 +1180,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Behavior>
                         <Id>waterfall</Id>
                         <Timeout>10</Timeout>
-                        <OnChange>None</OnChange>
+                        <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
@@ -1091,6 +1230,24 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>smootwind</Id>
+                        <Timeout>50</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>waterfallspark</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>passthrough</Id>
