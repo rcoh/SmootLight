@@ -1162,7 +1162,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
-                    <Behavior>
+                    <!--Behavior>
                         <Id>fireflies</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1170,7 +1170,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
-                    </Behavior>
+                    </Behavior-->
                     <Behavior>
                         <Id>smootwind</Id>
                         <Timeout>60</Timeout>
