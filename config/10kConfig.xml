@@ -58,9 +58,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <!--Renderer Scale=".5">
+        <Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -443,7 +443,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.Curtain</Class>
             <Args>
                 <Id>curtain</Id>
-                <tEquation>t/150.0</tEquation>
+                <tEquation>t/1500.0</tEquation>
             </Args>
         </Behavior>
 
@@ -1134,15 +1134,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>
-                        <Timeout>720</Timeout>
+                        <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                     </Behavior>
                     <Behavior>
-                        <Id>lamp</Id>
-                        <Timeout>5</Timeout>
+                        <Id>ripplechain</Id>
+                        <Timeout>100</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>curtain</FadeOutId>
-                        <FadeOutTime>5</FadeOutTime>
+                        <FadeOutTime>20</FadeOutTime>
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>

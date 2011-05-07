@@ -29,15 +29,15 @@ class SinusoidRipple (Behavior):
         if not state:
             state = [0] 
 
-        print "SinusoidRipple", inputs, state
+        #print "SinusoidRipple", inputs, state
         mapper = lambda loc: abs(loc - center)
         scale = self.tEq(state[0]) / (self.scrwid * 2 * math.pi)
         curtain = lambda x: numpy.sin(mapper(x)*scale)
 
-        location = "numpy.abs(numpy.sin(numpy.abs(x - " + str(self.center) + \
+        location = "(numpy.sin(numpy.abs(x - " + str(self.center) + \
             ") * " + str((2*math.pi*self.tEq(state[0])) / self.scrwid) + "))"
 
-        print location
+        #print location
         
         for inp in inputs:
             inp['Location'] = location
