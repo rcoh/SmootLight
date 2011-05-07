@@ -17,7 +17,6 @@ class UDPInputWithDirPeds(Input):
         self.dirPeds = SynchDirPeds({})
         self.sensNetLoc = SynchSenseNetLoc({'SensorSpacing':45, 'Mode':'SensorNetwork',
                                             'IPIndexTable':self['IPIndexTable']})
-    
     def socketLoop(self):
         (data,address) = self.sock.recvfrom(1024)
         while data:

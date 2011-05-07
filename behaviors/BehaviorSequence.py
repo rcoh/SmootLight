@@ -91,7 +91,7 @@ class BehaviorSequence(Behavior):
         if self.onChange == 'Pause':
             compReg.getComponent(self.behavior).resumeInputs()
         elif self.onChange == 'Restart':
-            compReg.getCompenent(self.behavior).init()
+            compReg.getComponent(self.behavior).init()
 
     def transitionIn (self): # switch out of fade in
         print self['Id'], "transitionIn ", self.transin

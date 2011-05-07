@@ -27,6 +27,8 @@ def query(predicateList):
     
     for behavior in behaviorList: #Consider every behavior
         lastOutput = behavior.getLastOutput()
+        if not lastOutput:
+            continue
         for output in lastOutput: #Look at every element it has output
             validOutput = True
             for i in xrange(len(predicateList)):
