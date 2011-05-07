@@ -55,7 +55,6 @@ class SplitBehavior(Behavior):
                 behaviorState = []
 
         for inp in inputs:
-            
             inpId = inp['InputId']
 
             if inpId in self.inputMap:

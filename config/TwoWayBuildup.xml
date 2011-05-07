@@ -6,7 +6,8 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-            <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+       <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+<!--        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> -->
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -36,18 +37,6 @@
 </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
-        <InputElement>
-            <Class>inputs.LeftEdgeInput</Class>
-            <Args>
-                <Id>leftedge</Id>
-            </Args>
-        </InputElement>
-         <InputElement>
-            <Class>inputs.RightEdgeInput</Class>
-            <Args>
-                <Id>rightedge</Id>
-            </Args>
-        </InputElement>
         <InputElement>
             <Class>inputs.UDPInput</Class>
             <Args>
@@ -180,10 +169,18 @@
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
-       <Behavior>
+        <Behavior>
             <Class>behaviors.FillupBar</Class>
             <Args>
-                <Id>fbar</Id>
+                <Id>fbarleft</Id>
+                <Side>left</Side>
+            </Args>
+        </Behavior>
+      <Behavior>
+            <Class>behaviors.FillupBar</Class>
+            <Args>
+                <Id>fbarright</Id>
+                <Side>right</Side>
             </Args>
         </Behavior>
         <Behavior>
@@ -194,8 +191,8 @@
                     <Id>rightedge</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>fbarright</Id>
                     <Id>setbrightcolor</Id>
-                    <Id>fbar</Id>
                     <Id>mover</Id>
                     <Id>decayshort</Id>
                 </ChainedBehaviors>
@@ -212,8 +209,8 @@
                     <Id>leftedge</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>fbarleft</Id>
                     <Id>setbrightcolor</Id>
-                    <Id>fbar</Id>
                     <Id>mover</Id>
                     <Id>decayshort</Id>
                 </ChainedBehaviors>
