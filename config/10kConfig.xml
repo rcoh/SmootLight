@@ -573,13 +573,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Color>(255, 255, 255)</Color>
                     <Peak>.5</Peak>
                     <Width>.05</Width>
-                    <Min>.2</Min>
+                    <Min>.1</Min>
                     <Max>.8</Max>
                 </Gradient>
                 <Gradient>
                     <Color>(204, 102, 0)</Color>
                     <Peak>0</Peak>
-                    <Width>.4</Width>
+                    <Width>.5</Width>
                     <Min>0</Min>
                     <Max>.6</Max>
                 </Gradient>
@@ -591,6 +591,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>lampflicker</Id>
                 <Prob>.8</Prob>
                 <AllProb>1</AllProb>
+                <Scale>.5</Scale>
             </Args>
         </Behavior>
         <Behavior>
@@ -609,7 +610,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <ChainedBehaviors>
                     <Id>lastinputlmp</Id>
                     <Id>lampgradient</Id>
-                    <!--Id>lampflicker</Id-->
+                    <Id>lampflicker</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
@@ -1103,7 +1104,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Waterfall Sparks -->
-    <!-- Warehouse _WHR -->
+
+    <!-- Warehouse _WHR >
         <Behavior>
             <Class>behaviors.Warehouse</Class>
             <Args>
@@ -1112,7 +1114,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
-    <!-- End Warehouse -->
+    < End Warehouse -->
+
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
@@ -1245,7 +1248,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>primarysequence</Id>
                 <Sequence>
                    <Behavior>
-                        <Id>warehouse</Id>
+                        <Id>lamp</Id>
                         <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
