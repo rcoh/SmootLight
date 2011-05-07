@@ -10,7 +10,9 @@ class ParametricLocationInput(Input):
         bottom/right of the lightscreen. useClock is a boolean that 
         specifies if the behavior should compute t based on the system
         clock (value True) or should just increment t every time the
-        input is called."""
+        input is called.
+        It also can take a Repeat tag, which will repeat the respond
+        <Repeat> times per call"""
 
     def clockTick(self):
         return clock.time() - clock.t
@@ -20,6 +22,10 @@ class ParametricLocationInput(Input):
         return self.t - 1
 
     def inputInit(self):
+
+        if 'Repeat' not in self.argDict:
+            self.Repeat = 1
+
         self.t = 0
 
         compReg.getLock().acquire()
@@ -40,7 +46,7 @@ class ParametricLocationInput(Input):
         self.y_eqn = eval('lambda t:' + str(ymin) + '+' + str(ylen) + '*(' + str(self['yEquation']) + ')')
 
     def sensingLoop(self):
-        #print {Strings.LOCATION: (self.x_eqn(self.t), self.y_eqn(self.t))}
-        self.respond({Strings.LOCATION: (self.x_eqn(self.t), self.y_eqn(self.t))})
+        for i in range(self.Repeat):
+            self.respond({Strings.LOCATION: (self.x_eqn(self.t), self.y_eqn(self.t))})
         self.t += 1
         

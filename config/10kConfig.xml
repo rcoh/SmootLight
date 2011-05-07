@@ -85,13 +85,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </PixelMapper>
         <PixelMapper>
-            <Class>pixelmappers.GaussianMapper</Class>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>10</CutoffDist>
-                <MinWeight>0.1</MinWeight>
-                <Width>10</Width>
-                <Height>1</Height>
+                <Width>50</Width>
+                <Intensity>1</Intensity>
             </Args>
         </PixelMapper>
         <PixelMapper>
@@ -152,6 +150,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>randomloc</Id>
                 <RefreshInterval>30</RefreshInterval>
+                <Repeat>3</Repeat>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
             </Args>
@@ -593,7 +592,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>lastinputlmp</Id>
                     <Id>lampgradient</Id>
                     <!--Id>lampflicker</Id-->
-                    <!--Id>printdebug</Id-->
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
@@ -613,21 +611,21 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Gradient>
                     <Color>(255, 0, 0)</Color>
                     <Peak>0</Peak>
-                    <Width>.33</Width>
+                    <Width>.4</Width>
                     <Min>0.0</Min>
                     <Max>1.0</Max>
                 </Gradient>
                 <Gradient>
                     <Color>(0, 255, 0)</Color>
                     <Peak>.333</Peak>
-                    <Width>.333</Width>
+                    <Width>.4</Width>
                     <Min>0.0</Min>
                     <Max>1.0</Max>
                 </Gradient>
                 <Gradient>
                     <Color>(0, 0, 255)</Color>
                     <Peak>.666</Peak>
-                    <Width>.33</Width>
+                    <Width>.4</Width>
                     <Min>0.0</Min>
                     <Max>1.0</Max>
                 </Gradient>
@@ -1015,7 +1013,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Sequence>
                     <Behavior>
                         <Id>colorall</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1024,7 +1022,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>sparkle</Id>
-                        <Timeout>60</Timeout>
+                        <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1033,7 +1031,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>waterfall</Id>
-                        <Timeout>600</Timeout>
+                        <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1134,15 +1132,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>
-                        <Timeout>5</Timeout>
+                        <Timeout>600</Timeout>
                         <OnChange>Pause</OnChange>
                     </Behavior>
                     <Behavior>
                         <Id>ripplechain</Id>
-                        <Timeout>100</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>curtain</FadeOutId>
-                        <FadeOutTime>20</FadeOutTime>
+                        <FadeOutTime>5</FadeOutTime>
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
