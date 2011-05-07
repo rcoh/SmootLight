@@ -71,7 +71,6 @@
                 <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
- 
     </InputConfiguration>
 
     <BehaviorConfiguration>

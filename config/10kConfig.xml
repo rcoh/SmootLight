@@ -26,6 +26,7 @@ TABLE OF SECTIONS
         _FIL Fillup Behaviors
         _SWB Smootwind Behaviors
         _WFS Waterfall Sparks Behaviors
+        _WHR Warehouse
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -56,14 +57,14 @@ BehaviorSequnce.py documentation. Seriously, it helps.
     <PixelConfiguration>
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
-    <!--RendererConfiguration>
+    <RendererConfiguration>
         <Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
-    </RendererConfiguration-->
+    </RendererConfiguration>
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
@@ -191,7 +192,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 	</InputElement>
         <InputElement>
             <Class>inputs.RandomLocs</Class>
-            <Doc>Random Locatino input for SmootWind.</Doc>
+            <Doc>Random Location input for SmootWind.</Doc>
             <Args>
                 <Id>windrandomloc</Id>
                 <MaxX>1000</MaxX>
@@ -279,6 +280,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <ColorList>
                     <Color>(255,0,0)</Color>
                 </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.AggregateResponse</Class>
+            <Args>
+                <Id>agg</Id>
             </Args>
         </Behavior>
         <Behavior>
@@ -770,6 +777,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>white</Id>
                 <Id>genmod</Id>
+                <Id>agg</Id>
                 <Id>risefall</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
@@ -909,7 +917,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.DiscardData</Class>
             <Args>
                 <Id>discard</Id>
-                <Keep>150</Keep>
+                <Keep>1</Keep>
             </Args>
        </Behavior>
        <Behavior>
@@ -921,7 +929,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>accelerate</Id>
                     <Id>offScreenDeath</Id>
                     <Id>timedwarp</Id>
-                    <Id>discard</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
@@ -968,6 +975,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>mover</Id>
                     <Id>dircolor</Id>
                     <Id>slowdecay</Id>
+                    <Id>discard</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
@@ -1131,7 +1139,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Waterfall Sparks -->
-
+    <!-- Warehouse _WHR -->
+        <Behavior>
+            <Class>behaviors.Warehouse</Class>
+            <Args>
+                <Id>layoutest</Id>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+    <!-- End Warehouse -->
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
@@ -1146,7 +1162,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Sequence>
                     <Behavior>
                         <Id>fillupbar</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>200</Timeout>
                         <OnChange>Restart</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1179,15 +1195,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
-                    </Behavior>
-                    <Behavior>
-                        <Id>fillupbar</Id>
-                        <Timeout>20</Timeout>
-                        <OnChange>Restart</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>trackingwhite</Id>
@@ -1273,8 +1280,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>primarysequence</Id>
                 <Sequence>
                    <Behavior>
-                        <Id>lamp</Id>
-                        <Timeout>5</Timeout>
+                        <Id>warehouse</Id>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
