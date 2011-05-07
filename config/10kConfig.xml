@@ -1130,7 +1130,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Sequence>
                     <Behavior>
                         <Id>colorall</Id>
-                        <Timeout>5</Timeout>
+                        <Timeout>random.randint(5, 10)</Timeout>
                         <OnChange>None</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1234,6 +1234,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
+                <Random>True</Random>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -1270,6 +1271,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
+                <Random>False</Random>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
