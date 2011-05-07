@@ -40,7 +40,7 @@ class GenerateModulate(Behavior):
                         outRecurs.append(newResponse)
         strippedOutput = []
         for i,r in enumerate(recurs):
-            if  i % 5 == self.stepIndex % 5:
+            if  i % 1 == self.stepIndex % 1:
                 strippedOutput.append(r)
         if len(strippedOutput) > 0:
             #print 'stripedOut', len(strippedOutput)

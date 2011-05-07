@@ -23,7 +23,10 @@ TABLE OF SECTIONS
         _FLY Firefly Behaviors
         _GUM Chewing Gum Behaviors
         _SIN Sinusoid Ripple Behaviors
+        _FIL Fillup Behaviors
+        _SWB Smootwind Behaviors
         _WFS Waterfall Sparks Behaviors
+        _WHR Warehouse
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -116,12 +119,18 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </PixelMapper>
         <PixelMapper>
+            <Class>pixelmappers.SquareBlobMapper</Class>
+            <Args>
+                <Id>sblobmap</Id>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
             <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Doc>mapper for SmootWind</Doc>
             <Args>
                 <Id>windgaussmap</Id>
                 <Width>50</Width>
-		<Intensity>1.0</Intensity>
+		        <Intensity>1.0</Intensity>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
@@ -183,12 +192,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 	</InputElement>
         <InputElement>
             <Class>inputs.RandomLocs</Class>
-	    <Doc>Random Locatino input for SmootWind.</Doc>
+            <Doc>Random Location input for SmootWind.</Doc>
             <Args>
                 <Id>windrandomloc</Id>
-		<MaxX>1000</MaxX>
-		<MaxY>50</MaxY>		   
-		<RefreshInterval>2000</RefreshInterval>
+                <MaxX>1000</MaxX>
+                <MaxY>50</MaxY>		   
+                <RefreshInterval>2000</RefreshInterval>
             </Args>
         </InputElement>
 
@@ -277,6 +286,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <ColorList>
                     <Color>(255,0,0)</Color>
                 </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.AggregateResponse</Class>
+            <Args>
+                <Id>agg</Id>
             </Args>
         </Behavior>
         <Behavior>
@@ -577,8 +592,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <ChainedBehaviors>
                     <Id>lastinput</Id>
                     <Id>lampgradient</Id>
-                    <!--Id>lampflicker</Id-->
-                    <!--Id>printdebug</Id-->
+                    <Id>lampflicker</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
@@ -885,6 +899,160 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Sinusoid Ripple Behaviors -->
+
+    <!-- _FIL Fillup Behaviors -->
+         <Behavior Id='accelerate'>
+            <Class>behaviors.CappedAccelerate</Class>
+            <Args>
+                <MaxVelocity>500</MaxVelocity>
+                <Acceleration>1.1</Acceleration>
+            </Args>
+        </Behavior>
+        <Behavior> 
+            <Class>behaviors.OffScreenDeath</Class>
+            <Args>
+                <Id>offScreenDeath</Id>
+            </Args>
+        </Behavior>
+         <Behavior>
+            <Class>behaviors.TimedWarp</Class>
+            <Args>
+                <Id>timedwarp</Id>
+                <FramesToDeath>500</FramesToDeath>
+            </Args>
+        </Behavior>
+         <Behavior>
+            <Class>behaviors.DiscardData</Class>
+            <Args>
+                <Id>discard</Id>
+                <Keep>1</Keep>
+            </Args>
+       </Behavior>
+       <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>movebounce</Id>
+                <ChainedBehaviors>
+                    <Id>move</Id>
+                    <Id>accelerate</Id>
+                    <Id>offScreenDeath</Id>
+                    <Id>timedwarp</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.GrowNear</Class>
+            <Args>
+                <Id>growright</Id>
+                <GrowthDirection>right</GrowthDirection>
+                <HitSensitivity>4</HitSensitivity>
+                <MaxVelocity>10</MaxVelocity>
+                <MinVelocity>-1</MinVelocity>
+                <MinLength>20</MinLength>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.GrowNear</Class>
+            <Args>
+                <Id>growleft</Id>
+                <GrowthDirection>left</GrowthDirection>
+                <HitSensitivity>4</HitSensitivity>
+                <MaxVelocity>10</MaxVelocity>
+                <MinVelocity>-1</MinVelocity>
+                <MinLength>20</MinLength>
+            </Args>
+        </Behavior>
+     <Behavior>
+            <Class>behaviors.XYMoveBounceDirOne</Class>
+            <Args>
+                <Id>move</Id>
+                <XVel>10</XVel>
+        		<YVel>0</YVel>
+                <NoBounceTime>1000</NoBounceTime>
+                <BQSDistance>100</BQSDistance>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>shootingstars</Id>
+                <Inputs>
+                    <Id>simulatedpeds</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>mover</Id>
+                    <Id>dircolor</Id>
+                    <Id>slowdecay</Id>
+                    <Id>discard</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movebounce'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>gaussmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.FillupBar</Class>
+            <Args>
+                <Id>fbarleft</Id>
+                <Side>left</Side>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.FillupBar</Class>
+            <Args>
+                <Id>fbarright</Id>
+                <Side>right</Side>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>fillupleft</Id>
+                <ChainedBehaviors>
+                    <Id>fbarright</Id>
+                    <Id>greencolor</Id>
+                    <Id>mover</Id>
+                    <Id>fastdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'growleft'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>sblobmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>fillupright</Id>
+                <ChainedBehaviors>
+                    <Id>fbarleft</Id>
+                    <Id>purplecolor</Id>
+                    <Id>mover</Id>
+                    <Id>fastdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'growright'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <Mapper>sblobmap</Mapper>
+            </Args>
+        </Behavior>
+     	<Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>fillupbar</Id>
+                 <Inputs>
+                    <Id>simulatedpeds</Id>
+                </Inputs>
+               <BehaviorList>
+                    <Id>fillupleft</Id>
+                    <Id>fillupright</Id>
+                    <Id>shootingstars</Id>
+                </BehaviorList>
+                <RenderToScreen>False</RenderToScreen>
+           		<AcceptInputs>True</AcceptInputs>
+            </Args>
+	</Behavior>
+
+         
+    <!-- End Fillup Behaviors -->
             
     <!-- _SWB Start SmootWind Behaviors -->
         <Behavior>
@@ -939,7 +1107,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 		    <Id>weatherinput</Id>
 		</Inputs>
                 <ChainedBehaviors>
-		    <Id>smootwindprep</Id>
+        		    <Id>smootwindprep</Id>
                     <Id>windstaticcolor</Id>
                     <Id>mover</Id>
                     <Id>fastdecay</Id>
@@ -979,7 +1147,16 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Waterfall Sparks -->
-
+    <!-- Warehouse _WHR -->
+        <Behavior>
+            <Class>behaviors.Warehouse</Class>
+            <Args>
+                <Id>warehouse</Id>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+    <!-- End Warehouse -->
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
@@ -993,8 +1170,17 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>bodysequence</Id>
                 <Sequence>
                     <Behavior>
+                        <Id>fillupbar</Id>
+                        <Timeout>10</Timeout>
+                        <OnChange>Restart</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                  <Behavior>
                         <Id>colorall</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>None</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1003,16 +1189,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>sparkle</Id>
-                        <Timeout>20</Timeout>
-                        <OnChange>Pause</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>5</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>5</FadeInTime>
-                    </Behavior>
-                    <Behavior>
-                        <Id>waterfall</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1021,16 +1198,16 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>chewinggum</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-                    <!--Behavior>
+                    <Behavior>
                         <Id>fireflies</Id>
-                        <Timeout>50</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1039,16 +1216,16 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>smootwind</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
-                    </Behavior-->
+                    </Behavior>
                     <Behavior>
                         <Id>waterfallspark</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1057,7 +1234,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>trackingwhite</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1066,7 +1243,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>trackingdirectional</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1075,7 +1252,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>trackingvelocity</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1102,9 +1279,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>primarysequence</Id>
                 <Sequence>
-                    <Behavior>
-                        <Id>lamp</Id>
-                        <Timeout>5</Timeout>
+                   <Behavior>
+                        <Id>warehouse</Id>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1118,7 +1295,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>lamp</Id>
-                        <Timeout>5</Timeout>
+                        <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>curtain</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
