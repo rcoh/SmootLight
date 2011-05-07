@@ -43,7 +43,7 @@ class TapConnection(object):
 
             time.sleep(interval)
             while select([s],[],[], 0)[0]:
-                    (inData,addy) = s.recvfrom(1024)
+                    (inData,addy) = s.recvfrom(2048)
                     string = string + inData
          #if string == "":
          #    return ""
@@ -62,6 +62,7 @@ class MenuTree(object):
            
            p - print all renderable behaviors
            b - print all behaviors
+           m - print all mappers
            a - print all objects
            (integer) - select number 
            q - go back / quit
@@ -72,7 +73,7 @@ class MenuTree(object):
            d - delete
            """
      
-    ObjectTypes = {'p':'Renderables','a':'Objects','b':'Behaviors'}
+    ObjectTypes = {'p':'Renderables','a':'Objects','b':'Behaviors','m':'Mappers'}
     commandDict = {'OperationArg':None}
     componentList = None
      
@@ -81,6 +82,7 @@ class MenuTree(object):
         self.nextAction = None
         self.currentObject = None
         self.lastcl = ""
+        self.lastindex = None
         
     def executeSelection(self,command):
 #        self.commandDict['CurrentCommand'] = command
@@ -104,7 +106,7 @@ class MenuTree(object):
         if cl in ["q","x"]:
             return -1
         elif cl in self.ObjectTypes.keys(): 
-            
+            self.lastindex = None
             if self.lastcl != cl:
                 self.componentList = None
                 
@@ -114,9 +116,8 @@ class MenuTree(object):
             
             self.nextAction = lambda x: self.requestSpecificItem(x)
             
-            if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:
-               
-                self.requestSpecificItem(int(cs[1]))
+            if len(cs) > 1 and cs[1].isdigit() and self.componentList != None:              
+                self.requestSpecificItem(int(cs[1]))                
             else:
                 print "Getting {0}, please wait...".format(self.ObjectTypes[cl])
                 self.currentObject = None
@@ -126,14 +127,16 @@ class MenuTree(object):
         elif cl in ["e","t"]:
             
             self.nextAction = lambda x: self.initiateEdit(x)
-            
+            idx = None
             if len(cs) > 1 and cs[1].isdigit():
                 # if digit known, call command to get details of object first,  invisible mode
-                if self.requestSpecificItem(int(cs[1]), True) < 0:
-                    return
+                #if self.requestSpecificItem(int(cs[1]), True) < 0:
+                #    return
+                idx=int(cs[1])
+                    
                 #print "do some prompting to figure out what needs to be changed"
  
-            self.initiateEdit(None,(cl[0] == "t"))
+            self.initiateEdit(idx,(cl[0] == "t"))
 
         elif cl in ["h","?"]: 
             print self.__doc__
@@ -166,6 +169,7 @@ class MenuTree(object):
                 print "Retrieving specific {0}...\n".format(self.commandDict['OperationDetail'][:-1])
             self.commandDict['OperationArg'] = self.componentList[index][0] 
             self.requestItems(is_quiet)
+            self.lastindex = index
             return 0
         
          
@@ -219,7 +223,7 @@ class MenuTree(object):
     def initiateEdit(self, index=None, is_toggle = False):
          #pdb.set_trace()
          #print self.commandDict,"\n\n",index
-         if self.currentObject == None or self.commandDict['OperationArg'] == None:
+         if index == None and (self.currentObject == None or self.commandDict['OperationArg'] == None):
              print "Need to specify which object."
              return 0
          #elif self.currentObject.find('RenderToScreen') == -1:
@@ -229,8 +233,7 @@ class MenuTree(object):
             if index != None:
                 if self.requestSpecificItem(index,False) < 0:
                     return
-                self.lastindex = index
-            elif self.requestSpecificItem(self.lastindex,False) < 0:
+            elif self.requestSpecificItem(self.lastindex,True) < 0:
                     return
             
             #else:
@@ -273,21 +276,39 @@ class MenuTree(object):
                     print "Object not mutable."
                     return 0
                     
-                print self.commandDict['OperationArg']+"'s Mutables: "
+                print self.commandDict['OperationArg']+"'s API: "
                 n = -1
                 mkeys= self.currentObject['Mutable'].keys()
+                functions = []
+                attrs = []
                 for m in mkeys:
                     n+=1
-                    print "{0:4}  {1:12} {2}".format(n,m,self.currentObject[m])
+                    if not self.currentObject.has_key(m):
+                        print "{0:4}  {1:12}".format(n,m)
+                        if m[-2:] == '()':
+                            functions.append(m)
+                        else:
+                            attrs.append(m)
+                    else:
+                        print "{0:4}  {1:12} {2}".format(n,m,self.currentObject[m])
                 
                 print "edit what?"    
                 i = raw_input("> ")
                 
-                if i.isdigit() and int(i) < len(self.currentObject):
+                if i.isdigit() and int(i) < (len(mkeys)):
                     selection = mkeys[int(i)]#map(unicode.strip,co[int(i)].split(':'))
-                    value = raw_input("set "+ selection+ " to: " )
                     
-                    print "setting ", selection," to '",value,"'"    
+                    if selection in functions:
+                        value = raw_input("call function "+selection+ "? (y/N) " )
+                        if len(value)>0 and value[0].lower() == 'y':
+                                value = True
+                                print "calling", selection          
+                        else:
+                                value = False
+
+                    else:
+                        value = raw_input("set "+ selection+ " to: " )
+                        print "setting ", selection," to '",value,"'"    
                       
                     self.commandDict['OperationType'] = 'Update'
                     self.commandDict['ComponentId'] = self.currentObject['Id']#filter(lambda x: x.find('Id')!=-1,co)[0].split(":")[1].strip(" '")
@@ -295,7 +316,13 @@ class MenuTree(object):
                     self.commandDict['ParamName'] = selection.strip("'")
                     resp = self.connection.sendMsg(json.dumps(self.commandDict)) 
                     print resp
-                #print "unimplemented, sorry"
+                else:
+                    if i =="":
+                        print "cancelled"
+                    elif not i.isdigit():
+                        print "syntax error"
+                    else:
+                        print "index out of range"
             
             self.commandDict = {'OperationArg':self.commandDict['OperationArg'],
                                 'OperationDetail':self.commandDict['OperationDetail']}

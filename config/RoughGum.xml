@@ -25,6 +25,15 @@
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
+		    <Class>inputs.TapInput</Class>
+		    <Args>
+			<Id>tap</Id>
+			<Port>22332</Port>
+			<RefreshInterval>50</RefreshInterval>
+		    </Args>
+		</InputElement>
+
+        <InputElement>
             <Class>inputs.PedestrianSimulator</Class>
             <Args>
                 <Id>pedsim</Id>
@@ -37,6 +46,19 @@
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
+        <Behavior Id="mutation">
+		<Class>behaviors.SystemConfigMutator</Class>
+		<Args><Inputs>
+			<Id>tap</Id>
+		</Inputs>
+		<RenderToScreen>True</RenderToScreen>
+		</Args>
+        </Behavior>
+        <Behavior Id="recursivedecay" InitialResponseCount="5">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+
         <Behavior>
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
             <Doc>always outputs green</Doc>

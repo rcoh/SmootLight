@@ -3,10 +3,10 @@ import util.BehaviorQuerySystem as bqs
 import util.Geo as Geo
 class XYMoveBounceDirOne(Behavior):
     """XYMoveBounceDirOne is a behavior designed to be used as a recursive hook to ResponseMover to move pixels by
-    XStep and YStep.  As XStep and YStep are maintained in the responses itself, they can be
+    XVel and YVel.  As XVel and YVel are maintained in the responses itself, they can be
     modulated to facilitate, acceleration, modulation, bouncing, etc.  Specify:
-    <XStep> -- the starting XStep
-    <YStep> -- the starting YStep
+    <XVel> -- the starting XVel
+    <YVel> -- the starting YVel
     """
 
     def processResponse(self, sensor, recurs):
@@ -25,7 +25,7 @@ class XYMoveBounceDirOne(Behavior):
         for sensory in sensor:
             opsensory = dict(sensory)
 
-            isNew = self.insertStepIfMissing(opsensory) 
+            isNew = self.insertVelIfMissing(opsensory) 
             if not 'NoBounceTime' in opsensory:
                 opsensory['NoBounceTime'] = noBounceTime 
 
@@ -36,28 +36,28 @@ class XYMoveBounceDirOne(Behavior):
                     bqs.getDistLambda(opsensory['Location'], BQSDistance)
                 ])
                 if results:
-                    opsensory['XStep'] = -opsensory['XStep']
-                    opsensory['Location'] = Geo.addLocations((opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
+                    opsensory['XVel'] = -opsensory['XVel']
+                    opsensory['Location'] = Geo.addLocations((opsensory['XVel'], opsensory['YVel']), opsensory['Location']) 
             else:
                 opsensory['NoBounceTime'] -= 1
             if isNew:
                 if opsensory['Direction'] < 0:
-                    opsensory['XStep'] = -opsensory['XStep']
+                    opsensory['XVel'] = -opsensory['XVel']
                 if opsensory['Direction'] != 0:
-                    opsensory['Location'] = Geo.addLocations((2*opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
+                    opsensory['Location'] = Geo.addLocations((2*opsensory['XVel'], opsensory['YVel']), opsensory['Location']) 
                     ret.append(opsensory)
             else:
-                opsensory['Location'] = Geo.addLocations((opsensory['XStep'], opsensory['YStep']), opsensory['Location']) 
+                opsensory['Location'] = Geo.addLocations((opsensory['XVel'], opsensory['YVel']), opsensory['Location']) 
                 ret.append(opsensory)
         return (ret, []) 
 
-    def insertStepIfMissing(self, data):
+    def insertVelIfMissing(self, data):
         isNew = False
-        if not 'XStep' in data:
-            data['XStep'] = self['XStep']
+        if not 'XVel' in data:
+            data['XVel'] = self['XVel']
             isNew = True
-        if not 'YStep' in data:
-            data['YStep'] = self['YStep']
+        if not 'YVel' in data:
+            data['YVel'] = self['YVel']
             isNew = True
         return isNew
 

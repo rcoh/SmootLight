@@ -55,7 +55,6 @@ class SplitBehavior(Behavior):
                 behaviorState = []
 
         for inp in inputs:
-            
             inpId = inp['InputId']
 
             if inpId in self.inputMap:
@@ -70,7 +69,7 @@ class SplitBehavior(Behavior):
 
             #print behaviorId, " ", str(inp), ",", str(behaviorState)
             output = behavior.immediateProcessInput(
-                        mappedinp[behaviorId] + allinp, behaviorState)
+                        mappedinp[behaviorId] + list(allinp), behaviorState)
             (behaviorOutput, behaviorState) = output
             #print "  -->", str(behaviorState), ",", str(behaviorOutput)
             

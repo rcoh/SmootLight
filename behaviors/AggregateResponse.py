@@ -6,7 +6,7 @@ class AggregateResponse(Behavior):
         inputIndex = len(inputs) 
         for i,r in enumerate(inputs):
             if 'Location' in r:
-                locDict = r['Location']
+                locDict = (int(r['Location'][0]), int(r['Location'][1]))
                 for key in locDict:
                     if locDict[key] > 0:
                         totalLocDict[key]=locDict[key]
