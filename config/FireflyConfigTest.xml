@@ -1,0 +1,504 @@
+<LightInstallation>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer Scale="1">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>simplemap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.FunctionMapper</Class>
+            <Args>
+                <Id>functionmap</Id>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.SimpleMapper</Class>
+            <Args>
+                <Id>simplemap</Id>
+                <CutoffDist>20</CutoffDist>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>gaussmap</Id>
+                <CutoffDist>10</CutoffDist>
+                <MinWeight>0.1</MinWeight>
+                <Width>10</Width>
+                <Height>1</Height>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>ffireflymap</Id>
+                <Width>1000</Width>
+                <Intensity>1.0</Intensity>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>bgfireflymap</Id>
+                <Width>200</Width>
+                <Intensity>0.7</Intensity>
+            </Args>
+        </PixelMapper>
+         <PixelMapper>
+            <Class>pixelmappers.PedMapper</Class>
+            <Doc>mapper for Chewing Gum</Doc>
+            <Args>
+                <Id>pedmap</Id>
+                <Intensity>10</Intensity>
+            </Args>
+        </PixelMapper>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Doc>mapper for SmootWind</Doc>
+            <Args>
+                <Id>windgaussmap</Id>
+                <Width>50</Width>
+                <Intensity>1.0</Intensity>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+    <InputConfiguration>
+
+<!-- ****** _INP Inputs ****** -->
+
+    <!-- _CIO Common Inputs - Once Only -->
+
+        <InputElement>
+            <Class>inputs.InitialLocationInput</Class>
+            <Args>
+                <Id>onecenter</Id>
+                <xPos>.5</xPos>
+                <yPos>.5</yPos>
+            </Args>
+        </InputElement>
+
+    <!-- End Common Inputs - Once Only -->
+
+    <!-- _CIC Common Inputs - Continuous -->
+
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>randomloc</Id>
+                <RefreshInterval>30</RefreshInterval>
+                <xEquation>random.random()</xEquation>
+                <yEquation>random.random()</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>center</Id>
+                <RefreshInterval>30</RefreshInterval>
+                <xEquation>.5</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>movingmiddle</Id>
+                <RefreshInterval>30</RefreshInterval>
+                <xEquation>(t/300.0)%1</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
+	<InputElement>
+	  <Class>inputs.HTMLInput</Class>
+	  <Doc>input from MIT sailing describing wind speed</Doc>
+	  <Args>
+	    <Id>weatherinput</Id>
+	    <Src>'http://sailing.mit.edu/weather/'</Src>
+	    <Regex>'rtWindSpeed = (\d+).*\s.*\s.*rtWindDir = (\d+)'</Regex>
+	    <RefreshInterval>30000</RefreshInterval>
+	  </Args>
+	</InputElement>
+        <InputElement>
+            <Class>inputs.RandomLocs</Class>
+	    <Doc>Random Locatino input for SmootWind.</Doc>
+            <Args>
+                <Id>windrandomloc</Id>
+		        <MaxX>1000</MaxX>
+		        <MaxY>50</MaxY>		   
+		        <RefreshInterval>2000</RefreshInterval>
+            </Args>
+        </InputElement>
+
+
+    <!-- End Common Inputs - Continuous -->
+
+    <!-- _PSI Pedestrian Sensor Inputs -->
+
+        <InputElement>
+            <Class>inputs.PedestrianSimulator</Class>
+            <Doc>simulated pedestrian data</Doc>
+            <Args>
+                <Id>simulatedpeds</Id>
+                <MaxX>17000</MaxX>
+                <Velocity>40</Velocity>
+                <NumSensors>400</NumSensors>
+                <SensorSpacing>45</SensorSpacing>
+                <NumPeds>50</NumPeds>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.UDPInputWithDirPeds</Class>
+            <Doc>Live pedestrian data</Doc>
+            <Args>
+                <Id>livepeds</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
+                <IPIndexTable>{'10.32.1.1':0,
+                    '10.32.1.2':40,'10.32.1.3':80,'10.32.1.4':120,'10.32.1.5':160,'10.32.1.6':200,'10.32.1.7':240,'10.32.1.8':280,'10.32.1.9':320,'10.32.1.10':360,'10.32.1.11':400}</IPIndexTable>
+            </Args>
+        </InputElement>
+
+    <!-- End Pedestrian Sensor Inputs -->
+
+    <!-- _TAP Pedestrian Sensor Inputs -->
+   
+		<InputElement>
+		    <Class>inputs.TapInput</Class>
+		    <Args>
+			<Id>tap</Id>
+			<Port>22332</Port>
+			<RefreshInterval>50</RefreshInterval>
+		    </Args>
+		</InputElement>
+
+    <!-- End Tap Input -->
+
+<!-- ****** End Inputs ****** -->
+
+    </InputConfiguration>
+    <BehaviorConfiguration>
+
+        <Behavior>
+            <Class>behaviors.RandomSetColorBehavior</Class>
+            <Args>
+                <Doc>Outputs a random color with dimness 1.0</Doc>
+                <Id>setbrightcolor</Id>
+                <Dimness>1.0</Dimness>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RandomSetColorBehavior</Class>
+            <Args>
+                <Doc>Outputs a random color with dimness 0.3</Doc>
+                <Id>setdimcolor</Id>
+                <Dimness>0.3</Dimness>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.DirectionalColor</Class>
+            <Doc>Outputs a color depending on your direction</Doc>
+            <Args>
+                <Id>dircolor</Id>
+                <PositiveColor>(255,0,0)</PositiveColor>
+                <NegativeColor>(0,0,255)</NegativeColor>
+            </Args>
+        </Behavior>
+
+    <!-- _PXE Pixel Events -->
+
+        <Behavior Id="slowdecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decays the pixel brightness with coeff of .001</Doc>
+            <Args>
+                <Coefficient>.001</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="meddecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decays the pixel brightness with coeff of .003</Doc>
+            <Args>
+                <Coefficient>.003</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="fastdecay">
+            <Doc>Decays the pixel brightness with coeff of .01</Doc>
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="flashdecay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.02</Coefficient>
+            </Args>
+       </Behavior>
+       <Behavior Id="singleframe">
+            <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
+	    </Behavior>
+        <Behavior Id="risefall">
+            <Doc>Risefall event for tdma behaviors</Doc>
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="fireflyrisefall">
+            <Doc>Risefall event for firefly behaviors</Doc>
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+            <Args>
+              <Duration>2000</Duration>
+            </Args>
+        </Behavior>
+
+    <!-- End Pixel Events -->
+
+    <!-- _RCD Recursive Decays -->
+
+        <Behavior Id="recursivedecay" InitialResponseCount="50">
+            <Doc>recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="shortrecursivedecay" InitialResponseCount="25">
+            <Doc>short recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="longrecursivedecay" InitialResponseCount="100">
+            <Doc>long recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="flashrecursivedecay" InitialResponseCount="5">
+            <Doc>short recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+
+    <!-- End Recursive Decays -->
+
+    <!-- _CHN Chaining Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.ResponseMover</Class>
+            <Doc>moves specified objects in designated chain</Doc>
+            <Args>
+                <Id>mover</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.RunFinite</Class>
+            <Doc>Only allows the first input through; drops all subsequent</Doc>
+            <Args>
+                <Id>runonce</Id>
+                <Iterations>1</Iterations>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.PassThrough</Class>
+            <Doc>Spacer</Doc>
+            <Args>
+                <Id>passthrough</Id>
+            </Args>
+        </Behavior>
+	<Behavior>
+	    <Class>behaviors.MonitoredMover</Class>
+	    <Args>
+	        <Doc>Only admit inputs after every interval</Doc>
+	        <Id>mmover</Id>
+	        <IntervalCount>1</IntervalCount>
+	    </Args>
+	</Behavior>
+
+    <!-- End Chaining Behaviors -->
+
+<!-- ****** End Common Reusable Behaviors ****** -->
+
+
+<!-- ****** _ANM Animation Specific Behaviors ****** -->
+
+
+    <!-- _FLY Firefly Behaviors -->
+    <Behavior>
+        <Class>behaviors.Flasher</Class>
+        <Args>
+            <Id>flasher</Id>
+            <Factor>0.8</Factor>
+        </Args>
+    </Behavior>
+
+        <!-- BRIGHT PED-TRACKING FIREFLIES -->
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>frontrandmovement</Id>
+                <StepSize>15</StepSize>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>frontflymove</Id>
+                <ChainedBehaviors>
+                    <Id>frontrandmovement</Id>
+                    <!--<Id>flasher</Id>-->
+                    <Id>flashrecursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>ffireflies</Id>
+                <Inputs>
+                    <Id>simulatedpeds</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>setbrightcolor</Id>
+                    <Id>mmover</Id>
+                    <Id>fireflyrisefall</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
+                <AcceptInputs>True</AcceptInputs>
+                <RenderToScreen>True</RenderToScreen>
+                <Mapper>ffireflymap</Mapper>
+            </Args>
+        </Behavior>
+	
+        <!-- BACKGROUND FIREFLIES -->
+        <Behavior>
+            <Class>behaviors.RandomWalk</Class>
+            <Args>
+                <Id>bgrandmovement</Id>
+                <StepSize>8</StepSize>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>bgflymove</Id>
+                <ChainedBehaviors>
+                    <Id>bgrandmovement</Id>
+                    <Id>flasher</Id>
+                    <Id>flashrecursivedecay</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.HorizontalClone</Class>
+            <Args>
+                <Id>hclone</Id>
+                <StepSize>48</StepSize>
+                <Times>6</Times>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>bgfireflies</Id>
+                <Inputs>
+                    <Id>simulatedpeds</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>hclone</Id>
+                    <Id>setdimcolor</Id>
+                    <Id>mmover</Id>
+                    <Id>fireflyrisefall</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
+		        <AcceptInputs>False</AcceptInputs>
+		        <RenderToScreen>False</RenderToScreen>
+                <Mapper>bgfireflymap</Mapper>
+            </Args>
+        </Behavior>
+	<Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>fireflies</Id>
+                <BehaviorList>
+                    <Id>ffireflies</Id>
+                    <Id>bgfireflies</Id>
+                </BehaviorList>
+		<AcceptInputs>True</AcceptInputs>
+		<RenderToScreen>False</RenderToScreen>
+            </Args>
+	</Behavior>
+
+    <!-- End Firefly Behaviors -->
+            
+    <!-- _SWB Start SmootWind Behaviors -->
+        <Behavior>
+            <Class>behaviors.XYMove</Class>
+            <Args>
+                <Id>windxymove</Id>
+                <XStep>5</XStep>
+                <YStep>0</YStep>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Timeout</Class>
+            <Args>
+                <Id>windtimeout</Id>
+                <Timeout>20000</Timeout>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>		
+                <Id>windmovebounce</Id>
+                <ChainedBehaviors>
+                    <Id>windxymove</Id>
+                    <Id>windtimeout</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+
+	<Behavior>
+	    <Class>behaviors.SmootWind</Class>    
+	    <Args>
+		<Id>smootwindprep</Id>		
+	    </Args>
+	</Behavior>
+	<Behavior Id="windstaticcolor">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+	    <Args>
+            	<ColorList>
+		    <Val>(100,200,255)</Val>
+		    <Val>(50,200,255)</Val>
+		    <Val>(0,200,255)</Val>
+		    <Val>(0,150,255)</Val>
+		</ColorList>
+	    </Args>
+	</Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>smootwind</Id>
+                <Inputs>
+		    <Id>windrandomloc</Id>
+		    <Id>weatherinput</Id>
+		</Inputs>
+                <ChainedBehaviors>
+		    <Id>smootwindprep</Id>
+                    <Id>windstaticcolor</Id>
+                    <Id>mover</Id>
+                    <Id>fastdecay</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'windmovebounce'}</RecursiveHooks>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>windgaussmap</Mapper>
+           </Args>
+       </Behavior>
+
+    <!-- End SmootWind Behaviors -->
+
+<!-- ****** End Animation Specific Behaviors ****** -->
+
+
+<!-- ****** B_EXE Execution Behaviors ****** -->
+
+
+    </BehaviorConfiguration>
+</LightInstallation>

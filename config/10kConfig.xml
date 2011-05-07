@@ -97,17 +97,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <PixelMapper>
             <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Args>
-                <Id>ffireflymap</Id>
-                <Width>500</Width>
+                <Id>fireflymap</Id>
+                <Width>1000</Width>
                 <Intensity>1</Intensity>
-            </Args>
-        </PixelMapper>
-        <PixelMapper>
-            <Class>pixelmappers.PseudoGaussianMapper</Class>
-            <Args>
-                <Id>bgfireflymap</Id>
-                <Width>300</Width>
-                <Intensity>0.3</Intensity>
             </Args>
         </PixelMapper>
          <PixelMapper>
@@ -391,6 +383,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Doc>Risefall event for tdma behaviors</Doc>
             <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
         </Behavior>
+        <Behavior Id="fireflyrisefall">
+            <Doc>Risefall event for tdma behaviors</Doc>
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+            <Args>
+                <Duration>2000</Duration>
+            </Args>
+        </Behavior>
 
     <!-- End Pixel Events -->
 
@@ -406,6 +405,10 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
         <Behavior Id="longrecursivedecay" InitialResponseCount="100">
             <Doc>long recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="flashrecursivedecay" InitialResponseCount="5">
+            <Doc>flash recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
 
@@ -660,19 +663,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
     <!-- End Waterfall Behaviors -->
 
     <!-- _FLY Firefly Behaviors -->
-	<Behavior>
-	  <Class>behaviors.Flasher</Class>
-	  <Args>
-	    <Id>flasher</Id>
-	  </Args>
-	</Behavior>
-
-        <!-- BRIGHT PED-TRACKING FIREFLIES -->
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>frontrandmovement</Id>
-                <StepSize>12</StepSize>
+                <StepSize>15</StepSize>
             </Args>
         </Behavior>
         <Behavior>
@@ -681,86 +676,27 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>frontflymove</Id>
                 <ChainedBehaviors>
                     <Id>frontrandmovement</Id>
-                    <Id>flasher</Id>
-                    <Id>shortrecursivedecay</Id>
+                    <Id>flashrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>ffireflies</Id>
+                <Id>fireflies</Id>
                 <Inputs>
-                    <Id>netloc</Id>
+                    <Id>simulatedpeds</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
                     <Id>mmover</Id>
-                    <Id>flashdecay</Id>
+                    <Id>fireflyrisefall</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
-		<AcceptInputs>True</AcceptInputs>
-                <Mapper>ffireflymap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>fireflymap</Mapper>
             </Args>
         </Behavior>
-	
-        <!-- BACKGROUND FIREFLIES -->
-        <Behavior>
-            <Class>behaviors.RandomWalk</Class>
-            <Args>
-                <Id>bgrandmovement</Id>
-                <StepSize>8</StepSize>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>bgflymove</Id>
-                <ChainedBehaviors>
-                    <Id>bgrandmovement</Id>
-                    <Id>flasher</Id>
-                    <Id>shortrecursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.HorizontalClone</Class>
-            <Args>
-                <Id>hclone</Id>
-                <StepSize>48</StepSize>
-                <Times>6</Times>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>bgfireflies</Id>
-                <Inputs>
-                    <Id>netloc</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>hclone</Id>
-                    <Id>setdimcolor</Id>
-                    <Id>mmover</Id>
-                    <Id>flashdecay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
-		<AcceptInputs>True</AcceptInputs>
-                <Mapper>bgfireflymap</Mapper>
-            </Args>
-        </Behavior>
-	<Behavior>
-            <Class>behaviors.SplitBehavior</Class>
-            <Args>
-                <Id>fireflies</Id>
-                <BehaviorList>
-                    <Id>ffireflies</Id>
-                    <Id>bgfireflies</Id>
-                </BehaviorList>
-		<AcceptInputs>True</AcceptInputs>
-            </Args>
-	</Behavior>
-
     <!-- End Firefly Behaviors -->
 
     <!-- _PED Pedestrian Tracking Behaviors -->
@@ -1049,7 +985,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
-                    <!--Behavior>
+                    <Behavior>
                         <Id>fireflies</Id>
                         <Timeout>50</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1058,7 +994,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-                    <Behavior>
+                    <!--Behavior>
                         <Id>smootwind</Id>
                         <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
