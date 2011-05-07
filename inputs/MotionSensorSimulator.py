@@ -13,12 +13,12 @@ class MotionSensorSimulator(SmootCoreObject):
     def init(self):
         #defaults:
         if not self['RefactoryTime']:
-            self['RefactoryTime'] = 500
+            self.RefactoryTime = 500
         if not self['DetectionRange']:
-            self['DetectionRange'] = 15 
+            self.DetectionRange = 15 
         if not self['DetectionProbability']:
-            self['DetectionProbability'] = 1
-        self.lastDetection = timeOps.time()-self['RefactoryTime'] 
+            self.DetectionProbability = 1
+        self.lastDetection = timeOps.time()-self.RefactoryTime 
         self.objLocHook = self['DataHook']
     
     def sensingLoop(self):
@@ -26,8 +26,8 @@ class MotionSensorSimulator(SmootCoreObject):
         dataLocs = self.objLocHook.getLocs()
 
         for loc in dataLocs:
-            if abs(loc-self['Location']) < self['DetectionRange']:
-                if random.random() < self['DetectionProbability']: #TODO: refactory time
-                    self['parentScope'].processResponse({'SensorId':self['Id'],
+            if abs(loc-self.Location) < self.DetectionRange:
+                if random.random() < self.DetectionProbability: #TODO: refactory time
+                    self.parentScope.processResponse({'SensorId':self['Id'],
                                                          'Responding':currentTime})
 

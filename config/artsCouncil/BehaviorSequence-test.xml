@@ -1,12 +1,40 @@
 <!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
 <LightInstallation>
-    <InheritsFrom>config/artsCouncil/ArtsCore.xml</InheritsFrom>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer Scale=".5">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+    <!--PixelConfiguration>
+        <InheritsFrom>layouts/ArtsCouncilLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer Scale="3">
+            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
+        </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/ArtsCouncil.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration-->
+
     <InstallationConfiguration>
         <Defaults>
             <PixelMapper>simplemap</PixelMapper>
         </Defaults>
     </InstallationConfiguration>
     <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.FunctionMapper</Class>
+            <Args>
+                <Id>functionmap</Id>
+            </Args>
+        </PixelMapper>
         <PixelMapper>
             <Class>pixelmappers.SimpleMapper</Class>
             <Args>
@@ -27,12 +55,18 @@
     </PixelMapperConfiguration>
     <InputConfiguration>
         <InputElement>
+            <Class>inputs.OneCenterInput</Class>
+            <Args>
+                <Id>onecenter</Id>
+            </Args>
+        </InputElement>
+        <InputElement>
             <Class>inputs.OneHorizontalInput</Class>
             <Args>
                 <Id>onehorizontal</Id>
             </Args>
         </InputElement>
-        <InputElement>
+        <!--InputElement>
             <Class>inputs.PygameInput</Class>
             <Args>
                 <Id>pygameclick</Id>
@@ -47,7 +81,7 @@
                 <RefreshInterval>10</RefreshInterval>
                 <Keyboard>True</Keyboard>
             </Args>
-        </InputElement>
+        </InputElement-->
         <InputElement>
             <Class>inputs.ParametricLocationInput</Class>
             <Args>
@@ -55,6 +89,24 @@
                 <RefreshInterval>10</RefreshInterval>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>center</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>.5</xEquation>
+                <yEquation>.5</yEquation>
+            </Args>
+        </InputElement>
+        <InputElement>
+            <Class>inputs.ParametricLocationInput</Class>
+            <Args>
+                <Id>movingcenter</Id>
+                <RefreshInterval>100</RefreshInterval>
+                <xEquation>(t/100.0)%1</xEquation>
+                <yEquation>.5</yEquation>
             </Args>
         </InputElement>
         <InputElement>
@@ -106,7 +158,7 @@
             <Class>behaviors.ColorShift</Class>
             <Args>
                 <Id>colorshift</Id>
-		<Increment>0.07</Increment>
+                <Increment>0.04</Increment>
             </Args>
         </Behavior>
         <Behavior>
@@ -134,14 +186,50 @@
                     <Id>onehorizontal</Id>
                 </Inputs>
                 <ChainedBehaviors>
-		    <Id>color</Id>
-		    <Id>mover</Id>
-		    <!--Id>flicker</Id-->
-		    <Id>singleframe</Id>
+                    <Id>color</Id>
+                    <Id>mover</Id>
+                    <!--Id>flicker</Id-->
+                    <Id>singleframe</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mover':'colorchange'}</RecursiveHooks>
                 <RenderToScreen>False</RenderToScreen>
-                <Mapper>simplemap</Mapper>
+                <AcceptInputs>False</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.AllPixels</Class>
+            <Args>
+                <Id>allpixels</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>colorchangeall</Id>
+                <ChainedBehaviors>
+                    <Id>allpixels</Id>
+                    <Id>colorshift</Id>
+                </ChainedBehaviors>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>colorall</Id>
+                <Inputs>
+                    <Id>onecenter</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>color</Id>
+                    <Id>mover</Id>
+                    <!--Id>flicker</Id-->
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'colorchangeall'}</RecursiveHooks>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
@@ -165,6 +253,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
@@ -192,6 +281,121 @@
                 <Output>print</Output>
                 <PassThrough>False</PassThrough>
                 <Quiet>True</Quiet>
+                <AcceptInputs>True</AcceptInputs>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.DebugBehavior</Class>
+            <Args>
+                <Id>debugprint</Id>
+                <Output>print</Output>
+                <PassThrough>True</PassThrough>
+                <Quiet>True</Quiet>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.FadeOut</Class>
+            <Args>
+                <Id>fadeout</Id>
+                <TimeOut>2</TimeOut>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.FadeIn</Class>
+            <Args>
+                <Id>fadein</Id>
+                <TimeOut>2</TimeOut>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.PassThrough</Class>
+            <Args>
+                <Id>pass</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Gradient</Class>
+            <Args>
+                <Id>startlamp</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <Gradient>
+                    <Color>(255, 255, 255)</Color>
+                    <Peak>.5</Peak>
+                    <Width>.1</Width>
+                    <Min>.2</Min>
+                    <Max>.8</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(204, 102, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.4</Width>
+                    <Min>0</Min>
+                    <Max>.6</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>startlight</Id>
+                <Inputs>
+                    <Id>center</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>startlamp</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>False</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.Gradient</Class>
+            <Args>
+                <Id>colorfall</Id>
+                <Inputs>
+                    <Id>movingcenter</Id>
+                </Inputs>
+                <Gradient>
+                    <Color>(255, 0, 0)</Color>
+                    <Peak>0</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 255, 0)</Color>
+                    <Peak>.333</Peak>
+                    <Width>.333</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+                <Gradient>
+                    <Color>(0, 0, 255)</Color>
+                    <Peak>.666</Peak>
+                    <Width>.33</Width>
+                    <Min>0.0</Min>
+                    <Max>1.0</Max>
+                </Gradient>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>waterfall</Id>
+                <Inputs>
+                    <Id>movingcenter</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>colorfall</Id>
+                    <Id>singleframe</Id>
+                </ChainedBehaviors>
+                <RenderToScreen>True</RenderToScreen>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
         <Behavior>
@@ -200,23 +404,49 @@
                 <Id>sequence</Id>
                 <Sequence>
                     <Behavior>
-                        <Id>pedprint</Id>
+                        <Id>startlight</Id>
                         <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
+                        <FadeOutId>pass</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>colorall</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>sparkle</Id>
                         <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>shiftall</Id>
-                        <Timeout>10</Timeout>
+                        <Id>waterfall</Id>
+                        <Timeout>5</Timeout>
                         <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>5</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>5</FadeInTime>
+                    </Behavior>
+                    <Behavior>
+                        <Id>pass</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
-                <RenderToScreen>True</RenderToScreen>
+                <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
     </BehaviorConfiguration>

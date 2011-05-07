@@ -5,7 +5,6 @@ class DiscardData(Behavior):
     packets, where n is denoted by <Keep>"""
 
     def processResponse(self, inputs, state):
-        print inputs
         if len(inputs) > self['Keep']:
             return (inputs[-self['Keep']:], state)
         else:

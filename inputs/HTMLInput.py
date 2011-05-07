@@ -18,14 +18,17 @@ class HTMLInput(Input):
         self.sock.close()
 
     def sensingLoop(self):
-        self.getHTML()
-        self.dataDict = {}
-        
-        pattern = re.compile(self.regex)
-        matchObj = pattern.search(self.html)        
-        dataList = matchObj.groups()
-        self.dataDict['WindSpeed'] = dataList[0]
-        self.dataDict['WindDir'] = dataList[1]
-        
-        self.respond(self.dataDict)
+        try:
+            self.getHTML()
+            self.dataDict = {}
+
+            pattern = re.compile(self.regex)
+            matchObj = pattern.search(self.html)        
+            dataList = matchObj.groups()
+            self.dataDict['WindSpeed'] = dataList[0]
+            self.dataDict['WindDir'] = dataList[1]
+            #print self.dataDict
+            self.respond(self.dataDict)
+        except:
+            pass
 	

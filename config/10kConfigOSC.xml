@@ -1,0 +1,66 @@
+
+<LightInstallation>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>gaussmap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+    <RendererConfiguration>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.GaussianMapper</Class>
+            <Args>
+                <Id>gaussmap</Id>
+                <CutoffDist>10</CutoffDist>
+                <MinWeight>0.1</MinWeight>
+                <Width>10</Width>
+                <Height>1</Height>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+    <InputConfiguration>
+        <InputElement>
+            <Class>inputs.OSCInput</Class>
+            <Args>
+                <Id>osc</Id>
+                <Port>1234</Port>
+                <RefreshInterval>50</RefreshInterval>
+            </Args>
+        </InputElement>
+    </InputConfiguration>
+    <BehaviorConfiguration>
+        <Behavior Id="decay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Doc>Decay a pixel event over several frames</Doc>
+        </Behavior>
+        <Behavior>
+            <Args>
+                <Id>touchosc</Id>
+            </Args>
+            <Class>behaviors.TouchOSC</Class>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Doc>Creates a large colored circle at the location specified by osc</Doc>
+            <Args>
+                <Id>OSCTouchChase</Id>
+                <Inputs>
+                    <Id>osc</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>touchosc</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+    </BehaviorConfiguration>
+</LightInstallation>

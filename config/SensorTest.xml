@@ -1,0 +1,68 @@
+
+<!---All configuration items contain a "Class" tag specifying the python class they represent, and an "Args" tag specifying the args to be passed in.-->
+<LightInstallation>
+    <PixelConfiguration>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+    </PixelConfiguration>
+    <RendererConfiguration>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
+    </RendererConfiguration>
+    <InstallationConfiguration>
+        <Defaults>
+            <PixelMapper>gaussmap</PixelMapper>
+        </Defaults>
+    </InstallationConfiguration>
+    <PixelMapperConfiguration>
+        <PixelMapper>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
+            <Args>
+                <Id>gaussmap</Id>
+                <Width>7</Width>
+                <Intensity>5</Intensity>
+            </Args>
+        </PixelMapper>
+    </PixelMapperConfiguration>
+    <InputConfiguration>
+        <InputElement>
+            <Class>inputs.UDPInputWithDirPeds</Class>
+            <Args>
+                <Id>livepeds</Id>
+                <Port>3344</Port>
+                <RefreshInterval>100</RefreshInterval>
+            </Args>
+        </InputElement>
+    </InputConfiguration>
+    <BehaviorConfiguration>
+        <Behavior Id="decay">
+            <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+            <Args>
+                <Coefficient>.003</Coefficient>
+            </Args>
+        </Behavior>
+        <Behavior Id="white">
+            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
+            <Args>
+                <ColorList>
+                    <Val>(255,255,255)</Val>
+                </ColorList>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>groundTruth</Id>
+                <Inputs>
+                    <Id>livepeds</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>white</Id>
+                    <Id>decay</Id>
+                </ChainedBehaviors>
+                <Mapper>gaussmap</Mapper>
+                <RenderToScreen>True</RenderToScreen>
+            </Args>
+        </Behavior>
+    </BehaviorConfiguration>
+</LightInstallation>
