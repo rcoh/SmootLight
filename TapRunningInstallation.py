@@ -62,6 +62,7 @@ class MenuTree(object):
            
            p - print all renderable behaviors
            b - print all behaviors
+           m - print all mappers
            a - print all objects
            (integer) - select number 
            q - go back / quit
@@ -72,7 +73,7 @@ class MenuTree(object):
            d - delete
            """
      
-    ObjectTypes = {'p':'Renderables','a':'Objects','b':'Behaviors'}
+    ObjectTypes = {'p':'Renderables','a':'Objects','b':'Behaviors','m':'Mappers'}
     commandDict = {'OperationArg':None}
     componentList = None
      
@@ -279,11 +280,15 @@ class MenuTree(object):
                 n = -1
                 mkeys= self.currentObject['Mutable'].keys()
                 functions = []
+                attrs = []
                 for m in mkeys:
                     n+=1
                     if not self.currentObject.has_key(m):
-                        print "{0:4}  {1:12}()".format(n,m)
-                        functions.append(m)
+                        print "{0:4}  {1:12}".format(n,m)
+                        if m[-2:] == '()':
+                            functions.append(m)
+                        else:
+                            attrs.append(m)
                     else:
                         print "{0:4}  {1:12} {2}".format(n,m,self.currentObject[m])
                 
@@ -294,16 +299,15 @@ class MenuTree(object):
                     selection = mkeys[int(i)]#map(unicode.strip,co[int(i)].split(':'))
                     
                     if selection in functions:
-                        value = raw_input("call function "+selection+ "()? (y/N)" )
+                        value = raw_input("call function "+selection+ "? (y/N) " )
                         if len(value)>0 and value[0].lower() == 'y':
                                 value = True
-                                print "calling "+selection+"() "          
+                                print "calling", selection          
                         else:
                                 value = False
-                        
 
                     else:
-                        value = raw_input("set"+ selection+ "to: " )
+                        value = raw_input("set "+ selection+ " to: " )
                         print "setting ", selection," to '",value,"'"    
                       
                     self.commandDict['OperationType'] = 'Update'

@@ -1,4 +1,5 @@
-from operationscore.Behavior import *
+from operationscore.Behavior import Behavior
+from operationscore.PixelMapper import PixelMapper
 import util.ComponentRegistry as compReg
 from util.Config import attemptEval
 import json
@@ -55,6 +56,8 @@ class SystemConfigMutator(Behavior):
                 reply = [[x] for x in compReg.Registry.keys()]
             elif detail == 'Behaviors':
                 reply = [[x[0]] for x in compReg.Registry.items() if issubclass(type(x[1]),Behavior)]
+            elif detail == 'Mappers':
+               reply = [[x[0]] for x in compReg.Registry.items() if issubclass(type(x[1]),PixelMapper)]
         cb(json.dumps(reply))
     
     def isValidValue(self,obj,val):
@@ -97,13 +100,24 @@ class SystemConfigMutator(Behavior):
                         if newParamValue is not None:
                             currentObject['RenderToScreen'] = newParamValue
                     elif currentObject.argDict.has_key('Mutable') and currentObject.argDict['Mutable'].has_key(paramName):
+                        paramName = paramName.strip('()')
                         if paramName in dir(currentObject): #paramName == 'command_reset' or paramName == 'command_skip':
-                            if newParamValue:
+                            member = currentObject.__getattribute__(paramName)
+                            if hasattr(member,'__call__') and newParamValue:
                                 try:
-                                    eval("currentObject."+paramName+'()')
+                                    member()
                                     packet['Callback'](paramName[8:])
                                 except:
                                     packet['Callback']('no '+paramName[8:])
+                            elif type(member) is type(newParamValue) and \
+                                self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
+                                    currentObject.__setattr__(paramName,newParamValue)
+                                    if currentObject.argDict.has_key(paramName):
+                                        currentObject[paramName] = newParamValue
+                                    packet['Callback']('OK')
+                            else:
+                                packet['Callback']('FailedWeird')
+                                    
                         elif currentObject.argDict.has_key(paramName):
                                 if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
                                     currentObject[paramName] = newParamValue
@@ -114,7 +128,7 @@ class SystemConfigMutator(Behavior):
                                     packet['Callback']('Failed')
                         else:
                             main_log.error("Invalid mutable for this object.")
-                            packet['Callback']("'"+paramName+"' is an invalid method or argDict parameter")
+                            packet['Callback']("'"+paramName+"' is invalid method or parameter for this object")
                     else:
                         raise Exception('Non-mutable parameter specified.') # don't allow anything else for security purposes
                     #TODO: consider adding lambda evaluation capabilities

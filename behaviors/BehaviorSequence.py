@@ -48,8 +48,8 @@ class BehaviorSequence(Behavior):
         self.transition = None
         if 'Mutable' not in self:
             self['Mutable'] = {}
-        self['Mutable']['command_reset'] = None
-        self['Mutable']['command_skip'] = None
+        self['Mutable']['command_reset()'] = None
+        self['Mutable']['command_skip()'] = None
         
     def loadNextBehavior (self):
         print self['Id'], "loadNextBehavior"
