@@ -61,9 +61,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <!--Renderer Scale=".5">
+        <Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -88,13 +88,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </PixelMapper>
         <PixelMapper>
-            <Class>pixelmappers.GaussianMapper</Class>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Args>
                 <Id>gaussmap</Id>
-                <CutoffDist>10</CutoffDist>
-                <MinWeight>0.1</MinWeight>
-                <Width>10</Width>
-                <Height>1</Height>
+                <Width>50</Width>
+                <Intensity>1</Intensity>
             </Args>
         </PixelMapper>
         <PixelMapper>
@@ -153,6 +151,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>randomloc</Id>
                 <RefreshInterval>30</RefreshInterval>
+                <Repeat>3</Repeat>
                 <xEquation>random.random()</xEquation>
                 <yEquation>random.random()</yEquation>
             </Args>
@@ -461,7 +460,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.Curtain</Class>
             <Args>
                 <Id>curtain</Id>
-                <tEquation>t/150.0</tEquation>
+                <tEquation>t/1500.0</tEquation>
             </Args>
         </Behavior>
 
@@ -574,13 +573,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Color>(255, 255, 255)</Color>
                     <Peak>.5</Peak>
                     <Width>.05</Width>
-                    <Min>.2</Min>
+                    <Min>.1</Min>
                     <Max>.8</Max>
                 </Gradient>
                 <Gradient>
                     <Color>(204, 102, 0)</Color>
                     <Peak>0</Peak>
-                    <Width>.4</Width>
+                    <Width>.5</Width>
                     <Min>0</Min>
                     <Max>.6</Max>
                 </Gradient>
@@ -592,6 +591,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>lampflicker</Id>
                 <Prob>.8</Prob>
                 <AllProb>1</AllProb>
+                <Scale>.5</Scale>
             </Args>
         </Behavior>
         <Behavior>
@@ -630,21 +630,21 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Gradient>
                     <Color>(255, 0, 0)</Color>
                     <Peak>0</Peak>
-                    <Width>.33</Width>
+                    <Width>.4</Width>
                     <Min>0.0</Min>
                     <Max>1.0</Max>
                 </Gradient>
                 <Gradient>
                     <Color>(0, 255, 0)</Color>
                     <Peak>.333</Peak>
-                    <Width>.333</Width>
+                    <Width>.4</Width>
                     <Min>0.0</Min>
                     <Max>1.0</Max>
                 </Gradient>
                 <Gradient>
                     <Color>(0, 0, 255)</Color>
                     <Peak>.666</Peak>
-                    <Width>.33</Width>
+                    <Width>.4</Width>
                     <Min>0.0</Min>
                     <Max>1.0</Max>
                 </Gradient>
@@ -1104,7 +1104,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
 
     <!-- End Waterfall Sparks -->
-    <!-- Warehouse _WHR -->
+
+    <!-- Warehouse _WHR >
         <Behavior>
             <Class>behaviors.Warehouse</Class>
             <Args>
@@ -1113,7 +1114,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Mapper>functionmap</Mapper>
             </Args>
         </Behavior>
-    <!-- End Warehouse -->
+    < End Warehouse -->
+
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
@@ -1127,6 +1129,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>bodysequence</Id>
                 <Sequence>
                     <Behavior>
+                        <Id>colorall</Id>
+                        <Timeout>random.randint(5, 10)</Timeout>
+                        <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
                         <Id>fillupbar</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Restart</OnChange>
@@ -1135,18 +1146,18 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-                  <Behavior>
-                        <Id>colorall</Id>
-                        <Timeout>10</Timeout>
-                        <OnChange>None</OnChange>
+                    <Behavior>
+                        <Id>sparkle</Id>
+                        <Timeout>5</Timeout>
+                        <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>sparkle</Id>
-                        <Timeout>30</Timeout>
+                        <Id>waterfall</Id>
+                        <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1223,6 +1234,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
+                <Random>True</Random>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -1237,7 +1249,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>primarysequence</Id>
                 <Sequence>
                    <Behavior>
-                        <Id>warehouse</Id>
+                        <Id>lamp</Id>
                         <Timeout>20</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
@@ -1247,18 +1259,19 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>
-                        <Timeout>720</Timeout>
+                        <Timeout>600</Timeout>
                         <OnChange>Pause</OnChange>
                     </Behavior>
                     <Behavior>
-                        <Id>lamp</Id>
-                        <Timeout>20</Timeout>
+                        <Id>ripplechain</Id>
+                        <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>curtain</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
+                <Random>False</Random>
                 <RenderToScreen>True</RenderToScreen>
             </Args>
         </Behavior>
