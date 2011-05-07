@@ -1017,7 +1017,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>sparkle</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1026,7 +1026,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>waterfall</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>600</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1035,12 +1035,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>chewinggum</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>600</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
+                        <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <!--Behavior>
                         <Id>fireflies</Id>
@@ -1062,7 +1062,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior-->
                     <Behavior>
                         <Id>waterfallspark</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>200</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1071,7 +1071,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>trackingwhite</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>200</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1080,7 +1080,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>trackingdirectional</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>200</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
@@ -1089,7 +1089,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>trackingvelocity</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>200</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
