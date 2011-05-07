@@ -59,6 +59,51 @@ class SystemConfigMutator(Behavior):
             elif detail == 'Mappers':
                reply = [[x[0]] for x in compReg.Registry.items() if issubclass(type(x[1]),PixelMapper)]
         cb(json.dumps(reply))
+        
+    def doUpdate(self, cid, paramName, newParamValue, currentObject, callback):
+        if paramName == 'RenderToScreen':
+            if newParamValue == True:
+                newParamValue = True
+            elif newParamValue == False:
+                newParamValue = False
+            else:
+                newParamValue = None
+            if newParamValue is not None:
+                currentObject['RenderToScreen'] = newParamValue
+        
+        elif currentObject.argDict.has_key('Mutable') and currentObject.argDict['Mutable'].has_key(paramName):
+            paramName = paramName.strip('()')
+            if paramName in dir(currentObject): #paramName == 'command_reset' or paramName == 'command_skip':
+                member = currentObject.__getattribute__(paramName)
+                if hasattr(member,'__call__') and newParamValue:
+                    try:
+                        member()
+                        callback(paramName[8:])
+                    except:
+                        callback('no '+paramName[8:])
+                elif type(member) is type(newParamValue) and \
+                    self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
+                        currentObject.__setattr__(paramName,newParamValue)
+                        if currentObject.argDict.has_key(paramName):
+                            currentObject[paramName] = newParamValue
+                        callback('OK')
+                else:
+                    callback('FailedWeird')
+
+            elif currentObject.argDict.has_key(paramName):
+                    if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
+                        currentObject[paramName] = newParamValue
+                        main_log.debug("Modified Correctly")
+                        callback('OK')
+                    else:
+                        main_log.error("Invalid modifier, type: "+str(type(newParamValue))+" value:"+str(newParamValue))
+                        callback('Failed')
+            else:
+                main_log.error("Invalid mutable for this object.")
+                callback("'"+paramName+"' is invalid method or parameter for this object")
+        else:
+            raise Exception('Non-mutable parameter specified.') # don't allow anything else for security purposes
+            
     
     def isValidValue(self,obj,val):
         if hasattr(obj, '__call__'):
@@ -90,48 +135,9 @@ class SystemConfigMutator(Behavior):
                     paramName = packet['ParamName']
                     newParamValue = attemptEval(str(packet['Value']))
                     currentObject=compReg.getComponent(cid)
-                    if paramName == 'RenderToScreen':
-                        if newParamValue == True:
-                            newParamValue = True
-                        elif newParamValue == False:
-                            newParamValue = False
-                        else:
-                            newParamValue = None
-                        if newParamValue is not None:
-                            currentObject['RenderToScreen'] = newParamValue
-                    elif currentObject.argDict.has_key('Mutable') and currentObject.argDict['Mutable'].has_key(paramName):
-                        paramName = paramName.strip('()')
-                        if paramName in dir(currentObject): #paramName == 'command_reset' or paramName == 'command_skip':
-                            member = currentObject.__getattribute__(paramName)
-                            if hasattr(member,'__call__') and newParamValue:
-                                try:
-                                    member()
-                                    packet['Callback'](paramName[8:])
-                                except:
-                                    packet['Callback']('no '+paramName[8:])
-                            elif type(member) is type(newParamValue) and \
-                                self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
-                                    currentObject.__setattr__(paramName,newParamValue)
-                                    if currentObject.argDict.has_key(paramName):
-                                        currentObject[paramName] = newParamValue
-                                    packet['Callback']('OK')
-                            else:
-                                packet['Callback']('FailedWeird')
-                                    
-                        elif currentObject.argDict.has_key(paramName):
-                                if self.isValidValue(currentObject.argDict['Mutable'][paramName], newParamValue):
-                                    currentObject[paramName] = newParamValue
-                                    main_log.debug("Modified Correctly")
-                                    packet['Callback']('OK')
-                                else:
-                                    main_log.error("Invalid modifier, type: "+str(type(newParamValue))+" value:"+str(newParamValue))
-                                    packet['Callback']('Failed')
-                        else:
-                            main_log.error("Invalid mutable for this object.")
-                            packet['Callback']("'"+paramName+"' is invalid method or parameter for this object")
-                    else:
-                        raise Exception('Non-mutable parameter specified.') # don't allow anything else for security purposes
+                    self.doUpdate(cid,paramName,newParamValue,currentObject,packet['Callback'])
                     #TODO: consider adding lambda evaluation capabilities
+                    
                 elif packet['OperationType'] == 'Destroy':
                     raise Exception('Destroy not supported')
                     compReg.removeComponent(packet['ComponentId'])
