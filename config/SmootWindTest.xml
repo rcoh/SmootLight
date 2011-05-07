@@ -6,7 +6,7 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-        <InheritsFrom>layouts/test10kLayout.xml</InheritsFrom>
+        <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -27,13 +27,14 @@
             </Args>
         </PixelMapper>
         <PixelMapper>
-            <Class>pixelmappers.WindGaussianMapper</Class>
+            <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Args>
                 <Id>windgaussmap</Id>
-                <CutoffDist>150</CutoffDist>
+                <CutoffDist>10</CutoffDist>
                 <MinWeight>0.005</MinWeight>
-                <Width>30</Width>
-                <Height>10</Height>
+                <Width>50</Width>
+                <Height>1</Height>
+                <Intensity>1.0</Intensity>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
@@ -41,20 +42,16 @@
         <Renderer>
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
         </Renderer>
+        <Renderer>
+            <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
+        </Renderer>
     </RendererConfiguration>
     <InputConfiguration>
         <InputElement>
             <Class>inputs.PygameInput</Class>
-            <Args><!--Passed as a dictionary-->
-                <Id>pygame</Id>
-                <RefreshInterval>1</RefreshInterval>
-            </Args>
-        </InputElement>
-        <InputElement>
-            <Class>inputs.PygameInput</Class>
             <Args>
                 <Id>pygamekey</Id>
-                <RefreshInterval>10</RefreshInterval>
+                <RefreshInterval>100</RefreshInterval>
                 <Keyboard>True</Keyboard>
             </Args>
         </InputElement>
@@ -65,20 +62,20 @@
 	    <Src>'http://sailing.mit.edu/weather/'</Src>
 	    <!--<Regex>'rtWindSpeed = (\d+).*rtWindDir = (\d+)'</Regex>-->
 	    <Regex>'rtWindSpeed = (\d+).*\s.*\s.*rtWindDir = (\d+)'</Regex>
-	    <!--<RefreshInterval>60000</RefreshInterval>-->
+	    <RefreshInterval>30000</RefreshInterval>
 	  </Args>
 	</InputElement>
         <InputElement>
             <Class>inputs.RandomLocs</Class>
             <Args>
                 <Id>randomLoc</Id>
+                <MaxX>1000</MaxX>
+                <MaxY>100</MaxY>		   
+                <RefreshInterval>5000</RefreshInterval>
             </Args>
         </InputElement>
     </InputConfiguration>
     <BehaviorConfiguration>
-        <Behavior Id="colorchange">
-            <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
-        </Behavior>
 	<Behavior Id="staticcolor">
             <InheritsFrom>behaviors/RandomColor.xml</InheritsFrom>
 	    <Args>
@@ -92,12 +89,16 @@
 	</Behavior>
         <Behavior Id="decay">
             <InheritsFrom>behaviors/PixelDecay.xml</InheritsFrom>
+	    <Args>
+	      <Coefficient>0.02</Coefficient>
+	    </Args>
         </Behavior>
+
         <Behavior>
             <Class>behaviors.XYMove</Class>
             <Args>
                 <Id>xymove</Id>
-                <XStep>0</XStep>
+                <XStep>5</XStep>
                 <YStep>0</YStep>
             </Args>
         </Behavior>
@@ -107,49 +108,18 @@
                 <Id>movebounce</Id>
                 <ChainedBehaviors>
                     <Id>xymove</Id>
-                    <Id>yfor</Id>
-		            <Id>xfor</Id> 	
-                    <Id>20sectimeout</Id>
+                    <Id>timeout</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.Timeout</Class>
             <Args>
-                <Id>20sectimeout</Id>
+                <Id>timeout</Id>
                 <Timeout>20000</Timeout>
             </Args>
         </Behavior>
-        <Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>yfor</Id>
-                <ParamName>YStep</ParamName>
-                <ParamType>Sensor</ParamType>
-                <ParamOp>2*(2*math.sin({x}/float(100))+math.sin({x}/float(50)))</ParamOp>          
-            </Args>
-        </Behavior>
 
-	<Behavior>
-            <Class>behaviors.ModifyParam</Class>
-            <Args>
-                <Id>xfor</Id>
-                <ParamName>XStep</ParamName>
-                <ParamType>Sensor</ParamType>
-                <!--<ParamOp>75</ParamOp>-->
-		<ParamOp>25</ParamOp>
-            </Args>
-        </Behavior>
-       
-	<Behavior>
-	    <Class>behaviors.SmootWind</Class>    
-	    <Args>
-		<Id>smootwind</Id>		
-		<Inputs>
-          <Id>pygamekey</Id>
-	    </Inputs>		
-	    </Args>
-	</Behavior>
         <Behavior>
             <Class>behaviors.ResponseMover</Class>
             <Args>
@@ -157,14 +127,21 @@
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.SmootWind</Class>    
+            <Args>
+            <Id>smootwind</Id>		
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>xymover</Id>
                 <Inputs>
-		  <Id>pygame</Id>
-		  <Id>randomLoc</Id>
-		</Inputs>
+                    <Id>randomLoc</Id>
+                    <Id>weatherinput</Id>
+                </Inputs>
                 <ChainedBehaviors>
+                    <Id>smootwind</Id>
                     <Id>staticcolor</Id>
                     <Id>mover</Id>
                     <Id>decay</Id>

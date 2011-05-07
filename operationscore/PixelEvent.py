@@ -43,5 +43,5 @@ def addPixelEventIfMissing(responseDict):
             color = responseDict['Color']
         else:
             raise Exception('Need Color.  Probably')
-        from pixelevents.StepEvent import StepEvent
-        responseDict['PixelEvent'] = StepEvent.generate(300, color)
+        from pixelevents.DecayEvent import DecayEvent
+        responseDict['PixelEvent'] = DecayEvent.generate('Exponential', .3 , color)

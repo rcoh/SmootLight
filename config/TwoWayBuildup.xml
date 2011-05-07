@@ -6,8 +6,8 @@
         </Defaults>
     </InstallationConfiguration>
     <PixelConfiguration>
-            <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
-            <!--InheritsFrom>layouts/60StripLayout.xml</InheritsFrom--> 
+       <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
+<!--        <InheritsFrom>layouts/60StripLayout.xml</InheritsFrom> -->
     </PixelConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -27,7 +27,7 @@
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
-    <!--RendererConfiguration>
+    <RendererConfiguration>
 <Renderer>
     <Class>renderers.PygameRenderer</Class>
     <Args>
@@ -35,28 +35,8 @@
         <Size>(1200, 100)</Size>
     </Args>
 </Renderer>
-    </RendererConfiguration-->
+    </RendererConfiguration>
     <InputConfiguration>
- 		<InputElement>
-		    <Class>inputs.TapInput</Class>
-		    <Args>
-			<Id>tap</Id>
-			<Port>22332</Port>
-			<RefreshInterval>50</RefreshInterval>
-		    </Args>
-		</InputElement>
-       <InputElement>
-            <Class>inputs.LeftEdgeInput</Class>
-            <Args>
-                <Id>leftedge</Id>
-            </Args>
-        </InputElement>
-         <InputElement>
-            <Class>inputs.RightEdgeInput</Class>
-            <Args>
-                <Id>rightedge</Id>
-            </Args>
-        </InputElement>
         <InputElement>
             <Class>inputs.UDPInput</Class>
             <Args>
@@ -91,19 +71,10 @@
                 <LocSensorId>netloc</LocSensorId>
             </Args>
         </InputElement>
- 
     </InputConfiguration>
 
     <BehaviorConfiguration>
-        <Behavior Id="mutation">
-		<Class>behaviors.SystemConfigMutator</Class>
-		<Args><Inputs>
-			<Id>tap</Id>
-		</Inputs>
-		<RenderToScreen>True</RenderToScreen>
-		</Args>
-        </Behavior>
-       <Behavior Id='accelerate'>
+        <Behavior Id='accelerate'>
             <Class>behaviors.CappedAccelerate</Class>
             <Args>
                 <MaxVelocity>50</MaxVelocity>
@@ -174,8 +145,8 @@
             <Class>behaviors.XYMoveBounceDirOne</Class>
             <Args>
                 <Id>move</Id>
-                <XStep>2</XStep>
-        		<YStep>0</YStep>
+                <XVel>2</XVel>
+        		<YVel>0</YVel>
                 <NoBounceTime>1000</NoBounceTime>
                 <BQSDistance>100</BQSDistance>
             </Args>
@@ -197,10 +168,18 @@
                 <Mapper>gaussmap</Mapper>
             </Args>
         </Behavior>
-       <Behavior>
+        <Behavior>
             <Class>behaviors.FillupBar</Class>
             <Args>
-                <Id>fbar</Id>
+                <Id>fbarleft</Id>
+                <Side>left</Side>
+            </Args>
+        </Behavior>
+      <Behavior>
+            <Class>behaviors.FillupBar</Class>
+            <Args>
+                <Id>fbarright</Id>
+                <Side>right</Side>
             </Args>
         </Behavior>
         <Behavior>
@@ -211,8 +190,8 @@
                     <Id>rightedge</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>fbarright</Id>
                     <Id>setbrightcolor</Id>
-                    <Id>fbar</Id>
                     <Id>mover</Id>
                     <Id>decayshort</Id>
                 </ChainedBehaviors>
@@ -229,8 +208,8 @@
                     <Id>leftedge</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>fbarleft</Id>
                     <Id>setbrightcolor</Id>
-                    <Id>fbar</Id>
                     <Id>mover</Id>
                     <Id>decayshort</Id>
                 </ChainedBehaviors>
