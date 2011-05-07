@@ -189,6 +189,7 @@ class BehaviorSequence(Behavior):
             if self.transin:
                 self.transitionIn()
             self.stopBehavior()
+            self.loadNextBehavior()
             self.startBehavior()
         except StopIteration:
             if self['Repeat']:
