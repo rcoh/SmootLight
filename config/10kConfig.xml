@@ -23,11 +23,12 @@ TABLE OF SECTIONS
         _WFL Waterfall Behaviors
         _FLY Firefly Behaviors
         _GUM Chewing Gum Behaviors
-        _SIN Sinusoid Ripple Behaviors
+        _SNR Sinusoid Ripple Behaviors
         _FIL Fillup Behaviors
         _SWB Smootwind Behaviors
         _WFS Waterfall Sparks Behaviors
-        _WHR Warehouse
+        _WHR Warehouse Behaviors
+        _SBR Sinusoid Bar Behaviors
 
     _EXE Execution Behaviors
         _BAS Main Animation Stack
@@ -323,6 +324,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>colorshift</Id>
                 <Increment>0.005</Increment>
+            </Args>
+        </Behavior>
+       <Behavior>
+            <Class>behaviors.ColorShift</Class>
+            <Args>
+                <Id>colorshiftback</Id>
+                <Increment>0.01</Increment>
             </Args>
         </Behavior>
         <Behavior>
@@ -831,7 +839,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
     <!-- End Chewing Gum Behaviors -->
 
-    <!-- _SIN Sinusoid Ripple Behaviors -->
+    <!-- _SNR Sinusoid Ripple Behaviors -->
 
         <Behavior>
             <Class>behaviors.SinusoidRipple</Class>
@@ -1006,7 +1014,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <RenderToScreen>False</RenderToScreen>
            		<AcceptInputs>True</AcceptInputs>
             </Args>
-	</Behavior>
+        </Behavior>
 
          
     <!-- End Fillup Behaviors -->
@@ -1116,6 +1124,101 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
     < End Warehouse -->
 
+    <!--_SBR Sinusoid Bar Behaviors -->
+
+        <Behavior>
+            <Class>behaviors.SinusoidRipple</Class>
+            <Args>
+                <Id>movingbars2</Id>
+                <Center>(.55 + t/1000.0)</Center>
+                <Scale>31</Scale>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.SinusoidRipple</Class>
+            <Args>
+                <Id>movingbars</Id>
+                <Center>(.5 - t/1000.0)</Center>
+                <Scale>30</Scale>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>movingbarhook</Id>
+                <ChainedBehaviors>
+                    <Id>colorshift</Id>
+                    <Id>movingbars</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movingbarhook'}</RecursiveHooks>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>movingbarhook2</Id>
+                <ChainedBehaviors>
+                    <Id>colorshift</Id>
+                    <Id>movingbars2</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movingbarhook'}</RecursiveHooks>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>movingbarchain</Id>
+                <Inputs>
+                    <Id>onecenter</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>greencolor</Id>
+                    <Id>mover</Id>
+                    <Id>singleframe</Id>
+                    <Id>printdebug</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movingbarhook'}</RecursiveHooks>
+                <AcceptInputs>False</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+        <Behavior>
+            <Class>behaviors.BehaviorChain</Class>
+            <Args>
+                <Id>movingbarchain2</Id>
+                <Inputs>
+                    <Id>onecenter</Id>
+                </Inputs>
+                <ChainedBehaviors>
+                    <Id>redcolor</Id>
+                    <Id>mover</Id>
+                    <Id>singleframe</Id>
+                    <Id>printdebug</Id>
+                </ChainedBehaviors>
+                <RecursiveHooks>{'mover':'movingbarhook2'}</RecursiveHooks>
+                <AcceptInputs>False</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+        </Behavior>
+     	<Behavior>
+            <Class>behaviors.SplitBehavior</Class>
+            <Args>
+                <Id>sinusoidbar</Id>
+                 <Inputs>
+                    <Id>onecenter</Id>
+                </Inputs>
+               <BehaviorList>
+                    <Id>movingbarchain2</Id>
+                    <Id>movingbarchain</Id>
+                </BehaviorList>
+                <RenderToScreen>False</RenderToScreen>
+           		<AcceptInputs>True</AcceptInputs>
+                <Mapper>functionmap</Mapper>
+            </Args>
+	</Behavior>
+
+    <!-- End Sinusoid Bar Behaviors -->
+
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
@@ -1128,6 +1231,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>bodysequence</Id>
                 <Sequence>
+                    <Behavior>
+                        <Id>sinusoidbar</Id>
+                        <Timeout>20</Timeout>
+                        <OnChange>None</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
                     <Behavior>
                         <Id>colorall</Id>
                         <Timeout>random.randint(5, 10)</Timeout>
@@ -1234,7 +1346,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                 </Sequence>
                 <Repeat>True</Repeat>
-                <Random>True</Random>
+                <Random>False</Random>
                 <RenderToScreen>False</RenderToScreen>
             </Args>
         </Behavior>
@@ -1250,7 +1362,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Sequence>
                    <Behavior>
                         <Id>lamp</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>
@@ -1259,7 +1371,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     </Behavior>
                     <Behavior>
                         <Id>bodysequence</Id>
-                        <Timeout>600</Timeout>
+                        <Timeout>50</Timeout>
                         <OnChange>Pause</OnChange>
                     </Behavior>
                     <Behavior>
@@ -1276,13 +1388,13 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
 
-
     <!-- End Startup/Shutdown Animation Stack -->
 
 <!-- ****** End Execution Behaviors ****** -->
 
 
 <!-- ****** _TPB Tap Mutator Behavior ****** -->
+
         <Behavior Id="mutation">
 		<Class>behaviors.SystemConfigMutator</Class>
 		<Args><Inputs>

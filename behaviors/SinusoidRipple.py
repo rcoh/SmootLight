@@ -5,8 +5,8 @@ import math
 class SinusoidRipple (Behavior):
     """SinusoidRipple makes a ripple effect about a center.
     <Args>
-        <Center> # by default, .5
-        <tEquation> # by default, 30*math.cos(t/(30*2*math.pi))
+        <Center> # by default, .5, but can also be an equaton in t
+        <Scale>  # by default, 30*math.cos(t/(30*2*math.pi))
     """
 
     def behaviorInit(self):
@@ -15,13 +15,18 @@ class SinusoidRipple (Behavior):
         self.scrwid = self.xMax - self.xMin
         
         if 'Center' in self.argDict:
-            self.center = self['Center'] * self.scrwid
+            if not isinstance(self['Center'], str):
+                self['Center'] = str(self['Center'])
+            self.center = eval("lambda t:" + self['Center'] + " * " + \
+                                str(self.scrwid))
         else:
-            self.center = .5 * self.scrwid
-        if 'tEquation' in self.argDict:
-            self.tEq = eval("lambda t: " + self['tEquation'])
+            self.center = lambda t:.5 * self.scrwid
+        if 'Scale' in self.argDict:
+            if not isinstance(self['Scale'], str):
+                self['Scale'] = str(self['Scale'])
+            self.scale = eval("lambda t: " + self['Scale'])
         else:
-            self.tEq = lambda t: 300 * math.sin((2 * math.pi * t)/1000)
+            self.scale = lambda t: 100 * math.sin((2 * math.pi * t)/1000)
         return [0]
 
     def processResponse (self, inputs, state):
@@ -30,12 +35,12 @@ class SinusoidRipple (Behavior):
             state = [0] 
 
         #print "SinusoidRipple", inputs, state
-        mapper = lambda loc: abs(loc - center)
-        scale = self.tEq(state[0]) / (self.scrwid * 2 * math.pi)
-        curtain = lambda x: numpy.sin(mapper(x)*scale)
+        #mapper = lambda loc: abs(loc - center)
+        #scale = self.scale(state[0]) / (self.scrwid * 2 * math.pi)
+        #curtain = lambda x: numpy.sin(mapper(x)*scale)
 
-        location = "(numpy.sin(numpy.abs(x - " + str(self.center) + \
-            ") * " + str((2*math.pi*self.tEq(state[0])) / self.scrwid) + "))"
+        location = "(numpy.sin(numpy.abs(x - " + str(self.center(state[0])) + \
+            ") * " + str((2*math.pi*self.scale(state[0])) / self.scrwid) + "))"
 
         #print location
         
