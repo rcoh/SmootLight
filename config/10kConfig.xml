@@ -219,6 +219,8 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>livepeds</Id>
                 <Port>3344</Port>
                 <RefreshInterval>100</RefreshInterval>
+                <IPIndexTable>{'10.32.1.1':0,
+                    '10.32.1.2':40,'10.32.1.3':80,'10.32.1.4':120,'10.32.1.5':160,'10.32.1.6':200,'10.32.1.7':240,'10.32.1.8':280,'10.32.1.9':320,'10.32.1.10':360,'10.32.1.11':400}</IPIndexTable>
             </Args>
         </InputElement>
 
@@ -244,12 +246,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
 <!-- ****** _CRB Common Reusable Behaviors ****** -->
 
-        <Behavior>
-            <Class>behaviors.LastInput</Class>
-            <Args>
-                <Id>lastinput</Id>
-            </Args>
-        </Behavior>
         <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Doc>insert this into any behavior chain to see the input stream there</Doc>
@@ -527,6 +523,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputcla</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>colorall</Id>
@@ -534,7 +536,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>onecenter</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputcla</Id>
                     <Id>bluecolor</Id>
                     <Id>mover</Id>
                     <Id>singleframe</Id>
@@ -582,6 +584,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputlmp</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>lamp</Id>
@@ -589,7 +597,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>center</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputlmp</Id>
                     <Id>lampgradient</Id>
                     <!--Id>lampflicker</Id-->
                     <!--Id>printdebug</Id-->
@@ -633,6 +641,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputwfl</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>waterfall</Id>
@@ -640,7 +654,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>movingmiddle</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputwfl</Id>
                     <Id>waterfallgradient</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
@@ -803,7 +817,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>dircolor</Id>
-                <Id>meddecay</Id>
+                <Id>risefall</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
@@ -820,7 +834,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <ChainedBehaviors>
                 <Id>genmod</Id>
                 <Id>velcolor</Id>
-                <Id>meddecay</Id>
+                <Id>risefall</Id>
             </ChainedBehaviors>
             <RecursiveHooks>{'genmod':'xymovevel'}</RecursiveHooks>
             <Mapper>gaussmap</Mapper>
