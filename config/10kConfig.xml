@@ -5,7 +5,8 @@ TABLE OF SECTIONS
         _CIO Common Inputs - Once Only
         _CIC Common Inputs - Continuous
         _PSI Pedestrian Sensor Inputs
-    
+        _TAP TapRunning Input
+     
     _CRB Common Reusable Behaviors
         _CLR Color Behaviors
         _PXE Pixel Events
@@ -31,6 +32,8 @@ TABLE OF SECTIONS
     _EXE Execution Behaviors
         _BAS Main Animation Stack
         _SAS Startup/Shutdown Animation Stack
+
+    _TPB Tap behavior
 
 WHERE TO PUT YOUR CODE (Please, please read this)
 
@@ -97,17 +100,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <PixelMapper>
             <Class>pixelmappers.PseudoGaussianMapper</Class>
             <Args>
-                <Id>ffireflymap</Id>
-                <Width>500</Width>
+                <Id>fireflymap</Id>
+                <Width>1000</Width>
                 <Intensity>1</Intensity>
-            </Args>
-        </PixelMapper>
-        <PixelMapper>
-            <Class>pixelmappers.PseudoGaussianMapper</Class>
-            <Args>
-                <Id>bgfireflymap</Id>
-                <Width>300</Width>
-                <Intensity>0.3</Intensity>
             </Args>
         </PixelMapper>
          <PixelMapper>
@@ -232,6 +227,19 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
     <!-- End Pedestrian Sensor Inputs -->
 
+    <!-- _TAP Pedestrian Sensor Inputs -->
+   
+		<InputElement>
+		    <Class>inputs.TapInput</Class>
+		    <Args>
+			<Id>tap</Id>
+			<Port>22332</Port>
+			<RefreshInterval>50</RefreshInterval>
+		    </Args>
+		</InputElement>
+
+    <!-- End Tap Input -->
+
 <!-- ****** End Inputs ****** -->
 
     </InputConfiguration>
@@ -239,12 +247,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
 <!-- ****** _CRB Common Reusable Behaviors ****** -->
 
-        <Behavior>
-            <Class>behaviors.LastInput</Class>
-            <Args>
-                <Id>lastinput</Id>
-            </Args>
-        </Behavior>
         <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Doc>insert this into any behavior chain to see the input stream there</Doc>
@@ -388,13 +390,20 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Coefficient>.02</Coefficient>
             </Args>
-        </Behavior>
-        <Behavior Id="singleframe">
+       </Behavior>
+       <Behavior Id="singleframe">
             <InheritsFrom>behaviors/SingleFrame.xml</InheritsFrom>
 	    </Behavior>
         <Behavior Id="risefall">
             <Doc>Risefall event for tdma behaviors</Doc>
             <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="fireflyrisefall">
+            <Doc>Risefall event for tdma behaviors</Doc>
+            <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
+            <Args>
+                <Duration>2000</Duration>
+            </Args>
         </Behavior>
 
     <!-- End Pixel Events -->
@@ -411,6 +420,10 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         </Behavior>
         <Behavior Id="longrecursivedecay" InitialResponseCount="100">
             <Doc>long recursive decay for a pixel event - use in a recursive hook</Doc>
+            <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
+        </Behavior>
+        <Behavior Id="flashrecursivedecay" InitialResponseCount="5">
+            <Doc>flash recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
 
@@ -535,7 +548,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>onecenter</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
                     <Id>bluecolor</Id>
                     <Id>mover</Id>
                     <Id>singleframe</Id>
@@ -583,6 +595,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputlmp</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>lamp</Id>
@@ -590,7 +608,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>center</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputlmp</Id>
                     <Id>lampgradient</Id>
                     <Id>lampflicker</Id>
                     <Id>singleframe</Id>
@@ -633,6 +651,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputwfl</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>waterfall</Id>
@@ -640,7 +664,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>movingmiddle</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputwfl</Id>
                     <Id>waterfallgradient</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
@@ -653,19 +677,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
     <!-- End Waterfall Behaviors -->
 
     <!-- _FLY Firefly Behaviors -->
-	<Behavior>
-	  <Class>behaviors.Flasher</Class>
-	  <Args>
-	    <Id>flasher</Id>
-	  </Args>
-	</Behavior>
-
-        <!-- BRIGHT PED-TRACKING FIREFLIES -->
         <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>frontrandmovement</Id>
-                <StepSize>12</StepSize>
+                <StepSize>15</StepSize>
             </Args>
         </Behavior>
         <Behavior>
@@ -674,86 +690,27 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>frontflymove</Id>
                 <ChainedBehaviors>
                     <Id>frontrandmovement</Id>
-                    <Id>flasher</Id>
-                    <Id>shortrecursivedecay</Id>
+                    <Id>flashrecursivedecay</Id>
                 </ChainedBehaviors>
             </Args>
         </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
-                <Id>ffireflies</Id>
+                <Id>fireflies</Id>
                 <Inputs>
-                    <Id>netloc</Id>
+                    <Id>simulatedpeds</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
                     <Id>mmover</Id>
-                    <Id>flashdecay</Id>
+                    <Id>fireflyrisefall</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
-		<AcceptInputs>True</AcceptInputs>
-                <Mapper>ffireflymap</Mapper>
+                <AcceptInputs>True</AcceptInputs>
+                <Mapper>fireflymap</Mapper>
             </Args>
         </Behavior>
-	
-        <!-- BACKGROUND FIREFLIES -->
-        <Behavior>
-            <Class>behaviors.RandomWalk</Class>
-            <Args>
-                <Id>bgrandmovement</Id>
-                <StepSize>8</StepSize>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>bgflymove</Id>
-                <ChainedBehaviors>
-                    <Id>bgrandmovement</Id>
-                    <Id>flasher</Id>
-                    <Id>shortrecursivedecay</Id>
-                </ChainedBehaviors>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.HorizontalClone</Class>
-            <Args>
-                <Id>hclone</Id>
-                <StepSize>48</StepSize>
-                <Times>6</Times>
-            </Args>
-        </Behavior>
-        <Behavior>
-            <Class>behaviors.BehaviorChain</Class>
-            <Args>
-                <Id>bgfireflies</Id>
-                <Inputs>
-                    <Id>netloc</Id>
-                </Inputs>
-                <ChainedBehaviors>
-                    <Id>hclone</Id>
-                    <Id>setdimcolor</Id>
-                    <Id>mmover</Id>
-                    <Id>flashdecay</Id>
-                </ChainedBehaviors>
-                <RecursiveHooks>{'mmover': 'bgflymove'}</RecursiveHooks>
-		<AcceptInputs>True</AcceptInputs>
-                <Mapper>bgfireflymap</Mapper>
-            </Args>
-        </Behavior>
-	<Behavior>
-            <Class>behaviors.SplitBehavior</Class>
-            <Args>
-                <Id>fireflies</Id>
-                <BehaviorList>
-                    <Id>ffireflies</Id>
-                    <Id>bgfireflies</Id>
-                </BehaviorList>
-		<AcceptInputs>True</AcceptInputs>
-            </Args>
-	</Behavior>
-
     <!-- End Firefly Behaviors -->
 
     <!-- _PED Pedestrian Tracking Behaviors -->
@@ -1160,7 +1117,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 <!-- ****** End Animation Specific Behaviors ****** -->
 
 
-<!-- ****** _EXE Execution Behaviors ****** -->
+<!-- ****** B_EXE Execution Behaviors ****** -->
 
     <!-- _BAS Body Animation Stack -->
 
@@ -1201,9 +1158,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <Timeout>10</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
+                        <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
+                        <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
                         <Id>fireflies</Id>
@@ -1310,6 +1267,19 @@ BehaviorSequnce.py documentation. Seriously, it helps.
     <!-- End Startup/Shutdown Animation Stack -->
 
 <!-- ****** End Execution Behaviors ****** -->
+
+
+<!-- ****** _TPB Tap Mutator Behavior ****** -->
+        <Behavior Id="mutation">
+		<Class>behaviors.SystemConfigMutator</Class>
+		<Args><Inputs>
+			<Id>tap</Id>
+		</Inputs>
+		<RenderToScreen>True</RenderToScreen>
+		</Args>
+        </Behavior>
+
+<!-- ****** End Tap Mutator Behavior ****** -->
 
     </BehaviorConfiguration>
 </LightInstallation>

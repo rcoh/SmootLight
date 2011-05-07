@@ -46,7 +46,11 @@ class BehaviorSequence(Behavior):
         self.iterator = self['Sequence'].__iter__()
         self.loadNextBehavior()
         self.transition = None
-
+        if 'Mutable' not in self:
+            self['Mutable'] = {}
+        self['Mutable']['command_reset'] = None
+        self['Mutable']['command_skip'] = None
+        
     def loadNextBehavior (self):
         print self['Id'], "loadNextBehavior"
         behavior = self.iterator.next()
@@ -185,6 +189,7 @@ class BehaviorSequence(Behavior):
             if self.transin:
                 self.transitionIn()
             self.stopBehavior()
+            self.loadNextBehavior()
             self.startBehavior()
         except StopIteration:
             if self['Repeat']:
