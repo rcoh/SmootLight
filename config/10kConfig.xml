@@ -213,6 +213,18 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <NumPeds>50</NumPeds>
             </Args>
         </InputElement>
+        <InputElement>
+            <Class>inputs.PedestrianSimulator</Class>
+            <Doc>simulated pedestrian data for stupid fireflies</Doc>
+            <Args>
+                <Id>ffsimulatedpeds</Id>
+                <MaxX>17000</MaxX>
+                <Velocity>40</Velocity>
+                <NumSensors>100</NumSensors>
+                <SensorSpacing>180</SensorSpacing>
+                <NumPeds>25</NumPeds>
+            </Args>
+        </InputElement>
         <!--InputElement>
             <Class>inputs.UDPInputWithDirPeds</Class>
             <Doc>Live pedestrian data</Doc>
@@ -707,11 +719,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>fireflies</Id>
                 <Inputs>
-                    <Id>simulatedpeds</Id>
+                    <Id>ffsimulatedpeds</Id>
                 </Inputs>
                 <ChainedBehaviors>
                     <Id>setbrightcolor</Id>
-                    <Id>mmover</Id>
+                    <Id>mover</Id>
                     <Id>fireflyrisefall</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
@@ -1285,7 +1297,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
-                    <!--Behavior>
+                    <Behavior>
                         <Id>fireflies</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1293,7 +1305,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
-                    </Behavior-->
+                    </Behavior>
                     <Behavior>
                         <Id>smootwind</Id>
                         <Timeout>60</Timeout>
