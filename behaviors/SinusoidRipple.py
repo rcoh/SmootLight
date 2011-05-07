@@ -26,7 +26,7 @@ class SinusoidRipple (Behavior):
                 self['Scale'] = str(self['Scale'])
             self.scale = eval("lambda t: " + self['Scale'])
         else:
-            self.scale = lambda t: 100 * math.sin((2 * math.pi * t)/1000)
+            self.scale = lambda t: 100 * math.sin((2 * math.pi * t)/10000)
         return [0]
 
     def processResponse (self, inputs, state):
