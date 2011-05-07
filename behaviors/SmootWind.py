@@ -23,12 +23,16 @@ class SmootWind(Behavior):
         for sensory in sensorInputs:
             #print sensory
             # input[0] is windspeed, [1] is dir
-	    if 'WindSpeed' in sensory and 'WindDir' in sensory:
+            if 'WindSpeed' in sensory and 'WindDir' in sensory:
                 windSpeed = sensory['WindSpeed']
                 windDir = sensory['WindDir']
-                self.mapper.Width = float(windSpeed)*2+15
-                self.xymove.XStep = float(windSpeed)+10*random.random();
-                self.xymove.YStep = float(windSpeed)/3.*random.uniform(-1,1); 
+                print 'speed', windSpeed
+                print 'dir', windDir
+                #self.mapper.Width = float(windSpeed)*2+15
+                sensory['XVel'] = float(windSpeed)+10*random.random()
+                sensory['YVel'] = float(windSpeed)/3.*random.uniform(-1,1)
+                #self.xymove.XStep = float(windSpeed)+10*random.random();
+                #self.xymove.YStep = float(windSpeed)/3.*random.uniform(-1,1); 
                 #print 'Width: ' , self.mapper.Width
                 #print 'xymove: (' , self.xymove.XStep, ', ', self.xymove.YStep, ')'
             else:

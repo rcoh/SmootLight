@@ -34,7 +34,7 @@
                 <MinWeight>0.005</MinWeight>
                 <Width>50</Width>
                 <Height>1</Height>
-		<Intensity>1.0</Intensity>
+                <Intensity>1.0</Intensity>
             </Args>
         </PixelMapper>
     </PixelMapperConfiguration>
@@ -69,9 +69,9 @@
             <Class>inputs.RandomLocs</Class>
             <Args>
                 <Id>randomLoc</Id>
-		<MaxX>1000</MaxX>
-		<MaxY>100</MaxY>		   
-		<RefreshInterval>2000</RefreshInterval>
+                <MaxX>1000</MaxX>
+                <MaxY>100</MaxY>		   
+                <RefreshInterval>5000</RefreshInterval>
             </Args>
         </InputElement>
     </InputConfiguration>
@@ -126,22 +126,22 @@
                 <Id>mover</Id>
             </Args>
         </Behavior>
-	<Behavior>
-	    <Class>behaviors.SmootWind</Class>    
-	    <Args>
-		<Id>smootwind</Id>		
-	    </Args>
-	</Behavior>
+        <Behavior>
+            <Class>behaviors.SmootWind</Class>    
+            <Args>
+            <Id>smootwind</Id>		
+            </Args>
+        </Behavior>
         <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>xymover</Id>
                 <Inputs>
-		    <Id>randomLoc</Id>
-		    <Id>weatherinput</Id>
-		</Inputs>
+                    <Id>randomLoc</Id>
+                    <Id>weatherinput</Id>
+                </Inputs>
                 <ChainedBehaviors>
-		    <Id>smootwind</Id>
+                    <Id>smootwind</Id>
                     <Id>staticcolor</Id>
                     <Id>mover</Id>
                     <Id>decay</Id>

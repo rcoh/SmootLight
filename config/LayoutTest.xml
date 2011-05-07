@@ -6,9 +6,6 @@
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
-        <!--Renderer>
-            <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer-->
     </RendererConfiguration>
     <PixelMapperConfiguration>
         <PixelMapper>
@@ -27,7 +24,7 @@
     </InputConfiguration>
     <BehaviorConfiguration>
         <Behavior>
-            <Class>behaviors.LayoutTest</Class>
+            <Class>behaviors.Warehouse</Class>
             <Args>
                 <Id>layoutest</Id>
                 <RenderToScreen>True</RenderToScreen>

@@ -8,6 +8,7 @@ class LeftEdgeInput(Input):
         compReg.getLock().acquire()
         self.minX, self.minY, self.maxX, self.maxY = compReg.getComponent('Screen').size
         compReg.getLock().release()
+        self.done = False
     def sensingLoop(self):
     	time.sleep(0.5)
     	if not self.done:
