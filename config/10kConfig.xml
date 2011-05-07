@@ -231,12 +231,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 <!-- ****** _CRB Common Reusable Behaviors ****** -->
 
         <Behavior>
-            <Class>behaviors.LastInput</Class>
-            <Args>
-                <Id>lastinput</Id>
-            </Args>
-        </Behavior>
-        <Behavior>
             <Class>behaviors.DebugBehavior</Class>
             <Doc>insert this into any behavior chain to see the input stream there</Doc>
             <Args>
@@ -513,6 +507,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputcla</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>colorall</Id>
@@ -520,7 +520,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>onecenter</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputcla</Id>
                     <Id>bluecolor</Id>
                     <Id>mover</Id>
                     <Id>singleframe</Id>
@@ -568,6 +568,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputlmp</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>lamp</Id>
@@ -575,7 +581,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>center</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputlmp</Id>
                     <Id>lampgradient</Id>
                     <!--Id>lampflicker</Id-->
                     <!--Id>printdebug</Id-->
@@ -619,6 +625,12 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             </Args>
         </Behavior>
         <Behavior>
+            <Class>behaviors.LastInput</Class>
+            <Args>
+                <Id>lastinputwfl</Id>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.BehaviorChain</Class>
             <Args>
                 <Id>waterfall</Id>
@@ -626,7 +638,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>movingmiddle</Id>
                 </Inputs>
                 <ChainedBehaviors>
-                    <Id>lastinput</Id>
+                    <Id>lastinputwfl</Id>
                     <Id>waterfallgradient</Id>
                     <Id>singleframe</Id>
                 </ChainedBehaviors>
