@@ -55,6 +55,7 @@ class BehaviorSequence(Behavior):
         return timeout
 
     def behaviorInit (self):
+        self.behavior = None
         print self['Id'], "behaviorInit"
         self.iterator = self['Sequence'].__iter__()
         self.loadNextBehavior()
