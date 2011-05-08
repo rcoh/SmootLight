@@ -421,7 +421,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Doc>Risefall event for tdma behaviors</Doc>
             <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
             <Args>
-                <Duration>2000</Duration>
+                <Duration>400</Duration>
             </Args>
         </Behavior>
 
@@ -726,7 +726,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Id>mover</Id>
                     <Id>fireflyrisefall</Id>
                 </ChainedBehaviors>
-                <RecursiveHooks>{'mmover':'frontflymove'}</RecursiveHooks>
+                <RecursiveHooks>{'mover':'frontflymove'}</RecursiveHooks>
                 <AcceptInputs>True</AcceptInputs>
                 <Mapper>fireflymap</Mapper>
             </Args>
@@ -1304,7 +1304,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
-                    <!--Behavior>
+                    <Behavior>
                         <Id>fireflies</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1312,7 +1312,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
-                    </Behavior-->
+                    </Behavior>
                     <Behavior>
                         <Id>smootwind</Id>
                         <Timeout>60</Timeout>
