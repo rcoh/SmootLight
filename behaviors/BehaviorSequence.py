@@ -2,6 +2,7 @@ from operationscore.Behavior import *
 import util.TimeOps as clock
 import util.ComponentRegistry as compReg
 from logger import main_log
+import random
 
 class BehaviorSequence(Behavior):
     """BehaviorSequence takes a set of Behaviors as arguements and will
@@ -12,6 +13,8 @@ class BehaviorSequence(Behavior):
             <Behavior> # Sequence of definition is sequence of display
                 <Id>...</Id> # Id of root animation behavior
                 <Timeout>...</Timeout> # in seconds, run time for behavior
+                                       # can also be python expression that
+                                       # returns a length of time
                 <OnChange>[ None | Pause | Restart ]</OnChange>
                 # During the time in which this behavior is not active, what
                 # should be going on?
@@ -31,6 +34,9 @@ class BehaviorSequence(Behavior):
         # {BehaviorComplete: True} and will drop any further inputs/outputs.
         # if false, then BehaviorSequence will simply loop back its first
         # sequenced behavior and start again
+        <Random>[True | False]</Random>
+        # boolean: if true, then BehaviorSequence will randomly pick a behavior
+        # from its list of behaviors instead of playing the next on in its list
     </Args>
     Behaviors will change when either the last output of the currently
     executing behavior is {BehaviorComplete: True}, or the behavior runs to 
@@ -41,29 +47,44 @@ class BehaviorSequence(Behavior):
 
     behaviorComplete = {'BehaviorComplete': True}
 
+    def getTimeout (self, value):
+        timeout = value
+        if isinstance(timeout, str):
+            timeout = eval(timeout)
+            print self['Id'], "calculating timeout:", timeout
+        return timeout
+
     def behaviorInit (self):
         print self['Id'], "behaviorInit"
+        self.behavior = None
         self.iterator = self['Sequence'].__iter__()
         self.loadNextBehavior()
         self.transition = None
         if 'Mutable' not in self:
             self['Mutable'] = {}
-        self['Mutable']['command_reset'] = None
-        self['Mutable']['command_skip'] = None
+        self['Mutable']['command_reset()'] = None
+        self['Mutable']['command_skip()'] = None
         
     def loadNextBehavior (self):
         print self['Id'], "loadNextBehavior"
-        behavior = self.iterator.next()
+        if self['Random']:
+            behaviortemp = random.choice(self['Sequence'])
+            while behavior == behaviortemp:
+                behaviortemp = random.choice(self['Sequence'])
+            behavior = behaviortemp
+        else:
+            behavior = self.iterator.next()
         print self['Id'], "   ", behavior
         self.behavior = behavior['Id']
         self.onChange = behavior['OnChange']
         if 'FadeInId' in behavior:
             self.transin = behavior['FadeInId']
             self.endTime = clock.time() + behavior['FadeInTime'] * 1000
-            self.timeout = behavior['Timeout']
+            self.timeout = self.getTimeout(behavior['Timeout'])
         else:
             self.transin = None
-            self.endTime = clock.time() + behavior['Timeout'] * 1000
+            self.endTime = clock.time() + \
+                            self.getTimeout(behavior['Timeout']) * 1000
         if 'FadeOutId' in behavior:
             self.transout = behavior['FadeOutId']
             self.fadetime = behavior['FadeOutTime']

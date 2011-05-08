@@ -151,13 +151,14 @@ reverseStrips += range(9, 17) +\
                  range(25, 29) +\
                  range(37, 45) +\
                  range(53, 57) +\
-                 range(69, 73) +\
-                 range(81, 85) +\
+                 range(65, 69) +\
+                 range(77, 81) +\
+                 range(85, 89) +\
                  range(89, 93) +\
                  range(97, 101) +\
                  range(105, 109) +\
                  range(113, 117) +\
-                 range(121, 129) +\
+                 range(121, 125) +\
                  range(133, 137) +\
                  range(153, 157) +\
                  range(169, 177) +\

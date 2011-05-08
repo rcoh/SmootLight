@@ -75,11 +75,11 @@
 	  <Class>inputs.PedestrianSimulator</Class>
 	  <Args>
 	    <Id>pedsim</Id>
-            <MaxX>700</MaxX>
+            <MaxX>7000</MaxX>
             <Velocity>20</Velocity>
             <NumSensors>100</NumSensors>
             <SensorSpacing>48</SensorSpacing>
-            <NumPeds>1</NumPeds>
+            <NumPeds>10</NumPeds>
 	  </Args>
 	</InputElement>
         <InputElement>
@@ -191,7 +191,7 @@
                     <Id>decay</Id>
                 </ChainedBehaviors>
                 <RecursiveHooks>{'mmover':'flashermovebounce'}</RecursiveHooks>
-                <RenderToScreen>False</RenderToScreen>
+                <RenderToScreen>True</RenderToScreen>
                 <Mapper>pgaussmapmove</Mapper>
             </Args>
         </Behavior>
