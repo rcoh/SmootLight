@@ -738,7 +738,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <Args>
             <Id>trackingwhite</Id>
             <Inputs>
-                <Id>simulatedpeds</Id>
+                <Id>livepeds</Id>
             </Inputs>
             <ChainedBehaviors>
                 <Id>white</Id>
@@ -755,7 +755,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <Args>
             <Id>trackingdirectional</Id>
             <Inputs>
-                <Id>simulatedpeds</Id>
+                <Id>livepeds</Id>
             </Inputs>
             <ChainedBehaviors>
                 <Id>genmod</Id>
@@ -772,7 +772,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <Args>
             <Id>trackingvelocity</Id>
             <Inputs>
-                <Id>simulatedpeds</Id>
+                <Id>livepeds</Id>
             </Inputs>
             <ChainedBehaviors>
                 <Id>genmod</Id>
@@ -789,7 +789,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <Args>
             <Id>sensordebug</Id>
             <Inputs>
-                <Id>simulatedpeds</Id>
+                <Id>livepeds</Id>
             </Inputs>
             <ChainedBehaviors>
                 <Id>white</Id>
@@ -1127,6 +1127,15 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Id>bodysequence</Id>
                 <Sequence>
                     <Behavior>
+                        <Id>trackingwhite</Id>
+                        <Timeout>60</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                    <Behavior>
                         <Id>fillupbar</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Restart</OnChange>
@@ -1190,15 +1199,6 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
                     <Behavior>
-                        <Id>trackingwhite</Id>
-                        <Timeout>60</Timeout>
-                        <OnChange>Pause</OnChange>
-                        <FadeOutId>fadeout</FadeOutId>
-                        <FadeOutTime>2</FadeOutTime>
-                        <FadeInId>fadein</FadeInId>
-                        <FadeInTime>2</FadeInTime>
-                    </Behavior>
-                    <Behavior>
                         <Id>trackingdirectional</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1238,7 +1238,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Sequence>
                    <Behavior>
                         <Id>warehouse</Id>
-                        <Timeout>20</Timeout>
+                        <Timeout>5</Timeout>
                         <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>5</FadeOutTime>

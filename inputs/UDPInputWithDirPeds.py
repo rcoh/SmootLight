@@ -17,6 +17,7 @@ class UDPInputWithDirPeds(Input):
         self.dirPeds = SynchDirPeds({})
         self.sensNetLoc = SynchSenseNetLoc({'SensorSpacing':45, 'Mode':'SensorNetwork',
                                             'IPIndexTable':self['IPIndexTable']})
+        self.sensorReadings = []
     def socketLoop(self):
         (data,address) = self.sock.recvfrom(1024)
         while data:
@@ -25,11 +26,28 @@ class UDPInputWithDirPeds(Input):
             else:
                 dataDict = json.loads(data)
                 dataDict['Address'] = address
-            pedData = self.processPed(dataDict)
-            self.respond(pedData)
+            self.sensorReadings = self.mergePedLocs(self.sensorReadings, self.senseNetLoc.processInput(data))
+            if self.sendPacket():
+                pedData = self.dirPeds.processInput(self.sensorReadings)
+                self.respond(pedData)
             #print 'data'
             (data, address) = self.sock.recvfrom(1024)
-    
+    def sendPacket(self):
+        return True
+    def mergePedLocs(self, oldPedLocs, newPedLocs):
+        #[{'Location':ladfaldf}, adadadf, adfadf]
+        #construct - > filter - > deconstruct 
+        locsWeAlreadyHave = {}
+         
+        for resp in oldPedLocs:
+            locsWeAlreadyHave[resp['Location']] = 1 
+
+        for resp in newPedLocs:
+            if not resp['Location'] in locsWeAlreadyHave:
+                oldPedLocs.append(resp) 
+        
+        return oldPedLocs 
+
     def processPed(self, data):
         data = self.sensNetLoc.processInput(data)
         data = self.dirPeds.processInput(data)
