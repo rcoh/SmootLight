@@ -1044,7 +1044,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.Timeout</Class>
             <Args>
                 <Id>windtimeout</Id>
-                <Timeout>20000</Timeout>
+                <Timeout>200000</Timeout>
             </Args>
         </Behavior>
         <Behavior>
@@ -1142,7 +1142,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.SinusoidRipple</Class>
             <Args>
                 <Id>movingbars2</Id>
-                <Center>(.55 + t/10000.0)</Center>
+                <Center>(.55 + t/3000.0)</Center>
                 <Scale>31</Scale>
             </Args>
         </Behavior>
@@ -1150,7 +1150,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Class>behaviors.SinusoidRipple</Class>
             <Args>
                 <Id>movingbars</Id>
-                <Center>(.5 - t/10000.0)</Center>
+                <Center>(.5 - t/3000.0)</Center>
                 <Scale>30</Scale>
             </Args>
         </Behavior>
@@ -1250,7 +1250,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-                   <Behavior>
+                   <!--Behavior>
                         <Id>lamp</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1258,7 +1258,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
-                    </Behavior>
+                    </Behavior-->
                     <Behavior>
                         <Id>colorall</Id>
                         <Timeout>60</Timeout>
@@ -1304,7 +1304,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
-                    <Behavior>
+                    <!--Behavior>
                         <Id>fireflies</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1312,7 +1312,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
-                    </Behavior>
+                    </Behavior-->
                     <Behavior>
                         <Id>smootwind</Id>
                         <Timeout>60</Timeout>
@@ -1331,7 +1331,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
                     </Behavior>
-                    <Behavior>
+                    <!--Behavior>
                         <Id>trackingwhite</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1339,7 +1339,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
-                    </Behavior>
+                    </Behavior-->
                     <Behavior>
                         <Id>trackingdirectional</Id>
                         <Timeout>60</Timeout>
