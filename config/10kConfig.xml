@@ -195,7 +195,16 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <RefreshInterval>2000</RefreshInterval>
             </Args>
         </InputElement>
-
+        <InputElement>
+            <Class>inputs.RandomLocs</Class>
+            <Doc>Random Location input for Fireflies.</Doc>
+            <Args>
+                <Id>ffrandomloc</Id>
+                <MaxX>17000</MaxX>
+                <MaxY>50</MaxY>		   
+                <RefreshInterval>500</RefreshInterval>
+            </Args>
+        </InputElement>
 
     <!-- End Common Inputs - Continuous -->
 
@@ -418,10 +427,10 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
         </Behavior>
         <Behavior Id="fireflyrisefall">
-            <Doc>Risefall event for tdma behaviors</Doc>
+            <Doc>Risefall event for firefly behaviors</Doc>
             <InheritsFrom>behaviors/RiseFall.xml</InheritsFrom>
             <Args>
-                <Duration>400</Duration>
+                <Duration>2000</Duration>
             </Args>
         </Behavior>
 
@@ -441,7 +450,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Doc>long recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
-        <Behavior Id="flashrecursivedecay" InitialResponseCount="5">
+        <Behavior Id="flashrecursivedecay" InitialResponseCount="7">
             <Doc>flash recursive decay for a pixel event - use in a recursive hook</Doc>
             <InheritsFrom>behaviors/LoopAndDie.xml</InheritsFrom>
         </Behavior>
@@ -698,10 +707,18 @@ BehaviorSequnce.py documentation. Seriously, it helps.
 
     <!-- _FLY Firefly Behaviors -->
         <Behavior>
+            <Class>behaviors.HorizontalClone</Class>
+            <Args>
+                <Id>ffhclone</Id>
+                <StepSize>96</StepSize>
+                <Times>6</Times>
+            </Args>
+        </Behavior>
+        <Behavior>
             <Class>behaviors.RandomWalk</Class>
             <Args>
                 <Id>frontrandmovement</Id>
-                <StepSize>15</StepSize>
+                <StepSize>20</StepSize>
             </Args>
         </Behavior>
         <Behavior>
@@ -719,9 +736,11 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>fireflies</Id>
                 <Inputs>
-                    <Id>ffsimulatedpeds</Id>
+                    <!--Id>ffsimulatedpeds</Id-->
+                    <Id>ffrandomloc</Id>
                 </Inputs>
                 <ChainedBehaviors>
+                    <Id>ffhclone</Id>
                     <Id>setbrightcolor</Id>
                     <Id>mover</Id>
                     <Id>fireflyrisefall</Id>
@@ -1250,7 +1269,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>2</FadeInTime>
                     </Behavior>
-                   <!--Behavior>
+                   <Behavior>
                         <Id>lamp</Id>
                         <Timeout>60</Timeout>
                         <OnChange>Pause</OnChange>
@@ -1258,7 +1277,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                         <FadeOutTime>5</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
                         <FadeInTime>5</FadeInTime>
-                    </Behavior-->
+                    </Behavior>
                     <Behavior>
                         <Id>colorall</Id>
                         <Timeout>30</Timeout>
