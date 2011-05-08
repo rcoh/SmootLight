@@ -68,7 +68,10 @@ class BehaviorSequence(Behavior):
     def loadNextBehavior (self):
         print self['Id'], "loadNextBehavior"
         if self['Random']:
-            behavior = random.choice(self['Sequence'])
+            behaviortemp = random.choice(self['Sequence'])
+            while behavior == behaviortemp: 
+                behaviortemp = random.choice(self['Sequence'])
+            behavior = behaviortemp
         else:
             behavior = self.iterator.next()
         print self['Id'], "   ", behavior
