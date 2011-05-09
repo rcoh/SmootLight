@@ -62,9 +62,9 @@ BehaviorSequnce.py documentation. Seriously, it helps.
         <InheritsFrom>layouts/10kLayout/10kLayout.xml</InheritsFrom>
     </PixelConfiguration>
     <RendererConfiguration>
-        <!--Renderer Scale=".5">
+        <Renderer Scale=".5">
             <InheritsFrom>renderers/Pygame.xml</InheritsFrom>
-        </Renderer-->
+        </Renderer>
         <Renderer>
             <InheritsFrom>renderers/10kRenderer.xml</InheritsFrom>
         </Renderer>
@@ -218,7 +218,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                 <Velocity>40</Velocity>
                 <NumSensors>400</NumSensors>
                 <SensorSpacing>45</SensorSpacing>
-                <NumPeds>3</NumPeds>
+                <NumPeds>2</NumPeds>
             </Args>
         </InputElement>
 
@@ -953,10 +953,10 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>growright</Id>
                 <GrowthDirection>right</GrowthDirection>
-                <HitSensitivity>4</HitSensitivity>
-                <MaxVelocity>10</MaxVelocity>
+                <HitSensitivity>10</HitSensitivity>
+                <MaxVelocity>20</MaxVelocity>
                 <MinVelocity>-1</MinVelocity>
-                <MinLength>20</MinLength>
+                <MinLength>40</MinLength>
             </Args>
         </Behavior>
         <Behavior>
@@ -964,10 +964,10 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>growleft</Id>
                 <GrowthDirection>left</GrowthDirection>
-                <HitSensitivity>4</HitSensitivity>
-                <MaxVelocity>10</MaxVelocity>
+                <HitSensitivity>10</HitSensitivity>
+                <MaxVelocity>20</MaxVelocity>
                 <MinVelocity>-1</MinVelocity>
-                <MinLength>20</MinLength>
+                <MinLength>40</MinLength>
             </Args>
         </Behavior>
      <Behavior>
@@ -1271,7 +1271,16 @@ BehaviorSequnce.py documentation. Seriously, it helps.
             <Args>
                 <Id>bodysequence</Id>
                 <Sequence>
-                   <Behavior>
+                     <Behavior>
+                        <Id>fillupbar</Id>
+                        <Timeout>60</Timeout>
+                        <OnChange>Pause</OnChange>
+                        <FadeOutId>fadeout</FadeOutId>
+                        <FadeOutTime>2</FadeOutTime>
+                        <FadeInId>fadein</FadeInId>
+                        <FadeInTime>2</FadeInTime>
+                    </Behavior>
+                  <Behavior>
                         <Id>sinusoidbar</Id>
                         <Timeout>60</Timeout>
                         <OnChange>None</OnChange>
@@ -1301,7 +1310,7 @@ BehaviorSequnce.py documentation. Seriously, it helps.
                     <Behavior>
                         <Id>fillupbar</Id>
                         <Timeout>60</Timeout>
-                        <OnChange>Restart</OnChange>
+                        <OnChange>Pause</OnChange>
                         <FadeOutId>fadeout</FadeOutId>
                         <FadeOutTime>2</FadeOutTime>
                         <FadeInId>fadein</FadeInId>
