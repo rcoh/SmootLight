@@ -4,19 +4,19 @@
     <Id>10kRenderer</Id>
     <PowerSupply>
       <IP>10.32.0.47</IP>
-      <PortMapping>{'s1':1, 's2':2}</PortMapping>
+      <PortMapping>{'s7':1, 's8':2}</PortMapping>
     </PowerSupply>
     <PowerSupply>
       <IP>10.32.0.48</IP>
-      <PortMapping>{'s3':1, 's4':2}</PortMapping>
-    </PowerSupply>
-    <PowerSupply>
-      <IP>10.32.0.49</IP>
       <PortMapping>{'s5':1, 's6':2}</PortMapping>
     </PowerSupply>
     <PowerSupply>
+      <IP>10.32.0.49</IP>
+      <PortMapping>{'s3':1, 's4':2}</PortMapping>
+    </PowerSupply>
+    <PowerSupply>
       <IP>10.32.0.50</IP>
-      <PortMapping>{'s7':1, 's8':2}</PortMapping>
+      <PortMapping>{'s1':1, 's2':2}</PortMapping>
     </PowerSupply>
   </Args>
 </Renderer>
