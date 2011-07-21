@@ -10,7 +10,7 @@ class Warehouse(Behavior):
             recurs.append({'Location':0, 'Thresh':.02})
         output = []
         for r in recurs:
-            inc = 180 if random.random() < r['Thresh'] else 0 
+            inc = 20 if random.random() < r['Thresh'] else 0 
             r['Location'] += inc 
             if inc > 0:
                 r['Thresh'] += .01

@@ -5,8 +5,8 @@ from select import select
 import sys, time
 import json, re
 
-#ADDY = 'localhost'
-ADDY = '10.32.2.1'
+ADDY = 'localhost'
+#ADDY = '10.32.2.1'
 
 
 
