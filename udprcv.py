@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+import util.TimeOps as timeOps
 import socket
 import time
 HOST = ''
@@ -8,7 +10,7 @@ sock.bind((HOST, PORT))
 def grabBits(p):
     return bin(ord(p))[2:].zfill(8) 
 
-def parseBinarySensorPacket(p, firstBitIndex):
+def parseBinarySensorPacket(p):#, firstBitIndex):
     #print 'starting to parse'
     if len(p) != 5:
         print 'bad length'
@@ -44,6 +46,7 @@ while data:
         addresses = set()
         lastt = time.time()
     if 1:#address[-1]=='7':
-        print list(map(ord,data)), '\t', address
+        print parseBinarySensorPacket(data)
+        #print list(map(parseBinarySensorPacket,data)), '\t', address
     (data, address) = sock.recvfrom(1024)
     addresses.add(address)

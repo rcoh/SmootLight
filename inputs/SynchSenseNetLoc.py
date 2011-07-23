@@ -41,27 +41,14 @@ class SynchSenseNetLoc(SmootCoreObject):
         for j,b in enumerate(packet):
             if b == 1:
                 #sensorId = firstBitIndex + i*8 + j
+                
                 output.append({'SensorId':j, 'Responding':timeOps.time()})
-                #print 'responding', j 
+                print 'responding', j 
             #send output as necessary
         #print 'done parsing'
+	#print output
         return output
-    def parseSensorPacket(self, p):
-        #sensorid:XXXX#sensorid:XXXX#sensorid:XXXX
-        #Packet:
-        #10 Bytes
-        import pdb; pdb.set_trace()
-        packets = p.split('#')
-        output = []
-        for s in packets:
-            if s != '':
-                sensorId, packetData = s.split(':')
-                for i,val in enumerate(packetData):
-                    if val == '1':
-                        #print 'responding:',i
-                        output.append({'SensorId':int(sensorId)*len(packetData)+i, 'Responding':timeOps.time()})
-                        #print 'output'
-        return output
+
     def getIndex(self, address):
         ip, port = address
         if self['IPIndexTable']:
@@ -69,6 +56,7 @@ class SynchSenseNetLoc(SmootCoreObject):
         else:
             return 0
     def processInput(self, inp):
+        #print inp
         #TODO: Lock on self.responses
         if not isinstance(inp, list):
             self.responses = [inp]
@@ -77,15 +65,17 @@ class SynchSenseNetLoc(SmootCoreObject):
         if self['Mode'] == 'SensorNetwork':
             tempResponses = []
             for r in self.responses:
-                startIndex = self.getIndex(r['address']) 
-                tempResponses += self.parseBinarySensorPacket(r['data'], startIndex) 
-
+                tempResponses += self.parseBinarySensorPacket(r['data'],None) 
+                print tempResponses
             self.responses = tempResponses
-
+            #print self.responses
         for r in self.responses:
-            if self['Y']:
+            
+            if self['Y']:          
+                #print "hi"
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], self['Y'])
             else:
+                #print r['SensorId']
                 r['Location'] = ((int(r['SensorId'])+1)*self['SensorSpacing'], 20)
 		#print r['Location']
         retResps = list(self.responses)

@@ -21,13 +21,15 @@ class UDPInputWithDirPeds(Input):
         self.sensorReadings = []
     def socketLoop(self):
         (data,address) = self.sock.recvfrom(1024)
-        while data:
+        while data:# and sum(map(ord,data))>0:
             if not self['Mode'] or self['Mode'] == 'Raw':
                 dataDict = {'data':data, 'address':address}
             else:
                 dataDict = json.loads(data)
                 dataDict['Address'] = address
-            self.sensorReadings = self.mergePedLocs(self.sensorReadings, self.sensNetLoc.processInput(data))
+            self.sensorReadings = self.mergePedLocs(self.sensorReadings, self.sensNetLoc.processInput(dataDict))
+            #self.sensorReadings = self.sensNetLoc.processInput(dataDict)
+            
             if self.sendPacket():
                 pedData = self.dirPeds.processInput(self.sensorReadings)
                 self.respond(pedData)
