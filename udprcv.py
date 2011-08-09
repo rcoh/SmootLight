@@ -40,14 +40,11 @@ def unnecessary():
     display(50*[1,0,0],s)
     display(1,s,2)
 
-buffer = zeros((50,3))
+buffer = zeros((100,4,3))
 def doWithID(id):
-   start = 12 * (id % 4)
-   end = start + 12
-   for s in sockets[:2] if (id // 4 == 0) else sockets[2:]:
-       buffer[start:end] = random.rand(36).reshape((-1,3))
-       display(buffer, s, 1)
-       display(buffer, s, 2) 
+   global buffer
+   buffer *= .9
+   buffer[int(id*12.5):int(id*12.5)+13] = random.rand(13*4*3).reshape((-1,4,3))
 #  scaledx = x - min(x)
 #  scaledx *= 8 / max(x)
 #  scaledx -= .5
@@ -153,4 +150,16 @@ print "debug-module loaded"
 #  return [255,255,255] * maximum(1 - abs(lastid-scaledx)[:,None], 0)
 
 while 1:
- pass
+   from time import sleep as xxxxxxx
+   xxxxxxx(.05)
+   global buffer
+   buffer *= .9
+   display(buffer[:50, 0], sockets[0], 1)
+   display(buffer[:50, 1], sockets[0], 2)
+   display(buffer[:50, 2], sockets[1], 1)
+   display(buffer[:50, 3], sockets[1], 2)
+   display(buffer[50:, 0], sockets[2], 1)
+   display(buffer[50:, 1], sockets[2], 2)
+   display(buffer[50:, 2], sockets[3], 1)
+   display(buffer[50:, 3], sockets[3], 2)
+
